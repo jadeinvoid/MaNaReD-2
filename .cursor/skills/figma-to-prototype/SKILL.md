@@ -14,6 +14,7 @@ Ship a clickable screen in this repo’s stack. Prefer speed and Astryx componen
 
 - Figma MCP available (`get_design_context`, `get_screenshot`, `get_metadata`)
 - If tools are missing: ask the user to run `/add-plugin figma` or enable project MCP (`.cursor/mcp.json`)
+- Read [`DESIGN.md`](../../DESIGN.md) and [`.cursor/rules/figma-design-system.mdc`](../../rules/figma-design-system.mdc) for MaNaReD token → Astryx mappings, component targets, and icon/asset conventions before implementing
 
 ## Workflow
 
@@ -28,6 +29,8 @@ From the Figma URL or selection:
 Do not implement from memory when a URL or node is available.
 
 ### 2. Map to Astryx
+
+Use the token and component tables in [`.cursor/rules/figma-design-system.mdc`](../../rules/figma-design-system.mdc) to translate `MaNaReD.*` Figma tokens to Astryx utilities and components.
 
 ```bash
 vp run astryx -- build "<one-line description of the screen>"

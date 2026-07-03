@@ -1,0 +1,357 @@
+---
+description: MaNaReD Figma design system → code mapping for Figma MCP integration
+globs: src/**/*.{tsx,ts,css}
+alwaysApply: false
+---
+
+# MaNaReD Figma Design System Rules
+
+How to translate the [MaNaReD Figma file](https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=31-80) into this RedwoodSDK + Astryx + Tailwind codebase.
+
+Also see: [`DESIGN.md`](../../DESIGN.md) (full design reference), [`ui-stack.mdc`](./ui-stack.mdc) (RSC conventions), [`figma-to-prototype` skill](../skills/figma-to-prototype/SKILL.md) (workflow).
+
+## Figma source of truth
+
+| Field | Value |
+|-------|-------|
+| File key | `y12p7ety9bAbG9Z7m5Bd6L` |
+| UI Library page | node `31:80` |
+| MCP | `.cursor/mcp.json` → `https://mcp.figma.com/mcp` |
+
+The Figma file currently has one page (**UI Library**) with token documentation and icon symbols. Token names follow dot notation: `MaNaReD.{category}.{name}`.
+
+Key Figma sections (node IDs for MCP):
+
+| Section | Node | Pattern |
+|---------|------|---------|
+| Font | `32:5` | `MaNaReD.font.*` |
+| Colour | `49:867` | `MaNaReD.colour.*` |
+| Space | `81:470` | `MaNaReD.space.*` |
+| Icons | `93:1469` | `icon/{name}` symbols |
+
+---
+
+## 1. Token definitions
+
+### Code (today)
+
+Tokens live in **npm packages**, not repo files:
+
+```css
+/* src/app/styles.css — import order matters */
+@layer reset, theme, base, astryx-base, astryx-theme, components, utilities;
+
+@import "@astryxdesign/theme-neutral/theme.css";      /* --color-*, --spacing-*, --radius-* */
+@import "@astryxdesign/core/tailwind-theme.css";       /* @theme inline → Tailwind utilities */
+```
+
+- **Format:** CSS custom properties (`--color-background-surface`, `--spacing-4`, `--radius-container`)
+- **Transformation:** `tailwind-theme.css` maps vars → Tailwind v4 utilities (`bg-surface`, `text-primary`, `rounded-lg`, `p-4`)
+- **Runtime theme:** `src/app/providers.tsx` wraps `<Theme theme={neutralTheme}>`
+- **HTML marker:** `data-astryx-theme="neutral"` on `<html>` in `src/app/document.tsx`
+- **No `tailwind.config.*`** — Tailwind v4 is CSS-first via `vite.config.ts` + `@tailwindcss/vite`
+
+Discover token values locally:
+
+```bash
+vp run astryx -- docs tokens
+vp run astryx -- docs theme
+```
+
+### Figma (MaNaReD custom system)
+
+#### Typography (`MaNaReD.font.*`)
+
+| Figma token | Value |
+|-------------|-------|
+| `MaNaReD.font.family.display` | Inter |
+| `MaNaReD.font.family.content` | Inter |
+| `MaNaReD.font.family.code` | Geist Mono |
+| `MaNaReD.font.weight.default` | 400 |
+| `MaNaReD.font.weight.semiBold` | 600 |
+| `MaNaReD.font.weight.bold` | 700 |
+| `MaNaReD.font.weight.black` | 900 |
+| `MaNaReD.font.size.3xs` … `3xl` | 12px … 72px |
+
+Map to Astryx: `<Heading level={n}>` / `<Text type="body" color="secondary">`. Do not hard-code px from Figma.
+
+#### Colour (`MaNaReD.colour.*`)
+
+Light-mode values from the UI Library (dark mode has parallel frames):
+
+| Figma token | Light value | Code target |
+|-------------|-------------|-------------|
+| `MaNaReD.colour.BG.page` | `#E9F1F9` | `bg-body` |
+| `MaNaReD.colour.BG.card` | `#FFFFFF` | `bg-surface` |
+| `MaNaReD.colour.BG.sideBar` | `#F6FAFF` | `bg-[var(--color-background-sidebar)]` (custom var) |
+| `MaNaReD.colour.text.primary` | `#2A2A2A` | `text-primary` |
+| `MaNaReD.colour.text.secondary` | `#584F82` | `text-secondary` |
+| `MaNaReD.colour.text.tertiary` | `#617990` | custom CSS var or `text-secondary` |
+| `MaNaReD.colour.status.info` | BG `#465A6E` | `bg-info` / `Badge variant="info"` |
+| `MaNaReD.colour.status.success` | BG `#6C8656` | `bg-success` |
+| `MaNaReD.colour.status.warning` | BG `#AC8D5D` | `bg-warning` |
+| `MaNaReD.colour.status.danger` | BG `#8E5963` | `bg-error` |
+| `MaNaReD.colour.interactive.button` active | `#222133` | `<Button variant="primary">` |
+
+**MaNaReD-only tokens** (no Astryx neutral equivalent — use custom CSS vars):
+
+- **Entity colours:** `MaNaReD.colour.entity.{organism,bioactivity,compound,region}` — BG/border/text triplets for domain badges/chips
+- **Interactive states:** button/chip/navItem/dropDown with active/hover/focus columns
+
+Example entity token usage:
+
+```tsx
+<span className="rounded-md bg-[var(--color-entity-organism-bg)] px-2 py-1 text-[var(--color-entity-organism-text)]">
+  Organism
+</span>
+```
+
+#### Space (`MaNaReD.space.*`)
+
+| Figma token | Value | Code target |
+|-------------|-------|-------------|
+| `MaNaReD.space.1` | 4px | `gap={1}`, `p-1` |
+| `MaNaReD.space.2` | 8px | `gap={2}`, `p-2` |
+| `MaNaReD.space.4` | 16px | `gap={4}`, `p-4` |
+| `MaNaReD.space.6` | 24px | `gap={6}`, `p-6` |
+| `MaNaReD.space.8` | 32px | `gap={8}`, `p-8` |
+| `MaNaReD.space.10` | 40px | `gap={10}` |
+| `MaNaReD.space.12` | 48px | `gap={12}` |
+
+Prefer `VStack gap={n}` / `HStack gap={n}` over arbitrary Tailwind gap classes.
+
+#### Shape (`MaNaReD.shape.*`)
+
+| Figma token | Value | Code target |
+|-------------|-------|-------------|
+| `MaNaReD.shape.none` | 0px | `rounded-none` |
+| `MaNaReD.shape.sm` | 4px | `rounded-sm` → `--radius-inner` |
+| `MaNaReD.shape.md` | 8px | `rounded-md` → `--radius-element` |
+| `MaNaReD.shape.lg` | 12px | `rounded-lg` → `--radius-container` |
+
+### Bridging strategy
+
+**Phase 1 (prototype):** Map Figma tokens to closest Astryx utilities; use `bg-[var(--color-*)]` for unmapped MaNaReD tokens.
+
+**Phase 2 (brand fidelity):** Create a MaNaReD Astryx theme via `vp run astryx -- theme` / `defineTheme({ tokens: { ... } })`, replace `neutralTheme` in `providers.tsx`, add Inter + Geist Mono to `document.tsx` (CSP already allows `fonts.googleapis.com`).
+
+---
+
+## 2. Component library
+
+### Code
+
+- **No local component library** — UI from `@astryxdesign/core` (148 components)
+- **Pages:** `src/app/pages/` — Server Components by default
+- **Client islands:** colocated `"use client"` files (see `home.tsx` + `home-form.tsx`)
+- **No Storybook** — discover via Astryx CLI
+
+Import pattern (deep imports, not barrel):
+
+```tsx
+import { Button } from "@astryxdesign/core/Button";
+import { Card } from "@astryxdesign/core/Card";
+import { HStack, VStack } from "@astryxdesign/core/Layout";
+import { Heading, Text } from "@astryxdesign/core/Text";
+import { Badge } from "@astryxdesign/core/Badge";
+import { TextInput } from "@astryxdesign/core/TextInput";
+```
+
+Discovery before inventing UI:
+
+```bash
+vp run astryx -- build "<screen description>"
+vp run astryx -- component <Name>
+vp run astryx -- search "<pattern>"
+```
+
+### Figma → Astryx mapping
+
+When screen frames are added to Figma, map components via MCP + CLI:
+
+| Figma intent | Astryx target |
+|--------------|---------------|
+| Button | `Button` (`variant="primary"` \| `"secondary"`) |
+| Card / panel | `Card` + `bg-surface` |
+| Input field | `TextInput` (client island) |
+| Badge / tag | `Badge` |
+| Layout stacks | `VStack` / `HStack` with `gap={n}` |
+| Divider | `Divider` |
+| Heading / body | `Heading level={n}` / `Text type="body" color="secondary"` |
+
+Reference implementation: `src/app/pages/home.tsx`.
+
+---
+
+## 3. Frameworks and libraries
+
+| Layer | Technology | Entry |
+|-------|-----------|-------|
+| Framework | React 19 + RedwoodSDK RSC | `src/worker.tsx`, `src/client.tsx` |
+| UI system | Astryx `@astryxdesign/core` ^0.1.2 | `src/app/providers.tsx` |
+| Styling | Tailwind CSS v4 (no JS config) | `src/app/styles.css` |
+| Build | Vite+ (`vp`) | `vite.config.ts`, `package.json` |
+| Deploy | Cloudflare Workers + Wrangler | `wrangler.jsonc`, `vp run release` |
+| Path alias | `@/*` → `./src/*` | `tsconfig.json` |
+
+Route registration pattern:
+
+```tsx
+// src/worker.tsx
+import { render, route } from "rwsdk/router";
+import { Document } from "@/app/document";
+import { Home } from "@/app/pages/home";
+
+export default defineApp([
+  setCommonHeaders(),
+  render(Document, [route("/", Home)]),
+]);
+```
+
+---
+
+## 4. Asset management
+
+| Aspect | Current state | Figma MCP guidance |
+|--------|---------------|-------------------|
+| Static files | No `public/` folder; favicon referenced but missing | Use MCP `download_assets` / remote URLs from `get_design_context` |
+| CSS | `import styles from "@/app/styles.css?url"` in Document | N/A |
+| Cloudflare | `ASSETS` binding in wrangler, no directory configured | Add `public/` + wrangler assets dir when committing static files |
+| CSP | `default-src 'self'` in `src/app/headers.ts` | External Figma asset URLs require CSP `img-src` update |
+
+Stylesheet link pattern (RSC-friendly):
+
+```tsx
+// src/app/document.tsx
+import styles from "@/app/styles.css?url";
+// ...
+<link rel="stylesheet" href={styles} />
+```
+
+**Rule:** Prefer Figma MCP-provided asset URLs for prototypes; only commit assets when needed for production.
+
+---
+
+## 5. Icon system
+
+### Figma (MaNaReD/icon, node `93:1469`)
+
+Custom icon symbols at three sizes:
+
+- **32px:** `icon/profile`, `icon/vertical-collapse` (expand/collapse states)
+- **24px:** `icon/compound`, `icon-no-filter`, `icon/expand`, directional arrows, move icons
+- **16px:** smaller variants
+
+Naming: `icon/{name}` with variant props (`state=default|hover|active`, `direction=up|down|left|right`).
+
+### Code
+
+- No icons in app code yet; Astryx is the fallback (`vp run astryx -- docs icons`)
+- MaNaReD custom icons are **not in Astryx** — export via MCP `download_assets` into `src/app/assets/icons/` or inline SVG
+- Size mapping: 16px → `w-4 h-4`, 24px → `w-6 h-6`, 32px → `w-8 h-8`
+
+---
+
+## 6. Styling approach
+
+### Methodology
+
+Layered CSS in `src/app/styles.css` — Tailwind utilities beat Astryx component styles:
+
+```
+reset → theme → base → astryx-base → astryx-theme → components → utilities
+```
+
+Three-tier styling (in priority order):
+
+1. Astryx component props (`variant`, `color`, `gap`)
+2. Token-backed Tailwind (`bg-surface`, `text-primary`, `rounded-lg`)
+3. Escape hatch: `bg-[var(--color-background-surface)]`
+
+Example from `home.tsx`:
+
+```tsx
+<main className="min-h-screen bg-body p-8">
+  <VStack gap={8}>
+    <Card className="border-2 border-blue-500 shadow-lg">
+      <Text type="body">Token-backed layout + Astryx override</Text>
+    </Card>
+    <div className="rounded-lg bg-surface p-4 shadow-sm">
+      <p className="text-sm font-medium text-primary">bg-surface</p>
+    </div>
+  </VStack>
+</main>
+```
+
+### Global styles
+
+Single file: `src/app/styles.css` — do not add page-specific global CSS unless necessary.
+
+### Responsive design
+
+- Tailwind responsive prefixes on layout wrappers (`max-w-3xl`, `grid grid-cols-3`, `min-h-screen`)
+- Astryx layout components handle internal spacing via token `gap` props
+- Figma dev-mode spacing → nearest `MaNaReD.space.*` token → `gap={n}` or `p-{n}`
+
+---
+
+## 7. Project structure
+
+```
+src/
+  worker.tsx              # Routes: render(Document, [route("/", Page)])
+  client.tsx              # Hydration
+  app/
+    document.tsx          # HTML shell, stylesheet ?url link
+    providers.tsx         # Astryx Theme (neutralTheme)
+    styles.css            # Token + Tailwind layers
+    headers.ts            # CSP / security middleware
+    pages/                # Screens (Server Components)
+      home.tsx
+      home-form.tsx       # Client island
+    shared/
+      links.ts            # Typed router links
+```
+
+**Feature pattern:** one screen = one Server Component page + optional colocated client island; register new routes in `src/worker.tsx`.
+
+Server + client island split:
+
+```tsx
+// home.tsx (Server Component)
+import { HomeForm } from "./home-form";
+<Card className="max-w-md"><HomeForm /></Card>
+
+// home-form.tsx (Client island)
+"use client";
+export function HomeForm() {
+  const [name, setName] = useState("");
+  return (
+    <VStack gap={3}>
+      <TextInput label="Name" value={name} onChange={setName} />
+      <Button label="Submit" variant="primary" onClick={() => {}} />
+    </VStack>
+  );
+}
+```
+
+---
+
+## Figma MCP workflow
+
+1. **Extract URL params:** fileKey `y12p7ety9bAbG9Z7m5Bd6L`, nodeId `31-80` → `31:80`
+2. **`get_screenshot`** — visual target
+3. **`get_design_context`** — structure, reference code (adapt to this stack; do not paste verbatim)
+4. **`get_metadata`** — file tree when exploring; **`get_variable_defs`** on specific nodes for token values
+5. **`vp run astryx -- build/search/component`** — map to Astryx
+6. Implement in `src/app/pages/`, wire route in `worker.tsx`
+7. Verify: `vp dev`, `vp check`
+
+### Anti-patterns
+
+- Whole-page `"use client"` for one form field
+- Rebuilding buttons/inputs when Astryx has them
+- Hard-coded px/hex from Figma instead of token mapping
+- Ignoring Figma MCP and guessing layout
+- Checking in Figma-exported assets when MCP provides URLs
+- Overriding `--color-*` in `:root` — use `astryx theme` for brand changes

@@ -29,7 +29,7 @@ Cloudflare Workers docs: https://developers.cloudflare.com/workers
 
 # Astryx + Tailwind (RSC)
 
-This app follows the [Astryx Next.js + Tailwind example](https://github.com/facebook/astryx/tree/main/apps/example-nextjs-tailwind), adapted for RedwoodSDK:
+This app follows the [Astryx Next.js + Tailwind example](https://github.com/facebook/astryx/tree/main/apps/example-nextjs-tailwind), adapted for RedwoodSDK. See [`DESIGN.md`](./DESIGN.md) for MaNaReD brand tokens, Figma mapping, and styling conventions.
 
 - Global styles: `src/app/styles.css` (layered Astryx + Tailwind + token bridge)
 - Theme provider: `src/app/providers.tsx` (built `neutralTheme` for SSR)
@@ -77,6 +77,7 @@ upgrade --apply run after any @astryxdesign/core bump
 
 Project Cursor config lives under `.cursor/`:
 
-- Rules: mission (`vibework`), toolchain (`viteplus`), UI stack (`ui-stack` when editing `src/`)
+- Design reference: [`DESIGN.md`](./DESIGN.md) — MaNaReD tokens, components, styling, Figma workflow
+- Rules: mission (`vibework`), toolchain (`viteplus`), UI stack (`ui-stack` when editing `src/`), Figma design system (`figma-design-system` — MaNaReD token/component mapping)
 - Skill: `figma-to-prototype` for Figma MCP → Astryx → pages
 - MCP: Figma at `.cursor/mcp.json` (also install `/add-plugin figma` per machine)
