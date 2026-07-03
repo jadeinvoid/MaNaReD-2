@@ -1,0 +1,36 @@
+---
+description: RedwoodSDK RSC + Astryx + Tailwind conventions for UI work
+globs: src/**/*.{tsx,ts,css}
+alwaysApply: false
+---
+
+# UI stack (RSC + Astryx + Tailwind)
+
+## Architecture
+
+- Pages in `src/app/pages/` are **Server Components** by default
+- Interactive Astryx forms / state live in small `"use client"` files (see `home-form.tsx`)
+- Theme: `src/app/providers.tsx` (`neutralTheme`)
+- Styles: `src/app/styles.css` (Astryx + Tailwind + token bridge), linked from `Document` via `?url`
+- Worker entry: `src/worker.tsx` · client: `src/client.tsx`
+- Deploy: `vp run release`
+
+## Styling (this repo overrides generic Astryx “no Tailwind” notes)
+
+- **Astryx** for UI components (`Button`, `Card`, `VStack`, `Text`, …)
+- **Tailwind** for layout wrappers and `className` overrides
+- Prefer token-backed utilities: `bg-surface`, `bg-body`, `text-primary`, `text-secondary`, `rounded-lg`, …
+- Escape hatch: `bg-[var(--color-background-surface)]` when a token is not bridged
+- Prefer Astryx layout (`VStack`, `HStack`, `Card`) for structure; `div`/`main` wrappers with Tailwind are fine for page chrome
+
+## Discover, don’t guess
+
+Before inventing UI, run:
+
+```bash
+vp run astryx -- build "<idea>"
+vp run astryx -- component <Name>
+vp run astryx -- search "<query>"
+```
+
+Import components from `@astryxdesign/core/<Name>` (match existing pages).

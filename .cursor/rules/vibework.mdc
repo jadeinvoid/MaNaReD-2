@@ -1,0 +1,26 @@
+---
+description: Vibework mission — Figma to prototype, vibe-code defaults
+alwaysApply: true
+---
+
+# Vibework
+
+This is a **vibe prototype starter**: go from Figma (or a sketch) to a clickable, deployable UI fast. Optimize for iteration speed, not production architecture.
+
+## Defaults
+
+- Prefer the smallest change that makes the screen work
+- Build in `src/app/pages/`; keep interactive bits in small `"use client"` islands
+- Discover UI with Astryx (`vp run astryx -- …`) — do not invent a parallel design system
+- Use `vp` for install, dev, build, check, and tests (see Vite+ rule)
+- Full stack notes live in `AGENTS.md` — follow it when conventions conflict with generic advice
+
+## Figma → code
+
+When the user shares a Figma URL or design:
+
+1. Use the Figma MCP (`get_design_context`, `get_screenshot`, `get_metadata`) — do not guess layout from memory
+2. Load the project skill `figma-to-prototype` and follow it
+3. Map frames to Astryx components + Tailwind layout, not pixel-perfect custom CSS
+
+If Figma tools are missing, tell the user to install the Figma Cursor plugin (`/add-plugin figma`) or enable the project MCP server.

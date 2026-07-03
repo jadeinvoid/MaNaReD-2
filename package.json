@@ -1,0 +1,50 @@
+{
+  "name": "vibework",
+  "version": "0.0.0",
+  "private": true,
+  "description": "RedwoodSDK + Vite+ starter",
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev",
+    "dev:init": "rw-scripts dev-init",
+    "build": "vp build",
+    "preview": "vp preview",
+    "worker:run": "rw-scripts worker-run",
+    "clean": "vp run clean:vite",
+    "clean:vite": "rm -rf ./node_modules/.vite",
+    "release": "rw-scripts ensure-deploy-env && vp run clean && vp run build && wrangler deploy",
+    "generate": "rw-scripts ensure-env && wrangler types --include-runtime false",
+    "types": "tsc",
+    "astryx": "node node_modules/@astryxdesign/cli/bin/astryx.mjs",
+    "prepare": "vp config"
+  },
+  "dependencies": {
+    "@astryxdesign/core": "^0.1.2",
+    "@astryxdesign/theme-neutral": "^0.1.2",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "react-server-dom-webpack": "19.2.7",
+    "rwsdk": "^1.5.5"
+  },
+  "devDependencies": {
+    "@astryxdesign/cli": "^0.1.2",
+    "@cloudflare/vite-plugin": "^1.43.0",
+    "@cloudflare/workers-types": "^4.20260426.1",
+    "@tailwindcss/vite": "^4.3.2",
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "tailwindcss": "^4.3.2",
+    "typescript": "~6.0.2",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "wrangler": "^4.107.0"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.9.0",
+      "onFail": "download"
+    }
+  }
+}
