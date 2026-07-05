@@ -96,11 +96,13 @@ flowchart TB
 
 - Entity switch updates filter set and result cards; valid filters persist with provenance
 - Query state should sync to URL search params for shareability
+- **Responsive:** segmented entity control (see [§11.1](#111-viewport-breakpoints)) — same three labels at all tiers; placement shifts by viewport
 
 ### Rejected
 
 - Single undifferentiated result list without entity context
 - Independent search and filter state objects
+- Bottom tab bar for entities (conflicts with filter drawer and thumb reach for results)
 
 **Status:** `decided` · **Figma:** `TBD`
 
@@ -152,6 +154,7 @@ Mode is **derived**, not user-toggled:
 ### Interaction
 
 - Reorder announced via `aria-live="polite"` — do not steal focus
+- **Mobile (`<768px`):** promoted filters are not visible until the filter drawer opens — show a filter-activation affordance in the results header (e.g. "3 filters active · Edit") and lean on PQRS for discoverable refinements without opening the drawer
 
 ### Rejected
 
@@ -181,8 +184,9 @@ Bioactivity is a **filter dimension** (tag multi-select), not a fourth browse en
 ### Interaction
 
 - Sidebar background: `MaNaReD.colour.BG.sideBar` (`#F6FAFF`)
-- Collapse: Figma `icon/vertical-collapse` (32px) on narrow viewports
+- Collapse: Figma `icon/vertical-collapse` (32px) at tablet tier ([§11.1](#111-viewport-breakpoints))
 - Clear-all: explicit; does not clear text query unless "clear everything"
+- **Active filter chips** (search bar + results header): see [§11.4](#114-filter-chips-and-provenance-on-narrow-viewports)
 
 **Status:** `decided` · **Figma:** `TBD`
 
@@ -214,6 +218,10 @@ PQRS is exploratory ("given what you have, you might also want…"). Filters are
 
 Derivation sources: facet counts, numeric clusters (e.g. MW), related vocabulary terms.
 
+**Responsive (see [§11.3](#113-pqrs-by-viewport)):**
+- Desktop: full horizontal band, wrap to second row if needed
+- Tablet / mobile: single-row horizontal scroll with scroll-snap; no vertical wrap
+
 ### Rejected
 
 - PQRS inside filter panel
@@ -238,6 +246,8 @@ Three empty triggers — distinct tone and recovery per type:
 ### Interaction
 
 - Empty message receives focus on transition (`tabindex="-1"`)
+- **Mobile:** close filter drawer before moving focus to empty message (avoid focus trap behind overlay)
+- Filter-caused recovery list scrolls inside drawer body if it exceeds viewport height
 
 ### Rejected
 
@@ -262,7 +272,7 @@ Filters **persist across entity switches** when semantically valid, with **expli
 
 ### Interaction
 
-Carried filters show provenance (e.g. "from Compounds" badge). Cleared individually or via clear-all.
+Carried filters show provenance via a compact prefix on the chip label (e.g. `Compounds · MW 200–400`) — see [§11.4](#114-filter-chips-and-provenance-on-narrow-viewports). Cleared individually or via clear-all.
 
 ```mermaid
 stateDiagram-v2
@@ -274,7 +284,7 @@ stateDiagram-v2
   Search --> Search: Apply filter or PQRS
 ```
 
-**Status:** `decided` · provenance visual `TBD`
+**Status:** `decided`
 
 ---
 
@@ -289,6 +299,13 @@ Home screen shows **curated pre-filtered query cards** — each is a **live data
 | Content | Real result counts |
 | Action | Activates search mode with card filters/query applied |
 | Updates | Skeleton while counts load |
+
+**Responsive grid:**
+| Viewport | Columns |
+|----------|---------|
+| Desktop `≥1024px` | 3 |
+| Tablet `768–1023px` | 2 |
+| Mobile `<768px` | 1 (stacked) |
 
 ### Rejected
 
@@ -305,12 +322,13 @@ Home screen shows **curated pre-filtered query cards** — each is a **live data
 |---------|---------|-------|
 | Landing entity | Compounds | Confirm with usage data |
 | Initial mode | Browse | Cards → search on activation |
-| Filter sidebar | Open desktop; collapsed narrow | |
+| Filter sidebar | Open at desktop; collapsed at tablet; drawer at mobile | See [§11.1](#111-viewport-breakpoints) |
+| Entity nav | Segmented control below search bar | Full-width at mobile |
 | Sort (browse) | TBD per entity | |
 | Sort (search) | Relevance | Implicit on query entry |
 | URL | Reflects all committed state | Shareability |
 
-**Status:** mostly `TBD`
+**Status:** `decided` (browse sort per entity still `TBD`)
 
 ---
 
@@ -325,14 +343,89 @@ Home screen shows **curated pre-filtered query cards** — each is a **live data
 - Network: retry banner; preserve query state
 - Partial data: results + warning badge
 
-### Responsive
-| Viewport | Behavior |
-|----------|----------|
-| Desktop ≥1024px | Persistent sidebar |
-| Tablet | Collapsible sidebar |
-| Mobile | Drawer sidebar; entity nav pattern `TBD` |
+### 11.1 Viewport breakpoints
 
-**Status:** `decided` (mobile nav `TBD`)
+Align with **Tailwind v4** (`sm` 640 · `md` 768 · `lg` 1024) and **Astryx AppShell** (`mobileNav={{ breakpoint: 'md' }}` — drawer activates below 768px).
+
+| Tier | Range | Tailwind / Astryx |
+|------|-------|-------------------|
+| **Mobile** | `<768px` | below `md` |
+| **Tablet** | `768px–1023px` | `md` to below `lg` |
+| **Desktop** | `≥1024px` | `lg` and above |
+
+```mermaid
+flowchart LR
+  subgraph viewports [Viewport tiers]
+    mobile["Mobile lt 768px"]
+    tablet["Tablet 768 to 1023px"]
+    desktop["Desktop gte 1024px"]
+  end
+
+  mobile --> drawerSidebar[Filter drawer overlay]
+  mobile --> segmentedNav[Segmented entity nav]
+
+  tablet --> collapsibleSidebar[Collapsible filter sidebar]
+  tablet --> pqrsScroll[PQRS horizontal scroll]
+
+  desktop --> persistentSidebar[Persistent filter sidebar]
+  desktop --> pqrsRow[PQRS full horizontal band]
+```
+
+| Component | Mobile `<768px` | Tablet `768–1023px` | Desktop `≥1024px` |
+|-----------|-----------------|---------------------|-------------------|
+| Filter sidebar | Drawer overlay; filter icon in header opens it | Collapsed by default; expand via `vertical-collapse` | Persistent, open by default |
+| Entity nav | Segmented control, full width, below search bar | Segmented control, inline below search bar | Segmented control or inline with top bar |
+| PQRS | Horizontal scroll — [§11.3](#113-pqrs-by-viewport) | Horizontal scroll | Full band; wrap to second row if needed |
+| Search + chips | Stacked; chips wrap — [§11.4](#114-filter-chips-and-provenance-on-narrow-viewports) | Chips wrap | Chips inline with search |
+| Home cards | 1 column | 2 columns | 3 columns |
+
+### 11.2 Entity nav on mobile
+
+### Decision
+
+**Segmented control** (three segments: Compounds | Organisms | Regions), placed **below the global search bar**, full width at mobile.
+
+### Rationale
+
+- Three co-equal entities fit a segmented control without a dropdown
+- Keeps entity context visible while scrolling results (unlike bottom tabs, which compete with filter drawer and result reading)
+- Same control pattern scales to tablet and desktop — only width and placement change
+
+### Rejected
+
+- Bottom tab bar (conflicts with filter drawer, obscures results)
+- Entity dropdown (hides active entity; bad for wayfinding)
+- Separate mobile-only nav pattern (inconsistent mental model)
+
+**Status:** `decided`
+
+### 11.3 PQRS by viewport
+
+| Tier | Behavior |
+|------|----------|
+| **Desktop `≥1024px`** | Full horizontal band between search and results; chips wrap to a second row if more than one row fits |
+| **Tablet `768–1023px`** | Single-row **horizontal scroll** with `scroll-snap`; fade or shadow at trailing edge indicates more |
+| **Mobile `<768px`** | Same as tablet: horizontal scroll, no vertical wrap; show **up to 2 visible chips** plus a **"+N more"** text control if more than 3 suggestions exist — tapping "+N more" expands inline to scrollable row (does not open filter drawer) |
+
+**Rationale:** PQRS compensates on mobile when promoted sidebar filters are hidden in the drawer ([§4](#4-browse-vs-search-mode)). Scroll preserves scanability; "+N more" avoids a tall chip stack above results.
+
+**Status:** `decided`
+
+### 11.4 Filter chips and provenance on narrow viewports
+
+Active query terms and carried filters render as **removable chips** in the search area and/or a results-header chip row.
+
+| Behavior | Specification |
+|----------|---------------|
+| Layout | **Wrap** to multiple lines (flex-wrap); never single-line truncate for the whole set |
+| Provenance | Inline prefix on label: `Compounds ·` + filter name — not a separate badge (saves horizontal space) |
+| Overflow | After **2 wrapped rows**, collapse remaining chips behind **"+N filters"** control; tap expands inline |
+| Removal | Each chip has dismiss control; provenance prefix is non-interactive text |
+| Drawer open (mobile) | Chips remain visible in header above drawer — user always sees active constraint count |
+
+**Status:** `decided`
+
+**Status (§11 overall):** `decided`
 
 ---
 
@@ -360,10 +453,8 @@ Recommended sequence when implementing in [`src/app/`](./src/app/):
 |---|----------|--------|
 | 1 | Default sort per entity in browse mode | Results header |
 | 2 | Final curated card set and copy | Home screen |
-| 3 | Mobile entity nav (tabs vs segmented) | Responsive shell |
-| 4 | Data-gap "notify me" scope | Empty state |
-| 5 | Provenance indicator visual | Filter chip |
-| 6 | Screen frames in Figma | Visual design |
+| 3 | Data-gap "notify me" scope | Empty state |
+| 4 | Screen frames in Figma | Visual design |
 
 ---
 
@@ -388,6 +479,7 @@ Cross-reference findings when this document was first created. Use as a checklis
 - Cross-entity persistence matrix
 - Empty state taxonomy
 - Defaults, loading, error, responsive tables
+- Viewport breakpoints (768 / 1024), mobile entity nav, PQRS scroll, chip overflow
 - Build order for prototype
 
 ### Your notes
