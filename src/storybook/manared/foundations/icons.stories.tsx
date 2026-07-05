@@ -3,10 +3,7 @@ import type { ComponentType, SVGProps } from "react";
 
 import { DocsPage } from "../../astryx/shared/docs-page";
 import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronUpIcon,
+  ExpandIcon,
   ExpandLeftActiveIcon,
   ExpandLeftDefaultIcon,
   ExpandLeftHoverIcon,
@@ -17,12 +14,15 @@ import {
   IconStateFocusedBIcon,
   IconStateHoverAIcon,
   IconStateHoverBIcon,
-  MoveLeftIcon,
-  MoveRightIcon,
   VerticalCollapseExpandIcon,
   VerticalCollapseIcon,
 } from "@/app/components/manared/icons/icon-svgs";
 import {
+  getIconStrokeWidth,
+  type IconDisplaySize,
+} from "@/app/components/manared/icons/icon-stroke";
+import {
+  MANARED_ICONS_12,
   MANARED_ICONS_16,
   MANARED_ICONS_24,
   MANARED_ICONS_32,
@@ -38,7 +38,17 @@ type CatalogEntry = {
   sizeClass: string;
 };
 
-function IconGrid({ title, entries }: { title: string; entries: CatalogEntry[] }) {
+function IconGrid({
+  title,
+  entries,
+  displaySize = 24,
+}: {
+  title: string;
+  entries: CatalogEntry[];
+  displaySize?: IconDisplaySize;
+}) {
+  const strokeWidth = getIconStrokeWidth(displaySize);
+
   return (
     <section className="flex flex-col gap-4">
       <h3 className="text-sm font-medium text-primary">{title}</h3>
@@ -48,7 +58,11 @@ function IconGrid({ title, entries }: { title: string; entries: CatalogEntry[] }
             key={label}
             className="flex flex-col items-center gap-2 rounded-lg border border-emphasized bg-surface p-4"
           >
-            <Icon className={`shrink-0 text-secondary ${sizeClass}`} aria-hidden />
+            <Icon
+              className={`shrink-0 text-secondary ${sizeClass}`}
+              strokeWidth={strokeWidth}
+              aria-hidden
+            />
             <span className="text-2xs text-secondary text-center">{label}</span>
           </div>
         ))}
@@ -64,7 +78,7 @@ function MaNaReDIconGrid({
 }: {
   title: string;
   icons: readonly MaNaReDIconName[];
-  size: 16 | 24 | 32;
+  size: 12 | 16 | 24 | 32;
 }) {
   return (
     <section className="flex flex-col gap-4">
@@ -85,7 +99,7 @@ function MaNaReDIconGrid({
 }
 
 const expandVariants: CatalogEntry[] = [
-  { label: "expand / right / default", render: ChevronRightIcon, sizeClass: "h-6 w-6" },
+  { label: "expand / right / default", render: ExpandIcon, sizeClass: "h-6 w-6" },
   { label: "expand / right / hover", render: ExpandRightHoverIcon, sizeClass: "h-6 w-6" },
   { label: "expand / right / active", render: ExpandRightActiveIcon, sizeClass: "h-6 w-6" },
   { label: "expand / left / default", render: ExpandLeftDefaultIcon, sizeClass: "h-6 w-6" },
@@ -98,17 +112,12 @@ const collapseVariants: CatalogEntry[] = [
   { label: "vertical-collapse / expand", render: VerticalCollapseExpandIcon, sizeClass: "h-8 w-8" },
 ];
 
-const directionVariants: CatalogEntry[] = [
-  { label: "direction / up", render: ChevronUpIcon, sizeClass: "h-6 w-6" },
-  { label: "direction / down", render: ChevronDownIcon, sizeClass: "h-6 w-6" },
-  { label: "direction / left", render: ChevronLeftIcon, sizeClass: "h-6 w-6" },
-  { label: "direction / right", render: ChevronRightIcon, sizeClass: "h-6 w-6" },
-];
-
-const moveVariants: CatalogEntry[] = [
-  { label: "move / left", render: MoveLeftIcon, sizeClass: "h-3 w-3" },
-  { label: "move / right", render: MoveRightIcon, sizeClass: "h-3 w-3" },
-];
+const directionIcons = [
+  "chevron-up",
+  "chevron-down",
+  "chevron-left",
+  "chevron-right",
+] as const satisfies readonly MaNaReDIconName[];
 
 const stateVariants: CatalogEntry[] = [
   { label: "state / default (bookmark)", render: IconStateDefaultAIcon, sizeClass: "h-6 w-6" },
@@ -134,8 +143,9 @@ export const SizeTiers: Story = {
   render: () => (
     <DocsPage
       title="MaNaReD Icons — Size tiers"
-      description="Custom symbols from the Figma UI Library (node 93:1469), exported via Figma MCP."
+      description="Custom symbols from the Figma UI Library (node 93:1469). Stroke weight scales from 1.6px @ 16px via MaNaReDIcon."
     >
+      <MaNaReDIconGrid title="12px" icons={MANARED_ICONS_12} size={12} />
       <MaNaReDIconGrid title="16px" icons={MANARED_ICONS_16} size={16} />
       <MaNaReDIconGrid title="24px" icons={MANARED_ICONS_24} size={24} />
       <MaNaReDIconGrid title="32px" icons={MANARED_ICONS_32} size={32} />
@@ -149,11 +159,11 @@ export const Variants: Story = {
       title="MaNaReD Icons — Variants"
       description="Expand, collapse, direction, move, and interactive state sets from the UI Library."
     >
-      <IconGrid title="Expand" entries={expandVariants} />
-      <IconGrid title="Vertical collapse" entries={collapseVariants} />
-      <IconGrid title="Direction" entries={directionVariants} />
-      <IconGrid title="Move" entries={moveVariants} />
-      <IconGrid title="Interactive states" entries={stateVariants} />
+      <IconGrid title="Expand" entries={expandVariants} displaySize={24} />
+      <IconGrid title="Vertical collapse" entries={collapseVariants} displaySize={32} />
+      <MaNaReDIconGrid title="Direction (24px)" icons={directionIcons} size={24} />
+      <MaNaReDIconGrid title="Move (12px)" icons={MANARED_ICONS_12} size={12} />
+      <IconGrid title="Interactive states" entries={stateVariants} displaySize={24} />
     </DocsPage>
   ),
 };
