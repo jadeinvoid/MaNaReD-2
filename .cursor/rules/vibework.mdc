@@ -15,12 +15,18 @@ This is a **vibe prototype starter**: go from Figma (or a sketch) to a clickable
 - Use `vp` for install, dev, build, check, and tests (see Vite+ rule)
 - Full stack notes live in `AGENTS.md` — follow it when conventions conflict with generic advice
 
+## Figma source (MaNaReD)
+
+**Canonical file:** [MaNaReD UI Library](https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=31-80) — file key `y12p7ety9bAbG9Z7m5Bd6L`, UI Library page node `31:80`.
+
+Token → code mappings: [`DESIGN.md`](../../DESIGN.md), [`.cursor/rules/figma-design-system.mdc`](./figma-design-system.mdc).
+
 ## Figma → code
 
-When the user shares a Figma URL or design:
+Whenever you implement, review, or refer to design resources (tokens, components, screens, icons), **use the Figma MCP** — even if the user does not paste a URL. Do not guess layout, spacing, or colours from memory.
 
-1. Use the Figma MCP (`get_design_context`, `get_screenshot`, `get_metadata`) — do not guess layout from memory
+1. `get_design_context` + `get_screenshot` for screens and components; `get_metadata` / `get_variable_defs` for structure and tokens
 2. Load the project skill `figma-to-prototype` and follow it
 3. Map frames to Astryx components + Tailwind layout, not pixel-perfect custom CSS
 
-If Figma tools are missing, tell the user to install the Figma Cursor plugin (`/add-plugin figma`) or enable the project MCP server.
+If Figma tools are missing, tell the user to install the Figma Cursor plugin (`/add-plugin figma`) or enable the project MCP server (`.cursor/mcp.json`).
