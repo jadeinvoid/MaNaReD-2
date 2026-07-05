@@ -1,7 +1,10 @@
 # MaNaReD — UX & Interaction Rationale
 
+> **Scope: documentation & reference only**  
+> This file records UX decisions and interaction rationale. It does **not** authorize code, component, or config changes. Do not modify `src/`, README, DESIGN.md, or other project files based on this doc unless explicitly asked to implement. Status fields like `not built` describe intent, not a pending task.
+
 **This is the single document for UX design decisions and interaction rationale.**  
-Document decisions here when building the prototype. Do not duplicate rationale across README, DESIGN.md, or other files — link to this doc instead if needed.
+Add or revise decisions here for future reference. Do not duplicate rationale across README, DESIGN.md, or other files — link to this doc instead if needed.
 
 | | |
 |---|---|
@@ -429,9 +432,9 @@ Active query terms and carried filters render as **removable chips** in the sear
 
 ---
 
-## 12. Prototype build order
+## 12. Future build order (reference — not active work)
 
-Recommended sequence when implementing in [`src/app/`](./src/app/):
+Recommended sequence **if** implementation is explicitly requested later in [`src/app/`](./src/app/):
 
 1. App shell (entity nav + layout)
 2. Unified query state + URL sync (client island)
@@ -441,9 +444,11 @@ Recommended sequence when implementing in [`src/app/`](./src/app/):
 6. Home curated cards
 7. Empty / loading / error states
 
+Implement only when explicitly requested.
+
 **Current code:** single `/` demo route — MaNaReD UX not yet built.
 
-**Status:** `not built`
+**Status:** `not built` (reference only)
 
 ---
 
