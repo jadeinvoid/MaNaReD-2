@@ -23,9 +23,26 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Bioactivity: Story = {
+  args: { label: "Cytotoxic", entity: "bioactivity" },
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText(args.label)).toBeVisible();
+  },
+};
+
+export const AllEntities: Story = {
+  render: () => (
+    <div className="flex flex-wrap gap-2">
+      <Chip label="Cytotoxic" entity="bioactivity" />
+      <Chip label="Alkaloid" entity="compound" />
+      <Chip label="Sponge" entity="organism" />
+      <Chip label="South China Sea" entity="region" />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("Cytotoxic")).toBeVisible();
+    await expect(canvas.getByText("Sponge")).toBeVisible();
   },
 };
 

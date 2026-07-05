@@ -9,7 +9,7 @@ export type ChipProps = {
   entity?: EntityType;
 };
 
-/** Entity-coloured tag chip from Figma `chip` symbol — Astryx Badge + MaNaReD entity tokens. */
+/** Entity-coloured tag chip from Figma `chip` symbol (332:9145) — Astryx Badge + MaNaReD entity tokens. */
 export function Chip({ label, entity = "bioactivity" }: ChipProps) {
   const styles = entityClassNames[entity];
 
@@ -17,7 +17,7 @@ export function Chip({ label, entity = "bioactivity" }: ChipProps) {
     <Badge
       label={label}
       variant="neutral"
-      className={`h-auto rounded-full border px-2 py-1 text-2xs font-normal ${styles.bg} ${styles.border} ${styles.text}`}
+      className={`inline-flex h-auto shrink-0 items-center justify-center rounded-full border border-solid px-2 py-1 text-3xs font-normal leading-normal whitespace-nowrap shadow-none ${styles.bg} ${styles.border} ${styles.text}`}
     />
   );
 }
