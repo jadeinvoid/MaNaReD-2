@@ -19,11 +19,11 @@ Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.de
 
 This project implements the **MaNaReD** (Marine Natural Products Database) design system. Figma is the source of truth for tokens, components, wireframes, and screens.
 
-| Field | Value |
-|-------|-------|
-| File | [MaNaReD](https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=31-80) |
-| File key | `y12p7ety9bAbG9Z7m5Bd6L` |
-| UI Library page | node `31:80` |
+| Field           | Value                                                                                |
+| --------------- | ------------------------------------------------------------------------------------ |
+| File            | [MaNaReD](https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=31-80) |
+| File key        | `y12p7ety9bAbG9Z7m5Bd6L`                                                             |
+| UI Library page | node `31:80`                                                                         |
 
 Key Figma sections for MCP: Font `32:5`, Colour `49:867`, Space `81:470`, Icons `93:1469`.
 

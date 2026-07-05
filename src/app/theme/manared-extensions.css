@@ -1,0 +1,44 @@
+/*
+ * MaNaReD-only tokens that extend the Astryx bridge.
+ * Scoped to the manared theme; values from Figma UI Library (node 49:867).
+ */
+@layer astryx-theme {
+  @scope ([data-astryx-theme="manared"]) to ([data-astryx-theme]) {
+    :scope {
+      /* MaNaReD.colour.BG.sideBar */
+      --color-background-sidebar: light-dark(#f6faff, #373f4f);
+
+      /* MaNaReD.colour.text.tertiary */
+      --color-text-tertiary: light-dark(#617990, #ca9ff5);
+
+      /* MaNaReD.colour.interactive.* state backgrounds */
+      --color-interactive-button-hover: light-dark(#adffd6, #adffd6);
+      --color-interactive-button-focus: light-dark(#e6ff9b, #e6ff9b);
+      --color-interactive-chip-active: light-dark(#d0e0f8, #d0e0f8);
+      --color-interactive-nav-active: light-dark(#fffef8, #fffef8);
+    }
+  }
+}
+
+/* Tailwind utilities for MaNaReD-only semantic tokens */
+@theme inline {
+  --color-sidebar: var(--color-background-sidebar);
+  --color-tertiary: var(--color-text-tertiary);
+
+  /* Entity badge shortcuts — MaNaReD.colour.entity.* */
+  --color-entity-organism-bg: var(--color-background-green);
+  --color-entity-organism-border: var(--color-border-green);
+  --color-entity-organism-text: var(--color-text-green);
+
+  --color-entity-bioactivity-bg: var(--color-background-pink);
+  --color-entity-bioactivity-border: var(--color-border-pink);
+  --color-entity-bioactivity-text: var(--color-text-pink);
+
+  --color-entity-compound-bg: var(--color-background-cyan);
+  --color-entity-compound-border: var(--color-border-cyan);
+  --color-entity-compound-text: var(--color-text-cyan);
+
+  --color-entity-region-bg: var(--color-background-orange);
+  --color-entity-region-border: var(--color-border-orange);
+  --color-entity-region-text: var(--color-text-orange);
+}
