@@ -40,10 +40,10 @@ export const MANARED_COLOUR_MAP = colourTokens({
   "--color-text-disabled": ["#617990", "#94AD91"],
   "--color-text-accent": ["#222133", "#E8EFFF"],
 
-  // Accent / interactive.button active
-  "--color-accent": ["#DEE4EB", "#222133"],
+  // Primary button fill — MaNaReD.colour.interactive.button (default CTA, not pressed state)
+  "--color-accent": ["#222133", "#222133"],
   "--color-accent-muted": ["#DEE4EB", "#373F4F"],
-  "--color-on-accent": ["#222133", "#E8EFFF"],
+  "--color-on-accent": ["#FFFFFF", "#E8EFFF"],
 
   // Borders — MaNaReD.colour.border
   "--color-border": ["#E5E7EB", "#2E4572"],

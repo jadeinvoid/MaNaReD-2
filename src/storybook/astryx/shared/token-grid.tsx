@@ -54,13 +54,19 @@ function TokenPreview({
     );
   }
 
+  const usesBgUtility = token.className?.includes("bg-") ?? false;
+  const previewStyle = token.previewStyle ?? {};
+  const style: CSSProperties = {
+    ...previewStyle,
+    ...(previewStyle.backgroundColor || usesBgUtility
+      ? {}
+      : { backgroundColor: "var(--color-background-surface)" }),
+  };
+
   return (
     <div
       className={`rounded-element border border-emphasized h-16 ${token.className ?? ""}`}
-      style={{
-        backgroundColor: token.previewStyle?.backgroundColor ?? "var(--color-background-surface)",
-        ...token.previewStyle,
-      }}
+      style={style}
     />
   );
 }

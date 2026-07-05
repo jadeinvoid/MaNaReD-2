@@ -10,17 +10,17 @@ const surfaceTokens: TokenEntry[] = [
   {
     name: "MaNaReD.colour.BG.page",
     description: "Page background → bg-body",
-    className: "bg-body",
+    previewStyle: { backgroundColor: "var(--color-background-body)" },
   },
   {
     name: "MaNaReD.colour.BG.card",
     description: "Cards → bg-surface",
-    className: "bg-surface",
+    previewStyle: { backgroundColor: "var(--color-background-surface)" },
   },
   {
     name: "MaNaReD.colour.BG.sideBar",
     description: "Sidebar → bg-sidebar",
-    className: "bg-sidebar",
+    previewStyle: { backgroundColor: "var(--color-background-sidebar)" },
   },
 ];
 
@@ -46,22 +46,22 @@ const statusTokens: TokenEntry[] = [
   {
     name: "MaNaReD.colour.status.success",
     description: "Success BG → bg-success-muted",
-    className: "bg-success-muted",
+    previewStyle: { backgroundColor: "var(--color-success-muted)" },
   },
   {
     name: "MaNaReD.colour.status.warning",
     description: "Warning BG → bg-warning-muted",
-    className: "bg-warning-muted",
+    previewStyle: { backgroundColor: "var(--color-warning-muted)" },
   },
   {
     name: "MaNaReD.colour.status.danger",
     description: "Danger BG → bg-error-muted",
-    className: "bg-error-muted",
+    previewStyle: { backgroundColor: "var(--color-error-muted)" },
   },
   {
     name: "MaNaReD.colour.status.info",
     description: "Info BG → bg-blue-subtle",
-    className: "bg-blue-subtle",
+    previewStyle: { backgroundColor: "var(--color-background-blue)" },
   },
 ];
 
@@ -69,45 +69,45 @@ const entityTokens: TokenEntry[] = [
   {
     name: "entity.organism",
     description: "Organism badge triplet",
-    className: "bg-entity-organism-bg",
+    previewStyle: { backgroundColor: "var(--color-entity-organism-bg)" },
   },
   {
     name: "entity.bioactivity",
     description: "Bioactivity badge triplet",
-    className: "bg-entity-bioactivity-bg",
+    previewStyle: { backgroundColor: "var(--color-entity-bioactivity-bg)" },
   },
   {
     name: "entity.compound",
     description: "Compound badge triplet",
-    className: "bg-entity-compound-bg",
+    previewStyle: { backgroundColor: "var(--color-entity-compound-bg)" },
   },
   {
     name: "entity.region",
     description: "Region badge triplet",
-    className: "bg-entity-region-bg",
+    previewStyle: { backgroundColor: "var(--color-entity-region-bg)" },
   },
 ];
 
 const interactiveTokens: TokenEntry[] = [
   {
     name: "interactive.chip.active",
-    description: "Active chip → bg-chip-active",
-    className: "bg-chip-active",
+    description: "Active chip",
+    previewStyle: { backgroundColor: "var(--color-interactive-chip-active)" },
   },
   {
     name: "interactive.chip.hover",
-    description: "Chip hover → bg-chip-hover",
-    className: "bg-chip-hover",
+    description: "Chip hover",
+    previewStyle: { backgroundColor: "var(--color-interactive-chip-hover)" },
   },
   {
     name: "interactive.button.active",
-    description: "Button active → bg-button-active",
-    className: "bg-button-active",
+    description: "Button active state",
+    previewStyle: { backgroundColor: "var(--color-interactive-button-active)" },
   },
   {
     name: "interactive.nav.hover",
-    description: "Nav hover → bg-nav-hover",
-    className: "bg-nav-hover",
+    description: "Nav hover",
+    previewStyle: { backgroundColor: "var(--color-interactive-nav-hover)" },
   },
 ];
 
