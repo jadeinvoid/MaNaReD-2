@@ -3,7 +3,7 @@ import { expect, within } from "storybook/test";
 
 import { EntityBadge } from "./entity-badge";
 
-const FIGMA_ENTITY = "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=49-867";
+const FIGMA_ENTITY = "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=332-9145";
 
 const meta = {
   title: "MaNaReD/Primitives/EntityBadge",

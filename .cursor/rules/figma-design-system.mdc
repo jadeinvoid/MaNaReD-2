@@ -246,8 +246,8 @@ Naming: `icon/{name}` with variant props (`state=default|hover|active`, `directi
 
 ### Code
 
-- No icons in app code yet; Astryx is the fallback (`vp run astryx -- docs icons`)
-- MaNaReD custom icons are **not in Astryx** — export via MCP `download_assets` into `src/app/assets/icons/` or inline SVG
+- **MaNaReD icons:** `src/app/components/manared/icons/` — `MaNaReDIcon` wrapper with inline SVGs (export from Figma node `93:1469` for production fidelity)
+- Astryx is the fallback for generic icons (`vp run astryx -- docs icons`)
 - Size mapping: 16px → `w-4 h-4`, 24px → `w-6 h-6`, 32px → `w-8 h-8`
 
 ---

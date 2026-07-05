@@ -26,6 +26,7 @@ const meta = {
     provenanceText: "Filter carried on from previous session.",
     onRemoveChip: fn(),
     onMoreFilters: fn(),
+    onSort: fn(),
   },
 } satisfies Meta<typeof ChipBar>;
 
@@ -39,5 +40,9 @@ export const Default: Story = {
     await expect(canvas.getByText("Filter carried on from previous session.")).toBeVisible();
     await userEvent.click(canvas.getByRole("button", { name: "Remove Alkaloids" }));
     await expect(args.onRemoveChip).toHaveBeenCalledWith("Alkaloids");
+    await userEvent.click(canvas.getByRole("button", { name: "More filters" }));
+    await expect(args.onMoreFilters).toHaveBeenCalledOnce();
+    await userEvent.click(canvas.getByRole("button", { name: /Sort by/ }));
+    await expect(args.onSort).toHaveBeenCalledOnce();
   },
 };

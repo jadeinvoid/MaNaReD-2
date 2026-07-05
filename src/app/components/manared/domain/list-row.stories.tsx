@@ -38,7 +38,10 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    await expect(canvas.getByText("CMNPD-00482")).toBeVisible();
     await expect(canvas.getByText("Latrunculin A")).toBeVisible();
+    await expect(canvas.getByText("Cytotoxic")).toBeVisible();
+    await expect(canvas.getByText("Alkaloid")).toBeVisible();
     await expect(canvas.getByText("MW 421.5")).toBeVisible();
   },
 };

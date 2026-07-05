@@ -1,3 +1,4 @@
+import { Divider } from "@astryxdesign/core/Divider";
 import { Heading, Text } from "@astryxdesign/core/Text";
 
 export type DetailTaxonomyItemProps = {
@@ -7,11 +8,14 @@ export type DetailTaxonomyItemProps = {
 
 export function DetailTaxonomyItem({ label, active = false }: DetailTaxonomyItemProps) {
   return (
-    <span
-      className={`rounded-md px-3 py-2 text-sm ${active ? "bg-muted font-medium text-primary" : "text-secondary"}`}
+    <Text
+      size="sm"
+      color={active ? "primary" : "secondary"}
+      weight={active ? "medium" : undefined}
+      className={`rounded-md px-3 py-2 ${active ? "bg-muted" : ""}`}
     >
       {label}
-    </span>
+    </Text>
   );
 }
 
@@ -65,14 +69,7 @@ export type DetailCategoryDividerProps = {
 };
 
 export function DetailCategoryDivider({ title }: DetailCategoryDividerProps) {
-  return (
-    <div className="flex items-center gap-4 py-2">
-      <Text size="sm" weight="medium" className="shrink-0 text-primary">
-        {title}
-      </Text>
-      <div className="h-px flex-1 bg-[var(--color-border)]" />
-    </div>
-  );
+  return <Divider label={title} variant="subtle" className="py-2" />;
 }
 
 export type DetailPictureProps = {

@@ -32,17 +32,19 @@ export const RefineResult: Story = {
 };
 
 export const ClearAll: Story = {
-  args: { variant: "clear-all" },
-  play: async ({ canvasElement }) => {
+  args: { variant: "clear-all", onClick: fn() },
+  play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByRole("button", { name: "Clear all" })).toBeVisible();
+    await userEvent.click(canvas.getByRole("button", { name: "Clear all" }));
+    await expect(args.onClick).toHaveBeenCalledOnce();
   },
 };
 
 export const ApplyFilter: Story = {
-  args: { variant: "apply-filter" },
-  play: async ({ canvasElement }) => {
+  args: { variant: "apply-filter", onClick: fn() },
+  play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByRole("button", { name: "Apply filters" })).toBeVisible();
+    await userEvent.click(canvas.getByRole("button", { name: "Apply filters" }));
+    await expect(args.onClick).toHaveBeenCalledOnce();
   },
 };

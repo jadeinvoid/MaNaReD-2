@@ -254,13 +254,23 @@ src/
   app/
     document.tsx          # HTML shell + stylesheet link
     providers.tsx         # Astryx Theme
-    styles.css            # Layered CSS
+    styles.css            # Layered CSS + MaNaReD brand tokens
     headers.ts            # Security headers / CSP
+    components/
+      manared/            # MaNaReD design system components
+        icons/
+        primitives/
+        composites/
+        domain/
     pages/                # Screens (Server Components)
       home.tsx
-      home-form.tsx       # Client island
     shared/
       links.ts            # Typed router links
+  storybook/
+    manared/              # MaNaReD Storybook docs + patterns
+      COMPONENT_REGISTRY.md
+      foundations/
+      patterns/
 ```
 
 **Pattern:** one screen = Server Component page + optional colocated client island. Register routes in `src/worker.tsx`.

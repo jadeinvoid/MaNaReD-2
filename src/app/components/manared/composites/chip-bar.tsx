@@ -1,14 +1,17 @@
+import { Button } from "@astryxdesign/core/Button";
 import { HStack } from "@astryxdesign/core/Layout";
 import { Text } from "@astryxdesign/core/Text";
 
-import { ActiveChip } from "../primitives/active-chip";
 import { MaNaReDIcon } from "../icons/manared-icon";
+import { ActiveChip } from "../primitives/active-chip";
+import { SortWrapper } from "./sort-wrapper";
 
 export type ChipBarProps = {
   chips: string[];
   provenanceText?: string;
   onRemoveChip?: (label: string) => void;
   onMoreFilters?: () => void;
+  onSort?: () => void;
   sortLabel?: string;
 };
 
@@ -18,6 +21,7 @@ export function ChipBar({
   provenanceText,
   onRemoveChip,
   onMoreFilters,
+  onSort,
   sortLabel = "Sort by: Relevance",
 }: ChipBarProps) {
   return (
@@ -30,26 +34,20 @@ export function ChipBar({
         />
       ))}
       {provenanceText ? (
-        <Text size="2xs" color="secondary" className="ml-2">
+        <Text size="2xs" color="secondary" className="ml-2 text-[var(--color-text-tertiary)]">
           {provenanceText}
         </Text>
       ) : null}
       <span className="flex-1" />
-      <button
-        type="button"
+      <Button
+        label="More filters"
+        variant="secondary"
+        size="sm"
         onClick={onMoreFilters}
-        className="flex items-center gap-1 rounded-lg border border-emphasized px-3 py-1 text-xs text-secondary hover:bg-muted"
-      >
-        <MaNaReDIcon name="filter" size={16} />
-        More filters
-      </button>
-      <button
-        type="button"
-        className="flex items-center gap-1 rounded-lg border border-emphasized px-3 py-1 text-xs text-secondary"
-      >
-        {sortLabel}
-        <MaNaReDIcon name="arrow-down" size={16} />
-      </button>
+        icon={<MaNaReDIcon name="filter" size={16} />}
+        className="text-2xs"
+      />
+      <SortWrapper label={sortLabel} onClick={onSort} />
     </HStack>
   );
 }

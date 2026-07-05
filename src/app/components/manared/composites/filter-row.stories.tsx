@@ -40,3 +40,11 @@ export const AllRows: Story = {
     await expect(canvas.getByText("Bioactivity")).toBeVisible();
   },
 };
+
+export const NoFilter: Story = {
+  args: { label: "No active filters", icon: "no-filter" },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("No active filters")).toBeVisible();
+  },
+};

@@ -34,7 +34,8 @@ export function SearchBar({
     >
       <MaNaReDIcon name="search" size={16} />
       <TextInput
-        label=""
+        label="Search"
+        isLabelHidden
         placeholder={placeholder}
         value={value}
         onChange={handleChange}

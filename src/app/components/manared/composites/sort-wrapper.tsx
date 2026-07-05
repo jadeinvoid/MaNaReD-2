@@ -1,3 +1,5 @@
+import { Button } from "@astryxdesign/core/Button";
+
 import { MaNaReDIcon } from "../icons/manared-icon";
 
 export type SortWrapperProps = {
@@ -8,13 +10,13 @@ export type SortWrapperProps = {
 /** Sort dropdown trigger from Figma `sort-wrapper/compound`. */
 export function SortWrapper({ label = "Sort by: Relevance", onClick }: SortWrapperProps) {
   return (
-    <button
-      type="button"
+    <Button
+      label={label}
+      variant="secondary"
+      size="sm"
       onClick={onClick}
-      className="inline-flex h-7 items-center gap-2 rounded-lg border border-emphasized bg-surface px-3 text-xs text-secondary hover:bg-muted"
-    >
-      {label}
-      <MaNaReDIcon name="arrow-down" size={16} />
-    </button>
+      endContent={<MaNaReDIcon name="arrow-down" size={16} />}
+      className="text-2xs"
+    />
   );
 }

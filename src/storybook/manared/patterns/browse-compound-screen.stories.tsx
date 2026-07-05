@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { ChipBar } from "@/app/components/manared/composites/chip-bar";
-import { CompoundCard } from "@/app/components/manared/composites/compound-card";
+import { CompoundCard } from "@/app/components/manared/domain/compound-card";
 import { FilterSidebar } from "@/app/components/manared/composites/filter-sidebar";
 import { NavSideBar } from "@/app/components/manared/composites/nav-side-bar";
 import { TaxonomyBreadcrumb } from "@/app/components/manared/composites/taxonomy-breadcrumb";

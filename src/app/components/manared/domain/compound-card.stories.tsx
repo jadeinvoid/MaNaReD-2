@@ -39,6 +39,10 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Latrunculin A")).toBeVisible();
+    await expect(canvas.getByText("C₃₃H₄₅NO₅")).toBeVisible();
+    await expect(canvas.getByText("Source: Sponge Latrunculia sp.")).toBeVisible();
+    await expect(canvas.getByText("Compound")).toBeVisible();
     await expect(canvas.getByText("Cytotoxic")).toBeVisible();
+    await expect(canvas.getByText("Marine")).toBeVisible();
   },
 };

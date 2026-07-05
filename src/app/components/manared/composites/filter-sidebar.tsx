@@ -13,7 +13,7 @@ export type FilterSidebarProps = {
 /** Filter sidebar from Figma `filter/side-bar`. */
 export function FilterSidebar({ collapsed = false, onApply, onClear }: FilterSidebarProps) {
   return (
-    <aside className="flex w-70 flex-col gap-4 rounded-lg border border-emphasized bg-surface p-4">
+    <aside className="flex w-[280px] shrink-0 flex-col gap-4 rounded-lg border border-emphasized bg-surface p-4">
       <div className="flex items-center justify-between">
         <span className="flex-1" />
         <MaNaReDIcon name="expand" size={32} />

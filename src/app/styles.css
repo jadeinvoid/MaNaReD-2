@@ -30,6 +30,8 @@
 /* MaNaReD brand tokens — map Figma MaNaReD.colour.* to CSS custom properties */
 @layer theme {
   :root {
+    /* MaNaReD page background — overrides neutral theme for prototype fidelity */
+    --color-background-body: #e9f1f9;
     --color-background-sidebar: #f6faff;
     --color-text-tertiary: #617990;
 

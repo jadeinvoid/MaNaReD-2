@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect, within } from "storybook/test";
+import { expect, userEvent, within } from "storybook/test";
 
 import { TopBar } from "./top-bar";
 
@@ -23,8 +23,9 @@ export const Default: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByLabelText("MaNaReD logo")).toBeVisible();
     await expect(canvas.getByText("Tools")).toBeVisible();
-    await expect(
-      canvas.getByPlaceholderText("Search compounds, organisms, regions…"),
-    ).toBeVisible();
+    const input = canvas.getByPlaceholderText("Search compounds, organisms, regions…");
+    await expect(input).toBeVisible();
+    await userEvent.type(input, "alkaloid");
+    await expect(input).toHaveValue("alkaloid");
   },
 };

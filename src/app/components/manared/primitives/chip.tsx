@@ -1,42 +1,23 @@
-export type EntityType = "organism" | "bioactivity" | "compound" | "region";
+import { Badge } from "@astryxdesign/core/Badge";
 
-const entityStyles: Record<EntityType, { bg: string; border: string; text: string }> = {
-  organism: {
-    bg: "bg-[var(--color-entity-organism-bg)]",
-    border: "border-[var(--color-entity-organism-border)]",
-    text: "text-[var(--color-entity-organism-text)]",
-  },
-  bioactivity: {
-    bg: "bg-[var(--color-entity-bioactivity-bg)]",
-    border: "border-[var(--color-entity-bioactivity-border)]",
-    text: "text-[var(--color-entity-bioactivity-text)]",
-  },
-  compound: {
-    bg: "bg-[var(--color-entity-compound-bg)]",
-    border: "border-[var(--color-entity-compound-border)]",
-    text: "text-[var(--color-entity-compound-text)]",
-  },
-  region: {
-    bg: "bg-[var(--color-entity-region-bg)]",
-    border: "border-[var(--color-entity-region-border)]",
-    text: "text-[var(--color-entity-region-text)]",
-  },
-};
+import { entityClassNames, type EntityType } from "./entity-styles";
+
+export type { EntityType };
 
 export type ChipProps = {
   label: string;
   entity?: EntityType;
 };
 
-/** Entity-coloured tag chip from Figma `chip` symbol. */
+/** Entity-coloured tag chip from Figma `chip` symbol — Astryx Badge + MaNaReD entity tokens. */
 export function Chip({ label, entity = "bioactivity" }: ChipProps) {
-  const styles = entityStyles[entity];
+  const styles = entityClassNames[entity];
 
   return (
-    <span
-      className={`inline-flex items-center justify-center rounded-full border px-2 py-1 text-[11px] font-normal leading-normal ${styles.bg} ${styles.border} ${styles.text}`}
-    >
-      {label}
-    </span>
+    <Badge
+      label={label}
+      variant="neutral"
+      className={`h-auto rounded-full border px-2 py-1 text-2xs font-normal ${styles.bg} ${styles.border} ${styles.text}`}
+    />
   );
 }
