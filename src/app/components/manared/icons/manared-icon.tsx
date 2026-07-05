@@ -86,3 +86,29 @@ export function MaNaReDIcon({ name, size = 24, className = "", label }: MaNaReDI
 }
 
 export const MANARED_ICON_NAMES = Object.keys(ICON_MAP) as MaNaReDIconName[];
+
+/** Canonical Figma size tiers (node 93:1469). */
+export const MANARED_ICONS_16 = [
+  "search",
+  "filter",
+  "arrow-up",
+  "arrow-down",
+  "workspace",
+  "explore",
+  "overview",
+  "remove",
+] as const satisfies readonly MaNaReDIconName[];
+
+export const MANARED_ICONS_24 = [
+  "compound",
+  "organism",
+  "no-filter",
+  "expand",
+  "chevron-right",
+] as const satisfies readonly MaNaReDIconName[];
+
+export const MANARED_ICONS_32 = [
+  "profile",
+  "vertical-collapse",
+  "logo",
+] as const satisfies readonly MaNaReDIconName[];
