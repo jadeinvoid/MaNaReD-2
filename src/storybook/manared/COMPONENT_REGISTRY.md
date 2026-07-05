@@ -11,7 +11,7 @@ Figma file: `y12p7ety9bAbG9Z7m5Bd6L` — [MaNaReD UI Library](https://www.figma.
 | Chip                   | Primitives  | `primitives/chip.tsx`                | `332:9145` | done    | Pill span; 12px label; space.1/2 padding         |
 | ActiveChip             | Primitives  | `primitives/active-chip.tsx`         | `332:9082` | done    | `Badge` + remove control                         |
 | FilterButton           | Primitives  | `primitives/filter-button.tsx`       | `332:9066` | done    | Wraps Astryx `Button`                            |
-| EntityBadge            | Primitives  | `primitives/entity-badge.tsx`        | `332:9145` | done    | Same entity tokens as `Chip`                     |
+| EntityBadge            | Primitives  | `primitives/entity-badge.tsx`        | `332:9145` | done    | rounded-md entity badge; shared tag tokens       |
 | ListText               | Primitives  | `primitives/list-text.tsx`           | `332:9204` | done    | Bundled ID/title/label primitives                |
 | DetailAtoms            | Primitives  | `primitives/detail-atoms.tsx`        | `332:9114` | done    | Bundled detail page atoms                        |
 | SearchBar              | Composites  | `composites/search-bar.tsx`          | `332:9047` | done    | `TextInput` client island                        |
