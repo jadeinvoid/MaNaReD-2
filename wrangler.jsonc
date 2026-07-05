@@ -22,6 +22,9 @@
     "enabled": true,
   },
 
+  // Enables https://<worker-name>.<account-subdomain>.workers.dev
+  "workers_dev": true,
+
   // Environment variables
   "vars": {
     // Add your environment variables here

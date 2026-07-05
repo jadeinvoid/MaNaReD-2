@@ -1,0 +1,25 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Astryx/Introduction" />
+
+# Astryx Design System
+
+This Storybook catalog documents the **Astryx** components, foundations, and patterns used in Vibework — themed with `@astryxdesign/theme-neutral` and the Tailwind token bridge from `src/app/styles.css`.
+
+## Sections
+
+- **Foundations** — typography, color, spacing, shape, elevation, motion, icons, layout, and theme tokens
+- **Components** — 148+ building blocks with showcase and variant stories from official Astryx block templates
+- **Patterns** — full page templates for dashboards, auth, tables, forms, and more
+
+## Regenerating component & pattern stories
+
+After upgrading `@astryxdesign/core` or `@astryxdesign/cli`:
+
+```bash
+vp run generate:astryx-stories
+```
+
+## App-specific stories
+
+Prototype components for this project live under **Vibework** in the sidebar.

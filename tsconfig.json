@@ -12,7 +12,9 @@
       "./types/vite.d.ts"
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@astryx/blocks/*": ["./node_modules/@astryxdesign/cli/templates/blocks/*"],
+      "@astryx/pages/*": ["./node_modules/@astryxdesign/cli/templates/pages/*"]
     },
     "allowArbitraryExtensions": true,
     "skipLibCheck": true,
@@ -34,6 +36,6 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "types", "worker-configuration.d.ts"],
+  "include": [".storybook", "src", "types", "worker-configuration.d.ts"],
   "exclude": ["node_modules", ".tmp"]
 }

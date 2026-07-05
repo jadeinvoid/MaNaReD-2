@@ -1,0 +1,60 @@
+---
+description: Storybook + Vitest requirements for src/app/components
+globs: src/app/components/**/*
+alwaysApply: false
+---
+
+# Component stories + tests
+
+Hand-authored components in `src/app/components/` **must** ship with colocated `*.stories.tsx` that Vitest runs via Storybook play functions.
+
+**Do not** add `test` tags or play tests to the generated Astryx catalog under `src/storybook/astryx/generated/` — that catalog is docs-only.
+
+## Commands
+
+```bash
+vp run storybook          # browse catalog + Vibework stories
+vp test                   # Vitest browser tests — app components only
+vp check                  # format, lint, typecheck
+```
+
+First-time browser setup: `pnpm exec playwright install chromium`
+
+## Scope
+
+| Path | Storybook config | Vitest |
+| --- | --- | --- |
+| `src/app/components/**/*.stories.tsx` | `.storybook-vitest/main.ts` | Yes — `tags: ["test"]` |
+| `src/storybook/astryx/**` | `.storybook/main.ts` | No |
+
+Vitest uses `.storybook-vitest/` so the full catalog is never imported during `vp test`.
+
+## Checklist for every new or changed component
+
+1. Colocate `my-widget.stories.tsx` next to `my-widget.tsx`
+2. Meta: `title: "Vibework/Components/MyWidget"`, `tags: ["autodocs", "test"]`
+3. Every `export const …: Story` includes a `play` function
+4. Import test utils from `storybook/test` (`expect`, `within`, `userEvent`, `fn` as needed) — not `@testing-library/*`
+5. Run `vp test` and `vp check`
+
+Copy patterns from `feature-card.stories.tsx` or `home-form.stories.tsx`.
+
+**Play guidelines**
+
+- Presentational: assert roles/text (`getByRole`, `getByText`)
+- Interactive: `userEvent` + assert outcomes
+- Callback props: `fn()` in meta `args`, `toHaveBeenCalledOnce()` in `play`
+
+## Config (do not point Vitest at the full catalog)
+
+- `vitest.config.ts` — `@storybook/addon-vitest` + Playwright browser
+- `.storybook-vitest/main.ts` — glob: `src/app/components/**/*.stories.tsx` only
+- `.storybook/main.ts` — full Storybook for local browsing
+
+## Storybook MCP
+
+Requires Storybook running: `vp run storybook` → MCP at `http://localhost:6006/mcp` (`.cursor/mcp.json`).
+
+After story changes, run `vp test` — MCP complements but does not replace it.
+
+**Installing addons:** `pnpm add -D @storybook/addon-…` + register in `.storybook/main.ts` — not `vpx storybook add` or `npm`.

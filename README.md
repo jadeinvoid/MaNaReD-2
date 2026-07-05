@@ -36,12 +36,12 @@ See [`DESIGN.md`](./DESIGN.md) for token mapping, component inventory, and Figma
 
 ## Tools
 
-| Tool | Role |
-|------|------|
-| Figma | Component library, wireframes, design tokens as Figma variables |
-| RedwoodSDK | React Server Components on Cloudflare Workers |
-| Astryx + Tailwind | UI components and layout |
-| Vite+ (`vp`) | Install, dev, build, lint, typecheck, test |
+| Tool              | Role                                                            |
+| ----------------- | --------------------------------------------------------------- |
+| Figma             | Component library, wireframes, design tokens as Figma variables |
+| RedwoodSDK        | React Server Components on Cloudflare Workers                   |
+| Astryx + Tailwind | UI components and layout                                        |
+| Vite+ (`vp`)      | Install, dev, build, lint, typecheck, test                      |
 
 ---
 
@@ -60,13 +60,13 @@ Deploy the prototype:
 vp run release
 ```
 
-| Command | What it does |
-|---------|--------------|
-| `vp install` | Install dependencies |
-| `vp dev` | Start the dev server |
-| `vp build` | Production build |
-| `vp check` | Format, lint, and typecheck |
-| `vp test` | Run tests |
+| Command          | What it does                  |
+| ---------------- | ----------------------------- |
+| `vp install`     | Install dependencies          |
+| `vp dev`         | Start the dev server          |
+| `vp build`       | Production build              |
+| `vp check`       | Format, lint, and typecheck   |
+| `vp test`        | Run tests                     |
 | `vp run release` | Build and deploy via Wrangler |
 
 ### Project layout

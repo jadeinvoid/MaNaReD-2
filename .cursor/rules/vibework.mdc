@@ -10,7 +10,7 @@ This is a **vibe prototype starter**: go from Figma (or a sketch) to a clickable
 ## Defaults
 
 - Prefer the smallest change that makes the screen work
-- Build in `src/app/pages/`; keep interactive bits in small `"use client"` islands
+- Build in `src/app/pages/`; keep interactive bits in small `"use client"` islands under `src/app/components/`
 - Discover UI with Astryx (`vp run astryx -- …`) — do not invent a parallel design system
 - Use `vp` for install, dev, build, check, and tests (see Vite+ rule)
 - Full stack notes live in `AGENTS.md` — follow it when conventions conflict with generic advice

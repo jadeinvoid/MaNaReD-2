@@ -22,13 +22,13 @@ The app currently ships with Astryx's **neutral** theme as a starting point. MaN
 
 ### Where tokens live in code
 
-| Layer | Location | Role |
-|-------|----------|------|
-| Theme CSS | `@astryxdesign/theme-neutral/theme.css` | CSS custom properties (`--color-*`, `--spacing-*`, `--radius-*`) |
-| Tailwind bridge | `@astryxdesign/core/tailwind-theme.css` | Maps vars → utilities (`bg-surface`, `text-primary`, `rounded-lg`) |
-| Import orchestration | `src/app/styles.css` | Layer order so Tailwind utilities beat Astryx component styles |
-| Runtime theme | `src/app/providers.tsx` | `<Theme theme={neutralTheme}>` for SSR |
-| HTML marker | `src/app/document.tsx` | `data-astryx-theme="neutral"` on `<html>` |
+| Layer                | Location                                | Role                                                               |
+| -------------------- | --------------------------------------- | ------------------------------------------------------------------ |
+| Theme CSS            | `@astryxdesign/theme-neutral/theme.css` | CSS custom properties (`--color-*`, `--spacing-*`, `--radius-*`)   |
+| Tailwind bridge      | `@astryxdesign/core/tailwind-theme.css` | Maps vars → utilities (`bg-surface`, `text-primary`, `rounded-lg`) |
+| Import orchestration | `src/app/styles.css`                    | Layer order so Tailwind utilities beat Astryx component styles     |
+| Runtime theme        | `src/app/providers.tsx`                 | `<Theme theme={neutralTheme}>` for SSR                             |
+| HTML marker          | `src/app/document.tsx`                  | `data-astryx-theme="neutral"` on `<html>`                          |
 
 ```css
 /* src/app/styles.css */
@@ -51,26 +51,26 @@ vp run astryx -- docs theme
 
 Figma token names follow `MaNaReD.{category}.{name}`. Key sections on the UI Library page:
 
-| Category | Figma node | Examples |
-|----------|------------|----------|
-| Font | `32:5` | Inter (display/content), Geist Mono (code), sizes 3xs–3xl |
-| Colour | `49:867` | BG, text, border, status, entity, interactive (light + dark) |
-| Space | `81:470` | 1=4px through 12=48px |
-| Shape | in font section | none/sm/md/lg → 0/4/8/12px radius |
-| Icons | `93:1469` | Custom symbols at 16/24/32px |
+| Category | Figma node      | Examples                                                     |
+| -------- | --------------- | ------------------------------------------------------------ |
+| Font     | `32:5`          | Inter (display/content), Geist Mono (code), sizes 3xs–3xl    |
+| Colour   | `49:867`        | BG, text, border, status, entity, interactive (light + dark) |
+| Space    | `81:470`        | 1=4px through 12=48px                                        |
+| Shape    | in font section | none/sm/md/lg → 0/4/8/12px radius                            |
+| Icons    | `93:1469`       | Custom symbols at 16/24/32px                                 |
 
 ### Figma → code colour mapping (light mode)
 
-| MaNaReD token | Value | Use in code |
-|---------------|-------|-------------|
-| `MaNaReD.colour.BG.page` | `#E9F1F9` | `bg-body` |
-| `MaNaReD.colour.BG.card` | `#FFFFFF` | `bg-surface` |
-| `MaNaReD.colour.BG.sideBar` | `#F6FAFF` | custom CSS var |
-| `MaNaReD.colour.text.primary` | `#2A2A2A` | `text-primary` |
-| `MaNaReD.colour.text.secondary` | `#584F82` | `text-secondary` |
-| `MaNaReD.colour.text.tertiary` | `#617990` | custom CSS var |
-| `MaNaReD.colour.status.success` | `#6C8656` | `bg-success` |
-| `MaNaReD.colour.status.danger` | `#8E5963` | `bg-error` |
+| MaNaReD token                       | Value     | Use in code                  |
+| ----------------------------------- | --------- | ---------------------------- |
+| `MaNaReD.colour.BG.page`            | `#E9F1F9` | `bg-body`                    |
+| `MaNaReD.colour.BG.card`            | `#FFFFFF` | `bg-surface`                 |
+| `MaNaReD.colour.BG.sideBar`         | `#F6FAFF` | custom CSS var               |
+| `MaNaReD.colour.text.primary`       | `#2A2A2A` | `text-primary`               |
+| `MaNaReD.colour.text.secondary`     | `#584F82` | `text-secondary`             |
+| `MaNaReD.colour.text.tertiary`      | `#617990` | custom CSS var               |
+| `MaNaReD.colour.status.success`     | `#6C8656` | `bg-success`                 |
+| `MaNaReD.colour.status.danger`      | `#8E5963` | `bg-error`                   |
 | `MaNaReD.colour.interactive.button` | `#222133` | `<Button variant="primary">` |
 
 ### MaNaReD-only tokens
@@ -82,25 +82,25 @@ These have no Astryx neutral equivalent — define custom CSS variables when nee
 
 ### Spacing scale
 
-| MaNaReD token | px | Code |
-|---------------|-----|------|
-| `MaNaReD.space.1` | 4 | `gap={1}`, `p-1` |
-| `MaNaReD.space.2` | 8 | `gap={2}`, `p-2` |
-| `MaNaReD.space.4` | 16 | `gap={4}`, `p-4` |
-| `MaNaReD.space.6` | 24 | `gap={6}`, `p-6` |
-| `MaNaReD.space.8` | 32 | `gap={8}`, `p-8` |
-| `MaNaReD.space.10` | 40 | `gap={10}` |
-| `MaNaReD.space.12` | 48 | `gap={12}` |
+| MaNaReD token      | px  | Code             |
+| ------------------ | --- | ---------------- |
+| `MaNaReD.space.1`  | 4   | `gap={1}`, `p-1` |
+| `MaNaReD.space.2`  | 8   | `gap={2}`, `p-2` |
+| `MaNaReD.space.4`  | 16  | `gap={4}`, `p-4` |
+| `MaNaReD.space.6`  | 24  | `gap={6}`, `p-6` |
+| `MaNaReD.space.8`  | 32  | `gap={8}`, `p-8` |
+| `MaNaReD.space.10` | 40  | `gap={10}`       |
+| `MaNaReD.space.12` | 48  | `gap={12}`       |
 
 Prefer `VStack gap={n}` / `HStack gap={n}` over arbitrary pixel values.
 
 ### Typography
 
-| MaNaReD font token | Value |
-|--------------------|-------|
-| `MaNaReD.font.family.display` | Inter |
-| `MaNaReD.font.family.content` | Inter |
-| `MaNaReD.font.family.code` | Geist Mono |
+| MaNaReD font token              | Value       |
+| ------------------------------- | ----------- |
+| `MaNaReD.font.family.display`   | Inter       |
+| `MaNaReD.font.family.content`   | Inter       |
+| `MaNaReD.font.family.code`      | Geist Mono  |
 | `MaNaReD.font.size.3xs` … `3xl` | 12px … 72px |
 
 Map to Astryx semantic components — do not hard-code px:
@@ -143,15 +143,15 @@ vp run astryx -- search "filter panel"
 
 ### Figma → Astryx component map
 
-| Design element | Astryx component |
-|----------------|------------------|
-| Button | `Button` (`variant="primary"` \| `"secondary"`) |
-| Card / panel | `Card` |
-| Text input | `TextInput` (client island) |
-| Badge / tag | `Badge` |
-| Section layout | `VStack` / `HStack` |
-| Separator | `Divider` |
-| Headings / body | `Heading` / `Text` |
+| Design element  | Astryx component                                |
+| --------------- | ----------------------------------------------- |
+| Button          | `Button` (`variant="primary"` \| `"secondary"`) |
+| Card / panel    | `Card`                                          |
+| Text input      | `TextInput` (client island)                     |
+| Badge / tag     | `Badge`                                         |
+| Section layout  | `VStack` / `HStack`                             |
+| Separator       | `Divider`                                       |
+| Headings / body | `Heading` / `Text`                              |
 
 Reference implementation: `src/app/pages/home.tsx` + `home-form.tsx`.
 
@@ -159,25 +159,25 @@ Reference implementation: `src/app/pages/home.tsx` + `home-form.tsx`.
 
 ## 3. Frameworks and libraries
 
-| Layer | Choice | Entry point |
-|-------|--------|-------------|
-| Framework | React 19 + RedwoodSDK RSC | `src/worker.tsx`, `src/client.tsx` |
-| UI | Astryx `@astryxdesign/core` ^0.1.2 | `src/app/providers.tsx` |
-| Styling | Tailwind CSS v4 | `src/app/styles.css` |
-| Build | Vite+ (`vp`) | `vite.config.ts` |
-| Deploy | Cloudflare Workers | `wrangler.jsonc`, `vp run release` |
-| Paths | `@/*` → `./src/*` | `tsconfig.json` |
+| Layer     | Choice                             | Entry point                        |
+| --------- | ---------------------------------- | ---------------------------------- |
+| Framework | React 19 + RedwoodSDK RSC          | `src/worker.tsx`, `src/client.tsx` |
+| UI        | Astryx `@astryxdesign/core` ^0.1.2 | `src/app/providers.tsx`            |
+| Styling   | Tailwind CSS v4                    | `src/app/styles.css`               |
+| Build     | Vite+ (`vp`)                       | `vite.config.ts`                   |
+| Deploy    | Cloudflare Workers                 | `wrangler.jsonc`, `vp run release` |
+| Paths     | `@/*` → `./src/*`                  | `tsconfig.json`                    |
 
 ---
 
 ## 4. Asset management
 
-| Aspect | Current state | Guidance |
-|--------|---------------|----------|
-| Static files | No `public/` folder yet | Add when committing production assets |
-| Stylesheets | `import styles from "@/app/styles.css?url"` in Document | RSC-friendly CSS delivery |
-| Cloudflare | `ASSETS` binding configured | Set assets directory in wrangler when needed |
-| CSP | `default-src 'self'` in `src/app/headers.ts` | Update `img-src` if loading external Figma asset URLs |
+| Aspect       | Current state                                           | Guidance                                              |
+| ------------ | ------------------------------------------------------- | ----------------------------------------------------- |
+| Static files | No `public/` folder yet                                 | Add when committing production assets                 |
+| Stylesheets  | `import styles from "@/app/styles.css?url"` in Document | RSC-friendly CSS delivery                             |
+| Cloudflare   | `ASSETS` binding configured                             | Set assets directory in wrangler when needed          |
+| CSP          | `default-src 'self'` in `src/app/headers.ts`            | Update `img-src` if loading external Figma asset URLs |
 
 For prototypes, prefer Figma MCP remote asset URLs over checking in binaries. Use `download_assets` when assets must be committed.
 
@@ -288,9 +288,9 @@ src/
 
 ## Related docs
 
-| Doc | Purpose |
-|-----|---------|
-| [`AGENTS.md`](AGENTS.md) | Full agent reference (toolchain, RSC, Astryx CLI) |
-| [`.cursor/rules/figma-design-system.mdc`](.cursor/rules/figma-design-system.mdc) | Cursor rule: Figma → code mapping when editing `src/` |
-| [`.cursor/rules/ui-stack.mdc`](.cursor/rules/ui-stack.mdc) | RSC + Astryx + Tailwind conventions |
-| [`.cursor/skills/figma-to-prototype/SKILL.md`](.cursor/skills/figma-to-prototype/SKILL.md) | Step-by-step Figma implementation workflow |
+| Doc                                                                                        | Purpose                                               |
+| ------------------------------------------------------------------------------------------ | ----------------------------------------------------- |
+| [`AGENTS.md`](AGENTS.md)                                                                   | Full agent reference (toolchain, RSC, Astryx CLI)     |
+| [`.cursor/rules/figma-design-system.mdc`](.cursor/rules/figma-design-system.mdc)           | Cursor rule: Figma → code mapping when editing `src/` |
+| [`.cursor/rules/ui-stack.mdc`](.cursor/rules/ui-stack.mdc)                                 | RSC + Astryx + Tailwind conventions                   |
+| [`.cursor/skills/figma-to-prototype/SKILL.md`](.cursor/skills/figma-to-prototype/SKILL.md) | Step-by-step Figma implementation workflow            |

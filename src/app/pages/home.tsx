@@ -1,11 +1,14 @@
-import { Badge } from "@astryxdesign/core/Badge";
 import { Button } from "@astryxdesign/core/Button";
 import { Card } from "@astryxdesign/core/Card";
 import { Divider } from "@astryxdesign/core/Divider";
 import { HStack, VStack } from "@astryxdesign/core/Layout";
 import { Heading, Text } from "@astryxdesign/core/Text";
 
-import { HomeForm } from "./home-form";
+import { FeatureCard } from "@/app/components/feature-card";
+import { HomeForm } from "@/app/components/home-form";
+import { PageHeader } from "@/app/components/page-header";
+import { StatusPill } from "@/app/components/status-pill";
+import { TokenSwatch } from "@/app/components/token-swatch";
 
 /**
  * Server Component page: Astryx for components, Tailwind for layout/wrappers.
@@ -16,13 +19,10 @@ export const Home = () => {
     <main className="min-h-screen bg-body p-8">
       <div className="mx-auto max-w-3xl">
         <VStack gap={8}>
-          <VStack gap={2}>
-            <Heading level={1}>Astryx + Tailwind</Heading>
-            <Text type="body" color="secondary">
-              RedwoodSDK RSC on Cloudflare Workers. Astryx ships pre-built component CSS; Tailwind
-              handles layout and token-backed utilities via the design-system bridge.
-            </Text>
-          </VStack>
+          <PageHeader
+            title="Astryx + Tailwind"
+            description="RedwoodSDK RSC on Cloudflare Workers. Astryx ships pre-built component CSS; Tailwind handles layout and token-backed utilities via the design-system bridge."
+          />
 
           <Divider />
 
@@ -52,32 +52,14 @@ export const Home = () => {
               <code className="text-sm">text-primary</code> resolve to Astryx CSS variables.
             </Text>
             <div className="grid grid-cols-3 gap-3">
-              <div className="rounded-lg bg-surface p-4 shadow-sm">
-                <p className="text-sm font-medium text-primary">bg-surface</p>
-                <p className="text-xs text-secondary">Cards, panels</p>
-              </div>
-              <div className="rounded-lg bg-body p-4 shadow-sm">
-                <p className="text-sm font-medium text-primary">bg-body</p>
-                <p className="text-xs text-secondary">Page background</p>
-              </div>
-              <div className="rounded-lg bg-muted p-4 shadow-sm">
-                <p className="text-sm font-medium text-primary">bg-muted</p>
-                <p className="text-xs text-secondary">Subtle emphasis</p>
-              </div>
+              <TokenSwatch token="bg-surface" description="Cards, panels" className="bg-surface" />
+              <TokenSwatch token="bg-body" description="Page background" className="bg-body" />
+              <TokenSwatch token="bg-muted" description="Subtle emphasis" className="bg-muted" />
             </div>
             <div className="flex gap-3">
-              <div className="flex items-center gap-2 rounded-md bg-success/10 px-3 py-2">
-                <div className="h-2 w-2 rounded-full bg-success" />
-                <span className="text-sm font-medium text-success">Success</span>
-              </div>
-              <div className="flex items-center gap-2 rounded-md bg-error/10 px-3 py-2">
-                <div className="h-2 w-2 rounded-full bg-error" />
-                <span className="text-sm font-medium text-error">Error</span>
-              </div>
-              <div className="flex items-center gap-2 rounded-md bg-warning/10 px-3 py-2">
-                <div className="h-2 w-2 rounded-full bg-warning" />
-                <span className="text-sm font-medium text-warning">Warning</span>
-              </div>
+              <StatusPill status="success" label="Success" />
+              <StatusPill status="error" label="Error" />
+              <StatusPill status="warning" label="Warning" />
             </div>
           </VStack>
 
@@ -85,22 +67,15 @@ export const Home = () => {
 
           <VStack gap={3}>
             <Heading level={2}>Compose with layout components</Heading>
-            <Card>
-              <VStack gap={3}>
-                <HStack gap={2} vAlign="center">
-                  <Badge variant="info" label="RSC" />
-                  <Badge variant="success" label="Tailwind" />
-                  <Badge variant="neutral" label="Astryx" />
-                </HStack>
-                <Text type="body">
-                  Prefer Astryx layout primitives (<code className="text-sm">VStack</code>,{" "}
-                  <code className="text-sm">HStack</code>, <code className="text-sm">Card</code>)
-                  for structure; use Tailwind on wrappers and{" "}
-                  <code className="text-sm">className</code> overrides.
-                </Text>
-                <Button label="Get started" variant="primary" />
-              </VStack>
-            </Card>
+            <FeatureCard
+              badges={[
+                { label: "RSC", variant: "info" },
+                { label: "Tailwind", variant: "success" },
+                { label: "Astryx", variant: "neutral" },
+              ]}
+              description="Prefer Astryx layout primitives (VStack, HStack, Card) for structure; use Tailwind on wrappers and className overrides."
+              ctaLabel="Get started"
+            />
           </VStack>
 
           <Divider />

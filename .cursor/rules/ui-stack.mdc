@@ -9,7 +9,8 @@ alwaysApply: false
 ## Architecture
 
 - Pages in `src/app/pages/` are **Server Components** by default
-- Interactive Astryx forms / state live in small `"use client"` files (see `home-form.tsx`)
+- Interactive Astryx forms / state live in small `"use client"` files under `src/app/components/` (see `home-form.tsx`)
+- Reusable UI lives in `src/app/components/` with colocated `*.stories.tsx` (`tags: ["autodocs", "test"]`, `play` on every story — see `component-stories` rule)
 - Theme: `src/app/providers.tsx` (`neutralTheme`)
 - Styles: `src/app/styles.css` (Astryx + Tailwind + token bridge), linked from `Document` via `?url`
 - Worker entry: `src/worker.tsx` · client: `src/client.tsx`

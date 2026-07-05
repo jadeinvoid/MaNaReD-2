@@ -1,0 +1,14 @@
+/*
+ * Docs pages render their own chrome (outside the story decorator).
+ * Paint story previews and the docs canvas with the app body token.
+ */
+.docs-story,
+.sbdocs-preview,
+.sb-story {
+  background-color: var(--color-background-body) !important;
+}
+
+.sbdocs.sbdocs-wrapper,
+.sbdocs-content {
+  background-color: var(--color-background-body);
+}

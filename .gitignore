@@ -49,3 +49,7 @@ coverage
 
 # Wrangler
 .wrangler
+
+# Storybook
+storybook-static
+debug-storybook.log
