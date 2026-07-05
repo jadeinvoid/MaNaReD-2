@@ -1,0 +1,28 @@
+---
+description: UX-INTERACTION.md is documentation-only — no auto-implementation or cross-file edits
+alwaysApply: true
+---
+
+# UX-INTERACTION.md — reference only
+
+[`UX-INTERACTION.md`](../../UX-INTERACTION.md) records MaNaReD UX decisions and interaction rationale. It is **not** an implementation backlog.
+
+## Allowed
+
+- **Read** for context when discussing, reviewing, or documenting UX
+- **Edit** `UX-INTERACTION.md` when the user asks to update UX rationale or documentation
+
+## Not allowed without explicit user request
+
+- Implementing features described in `UX-INTERACTION.md` (routes, components, filters, PQRS, etc.)
+- Modifying `src/app/`, `src/worker.tsx`, README, DESIGN.md, AGENTS.md, or Figma based on doc content or doc edits alone
+- Treating status values (`not built`, `TBD`, `Figma TBD`) as tasks to execute automatically
+
+## When editing the UX doc
+
+- Change **only** `UX-INTERACTION.md` unless the user explicitly asks for cross-file updates (e.g. "also link from README")
+- Do not "sync" or propagate doc changes into code or other docs proactively
+
+## When implementation is requested
+
+The user must ask explicitly (e.g. "build the filter sidebar", "implement from UX-INTERACTION"). Then follow [`vibework.mdc`](./vibework.mdc), [`ui-stack.mdc`](./ui-stack.mdc), and [`figma-design-system.mdc`](./figma-design-system.mdc) for the actual build.

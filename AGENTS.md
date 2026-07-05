@@ -14,3 +14,27 @@ Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.de
 - [ ] If setup, runtime, or package-manager behavior looks wrong, run `vp env doctor` and include its output when asking for help.
 
 <!--VITE PLUS END-->
+
+# MaNaReD design source (Figma)
+
+This project implements the **MaNaReD** (Marine Natural Products Database) design system. Figma is the source of truth for tokens, components, wireframes, and screens.
+
+| Field           | Value                                                                                |
+| --------------- | ------------------------------------------------------------------------------------ |
+| File            | [MaNaReD](https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=31-80) |
+| File key        | `y12p7ety9bAbG9Z7m5Bd6L`                                                             |
+| UI Library page | node `31:80`                                                                         |
+
+Key Figma sections for MCP: Font `32:5`, Colour `49:867`, Space `81:470`, Icons `93:1469`.
+
+## Figma MCP (required for design work)
+
+When implementing, reviewing, or referring to any design resource (tokens, components, screens, icons, spacing, colours):
+
+1. **Use the Figma MCP** — `get_design_context`, `get_screenshot`, `get_metadata`, `get_variable_defs`. Do not guess layout or values from memory.
+2. **Load the `figma-to-prototype` skill** when building screens from Figma.
+3. **Read** [`DESIGN.md`](./DESIGN.md) and [`.cursor/rules/figma-design-system.mdc`](./.cursor/rules/figma-design-system.mdc) for token → Astryx mappings.
+
+MCP is configured in [`.cursor/mcp.json`](./.cursor/mcp.json) (`https://mcp.figma.com/mcp`). If tools are unavailable, ask the user to enable the Figma Cursor plugin (`/add-plugin figma`).
+
+URL node-id format: `31-80` in Figma URLs → `31:80` for MCP tool calls.

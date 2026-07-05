@@ -23,36 +23,7 @@
 @import "tailwindcss/preflight.css" layer(base);
 @import "@astryxdesign/core/reset.css";
 @import "@astryxdesign/core/astryx.css";
-@import "@astryxdesign/theme-neutral/theme.css";
+@import "./theme/manared.css";
+@import "./theme/manared-extensions.css";
 @import "@astryxdesign/core/tailwind-theme.css";
 @import "tailwindcss/utilities.css" layer(utilities);
-
-/* MaNaReD brand tokens — map Figma MaNaReD.colour.* to CSS custom properties */
-@layer theme {
-  :root {
-    /* MaNaReD page background — overrides neutral theme for prototype fidelity */
-    --color-background-body: #e9f1f9;
-    --color-background-sidebar: #f6faff;
-    --color-text-tertiary: #617990;
-
-    --color-entity-organism-bg: #ebffdf;
-    --color-entity-organism-border: #6b9c35;
-    --color-entity-organism-text: #3d5a24;
-
-    --color-entity-bioactivity-bg: #ffd6ea;
-    --color-entity-bioactivity-border: #ce82a6;
-    --color-entity-bioactivity-text: #640533;
-
-    --color-entity-compound-bg: #d8edff;
-    --color-entity-compound-border: #4278c0;
-    --color-entity-compound-text: #1c4a7a;
-
-    --color-entity-region-bg: #ffccbd;
-    --color-entity-region-border: #e28468;
-    --color-entity-region-text: #7a3d2e;
-
-    --color-interactive-chip-active: #f3f4f6;
-    --color-interactive-chip-hover: #e2eaf7;
-    --color-border-secondary: #d1d5db;
-  }
-}

@@ -13,7 +13,7 @@ for (const href of [stylesUrl, docsStylesUrl]) {
 }
 
 // Match the app Document: theme on <html>, body uses the dark page token.
-document.documentElement.setAttribute("data-astryx-theme", "neutral");
+document.documentElement.setAttribute("data-astryx-theme", "manared");
 document.documentElement.classList.add("bg-body");
 document.body.classList.add("min-h-screen", "bg-body", "text-primary");
 
