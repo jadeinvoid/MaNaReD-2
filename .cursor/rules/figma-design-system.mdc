@@ -144,7 +144,7 @@ Prefer `VStack gap={n}` / `HStack gap={n}` over arbitrary Tailwind gap classes.
 - **No local component library** — UI from `@astryxdesign/core` (148 components)
 - **Pages:** `src/app/pages/` — Server Components by default
 - **Client islands:** colocated `"use client"` files (see `home.tsx` + `home-form.tsx`)
-- **No Storybook** — discover via Astryx CLI
+- **Storybook** — `src/app/components/*.stories.tsx` + `src/storybook/astryx/` (`vp run storybook`); also discover via Astryx CLI
 
 Import pattern (deep imports, not barrel):
 
@@ -214,7 +214,7 @@ export default defineApp([
 
 | Aspect | Current state | Figma MCP guidance |
 |--------|---------------|-------------------|
-| Static files | No `public/` folder; favicon referenced but missing | Use MCP `download_assets` / remote URLs from `get_design_context` |
+| Static files | `public/favicon.svg` | Use MCP `download_assets` / remote URLs from `get_design_context` for other assets |
 | CSS | `import styles from "@/app/styles.css?url"` in Document | N/A |
 | Cloudflare | `ASSETS` binding in wrangler, no directory configured | Add `public/` + wrangler assets dir when committing static files |
 | CSP | `default-src 'self'` in `src/app/headers.ts` | External Figma asset URLs require CSP `img-src` update |

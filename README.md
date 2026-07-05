@@ -4,20 +4,22 @@ A portfolio UX project exploring the design of a specialized scientific data too
 
 The project covers the full UX process from domain research and competitive analysis through information architecture, interaction design, component design, and design system development. The primary focus is the **search and filter interaction system**, which serves both professional researchers (marine biologists, pharmacologists, ecologists, cheminformaticians) and general public users from a single interface without compromising either audience.
 
-This repository contains an interactive prototype built on RedwoodSDK, Astryx, and Tailwind. Design tokens and component specs live in Figma; implementation notes are in [`DESIGN.md`](./DESIGN.md).
+This repository contains an interactive prototype built on RedwoodSDK, Astryx, and Tailwind. Design tokens and component specs live in Figma; implementation notes are in [`DESIGN.md`](./DESIGN.md). Interaction rationale and UX decisions are in [`docs/UX-DECISIONS.md`](./docs/UX-DECISIONS.md).
 
 ---
 
 ## Key design decisions
 
-- **Entity-first dual-nav architecture** — Compounds, Organisms, and Regions as co-equal browse destinations, with a unified query state shared between global search and the filter sidebar
-- **Deterministic controlled-vocabulary search** — not AI or natural language interpretation, preserving the verifiability that distinguishes a scientific database from a language model
-- **Filter pattern assignment by data shape** — progressive filter for taxonomy trees, range sliders for continuous numeric properties, dropdowns for bounded categorical data, tag-based multi-select for additive bioactivity queries
-- **Post-query refinement suggestions (PQRS)** — derived from the live result set, surfaced between the search bar and results rather than inside the filter panel
-- **Contextual filter behavior in browse vs search mode** — including sidebar reordering, MW range auto-narrowing, and implicit relevance sorting on query entry
-- **Filter state persistence across entity switches** — with explicit provenance signaling for carried filters
-- **Empty state system** — distinguishing filter-caused, query-caused, and data-gap emptiness with distinct recovery paths and tone per trigger type
-- **Guided entry via curated pre-filtered query cards** — on the home screen, designed as live database queries rather than onboarding steps
+Full rationale, interaction specs, and state diagrams: [`docs/UX-DECISIONS.md`](./docs/UX-DECISIONS.md)
+
+- **Entity-first dual-nav architecture** — [§2](docs/UX-DECISIONS.md#2-information-architecture)
+- **Deterministic controlled-vocabulary search** — [§3](docs/UX-DECISIONS.md#3-search-and-query-model)
+- **Filter pattern assignment by data shape** — [§5](docs/UX-DECISIONS.md#5-filter-system)
+- **Post-query refinement suggestions (PQRS)** — [§6](docs/UX-DECISIONS.md#6-post-query-refinement-suggestions-pqrs)
+- **Contextual filter behavior in browse vs search mode** — [§4](docs/UX-DECISIONS.md#4-browse-vs-search-mode)
+- **Filter state persistence across entity switches** — [§7](docs/UX-DECISIONS.md#7-state-and-persistence)
+- **Empty state system** — [§8](docs/UX-DECISIONS.md#8-empty-states)
+- **Guided entry via curated pre-filtered query cards** — [§9](docs/UX-DECISIONS.md#9-home-entry--curated-query-cards)
 
 ---
 
@@ -30,7 +32,7 @@ This repository contains an interactive prototype built on RedwoodSDK, Astryx, a
 
 **Figma source of truth:** [MaNaReD UI Library](https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=31-80)
 
-See [`DESIGN.md`](./DESIGN.md) for token mapping, component inventory, and Figma → code conventions.
+See [`DESIGN.md`](./DESIGN.md) for token mapping, component inventory, and Figma → code conventions. Source decision archive: [`doc_archive/`](./doc_archive/).
 
 ---
 
