@@ -3,12 +3,17 @@ import type { ComponentType, SVGProps } from "react";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
+  ChevronDownIcon,
+  ChevronLeftIcon,
   ChevronRightIcon,
+  ChevronUpIcon,
   CompoundIcon,
   ExpandIcon,
   ExploreIcon,
   FilterIcon,
   LogoIcon,
+  MoveLeftIcon,
+  MoveRightIcon,
   NoFilterIcon,
   OrganismIcon,
   OverviewIcon,
@@ -31,11 +36,16 @@ export type MaNaReDIconName =
   | "overview"
   | "arrow-up"
   | "arrow-down"
+  | "chevron-up"
+  | "chevron-down"
+  | "chevron-left"
+  | "chevron-right"
+  | "move-left"
+  | "move-right"
   | "expand"
   | "vertical-collapse"
   | "remove"
   | "logo"
-  | "chevron-right"
   | "no-filter";
 
 const ICON_MAP: Record<MaNaReDIconName, ComponentType<SVGProps<SVGSVGElement>>> = {
@@ -49,15 +59,21 @@ const ICON_MAP: Record<MaNaReDIconName, ComponentType<SVGProps<SVGSVGElement>>> 
   overview: OverviewIcon,
   "arrow-up": ArrowUpIcon,
   "arrow-down": ArrowDownIcon,
+  "chevron-up": ChevronUpIcon,
+  "chevron-down": ChevronDownIcon,
+  "chevron-left": ChevronLeftIcon,
+  "chevron-right": ChevronRightIcon,
+  "move-left": MoveLeftIcon,
+  "move-right": MoveRightIcon,
   expand: ExpandIcon,
   "vertical-collapse": VerticalCollapseIcon,
   remove: RemoveIcon,
   logo: LogoIcon,
-  "chevron-right": ChevronRightIcon,
   "no-filter": NoFilterIcon,
 };
 
 const SIZE_CLASS = {
+  12: "h-3 w-3",
   16: "h-4 w-4",
   24: "h-6 w-6",
   32: "h-8 w-8",
@@ -65,12 +81,12 @@ const SIZE_CLASS = {
 
 export type MaNaReDIconProps = {
   name: MaNaReDIconName;
-  size?: 16 | 24 | 32;
+  size?: 12 | 16 | 24 | 32;
   className?: string;
   label?: string;
 };
 
-/** Renders a MaNaReD custom icon symbol at 16, 24, or 32px. */
+/** Renders a MaNaReD custom icon symbol at 12, 16, 24, or 32px. */
 export function MaNaReDIcon({ name, size = 24, className = "", label }: MaNaReDIconProps) {
   const Icon = ICON_MAP[name];
   const sizeClass = SIZE_CLASS[size];
@@ -99,11 +115,19 @@ export const MANARED_ICONS_16 = [
   "remove",
 ] as const satisfies readonly MaNaReDIconName[];
 
+export const MANARED_ICONS_12 = [
+  "move-left",
+  "move-right",
+] as const satisfies readonly MaNaReDIconName[];
+
 export const MANARED_ICONS_24 = [
   "compound",
   "organism",
   "no-filter",
   "expand",
+  "chevron-up",
+  "chevron-down",
+  "chevron-left",
   "chevron-right",
 ] as const satisfies readonly MaNaReDIconName[];
 
