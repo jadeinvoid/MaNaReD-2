@@ -1,18 +1,18 @@
 const statusStyles = {
   success: {
-    wrap: "bg-success/10",
+    wrap: "bg-success-muted",
     dot: "bg-success",
-    text: "text-success",
+    text: "text-on-success",
   },
   error: {
-    wrap: "bg-error/10",
+    wrap: "bg-error-muted",
     dot: "bg-error",
-    text: "text-error",
+    text: "text-on-error",
   },
   warning: {
-    wrap: "bg-warning/10",
+    wrap: "bg-warning-muted",
     dot: "bg-warning",
-    text: "text-warning",
+    text: "text-on-warning",
   },
 } as const;
 

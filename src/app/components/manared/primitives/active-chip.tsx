@@ -6,7 +6,7 @@ export type ActiveChipProps = {
 };
 
 const ACTIVE_CHIP_LAYOUT =
-  "inline-flex h-6 shrink-0 items-center gap-2 overflow-hidden rounded-lg border border-solid border-[var(--color-border-secondary)] bg-[var(--color-interactive-chip-active)] px-[length:var(--spacing-2)] py-[length:var(--spacing-1)] text-3xs font-normal leading-4 tracking-[-0.12px] text-secondary hover:bg-[var(--color-interactive-chip-hover)]";
+  "inline-flex h-6 shrink-0 items-center gap-2 overflow-hidden rounded-lg border border-solid border-border-secondary bg-chip-active px-[length:var(--spacing-2)] py-[length:var(--spacing-1)] text-3xs font-normal leading-4 tracking-[-0.12px] text-secondary hover:bg-chip-hover";
 
 /** Removable filter chip from Figma `active-chip` symbol (332:9082). */
 export function ActiveChip({ label, onRemove }: ActiveChipProps) {

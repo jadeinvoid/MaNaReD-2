@@ -10,31 +10,28 @@ export const entityClassNames: Record<
   { bg: string; border: string; text: string; combined: string }
 > = {
   organism: {
-    bg: "bg-[var(--color-entity-organism-bg)]",
-    border: "border-[var(--color-entity-organism-border)]",
-    text: "text-[var(--color-entity-organism-text)]",
-    combined:
-      "bg-[var(--color-entity-organism-bg)] text-[var(--color-entity-organism-text)] border-[var(--color-entity-organism-border)]",
+    bg: "bg-entity-organism-bg",
+    border: "border-entity-organism-border",
+    text: "text-entity-organism-text",
+    combined: "bg-entity-organism-bg text-entity-organism-text border-entity-organism-border",
   },
   bioactivity: {
-    bg: "bg-[var(--color-entity-bioactivity-bg)]",
-    border: "border-[var(--color-entity-bioactivity-border)]",
-    text: "text-[var(--color-entity-bioactivity-text)]",
+    bg: "bg-entity-bioactivity-bg",
+    border: "border-entity-bioactivity-border",
+    text: "text-entity-bioactivity-text",
     combined:
-      "bg-[var(--color-entity-bioactivity-bg)] text-[var(--color-entity-bioactivity-text)] border-[var(--color-entity-bioactivity-border)]",
+      "bg-entity-bioactivity-bg text-entity-bioactivity-text border-entity-bioactivity-border",
   },
   compound: {
-    bg: "bg-[var(--color-entity-compound-bg)]",
-    border: "border-[var(--color-entity-compound-border)]",
-    text: "text-[var(--color-entity-compound-text)]",
-    combined:
-      "bg-[var(--color-entity-compound-bg)] text-[var(--color-entity-compound-text)] border-[var(--color-entity-compound-border)]",
+    bg: "bg-entity-compound-bg",
+    border: "border-entity-compound-border",
+    text: "text-entity-compound-text",
+    combined: "bg-entity-compound-bg text-entity-compound-text border-entity-compound-border",
   },
   region: {
-    bg: "bg-[var(--color-entity-region-bg)]",
-    border: "border-[var(--color-entity-region-border)]",
-    text: "text-[var(--color-entity-region-text)]",
-    combined:
-      "bg-[var(--color-entity-region-bg)] text-[var(--color-entity-region-text)] border-[var(--color-entity-region-border)]",
+    bg: "bg-entity-region-bg",
+    border: "border-entity-region-border",
+    text: "text-entity-region-text",
+    combined: "bg-entity-region-bg text-entity-region-text border-entity-region-border",
   },
 };
