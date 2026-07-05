@@ -17,6 +17,7 @@
     "types": "tsc",
     "astryx": "node node_modules/@astryxdesign/cli/bin/astryx.mjs",
     "generate:astryx-stories": "node scripts/generate-astryx-stories.mjs",
+    "build:theme": "astryx theme build src/app/theme/manaredTheme.ts",
     "storybook": "storybook dev -p 6006",
     "storybook-build": "storybook build",
     "prepare": "vp config"
