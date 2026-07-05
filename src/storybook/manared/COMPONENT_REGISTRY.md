@@ -7,7 +7,7 @@ Figma file: `y12p7ety9bAbG9Z7m5Bd6L` — [MaNaReD UI Library](https://www.figma.
 | Colour foundations     | Foundations | `src/storybook/manared/foundations/` | `49:867`   | done    |                                                  |
 | Spacing foundations    | Foundations | `src/storybook/manared/foundations/` | `81:470`   | done    |                                                  |
 | Typography foundations | Foundations | `src/storybook/manared/foundations/` | `32:5`     | done    |                                                  |
-| MaNaReDIcon            | Icons       | `icons/manared-icon.tsx`             | `93:1469`  | done    | 21 symbols; chevron + move wired; SVGs from `src/app/assets/icons/` |
+| MaNaReDIcon            | Icons       | `icons/manared-icon.tsx`             | `93:1469`  | done    | 21 symbols; stroke 1.6px @ 16px scales with size |
 | Chip                   | Primitives  | `primitives/chip.tsx`                | `332:9145` | done    | Wraps Astryx `Badge` + entity tokens             |
 | ActiveChip             | Primitives  | `primitives/active-chip.tsx`         | `332:9082` | done    | `Badge` + remove control                         |
 | FilterButton           | Primitives  | `primitives/filter-button.tsx`       | `332:9066` | done    | Wraps Astryx `Button`                            |

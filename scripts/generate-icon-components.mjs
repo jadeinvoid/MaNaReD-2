@@ -45,15 +45,30 @@ const VARIANT_MAP = {
   "icon-state-focused-b": "IconStateFocusedBIcon",
 };
 
+function stripStrokeWidth(attrs) {
+  return attrs.replace(/\sstroke-width="[^"]*"/g, "").replace(/\sstrokeWidth="[^"]*"/g, "");
+}
+
+function normalizeInnerSvg(inner) {
+  return inner.replace(/<path(\s[^>]*?)(\/?)>/g, (match, attrs, selfClose) => {
+    let normalized = stripStrokeWidth(attrs);
+    if (/stroke="currentColor"/.test(normalized) && !/vectorEffect=/.test(normalized)) {
+      normalized += ' vectorEffect="non-scaling-stroke"';
+    }
+    return `<path${normalized}${selfClose ? " /" : ""}>`;
+  });
+}
+
 function svgToJsx(svg, indent = "      ") {
   const open = svg.match(/<svg[^>]*>/)?.[0] ?? "";
   const viewBox = open.match(/viewBox="([^"]+)"/)?.[1] ?? "0 0 24 24";
-  const inner = svg.replace(/<\/?svg[^>]*>/g, "").trim();
+  const inner = normalizeInnerSvg(svg.replace(/<\/?svg[^>]*>/g, "").trim());
   const jsxInner = inner
     .replace(/stroke-width=/g, "strokeWidth=")
     .replace(/stroke-linecap=/g, "strokeLinecap=")
     .replace(/stroke-linejoin=/g, "strokeLinejoin=")
     .replace(/fill-opacity=/g, "fillOpacity=")
+    .replace(/vector-effect=/g, "vectorEffect=")
     .replace(/\bid="[^"]*"/g, "")
     .split("\n")
     .map((line) => indent + line.trim())
@@ -90,7 +105,12 @@ function renderRemoveFallback() {
   return `export function RemoveIcon(props: IconSvgProps) {
   return (
     <svg viewBox="0 0 8 8" fill="none" aria-hidden {...props}>
-      <path d="M1 1l6 6M7 1L1 7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+      <path
+        d="M1 1l6 6M7 1L1 7"
+        stroke="currentColor"
+        strokeLinecap="round"
+        vectorEffect="non-scaling-stroke"
+      />
     </svg>
   );
 }`;

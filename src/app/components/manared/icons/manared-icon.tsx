@@ -1,5 +1,7 @@
 import type { ComponentType, SVGProps } from "react";
 
+import { getIconStrokeWidth, type IconDisplaySize } from "./icon-stroke";
+
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -81,7 +83,7 @@ const SIZE_CLASS = {
 
 export type MaNaReDIconProps = {
   name: MaNaReDIconName;
-  size?: 12 | 16 | 24 | 32;
+  size?: IconDisplaySize;
   className?: string;
   label?: string;
 };
@@ -90,16 +92,21 @@ export type MaNaReDIconProps = {
 export function MaNaReDIcon({ name, size = 24, className = "", label }: MaNaReDIconProps) {
   const Icon = ICON_MAP[name];
   const sizeClass = SIZE_CLASS[size];
+  const strokeWidth = getIconStrokeWidth(size);
 
   return (
     <Icon
       className={`shrink-0 text-secondary ${sizeClass} ${className}`.trim()}
+      strokeWidth={strokeWidth}
       role={label ? "img" : undefined}
       aria-label={label}
       aria-hidden={label ? undefined : true}
     />
   );
 }
+
+export { getIconStrokeWidth, ICON_STROKE_BASE_PX, ICON_STROKE_REFERENCE_SIZE } from "./icon-stroke";
+export type { IconDisplaySize } from "./icon-stroke";
 
 export const MANARED_ICON_NAMES = Object.keys(ICON_MAP) as MaNaReDIconName[];
 
