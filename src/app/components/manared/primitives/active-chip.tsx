@@ -1,6 +1,3 @@
-import { Badge } from "@astryxdesign/core/Badge";
-import { HStack } from "@astryxdesign/core/Layout";
-
 import { MaNaReDIcon } from "../icons/manared-icon";
 
 export type ActiveChipProps = {
@@ -8,31 +5,26 @@ export type ActiveChipProps = {
   onRemove?: () => void;
 };
 
-/** Removable filter chip from Figma `active-chip` symbol. */
+const ACTIVE_CHIP_LAYOUT =
+  "inline-flex h-6 shrink-0 items-center gap-2 overflow-hidden rounded-lg border border-solid border-[var(--color-border-secondary)] bg-[var(--color-interactive-chip-active)] px-[length:var(--spacing-2)] py-[length:var(--spacing-1)] text-3xs font-normal leading-4 tracking-[-0.12px] text-secondary hover:bg-[var(--color-interactive-chip-hover)]";
+
+/** Removable filter chip from Figma `active-chip` symbol (332:9082). */
 export function ActiveChip({ label, onRemove }: ActiveChipProps) {
   return (
-    <HStack
-      gap={1}
-      vAlign="center"
-      className="h-6 overflow-hidden rounded-lg border border-[var(--color-border-secondary)] bg-[var(--color-interactive-chip-active)] px-2 py-1 hover:bg-[var(--color-interactive-chip-hover)]"
-    >
-      <Badge
-        label={label}
-        variant="neutral"
-        className="h-auto border-0 bg-transparent p-0 text-2xs tracking-tight text-secondary shadow-none"
-      />
+    <span className={ACTIVE_CHIP_LAYOUT}>
+      <span className="whitespace-nowrap">{label}</span>
       {onRemove ? (
         <button
           type="button"
           onClick={onRemove}
-          className="flex items-center justify-center text-secondary hover:text-primary"
+          className="flex shrink-0 items-center justify-center text-secondary hover:text-primary"
           aria-label={`Remove ${label}`}
         >
-          <MaNaReDIcon name="remove" size={16} />
+          <MaNaReDIcon name="remove" size={8} />
         </button>
       ) : (
-        <MaNaReDIcon name="remove" size={16} />
+        <MaNaReDIcon name="remove" size={8} />
       )}
-    </HStack>
+    </span>
   );
 }
