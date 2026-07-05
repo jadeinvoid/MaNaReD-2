@@ -9,4 +9,9 @@ import { defineConfig } from "vite-plus";
  */
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  server: {
+    host: "0.0.0.0",
+    port: 6006,
+    strictPort: true,
+  },
 });

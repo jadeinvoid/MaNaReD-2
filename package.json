@@ -17,8 +17,9 @@
     "types": "tsc",
     "astryx": "node node_modules/@astryxdesign/cli/bin/astryx.mjs",
     "generate:astryx-stories": "node scripts/generate-astryx-stories.mjs",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --host 0.0.0.0 --no-open --ci",
     "storybook-build": "storybook build",
+    "storybook:preview": "npx --yes serve storybook-static -l 6006 --no-clipboard --no-port-switching",
     "prepare": "vp config"
   },
   "dependencies": {

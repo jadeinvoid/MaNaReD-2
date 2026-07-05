@@ -15,7 +15,9 @@ MaNaReD components live under `src/app/components/manared/` with Storybook title
 ## Commands
 
 ```bash
-vp run storybook          # browse catalog + Vibework stories
+vp run storybook          # dev server at http://localhost:6006 (binds 0.0.0.0)
+vp run storybook-build    # static output → storybook-static/
+vp run storybook:preview  # serve static build on port 6006
 vp test                   # Vitest browser tests — app components only
 vp check                  # format, lint, typecheck
 ```
