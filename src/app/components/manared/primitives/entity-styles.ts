@@ -1,5 +1,9 @@
 export type EntityType = "organism" | "bioactivity" | "compound" | "region";
 
+/** Shared entity tag typography and padding — MaNaReD.space.1 × space.2, font.size.3xs. */
+export const ENTITY_TAG_BASE =
+  "inline-flex shrink-0 items-center justify-center border border-solid px-[length:var(--spacing-2)] py-[length:var(--spacing-1)] text-3xs font-normal leading-none whitespace-nowrap";
+
 /** MaNaReD entity colour triplets — shared by Chip and EntityBadge. */
 export const entityClassNames: Record<
   EntityType,

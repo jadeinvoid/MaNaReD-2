@@ -75,6 +75,7 @@ const ICON_MAP: Record<MaNaReDIconName, ComponentType<SVGProps<SVGSVGElement>>> 
 };
 
 const SIZE_CLASS = {
+  8: "h-2 w-2",
   12: "h-3 w-3",
   16: "h-4 w-4",
   24: "h-6 w-6",
@@ -88,7 +89,7 @@ export type MaNaReDIconProps = {
   label?: string;
 };
 
-/** Renders a MaNaReD custom icon symbol at 12, 16, 24, or 32px. */
+/** Renders a MaNaReD custom icon symbol at 8, 12, 16, 24, or 32px. */
 export function MaNaReDIcon({ name, size = 24, className = "", label }: MaNaReDIconProps) {
   const Icon = ICON_MAP[name];
   const sizeClass = SIZE_CLASS[size];
@@ -121,6 +122,8 @@ export const MANARED_ICONS_16 = [
   "overview",
   "remove",
 ] as const satisfies readonly MaNaReDIconName[];
+
+export const MANARED_ICONS_8 = ["remove"] as const satisfies readonly MaNaReDIconName[];
 
 export const MANARED_ICONS_12 = [
   "move-left",

@@ -52,3 +52,19 @@ export const Region: Story = {
     await expect(canvas.getByText("Region")).toBeVisible();
   },
 };
+
+export const AllEntities: Story = {
+  render: () => (
+    <div className="flex flex-wrap gap-2">
+      <EntityBadge entity="bioactivity" label="Bioactivity" />
+      <EntityBadge entity="compound" label="Compound" />
+      <EntityBadge entity="organism" label="Organism" />
+      <EntityBadge entity="region" label="Region" />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("Compound")).toBeVisible();
+    await expect(canvas.getByText("Organism")).toBeVisible();
+  },
+};

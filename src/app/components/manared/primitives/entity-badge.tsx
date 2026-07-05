@@ -1,19 +1,13 @@
-import { Badge } from "@astryxdesign/core/Badge";
-
-import { entityClassNames, type EntityType } from "./entity-styles";
+import { ENTITY_TAG_BASE, entityClassNames, type EntityType } from "./entity-styles";
 
 export type EntityBadgeProps = {
   entity: EntityType;
   label: string;
 };
 
-/** Domain entity badge using MaNaReD entity colour triplets on Astryx Badge. */
+/** Entity type badge — rounded-md variant per MaNaReD.shape.md (design system entity example). */
 export function EntityBadge({ entity, label }: EntityBadgeProps) {
-  return (
-    <Badge
-      label={label}
-      variant="neutral"
-      className={`h-auto rounded-md border px-2 py-1 text-2xs font-medium ${entityClassNames[entity].combined}`}
-    />
-  );
+  const styles = entityClassNames[entity];
+
+  return <span className={`${ENTITY_TAG_BASE} rounded-md ${styles.combined}`}>{label}</span>;
 }
