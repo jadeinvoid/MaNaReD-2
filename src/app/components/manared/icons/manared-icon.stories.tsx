@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, within } from "storybook/test";
 
 import {
+  MANARED_ICONS_8,
   MANARED_ICONS_12,
   MANARED_ICONS_16,
   MANARED_ICONS_24,
@@ -35,7 +36,7 @@ function IconGallery({
   size,
 }: {
   icons: readonly MaNaReDIconName[];
-  size: 12 | 16 | 24 | 32;
+  size: 8 | 12 | 16 | 24 | 32;
 }) {
   return (
     <div className="grid grid-cols-4 gap-4 p-4">
@@ -53,6 +54,16 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByLabelText("search")).toBeVisible();
+  },
+};
+
+export const Gallery8: Story = {
+  render: () => <IconGallery icons={MANARED_ICONS_8} size={8} />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    for (const name of MANARED_ICONS_8) {
+      await expect(canvas.getByLabelText(name)).toBeVisible();
+    }
   },
 };
 
@@ -99,6 +110,7 @@ export const Gallery32: Story = {
 export const FigmaComparison: Story = {
   render: () => (
     <div className="flex flex-col gap-6 p-4">
+      <IconGallery icons={MANARED_ICONS_8} size={8} />
       <IconGallery icons={MANARED_ICONS_12} size={12} />
       <IconGallery icons={MANARED_ICONS_16} size={16} />
       <IconGallery icons={MANARED_ICONS_24} size={24} />

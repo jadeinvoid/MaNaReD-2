@@ -40,3 +40,25 @@ export const ReadOnly: Story = {
     await expect(canvas.queryByRole("button")).not.toBeInTheDocument();
   },
 };
+
+/** Browse-screen filter labels from Figma chip bar `332:9081`. */
+export const FigmaLabels: Story = {
+  render: () => (
+    <div className="flex flex-wrap items-center gap-2">
+      <ActiveChip label="Alkaloids" onRemove={() => {}} />
+      <ActiveChip label="MW 200–400" onRemove={() => {}} />
+      <ActiveChip label="Marine" onRemove={() => {}} />
+    </div>
+  ),
+};
+
+export const Multiple: Story = {
+  render: () => (
+    <div className="flex flex-wrap items-center gap-2">
+      <ActiveChip label="Alkaloids" onRemove={() => {}} />
+      <ActiveChip label="MW 200–400" onRemove={() => {}} />
+      <ActiveChip label="Marine" onRemove={() => {}} />
+      <ActiveChip label="Read only" />
+    </div>
+  ),
+};
