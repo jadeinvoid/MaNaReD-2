@@ -9,7 +9,8 @@ export const manaredTheme = defineTheme({
   name: "manared",
 
   typography: {
-    scale: { base: 14, ratio: 1.2 },
+    // Scale kept for heading/body semantic token generation; MaNaReD px overrides below win.
+    scale: { base: 16, ratio: 1.25 },
     body: {
       family: "Inter",
       fallbacks:
@@ -91,6 +92,21 @@ export const manaredTheme = defineTheme({
     "--radius-element": "8px",
     "--radius-container": "12px",
     "--radius-none": "0px",
+
+    // Typography — MaNaReD.font.size.* (UI Library node 32:5)
+    // Explicit overrides so Astryx Text size="3xs" etc. match Figma token px.
+    "--font-size-4xs": "0.625rem", // 10px — sub-3xs (no MaNaReD token)
+    "--font-size-3xs": "0.75rem", // 12px — MaNaReD.font.size.3xs
+    "--font-size-2xs": "0.875rem", // 14px — MaNaReD.font.size.2xs
+    "--font-size-xs": "1rem", // 16px — MaNaReD.font.size.xs
+    "--font-size-sm": "1.25rem", // 20px — MaNaReD.font.size.sm
+    "--font-size-base": "1rem", // 16px — body default (MaNaReD xs)
+    "--font-size-lg": "1.5rem", // 24px — MaNaReD.font.size.md
+    "--font-size-xl": "1.75rem", // 28px — MaNaReD.font.size.ml
+    "--font-size-2xl": "2rem", // 32px — MaNaReD.font.size.lg
+    "--font-size-3xl": "2.5rem", // 40px — MaNaReD.font.size.xl
+    "--font-size-4xl": "3rem", // 48px — MaNaReD.font.size.2xl
+    "--font-size-5xl": "4.5rem", // 72px — MaNaReD.font.size.3xl
   },
 
   components: {

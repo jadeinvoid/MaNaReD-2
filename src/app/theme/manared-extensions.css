@@ -11,13 +11,21 @@
       /* MaNaReD.colour.text.tertiary */
       --color-text-tertiary: light-dark(#617990, #ca9ff5);
 
+      /* MaNaReD.colour.BG.card tertiary */
+      --color-background-card-tertiary: light-dark(#ffffd6, #ffffd6);
+
       /* MaNaReD.colour.interactive.* state backgrounds */
+      --color-interactive-button-active: light-dark(#dee4eb, #dee4eb);
       --color-interactive-button-hover: light-dark(#adffd6, #adffd6);
-      --color-interactive-button-focus: light-dark(#e6ff9b, #e6ff9b);
+      --color-interactive-button-focus: light-dark(#ffffff, #ffffff);
       --color-interactive-chip-active: light-dark(#d0e0f8, #d0e0f8);
       --color-interactive-chip-hover: light-dark(#e2eaf7, #b8cfe8);
-      --color-border-secondary: var(--color-border-emphasized);
+      --color-interactive-dropdown-active: light-dark(#fffef8, #fffef8);
       --color-interactive-nav-active: light-dark(#fffef8, #fffef8);
+
+      /* MaNaReD.colour.border tertiary */
+      --color-border-tertiary: light-dark(#6b8184, #6b8184);
+      --color-border-secondary: var(--color-border-emphasized);
     }
   }
 }
@@ -26,6 +34,10 @@
 @theme inline {
   --color-sidebar: var(--color-background-sidebar);
   --color-tertiary: var(--color-text-tertiary);
+  --color-card-tertiary: var(--color-background-card-tertiary);
+  --color-button-active: var(--color-interactive-button-active);
+  --color-button-focus: var(--color-interactive-button-focus);
+  --color-border-tertiary: var(--color-border-tertiary);
 
   /* Entity badge shortcuts — MaNaReD.colour.entity.* */
   --color-entity-organism-bg: var(--color-background-green);
