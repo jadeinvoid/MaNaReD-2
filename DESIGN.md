@@ -124,7 +124,7 @@ Map to Astryx semantic components — do not hard-code px:
 - **External library:** `@astryxdesign/core` (148 components) — not copied into the repo
 - **Pages:** `src/app/pages/` — Server Components by default
 - **Client islands:** colocated `"use client"` files for forms and local state
-- **Storybook** — app component stories in `src/app/components/*.stories.tsx`; Astryx catalog in `src/storybook/astryx/` (`vp run storybook`)
+- **No Storybook** — use Astryx CLI for props and examples
 
 ```tsx
 import { Button } from "@astryxdesign/core/Button";
@@ -174,7 +174,7 @@ Reference implementation: `src/app/pages/home.tsx` + `home-form.tsx`.
 
 | Aspect       | Current state                                           | Guidance                                              |
 | ------------ | ------------------------------------------------------- | ----------------------------------------------------- |
-| Static files | `public/` (favicon)                                     | Add assets as needed; configure wrangler assets dir   |
+| Static files | No `public/` folder yet                                 | Add when committing production assets                 |
 | Stylesheets  | `import styles from "@/app/styles.css?url"` in Document | RSC-friendly CSS delivery                             |
 | Cloudflare   | `ASSETS` binding configured                             | Set assets directory in wrangler when needed          |
 | CSP          | `default-src 'self'` in `src/app/headers.ts`            | Update `img-src` if loading external Figma asset URLs |
@@ -290,9 +290,6 @@ src/
 
 | Doc                                                                                        | Purpose                                               |
 | ------------------------------------------------------------------------------------------ | ----------------------------------------------------- |
-| [`docs/UX-DECISIONS.md`](docs/UX-DECISIONS.md)                                             | Interaction rationale and UX design decisions         |
-| [`docs/UX-REVIEW-NOTES.md`](docs/UX-REVIEW-NOTES.md)                                       | Cross-reference review and discrepancy audit          |
-| [`doc_archive/`](doc_archive/)                                                             | Source decision archive                               |
 | [`AGENTS.md`](AGENTS.md)                                                                   | Full agent reference (toolchain, RSC, Astryx CLI)     |
 | [`.cursor/rules/figma-design-system.mdc`](.cursor/rules/figma-design-system.mdc)           | Cursor rule: Figma → code mapping when editing `src/` |
 | [`.cursor/rules/ui-stack.mdc`](.cursor/rules/ui-stack.mdc)                                 | RSC + Astryx + Tailwind conventions                   |
