@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vp dev",
-    "dev:init": "rw-scripts dev-init",
+    "dev:init": "rw-scripts ensure-env && wrangler types --include-runtime false",
     "build": "vp build",
     "preview": "vp preview",
     "worker:run": "rw-scripts worker-run",
@@ -57,11 +57,5 @@
     "vitest": "catalog:",
     "wrangler": "^4.107.0"
   },
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "version": "11.9.0",
-      "onFail": "download"
-    }
-  }
+  "packageManager": "pnpm@11.9.0"
 }

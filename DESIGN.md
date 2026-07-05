@@ -124,7 +124,7 @@ Map to Astryx semantic components — do not hard-code px:
 - **External library:** `@astryxdesign/core` (148 components) — not copied into the repo
 - **Pages:** `src/app/pages/` — Server Components by default
 - **Client islands:** colocated `"use client"` files for forms and local state
-- **No Storybook** — use Astryx CLI for props and examples
+- **Storybook** — MaNaReD components under `MaNaReD/` in Storybook (`vp run storybook`); registry at `src/storybook/manared/COMPONENT_REGISTRY.md`
 
 ```tsx
 import { Button } from "@astryxdesign/core/Button";

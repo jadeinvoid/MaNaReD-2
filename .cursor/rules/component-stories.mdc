@@ -8,6 +8,8 @@ alwaysApply: false
 
 Hand-authored components in `src/app/components/` **must** ship with colocated `*.stories.tsx` that Vitest runs via Storybook play functions.
 
+MaNaReD components live under `src/app/components/manared/` with Storybook titles `MaNaReD/<Tier>/<Name>`. Link Figma via `parameters.design.url`. Patterns under `src/storybook/manared/patterns/` are docs-only (`tags: ["autodocs"]`, no `test`).
+
 **Do not** add `test` tags or play tests to the generated Astryx catalog under `src/storybook/astryx/generated/` — that catalog is docs-only.
 
 ## Commands
