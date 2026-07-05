@@ -1,0 +1,34 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="MaNaReD/Introduction" />
+
+# MaNaReD Design System
+
+Component catalog for the [MaNaReD Figma file](https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=31-80), implemented on Astryx + Tailwind with MaNaReD brand tokens.
+
+## Sections
+
+- **Foundations** — MaNaReD colour, spacing, and typography tokens from the UI Library
+- **Icons** — `MaNaReDIcon` wrapper for custom Figma symbols
+- **Primitives** — leaf components (chips, buttons, entity badges, list text, detail atoms)
+- **Composites** — assembled UI (search bar, nav, filter sidebar, chip bar)
+- **Domain** — compound cards, list rows, detail sections
+- **Patterns** — full-screen compositions for visual QA (docs-only)
+
+## Dependency tiers
+
+Build bottom-up: primitives before composites, composites before patterns. See [`COMPONENT_REGISTRY.md`](./COMPONENT_REGISTRY.md) for the full backlog, Figma node IDs, and status.
+
+## Workflow
+
+1. Pull design context from Figma MCP for the component symbol node
+2. Map to Astryx via `vp run astryx -- component <Name>`
+3. Implement in `src/app/components/manared/` with colocated `*.stories.tsx`
+4. Run `vp run storybook`, `vp test`, and `vp check`
+
+## Story conventions
+
+- Title: `MaNaReD/<Tier>/<Name>`
+- Primitives/composites/domain: `tags: ["autodocs", "test"]` with `play` functions
+- Patterns: `tags: ["autodocs"]` only
+- Link Figma via `parameters.design.url`

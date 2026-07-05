@@ -12,6 +12,9 @@ const config: StorybookConfig = {
     "../src/storybook/**/*.stories.@(js|jsx|mjs|ts|tsx)",
     "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
+  core: {
+    disableTelemetry: true,
+  },
   addons: [
     "@storybook/addon-docs",
     "@storybook/addon-a11y",
@@ -37,6 +40,9 @@ const config: StorybookConfig = {
   },
   viteFinal: async (config) => {
     return mergeConfig(config, {
+      server: {
+        allowedHosts: true,
+      },
       resolve: {
         alias: {
           "@": path.resolve(dirname, "../src"),

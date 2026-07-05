@@ -15,6 +15,8 @@
       --color-interactive-button-hover: light-dark(#adffd6, #adffd6);
       --color-interactive-button-focus: light-dark(#e6ff9b, #e6ff9b);
       --color-interactive-chip-active: light-dark(#d0e0f8, #d0e0f8);
+      --color-interactive-chip-hover: light-dark(#e2eaf7, #b8cfe8);
+      --color-border-secondary: var(--color-border-emphasized);
       --color-interactive-nav-active: light-dark(#fffef8, #fffef8);
     }
   }

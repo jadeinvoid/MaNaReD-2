@@ -16,7 +16,7 @@ export default defineConfig({
         plugins: [
           storybookTest({
             configDir: path.join(dirname, ".storybook-vitest"),
-            storybookScript: "pnpm run storybook -- --no-open",
+            storybookScript: "vp run storybook",
             tags: {
               include: ["test"],
             },

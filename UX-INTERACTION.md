@@ -6,11 +6,11 @@
 **This is the single document for UX design decisions and interaction rationale.**  
 Add or revise decisions here for future reference. Do not duplicate rationale across README, DESIGN.md, or other files — link to this doc instead if needed.
 
-| | |
-|---|---|
-| **Visual / tokens** | [`DESIGN.md`](./DESIGN.md) |
-| **Figma** | [MaNaReD UI Library](https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=31-80) |
-| **Stack / agents** | [`AGENTS.md`](./AGENTS.md) |
+|                     |                                                                                                 |
+| ------------------- | ----------------------------------------------------------------------------------------------- |
+| **Visual / tokens** | [`DESIGN.md`](./DESIGN.md)                                                                      |
+| **Figma**           | [MaNaReD UI Library](https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=31-80) |
+| **Stack / agents**  | [`AGENTS.md`](./AGENTS.md)                                                                      |
 
 ---
 
@@ -38,10 +38,10 @@ MaNaReD is a specialized scientific data tool for marine natural products resear
 
 One interface serves two audiences without separate modes:
 
-| Audience | Needs |
-|----------|-------|
+| Audience                                                                         | Needs                                                        |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------ |
 | Researchers (marine biologists, pharmacologists, ecologists, cheminformaticians) | Precise filtering, taxonomy navigation, reproducible queries |
-| General public | Discoverability, guided entry, understandable empty states |
+| General public                                                                   | Discoverability, guided entry, understandable empty states   |
 
 Complexity is progressive — curated entry points; depth available without an "expert mode."
 
@@ -61,6 +61,7 @@ Complexity is progressive — curated entry points; depth available without an "
 Three **co-equal browse entities**: Compounds, Organisms, Regions.
 
 **Dual nav:**
+
 1. **Primary** — entity switcher (Compounds | Organisms | Regions)
 2. **Secondary** — filter sidebar scoped to the active entity
 
@@ -87,13 +88,13 @@ flowchart TB
   queryState --> resultsArea
 ```
 
-| State field | Source | Persists across entity switch? |
-|-------------|--------|-------------------------------|
-| Text query | Global search bar | Yes |
-| Active filters | Filter sidebar | Partial — see [§8](#8-filter-state-persistence) |
-| Active entity | Entity nav | Defines context |
-| Sort order | Results header / implicit on search | Mode-dependent — see [§4](#4-browse-vs-search-mode) |
-| Mode | Derived (browse vs search) | — |
+| State field    | Source                              | Persists across entity switch?                      |
+| -------------- | ----------------------------------- | --------------------------------------------------- |
+| Text query     | Global search bar                   | Yes                                                 |
+| Active filters | Filter sidebar                      | Partial — see [§8](#8-filter-state-persistence)     |
+| Active entity  | Entity nav                          | Defines context                                     |
+| Sort order     | Results header / implicit on search | Mode-dependent — see [§4](#4-browse-vs-search-mode) |
+| Mode           | Derived (browse vs search)          | —                                                   |
 
 ### Interaction
 
@@ -121,12 +122,12 @@ flowchart TB
 
 Scientific databases require verifiable, inspectable, shareable queries. Users must see exactly what produced a result set.
 
-| Behavior | Specification |
-|----------|---------------|
-| Input | Typeahead against indexed vocabulary |
-| Display | Active terms as removable chips/tags |
-| Sharing | URL encodes full query state |
-| Errors | Unknown terms → inline validation (not silent drop) |
+| Behavior | Specification                                       |
+| -------- | --------------------------------------------------- |
+| Input    | Typeahead against indexed vocabulary                |
+| Display  | Active terms as removable chips/tags                |
+| Sharing  | URL encodes full query state                        |
+| Errors   | Unknown terms → inline validation (not silent drop) |
 
 ### Rejected
 
@@ -143,10 +144,10 @@ Scientific databases require verifiable, inspectable, shareable queries. Users m
 
 Mode is **derived**, not user-toggled:
 
-| Mode | Entered when | Filter sidebar | Sort |
-|------|--------------|----------------|------|
-| **Browse** | No text query; only default filters | Full list; entity-native order | Entity default |
-| **Search** | Query committed, card activated, or non-default filters | Reordered — relevant filters promoted | Relevance |
+| Mode       | Entered when                                            | Filter sidebar                        | Sort           |
+| ---------- | ------------------------------------------------------- | ------------------------------------- | -------------- |
+| **Browse** | No text query; only default filters                     | Full list; entity-native order        | Entity default |
+| **Search** | Query committed, card activated, or non-default filters | Reordered — relevant filters promoted | Relevance      |
 
 ### Rationale — contextual filter behavior in search mode
 
@@ -173,12 +174,12 @@ Mode is **derived**, not user-toggled:
 
 UI control follows **data shape**, not visual preference:
 
-| Data shape | Control | Example fields | Entity |
-|------------|---------|----------------|--------|
+| Data shape            | Control                   | Example fields                      | Entity             |
+| --------------------- | ------------------------- | ----------------------------------- | ------------------ |
 | Hierarchical taxonomy | Progressive filter (tree) | Organism taxonomy, region hierarchy | Organisms, Regions |
-| Continuous numeric | Range slider | Molecular weight, year, depth | Compounds, Regions |
-| Bounded categorical | Dropdown | Compound class, collection type | Compounds |
-| Additive categorical | Tag multi-select | Bioactivity targets, assay types | Compounds |
+| Continuous numeric    | Range slider              | Molecular weight, year, depth       | Compounds, Regions |
+| Bounded categorical   | Dropdown                  | Compound class, collection type     | Compounds          |
+| Additive categorical  | Tag multi-select          | Bioactivity targets, assay types    | Compounds          |
 
 ### Rationale
 
@@ -203,25 +204,26 @@ Bioactivity is a **filter dimension** (tag multi-select), not a fourth browse en
 
 ### Rationale
 
-| Filter sidebar | PQRS band |
-|----------------|-----------|
-| User-initiated constraints | System-suggested refinements |
-| Persistent until cleared | Ephemeral — refreshes with result set |
-| Applies on user action | One-click apply; never auto-applies |
+| Filter sidebar             | PQRS band                             |
+| -------------------------- | ------------------------------------- |
+| User-initiated constraints | System-suggested refinements          |
+| Persistent until cleared   | Ephemeral — refreshes with result set |
+| Applies on user action     | One-click apply; never auto-applies   |
 
 PQRS is exploratory ("given what you have, you might also want…"). Filters are intentional constraints.
 
 ### Interaction
 
-| Action | Effect |
-|--------|--------|
-| Click suggestion | Applies as filter or query term |
-| Dismiss | Hidden until result set changes significantly |
-| Result set changes | Suggestions refresh |
+| Action             | Effect                                        |
+| ------------------ | --------------------------------------------- |
+| Click suggestion   | Applies as filter or query term               |
+| Dismiss            | Hidden until result set changes significantly |
+| Result set changes | Suggestions refresh                           |
 
 Derivation sources: facet counts, numeric clusters (e.g. MW), related vocabulary terms.
 
 **Responsive (see [§11.3](#113-pqrs-by-viewport)):**
+
 - Desktop: full horizontal band, wrap to second row if needed
 - Tablet / mobile: single-row horizontal scroll with scroll-snap; no vertical wrap
 
@@ -240,11 +242,11 @@ Derivation sources: facet counts, numeric clusters (e.g. MW), related vocabulary
 
 Three empty triggers — distinct tone and recovery per type:
 
-| Trigger | Cause | Tone | Recovery |
-|---------|-------|------|----------|
-| **Filter-caused** | Filters exclude all results | Neutral | Remove filter X, clear all, per-filter counts |
-| **Query-caused** | Text query matches nothing | Helpful | Spelling variants, broader terms, vocabulary browse |
-| **Data-gap** | Valid query; no corpus data | Honest | Explain coverage; no fake results |
+| Trigger           | Cause                       | Tone    | Recovery                                            |
+| ----------------- | --------------------------- | ------- | --------------------------------------------------- |
+| **Filter-caused** | Filters exclude all results | Neutral | Remove filter X, clear all, per-filter counts       |
+| **Query-caused**  | Text query matches nothing  | Helpful | Spelling variants, broader terms, vocabulary browse |
+| **Data-gap**      | Valid query; no corpus data | Honest  | Explain coverage; no fake results                   |
 
 ### Interaction
 
@@ -266,12 +268,12 @@ Three empty triggers — distinct tone and recovery per type:
 
 Filters **persist across entity switches** when semantically valid, with **explicit provenance signaling** for carried filters.
 
-| Filter | → Organisms | → Regions |
-|--------|-------------|-----------|
-| Bioactivity tags | Yes | Yes |
+| Filter            | → Organisms     | → Regions          |
+| ----------------- | --------------- | ------------------ |
+| Bioactivity tags  | Yes             | Yes                |
 | Organism taxonomy | Maps to context | May narrow results |
-| MW range | Dropped | Dropped |
-| Region hierarchy | Dropped | Yes |
+| MW range          | Dropped         | Dropped            |
+| Region hierarchy  | Dropped         | Yes                |
 
 ### Interaction
 
@@ -297,11 +299,11 @@ stateDiagram-v2
 
 Home screen shows **curated pre-filtered query cards** — each is a **live database query**, not an onboarding step.
 
-| Property | Specification |
-|----------|---------------|
-| Content | Real result counts |
-| Action | Activates search mode with card filters/query applied |
-| Updates | Skeleton while counts load |
+| Property | Specification                                         |
+| -------- | ----------------------------------------------------- |
+| Content  | Real result counts                                    |
+| Action   | Activates search mode with card filters/query applied |
+| Updates  | Skeleton while counts load                            |
 
 **Responsive grid:**
 | Viewport | Columns |
@@ -321,15 +323,15 @@ Home screen shows **curated pre-filtered query cards** — each is a **live data
 
 ## 10. Defaults
 
-| Setting | Default | Notes |
-|---------|---------|-------|
-| Landing entity | Compounds | Confirm with usage data |
-| Initial mode | Browse | Cards → search on activation |
+| Setting        | Default                                                | Notes                                  |
+| -------------- | ------------------------------------------------------ | -------------------------------------- |
+| Landing entity | Compounds                                              | Confirm with usage data                |
+| Initial mode   | Browse                                                 | Cards → search on activation           |
 | Filter sidebar | Open at desktop; collapsed at tablet; drawer at mobile | See [§11.1](#111-viewport-breakpoints) |
-| Entity nav | Segmented control below search bar | Full-width at mobile |
-| Sort (browse) | TBD per entity | |
-| Sort (search) | Relevance | Implicit on query entry |
-| URL | Reflects all committed state | Shareability |
+| Entity nav     | Segmented control below search bar                     | Full-width at mobile                   |
+| Sort (browse)  | TBD per entity                                         |                                        |
+| Sort (search)  | Relevance                                              | Implicit on query entry                |
+| URL            | Reflects all committed state                           | Shareability                           |
 
 **Status:** `decided` (browse sort per entity still `TBD`)
 
@@ -338,11 +340,13 @@ Home screen shows **curated pre-filtered query cards** — each is a **live data
 ## 11. Loading, error, responsive
 
 ### Loading
+
 - Results: skeleton cards
 - PQRS: hidden until first result set
 - Filter counts: inline spinner; sidebar stays interactive
 
 ### Errors
+
 - Network: retry banner; preserve query state
 - Partial data: results + warning badge
 
@@ -350,11 +354,11 @@ Home screen shows **curated pre-filtered query cards** — each is a **live data
 
 Align with **Tailwind v4** (`sm` 640 · `md` 768 · `lg` 1024) and **Astryx AppShell** (`mobileNav={{ breakpoint: 'md' }}` — drawer activates below 768px).
 
-| Tier | Range | Tailwind / Astryx |
-|------|-------|-------------------|
-| **Mobile** | `<768px` | below `md` |
-| **Tablet** | `768px–1023px` | `md` to below `lg` |
-| **Desktop** | `≥1024px` | `lg` and above |
+| Tier        | Range          | Tailwind / Astryx  |
+| ----------- | -------------- | ------------------ |
+| **Mobile**  | `<768px`       | below `md`         |
+| **Tablet**  | `768px–1023px` | `md` to below `lg` |
+| **Desktop** | `≥1024px`      | `lg` and above     |
 
 ```mermaid
 flowchart LR
@@ -374,13 +378,13 @@ flowchart LR
   desktop --> pqrsRow[PQRS full horizontal band]
 ```
 
-| Component | Mobile `<768px` | Tablet `768–1023px` | Desktop `≥1024px` |
-|-----------|-----------------|---------------------|-------------------|
-| Filter sidebar | Drawer overlay; filter icon in header opens it | Collapsed by default; expand via `vertical-collapse` | Persistent, open by default |
-| Entity nav | Segmented control, full width, below search bar | Segmented control, inline below search bar | Segmented control or inline with top bar |
-| PQRS | Horizontal scroll — [§11.3](#113-pqrs-by-viewport) | Horizontal scroll | Full band; wrap to second row if needed |
-| Search + chips | Stacked; chips wrap — [§11.4](#114-filter-chips-and-provenance-on-narrow-viewports) | Chips wrap | Chips inline with search |
-| Home cards | 1 column | 2 columns | 3 columns |
+| Component      | Mobile `<768px`                                                                     | Tablet `768–1023px`                                  | Desktop `≥1024px`                        |
+| -------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------- |
+| Filter sidebar | Drawer overlay; filter icon in header opens it                                      | Collapsed by default; expand via `vertical-collapse` | Persistent, open by default              |
+| Entity nav     | Segmented control, full width, below search bar                                     | Segmented control, inline below search bar           | Segmented control or inline with top bar |
+| PQRS           | Horizontal scroll — [§11.3](#113-pqrs-by-viewport)                                  | Horizontal scroll                                    | Full band; wrap to second row if needed  |
+| Search + chips | Stacked; chips wrap — [§11.4](#114-filter-chips-and-provenance-on-narrow-viewports) | Chips wrap                                           | Chips inline with search                 |
+| Home cards     | 1 column                                                                            | 2 columns                                            | 3 columns                                |
 
 ### 11.2 Entity nav on mobile
 
@@ -404,11 +408,11 @@ flowchart LR
 
 ### 11.3 PQRS by viewport
 
-| Tier | Behavior |
-|------|----------|
-| **Desktop `≥1024px`** | Full horizontal band between search and results; chips wrap to a second row if more than one row fits |
-| **Tablet `768–1023px`** | Single-row **horizontal scroll** with `scroll-snap`; fade or shadow at trailing edge indicates more |
-| **Mobile `<768px`** | Same as tablet: horizontal scroll, no vertical wrap; show **up to 2 visible chips** plus a **"+N more"** text control if more than 3 suggestions exist — tapping "+N more" expands inline to scrollable row (does not open filter drawer) |
+| Tier                    | Behavior                                                                                                                                                                                                                                  |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Desktop `≥1024px`**   | Full horizontal band between search and results; chips wrap to a second row if more than one row fits                                                                                                                                     |
+| **Tablet `768–1023px`** | Single-row **horizontal scroll** with `scroll-snap`; fade or shadow at trailing edge indicates more                                                                                                                                       |
+| **Mobile `<768px`**     | Same as tablet: horizontal scroll, no vertical wrap; show **up to 2 visible chips** plus a **"+N more"** text control if more than 3 suggestions exist — tapping "+N more" expands inline to scrollable row (does not open filter drawer) |
 
 **Rationale:** PQRS compensates on mobile when promoted sidebar filters are hidden in the drawer ([§4](#4-browse-vs-search-mode)). Scroll preserves scanability; "+N more" avoids a tall chip stack above results.
 
@@ -418,13 +422,13 @@ flowchart LR
 
 Active query terms and carried filters render as **removable chips** in the search area and/or a results-header chip row.
 
-| Behavior | Specification |
-|----------|---------------|
-| Layout | **Wrap** to multiple lines (flex-wrap); never single-line truncate for the whole set |
-| Provenance | Inline prefix on label: `Compounds ·` + filter name — not a separate badge (saves horizontal space) |
-| Overflow | After **2 wrapped rows**, collapse remaining chips behind **"+N filters"** control; tap expands inline |
-| Removal | Each chip has dismiss control; provenance prefix is non-interactive text |
-| Drawer open (mobile) | Chips remain visible in header above drawer — user always sees active constraint count |
+| Behavior             | Specification                                                                                          |
+| -------------------- | ------------------------------------------------------------------------------------------------------ |
+| Layout               | **Wrap** to multiple lines (flex-wrap); never single-line truncate for the whole set                   |
+| Provenance           | Inline prefix on label: `Compounds ·` + filter name — not a separate badge (saves horizontal space)    |
+| Overflow             | After **2 wrapped rows**, collapse remaining chips behind **"+N filters"** control; tap expands inline |
+| Removal              | Each chip has dismiss control; provenance prefix is non-interactive text                               |
+| Drawer open (mobile) | Chips remain visible in header above drawer — user always sees active constraint count                 |
 
 **Status:** `decided`
 
@@ -454,12 +458,12 @@ Implement only when explicitly requested.
 
 ## 13. Open questions
 
-| # | Question | Blocks |
-|---|----------|--------|
-| 1 | Default sort per entity in browse mode | Results header |
-| 2 | Final curated card set and copy | Home screen |
-| 3 | Data-gap "notify me" scope | Empty state |
-| 4 | Screen frames in Figma | Visual design |
+| #   | Question                               | Blocks         |
+| --- | -------------------------------------- | -------------- |
+| 1   | Default sort per entity in browse mode | Results header |
+| 2   | Final curated card set and copy        | Home screen    |
+| 3   | Data-gap "notify me" scope             | Empty state    |
+| 4   | Screen frames in Figma                 | Visual design  |
 
 ---
 
@@ -469,12 +473,12 @@ Cross-reference findings when this document was first created. Use as a checklis
 
 ### Discrepancies to watch
 
-| Topic | Note |
-|-------|------|
-| **Bioactivity** | Figma has `entity.bioactivity` colour token — use for tags, not as a fourth nav entity |
-| **Figma screens** | UI Library (`31:80`) has tokens + icons only; screen layouts not yet designed |
-| **README overlap** | README lists the same eight decisions as bullets — this doc owns the full rationale |
-| **DESIGN.md scope** | Tokens and implementation only; no interaction detail |
+| Topic               | Note                                                                                   |
+| ------------------- | -------------------------------------------------------------------------------------- |
+| **Bioactivity**     | Figma has `entity.bioactivity` colour token — use for tags, not as a fourth nav entity |
+| **Figma screens**   | UI Library (`31:80`) has tokens + icons only; screen layouts not yet designed          |
+| **README overlap**  | README lists the same eight decisions as bullets — this doc owns the full rationale    |
+| **DESIGN.md scope** | Tokens and implementation only; no interaction detail                                  |
 
 ### Gaps filled in this document
 
@@ -490,5 +494,3 @@ Cross-reference findings when this document was first created. Use as a checklis
 ### Your notes
 
 <!-- Add research, competitive analysis, wireframe links, and revised decisions below -->
-
-
