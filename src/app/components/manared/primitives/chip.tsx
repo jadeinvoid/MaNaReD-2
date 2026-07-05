@@ -17,7 +17,7 @@ export function Chip({ label, entity = "bioactivity" }: ChipProps) {
     <Badge
       label={label}
       variant="neutral"
-      className={`inline-flex h-auto shrink-0 items-center justify-center rounded-full border border-solid px-2 py-1 text-3xs font-normal leading-normal whitespace-nowrap shadow-none ${styles.bg} ${styles.border} ${styles.text}`}
+      className={`inline-flex h-auto min-h-0 shrink-0 items-center justify-center rounded-full border border-solid px-2 py-1 text-3xs font-normal leading-normal whitespace-nowrap shadow-none ${styles.bg} ${styles.border} ${styles.text}`}
     />
   );
 }
