@@ -81,4 +81,9 @@ describe("MaNaReD theme contract", () => {
     expect(gradientsCss).toContain(".surface-gradient-filter");
     expect(gradientsCss).toContain(".surface-gradient-context-bar");
   });
+
+  it("maps supporting text to MaNaReD 3xs, not heading sm", () => {
+    expect(manaredThemeSource).toContain('"--text-supporting-size": "var(--font-size-3xs)"');
+    expect(manaredCss).toContain("--text-supporting-size: var(--font-size-3xs)");
+  });
 });
