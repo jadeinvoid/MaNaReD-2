@@ -8,7 +8,13 @@ import {
   withColourMode,
 } from "@/storybook/manared/shared/assert-token-colours";
 
-import { BORDER_PRIMARY, SHADOW_CARD, SURFACE_LIST_ROW } from "../primitives/surface-styles";
+import {
+  BORDER_PRIMARY,
+  LIST_ROW_ICON_SLOT,
+  SHADOW_CARD,
+  SURFACE_LIST_ROW,
+} from "../primitives/surface-styles";
+import { LIST_ROW_TEXT_STACK } from "../primitives/list-text-styles";
 import { ListRow } from "./list-row";
 
 const FIGMA_LIST_ROW =
@@ -81,6 +87,31 @@ async function assertListRowSurface(canvasElement: HTMLElement) {
   await expectUsesTokenClasses(shell.className, "bg-surface", "rounded-lg", "pl-6", "pr-4", "py-4");
   await expect(SURFACE_LIST_ROW).toContain(BORDER_PRIMARY);
   await expect(SURFACE_LIST_ROW).toContain(SHADOW_CARD);
+  await expect(SURFACE_LIST_ROW).not.toContain("overflow-clip");
+}
+
+async function assertListRowSpacing(canvasElement: HTMLElement) {
+  const canvas = within(canvasElement);
+  const textStack = canvas.getByText("# HAL-2024-001").parentElement;
+  if (!textStack) {
+    throw new Error("ListRow text stack not found");
+  }
+
+  await expectUsesTokenClasses(textStack.className, "p-1");
+  await expect(getComputedStyle(textStack).gap, "text stack gap").toBe("4px");
+
+  const iconSlot = canvas
+    .getByText("# HAL-2024-001")
+    .closest('[class*="bg-surface"]')
+    ?.querySelector("svg");
+  if (!iconSlot) {
+    throw new Error("ListRow compound icon not found");
+  }
+
+  const iconFrame = iconSlot.parentElement;
+  await expectUsesTokenClasses(iconFrame?.className ?? "", "size-6", "overflow-visible");
+  await expect(LIST_ROW_ICON_SLOT).toContain("overflow-visible");
+  await expect(LIST_ROW_TEXT_STACK).toContain("p-1");
 }
 
 async function assertListRowTokenColours(canvasElement: HTMLElement) {
@@ -110,6 +141,7 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     await assertListRowContent(canvasElement);
     await assertListRowSurface(canvasElement);
+    await assertListRowSpacing(canvasElement);
     await assertListRowTokenColours(canvasElement);
   },
 };

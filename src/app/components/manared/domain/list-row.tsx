@@ -3,7 +3,8 @@ import { HStack } from "@astryxdesign/core/Layout";
 import { MaNaReDIcon } from "../icons/manared-icon";
 import { Chip } from "../primitives/chip";
 import { ListId, ListLabel, ListTitle } from "../primitives/list-text";
-import { SURFACE_LIST_ROW } from "../primitives/surface-styles";
+import { LIST_ROW_TEXT_STACK } from "../primitives/list-text-styles";
+import { LIST_ROW_ICON_SLOT, SURFACE_LIST_ROW } from "../primitives/surface-styles";
 import type { EntityType } from "../primitives/chip";
 
 export type ListRowProps = {
@@ -18,12 +19,17 @@ export type ListRowProps = {
   labelUnit?: string;
 };
 
+/** Figma compound icon artwork extends ~4.17% beyond the 24px slot (`367:3752`). */
+const LIST_ROW_COMPOUND_ICON = "absolute -inset-[4.17%] !size-[108.34%] !max-h-none !max-w-none";
+
 /** Horizontal list row from Figma search-mode list pattern (`367:3752`). */
 export function ListRow({ id, title, chips, label, labelNumber, labelUnit }: ListRowProps) {
   return (
     <HStack gap={4} vAlign="center" className={SURFACE_LIST_ROW}>
-      <MaNaReDIcon name="compound" size={24} />
-      <div className="flex shrink-0 flex-col gap-1 p-1">
+      <div className={LIST_ROW_ICON_SLOT}>
+        <MaNaReDIcon name="compound" size={24} className={LIST_ROW_COMPOUND_ICON} />
+      </div>
+      <div className={LIST_ROW_TEXT_STACK} style={{ gap: "var(--spacing-1)" }}>
         <ListId>{id}</ListId>
         <ListTitle>{title}</ListTitle>
       </div>
@@ -38,7 +44,9 @@ export function ListRow({ id, title, chips, label, labelNumber, labelUnit }: Lis
       ) : (
         <ListLabel>{label ?? ""}</ListLabel>
       )}
-      <MaNaReDIcon name="chevron-down" size={24} label="chevron-down" className="text-tertiary" />
+      <div className={LIST_ROW_ICON_SLOT}>
+        <MaNaReDIcon name="chevron-down" size={24} label="chevron-down" className="text-tertiary" />
+      </div>
     </HStack>
   );
 }
