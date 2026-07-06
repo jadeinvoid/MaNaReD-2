@@ -1,0 +1,18 @@
+/*
+ * MaNaReD elevation — stacked box-shadow on hover for cards and list rows.
+ * Rest layer: --shadow-card. Hover adds --shadow-elevated on top.
+ */
+@layer components {
+  [data-astryx-theme="manared"] .shadow-card-rest {
+    box-shadow: var(--shadow-card);
+  }
+
+  [data-astryx-theme="manared"] .elevation-hover {
+    cursor: pointer;
+    transition: box-shadow 150ms ease;
+  }
+
+  [data-astryx-theme="manared"] .shadow-card-rest.elevation-hover:hover {
+    box-shadow: var(--shadow-card), var(--shadow-elevated);
+  }
+}

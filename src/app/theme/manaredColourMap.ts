@@ -50,6 +50,9 @@ export const MANARED_COLOUR_MAP = colourTokens({
   "--color-overlay-hover": ["#0000000D", "#FFFFFF0D"],
   "--color-overlay-pressed": ["#0000001A", "#FFFFFF1A"],
 
+  // Effects — shadow hue (opacity applied in --shadow-card / --shadow-elevated)
+  "--color-shadow": ["#C6DAF5", "#000000"],
+
   // Borders — MaNaReD.colour.border
   "--color-border": ["#E5E7EB", "#2E4572"],
   "--color-border-emphasized": ["#D1D5DB", "#8B97AB"],

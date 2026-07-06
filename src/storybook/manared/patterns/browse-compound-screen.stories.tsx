@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { ReactNode } from "react";
 import { expect, within } from "storybook/test";
 
+import { expectHoverElevates } from "@/storybook/manared/shared/assert-hover-elevation";
+
 import { ChipBar } from "@/app/components/manared/composites/chip-bar";
 import { CompoundCard } from "@/app/components/manared/domain/compound-card";
 import { ListRow, type ListRowProps } from "@/app/components/manared/domain/list-row";
@@ -76,6 +78,12 @@ const meta = {
   parameters: {
     layout: "fullscreen",
     design: { type: "figma", url: FIGMA_SCREEN },
+    docs: {
+      description: {
+        component:
+          "Browse compounds screen. Cards and list rows use `--shadow-card` at rest; hover stacks `--shadow-elevated` on top.",
+      },
+    },
   },
 } satisfies Meta;
 
@@ -138,6 +146,12 @@ export const ListView: Story = {
     await expect(canvas.getByText("Manoalide")).toBeVisible();
     await expect(canvas.getByText("773.0")).toBeVisible();
     await expect(canvas.getAllByLabelText("chevron-down")).toHaveLength(3);
+
+    const firstRow = canvas.getByText("Discodermolide").closest('[class*="bg-surface"]');
+    if (!firstRow || !(firstRow instanceof HTMLElement)) {
+      throw new Error("ListRow shell not found");
+    }
+    await expectHoverElevates(firstRow);
   },
 };
 

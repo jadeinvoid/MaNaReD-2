@@ -4,6 +4,7 @@ import { Text } from "@astryxdesign/core/Text";
 
 import { Chip } from "../primitives/chip";
 import { EntityBadge } from "../primitives/entity-badge";
+import { ELEVATION_HOVER, SHADOW_CARD } from "../primitives/surface-styles";
 import type { EntityType } from "../primitives/chip";
 
 export type CompoundCardProps = {
@@ -17,7 +18,7 @@ export type CompoundCardProps = {
 /** Compound result card from Figma `card` symbol (search mode). */
 export function CompoundCard({ id, name, formula, source, tags }: CompoundCardProps) {
   return (
-    <Card className="w-full">
+    <Card className={`w-full ${SHADOW_CARD} ${ELEVATION_HOVER}`}>
       <HStack gap={4} vAlign="start">
         <div className="flex h-36 w-44 shrink-0 items-center justify-center rounded-lg bg-muted">
           <Text size="2xs" color="secondary">

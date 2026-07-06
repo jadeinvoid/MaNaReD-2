@@ -2,7 +2,7 @@
  * MaNaReD design tokens from Figma UI Library (file y12p7ety9bAbG9Z7m5Bd6L).
  * Colour values sourced from manaredColourMap.ts (Figma frames 332:7131 / 332:6892).
  */
-import { defineTheme } from "@astryxdesign/core/theme";
+import { defineTheme, type DefineThemeInput } from "@astryxdesign/core/theme";
 import { neutralIconRegistry } from "@astryxdesign/theme-neutral";
 
 import { MANARED_COLOUR_MAP } from "./manaredColourMap";
@@ -57,7 +57,11 @@ export const manaredTheme = defineTheme({
     // Item/ListItem description uses `--text-supporting-size`; keep it at MaNaReD 3xs (12px).
     "--text-supporting-size": "var(--font-size-3xs)",
     "--text-supporting-leading": "1.3333", // 12px → 16px
-  },
+
+    // Elevation — card/list rest shadow + hover add-on (stacked box-shadow)
+    "--shadow-card": "0 4px 3.1px color-mix(in srgb, var(--color-shadow) 5%, transparent)",
+    "--shadow-elevated": "0 8px 20px color-mix(in srgb, var(--color-shadow) 12%, transparent)",
+  } as NonNullable<DefineThemeInput["tokens"]>,
 
   components: {
     button: {

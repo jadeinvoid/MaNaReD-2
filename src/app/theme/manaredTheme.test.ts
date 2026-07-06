@@ -82,8 +82,25 @@ describe("MaNaReD theme contract", () => {
     expect(gradientsCss).toContain(".surface-gradient-context-bar");
   });
 
+  it("defines elevation hover utility in manaredElevation.css", () => {
+    const elevationCss = readThemeFile("manaredElevation.css");
+
+    expect(elevationCss).toContain(".shadow-card-rest");
+    expect(elevationCss).toContain(".elevation-hover");
+    expect(elevationCss).toContain("var(--shadow-card), var(--shadow-elevated)");
+  });
+
   it("maps supporting text to MaNaReD 3xs, not heading sm", () => {
     expect(manaredThemeSource).toContain('"--text-supporting-size": "var(--font-size-3xs)"');
     expect(manaredCss).toContain("--text-supporting-size: var(--font-size-3xs)");
+  });
+
+  it("defines elevation shadow tokens in theme source and generated CSS", () => {
+    expect(MANARED_COLOUR_MAP).toHaveProperty("--color-shadow");
+    expect(manaredCss).toContain("--color-shadow:");
+    expect(manaredThemeSource).toContain('"--shadow-card"');
+    expect(manaredThemeSource).toContain('"--shadow-elevated"');
+    expect(manaredCss).toContain("--shadow-card:");
+    expect(manaredCss).toContain("--shadow-elevated:");
   });
 });
