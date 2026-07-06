@@ -1,51 +1,69 @@
-import { Text } from "@astryxdesign/core/Text";
+import { LIST_TEXT_ID, LIST_TEXT_LABEL, LIST_TEXT_TITLE } from "./list-text-styles";
 
 export type ListIdProps = {
   children: string;
 };
 
-/** Compact ID label in list rows (Figma `list-id`). */
+/** Compact ID label in list rows — Figma `list-id` (`203:1355`). */
 export function ListId({ children }: ListIdProps) {
-  return (
-    <Text size="2xs" color="secondary" className="font-mono uppercase tracking-wide">
-      {children}
-    </Text>
-  );
+  return <span className={LIST_TEXT_ID}>{children}</span>;
 }
 
 export type ListTitleProps = {
   children: string;
 };
 
-/** Primary title in list rows (Figma `list-title`). */
+/** Primary title in list rows — Figma `list-title` (`203:1356`). */
 export function ListTitle({ children }: ListTitleProps) {
-  return (
-    <Text size="sm" weight="medium" className="text-primary">
-      {children}
-    </Text>
-  );
+  return <span className={LIST_TEXT_TITLE}>{children}</span>;
 }
 
 export type ListLabelProps = {
-  children: string;
+  /** Combined label copy (e.g. `MW 421.5`). */
+  children?: string;
+  /** Numeric value — Figma `list-label` number slot. */
+  number?: string;
+  /** Unit suffix — Figma `list-label` unit slot. */
+  unit?: string;
 };
 
-/** Trailing metadata label in list rows (Figma `list-label`). */
-export function ListLabel({ children }: ListLabelProps) {
-  return (
-    <Text size="2xs" color="secondary" className="rounded-md bg-muted px-2 py-1">
-      {children}
-    </Text>
-  );
+/** Trailing metadata in list rows — Figma `list-label` (`203:1278`). */
+export function ListLabel({ children, number, unit }: ListLabelProps) {
+  if (number != null && unit != null) {
+    return (
+      <span className={LIST_TEXT_LABEL}>
+        <span>{number}</span>
+        <span>{unit}</span>
+      </span>
+    );
+  }
+
+  return <span className={LIST_TEXT_LABEL}>{children}</span>;
 }
 
 /** Demo row combining list text primitives for Storybook. */
-export function ListTextRow({ id, title, label }: { id: string; title: string; label: string }) {
+export function ListTextRow({
+  id,
+  title,
+  label,
+  labelNumber,
+  labelUnit,
+}: {
+  id: string;
+  title: string;
+  label?: string;
+  labelNumber?: string;
+  labelUnit?: string;
+}) {
   return (
     <div className="flex flex-col gap-1">
       <ListId>{id}</ListId>
       <ListTitle>{title}</ListTitle>
-      <ListLabel>{label}</ListLabel>
+      {labelNumber != null && labelUnit != null ? (
+        <ListLabel number={labelNumber} unit={labelUnit} />
+      ) : (
+        <ListLabel>{label ?? ""}</ListLabel>
+      )}
     </div>
   );
 }
