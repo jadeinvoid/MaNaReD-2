@@ -10,3 +10,6 @@ export const LIST_TEXT_TITLE = "text-xs font-semibold leading-normal text-primar
 /** Trailing metadata — Inter regular, `colour/text/tertiary`, `space/2` padding, 80% opacity. */
 export const LIST_TEXT_LABEL =
   "inline-flex items-center gap-1 p-[length:var(--spacing-2)] text-3xs font-normal leading-normal text-tertiary opacity-80";
+
+/** list-id + list-title stack — Figma `352:4034` padding `space/1`; gap applied via `--spacing-1` inline. */
+export const LIST_ROW_TEXT_STACK = "flex shrink-0 flex-col items-start p-1";
