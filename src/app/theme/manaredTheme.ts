@@ -52,6 +52,11 @@ export const manaredTheme = defineTheme({
     "--font-size-3xl": "2.5rem", // 40px — MaNaReD.font.size.xl
     "--font-size-4xl": "3rem", // 48px — MaNaReD.font.size.2xl
     "--font-size-5xl": "4.5rem", // 72px — MaNaReD.font.size.3xl
+
+    // Astryx semantic scale — MaNaReD `font.size.sm` (20px) is a heading step, not supporting text.
+    // Item/ListItem description uses `--text-supporting-size`; keep it at MaNaReD 3xs (12px).
+    "--text-supporting-size": "var(--font-size-3xs)",
+    "--text-supporting-leading": "1.3333", // 12px → 16px
   },
 
   components: {

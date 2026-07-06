@@ -1,0 +1,15 @@
+/*
+ * MaNaReD overrides for Astryx Item / ListItem label + description hierarchy.
+ * Figma list-title (`352:4036`) uses semibold primary; list-id (`352:4035`) uses 3xs secondary.
+ * Astryx Item maps label → body/primary and description → supporting/secondary — sizes come from
+ * `--text-supporting-size` in manaredTheme.ts; weight is reinforced here for list rows.
+ */
+@layer astryx-theme {
+  @scope ([data-astryx-theme="manared"]) to ([data-astryx-theme]) {
+    .astryx-list-item.astryx-item > span > span:first-child,
+    .astryx-list-item.astryx-item > button > span:first-child,
+    .astryx-list-item.astryx-item > a > span:first-child {
+      font-weight: var(--font-weight-semibold);
+    }
+  }
+}
