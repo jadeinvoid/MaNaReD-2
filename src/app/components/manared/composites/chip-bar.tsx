@@ -18,7 +18,7 @@ export type ChipBarProps = {
   sortLabel?: string;
 };
 
-/** Active filter chip bar from Figma `chip-bar/container/with-chips-texts`. */
+/** Active filter chip bar from Figma `chip-bar` (`349:3993`, gradient paint styles). */
 export function ChipBar({
   chips,
   provenanceText,

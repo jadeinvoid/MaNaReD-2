@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { ChipBar } from "@/app/components/manared/composites/chip-bar";
 import { CompoundCard } from "@/app/components/manared/domain/compound-card";
+import { ContextualBar } from "@/app/components/manared/composites/contextual-bar";
 import { FilterSidebar } from "@/app/components/manared/composites/filter-sidebar";
 import { NavSideBar } from "@/app/components/manared/composites/nav-side-bar";
 import { TaxonomyBreadcrumb } from "@/app/components/manared/composites/taxonomy-breadcrumb";
@@ -29,12 +30,12 @@ export const Default: Story = {
       <NavSideBar activeItem="Compound" />
       <div className="flex flex-1 flex-col">
         <TopBar />
-        <div className="border-b border-emphasized bg-surface px-6 py-4">
+        <ContextualBar>
           <TaxonomyBreadcrumb items={["Home", "Compounds"]} />
           <Text size="lg" weight="medium" className="mt-4">
             Compounds
           </Text>
-        </div>
+        </ContextualBar>
         <div className="flex flex-1 gap-4 p-4">
           <FilterSidebar />
           <VStack gap={4} className="flex-1">
