@@ -8,10 +8,12 @@
 
   /* Surface shortcuts */
   --color-sidebar: var(--color-background-sidebar);
+  --color-body-secondary: var(--color-background-body-secondary);
   --color-card-tertiary: var(--color-background-card-tertiary);
   --color-tertiary: var(--color-text-tertiary);
 
   /* Border shortcuts */
+  --color-emphasized: var(--color-border-emphasized);
   --color-border-tertiary: var(--color-border-tertiary);
   --color-border-secondary: var(--color-border-secondary);
 

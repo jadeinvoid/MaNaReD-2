@@ -45,6 +45,11 @@ export const MANARED_COLOUR_MAP = colourTokens({
   "--color-accent-muted": ["#DEE4EB", "#373F4F"],
   "--color-on-accent": ["#FFFFFF", "#E8EFFF"],
 
+  // Astryx infrastructure — secondary buttons, hover/pressed overlays
+  "--color-neutral": ["#E9F1F9", "#203448"],
+  "--color-overlay-hover": ["#0000000D", "#FFFFFF0D"],
+  "--color-overlay-pressed": ["#0000001A", "#FFFFFF1A"],
+
   // Borders — MaNaReD.colour.border
   "--color-border": ["#E5E7EB", "#2E4572"],
   "--color-border-emphasized": ["#D1D5DB", "#8B97AB"],

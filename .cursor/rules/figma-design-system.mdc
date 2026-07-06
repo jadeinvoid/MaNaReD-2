@@ -35,27 +35,44 @@ Key Figma sections (node IDs for MCP):
 
 ### Code (today)
 
-Tokens live in **npm packages**, not repo files:
+Tokens live in **`src/app/theme/`** and compile to runtime CSS:
 
 ```css
 /* src/app/styles.css — import order matters */
 @layer reset, theme, base, astryx-base, astryx-theme, components, utilities;
 
-@import "@astryxdesign/theme-neutral/theme.css";      /* --color-*, --spacing-*, --radius-* */
-@import "@astryxdesign/core/tailwind-theme.css";       /* @theme inline → Tailwind utilities */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "@astryxdesign/core/reset.css";
+@import "@astryxdesign/core/astryx.css";
+@import "./theme/manared.css";
+@import "./theme/manared-extensions.css";
+@import "@astryxdesign/core/tailwind-theme.css";
+@import "tailwindcss/utilities.css" layer(utilities);
 ```
 
 - **Format:** CSS custom properties (`--color-background-surface`, `--spacing-4`, `--radius-container`)
-- **Transformation:** `tailwind-theme.css` maps vars → Tailwind v4 utilities (`bg-surface`, `text-primary`, `rounded-lg`, `p-4`)
-- **Runtime theme:** `src/app/providers.tsx` wraps `<Theme theme={neutralTheme}>`
-- **HTML marker:** `data-astryx-theme="neutral"` on `<html>` in `src/app/document.tsx`
+- **Colour source:** `manaredColourMap.ts` → `manaredTheme.ts` → `vp run build:theme` → `manared.css`
+- **Transformation:** `tailwind-theme.css` + `manared-extensions.css` map vars → Tailwind v4 utilities
+- **Runtime theme:** `src/app/providers.tsx` wraps `<Theme theme={manaredTheme}>`
+- **HTML marker:** `data-astryx-theme="manared"` on `<html>` in `src/app/document.tsx`
 - **No `tailwind.config.*`** — Tailwind v4 is CSS-first via `vite.config.ts` + `@tailwindcss/vite`
+
+**Three-tier utility mapping:**
+
+| Tier | Examples | When |
+| ---- | -------- | ---- |
+| Astryx bridge | `bg-body`, `text-primary`, `border-strong` | Standard semantic roles |
+| MaNaReD extensions | `bg-body-secondary`, `bg-sidebar`, `text-tertiary`, `border-emphasized`, `bg-chip-active` | MaNaReD-only Figma roles |
+| Escape hatch | `bg-[var(--color-*)]` | Last resort |
 
 Discover token values locally:
 
 ```bash
 vp run astryx -- docs tokens
 vp run astryx -- docs theme
+vp run build:theme
+vp run validate:theme
 ```
 
 ### Figma (MaNaReD custom system)
@@ -82,28 +99,30 @@ Light-mode values from the UI Library (dark mode has parallel frames):
 | Figma token | Light value | Code target |
 |-------------|-------------|-------------|
 | `MaNaReD.colour.BG.page` | `#E9F1F9` | `bg-body` |
+| `MaNaReD.colour.BG.page/secondary` | `#DFE9F0` | `bg-body-secondary` |
 | `MaNaReD.colour.BG.card` | `#FFFFFF` | `bg-surface` |
-| `MaNaReD.colour.BG.sideBar` | `#F6FAFF` | `bg-[var(--color-background-sidebar)]` (custom var) |
+| `MaNaReD.colour.BG.sideBar` | `#F6FAFF` | `bg-sidebar` |
 | `MaNaReD.colour.text.primary` | `#2A2A2A` | `text-primary` |
 | `MaNaReD.colour.text.secondary` | `#584F82` | `text-secondary` |
-| `MaNaReD.colour.text.tertiary` | `#617990` | custom CSS var or `text-secondary` |
+| `MaNaReD.colour.text.tertiary` | `#617990` | `text-tertiary` |
 | `MaNaReD.colour.status.info` | BG `#465A6E` | `bg-info` / `Badge variant="info"` |
 | `MaNaReD.colour.status.success` | BG `#6C8656` | `bg-success` |
 | `MaNaReD.colour.status.warning` | BG `#AC8D5D` | `bg-warning` |
 | `MaNaReD.colour.status.danger` | BG `#8E5963` | `bg-error` |
 | `MaNaReD.colour.interactive.button` active | `#222133` | `<Button variant="primary">` |
 
-**MaNaReD-only tokens** (no Astryx neutral equivalent — use custom CSS vars):
+**MaNaReD-only tokens** — use shared style modules, not inline hex:
 
-- **Entity colours:** `MaNaReD.colour.entity.{organism,bioactivity,compound,region}` — BG/border/text triplets for domain badges/chips
-- **Interactive states:** button/chip/navItem/dropDown with active/hover/focus columns
+- **Entity colours:** `entity-styles.ts` — organism/bioactivity/compound/region triplets
+- **Interactive states:** `interactive-styles.ts` — chip, provenance text, filter controls
+- **Surface roles:** `surface-styles.ts` — page secondary, card panels, emphasized borders
 
 Example entity token usage:
 
 ```tsx
-<span className="rounded-md bg-[var(--color-entity-organism-bg)] px-2 py-1 text-[var(--color-entity-organism-text)]">
-  Organism
-</span>
+import { entityClassNames } from "@/app/components/manared/primitives/entity-styles";
+
+<span className={entityClassNames.organism.combined}>Organism</span>
 ```
 
 #### Space (`MaNaReD.space.*`)
@@ -131,9 +150,20 @@ Prefer `VStack gap={n}` / `HStack gap={n}` over arbitrary Tailwind gap classes.
 
 ### Bridging strategy
 
-**Phase 1 (prototype):** Map Figma tokens to closest Astryx utilities; use `bg-[var(--color-*)]` for unmapped MaNaReD tokens.
+MaNaReD brand fidelity is **implemented**. When adding or changing tokens:
 
-**Phase 2 (brand fidelity):** Create a MaNaReD Astryx theme via `vp run astryx -- theme` / `defineTheme({ tokens: { ... } })`, replace `neutralTheme` in `providers.tsx`, add Inter + Geist Mono to `document.tsx` (CSP already allows `fonts.googleapis.com`).
+1. Add hex pairs to `manaredColourMap.ts` (Figma frames `332:7131` / `332:6892`).
+2. Add a Tailwind alias in `manared-extensions.css` when no Astryx bridge utility exists.
+3. Run `vp run build:theme` and commit generated artifacts.
+4. Centralize component classes in `*-styles.ts` modules; add contract tests + Storybook colour assertions.
+
+### New component checklist
+
+1. Use constants from `surface-styles.ts`, `interactive-styles.ts`, or `entity-styles.ts`.
+2. Match Figma **semantic roles** (e.g. chip bar = `page/secondary`, not `card`).
+3. If using Astryx `Button variant="secondary"`, verify `manaredTheme.ts` override and `--color-neutral`.
+4. Add Storybook play tests with `assert-token-colours.ts` for colour-critical components.
+5. Run `vp run validate:theme` and `vp test` before PR.
 
 ---
 

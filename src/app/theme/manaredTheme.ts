@@ -60,6 +60,16 @@ export const manaredTheme = defineTheme({
         backgroundColor: "var(--color-accent)",
         color: "var(--color-on-accent)",
       },
+      "variant:secondary": {
+        backgroundColor: "var(--color-background-body)",
+        color: "var(--color-text-secondary)",
+        borderWidth: "1px",
+        borderStyle: "solid",
+        borderColor: "var(--color-border-secondary)",
+        ":hover": {
+          backgroundColor: "var(--color-interactive-button-hover)",
+        },
+      },
     },
     badge: {
       "variant:info": {
