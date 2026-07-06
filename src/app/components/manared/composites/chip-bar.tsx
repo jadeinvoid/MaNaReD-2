@@ -1,10 +1,8 @@
-import { Button } from "@astryxdesign/core/Button";
 import { HStack } from "@astryxdesign/core/Layout";
-import { Text } from "@astryxdesign/core/Text";
 
 import { MaNaReDIcon } from "../icons/manared-icon";
 import {
-  INTERACTIVE_FILTER_CONTROL,
+  INTERACTIVE_CHIP_BAR_CONTROL,
   INTERACTIVE_PROVENANCE_TEXT,
 } from "../primitives/interactive-styles";
 import { SURFACE_CHIP_BAR } from "../primitives/surface-styles";
@@ -39,19 +37,13 @@ export function ChipBar({
         />
       ))}
       {provenanceText ? (
-        <Text size="2xs" className={INTERACTIVE_PROVENANCE_TEXT}>
-          {provenanceText}
-        </Text>
+        <span className={INTERACTIVE_PROVENANCE_TEXT}>{provenanceText}</span>
       ) : null}
       <span className="flex-1" />
-      <Button
-        label="More filters"
-        variant="secondary"
-        size="sm"
-        onClick={onMoreFilters}
-        icon={<MaNaReDIcon name="filter" size={16} />}
-        className={INTERACTIVE_FILTER_CONTROL}
-      />
+      <button type="button" onClick={onMoreFilters} className={INTERACTIVE_CHIP_BAR_CONTROL}>
+        <MaNaReDIcon name="filter" size={16} />
+        More Filters
+      </button>
       <SortWrapper label={sortLabel} onClick={onSort} />
     </HStack>
   );

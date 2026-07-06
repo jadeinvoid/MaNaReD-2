@@ -19,7 +19,7 @@ Figma file: `y12p7ety9bAbG9Z7m5Bd6L` — [MaNaReD UI Library](https://www.figma.
 | TopBar                 | Composites  | `composites/top-bar.tsx`             | `332:9045` | done    | `surface-styles.ts` (partial)          | Composes `SearchBar`                                     |
 | FilterRow              | Composites  | `composites/filter-row.tsx`          | `332:9070` | done    | semantic text tokens                   |                                                          |
 | FilterSidebar          | Composites  | `composites/filter-sidebar.tsx`      | `332:9061` | done    | `surface-styles.ts` (partial)          | 280px width matches Figma                                |
-| ChipBar                | Composites  | `composites/chip-bar.tsx`            | `332:9081` | done    | `surface-styles`, `interactive-styles` | Composes `ActiveChip` + `SortWrapper`; colour play tests |
+| ChipBar                | Composites  | `composites/chip-bar.tsx`            | `332:9081` | done    | `surface-styles`, `interactive-styles` | Token-backed controls; light/dark play tests             |
 | TaxonomyBreadcrumb     | Composites  | `composites/taxonomy-breadcrumb.tsx` | `332:9054` | done    | semantic text tokens                   |                                                          |
 | SortWrapper            | Composites  | `composites/sort-wrapper.tsx`        | `332:9089` | done    | `interactive-styles` + theme btn       | Wraps Astryx `Button`; colour play tests                 |
 | CompoundCard           | Domain      | `domain/compound-card.tsx`           | `332:9090` | done    | `surface-styles`, entity tokens        |                                                          |

@@ -15,5 +15,6 @@ export const BORDER_SECONDARY = "border-border-secondary";
 /** Common bordered card/panel shell used across browse UI. */
 export const SURFACE_CARD_PANEL = "rounded-lg border border-solid border-emphasized bg-surface";
 
-/** Chip bar container — Figma `chip-bar/container/with-chips-texts`. */
-export const SURFACE_CHIP_BAR = "min-h-11 flex-wrap rounded-lg bg-body-secondary px-3 py-2";
+/** Chip bar container — Figma `chip-bar/container/with-chips-texts` (page/secondary band). */
+export const SURFACE_CHIP_BAR =
+  "min-h-11 flex-wrap rounded-lg bg-body-secondary px-3 py-[length:var(--spacing-2)]";
