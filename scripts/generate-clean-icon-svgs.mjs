@@ -15,7 +15,7 @@ const VIEWBOX = {
   workspace: "0 0 17 17",
   explore: "0 0 17 17",
   overview: "0 0 17 17",
-  compound: "0 0 26 26",
+  compound: "-2 -2 30 30",
   "no-filter": "0 0 24 24",
   organism: "0 0 26 12",
   profile: "0 0 34 34",

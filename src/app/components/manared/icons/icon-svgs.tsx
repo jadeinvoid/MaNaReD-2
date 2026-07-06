@@ -32,7 +32,7 @@ export function FilterIcon(props: IconSvgProps) {
 
 export function CompoundIcon(props: IconSvgProps) {
   return (
-    <svg viewBox="0 0 26 26" fill="none" aria-hidden {...props}>
+    <svg viewBox="-2 -2 30 30" overflow="visible" fill="none" aria-hidden {...props}>
       <path
         d="M12.7998 14.134C13.5366 14.134 14.1338 13.5367 14.1338 12.8C14.1338 12.0632 13.5366 11.466 12.7998 11.466C12.0631 11.466 11.4658 12.0632 11.4658 12.8C11.4658 13.5367 12.0631 14.134 12.7998 14.134Z"
         fill="currentColor"

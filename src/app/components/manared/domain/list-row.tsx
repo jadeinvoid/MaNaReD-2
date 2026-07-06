@@ -19,15 +19,12 @@ export type ListRowProps = {
   labelUnit?: string;
 };
 
-/** Figma compound icon artwork extends ~4.17% beyond the 24px slot (`367:3752`). */
-const LIST_ROW_COMPOUND_ICON = "absolute -inset-[4.17%] !size-[108.34%] !max-h-none !max-w-none";
-
 /** Horizontal list row from Figma search-mode list pattern (`367:3752`). */
 export function ListRow({ id, title, chips, label, labelNumber, labelUnit }: ListRowProps) {
   return (
     <HStack gap={4} vAlign="center" className={SURFACE_LIST_ROW}>
       <div className={LIST_ROW_ICON_SLOT}>
-        <MaNaReDIcon name="compound" size={24} className={LIST_ROW_COMPOUND_ICON} />
+        <MaNaReDIcon name="compound" size={24} />
       </div>
       <div className={LIST_ROW_TEXT_STACK} style={{ gap: "var(--spacing-1)" }}>
         <ListId>{id}</ListId>
