@@ -23,7 +23,7 @@ Figma file: `y12p7ety9bAbG9Z7m5Bd6L` — [MaNaReD UI Library](https://www.figma.
 | ContextualBar          | Composites  | `composites/contextual-bar.tsx`      | `360:2601` | done   | `gradient-styles`                       | Taxonomy header band gradient; light/dark play tests     |
 | TaxonomyBreadcrumb     | Composites  | `composites/taxonomy-breadcrumb.tsx` | `332:9054` | done   | semantic text tokens                    |                                                          |
 | SortWrapper            | Composites  | `composites/sort-wrapper.tsx`        | `332:9089` | done   | `interactive-styles`                    | Token-backed control; light/dark play tests              |
-| CompoundCard           | Domain      | `domain/compound-card.tsx`           | `332:9090` | done   | `surface-styles`, entity tokens         |                                                          |
+| CompoundCard           | Domain      | `domain/compound-card.tsx`           | `367:3752` | done   | `surface-styles`, `list-text-styles`    | ListText + card shell; light/dark play tests             |
 | ListRow                | Domain      | `domain/list-row.tsx`                | `367:3752` | done   | `surface-styles`, `list-text-styles`    | Figma list frame; light/dark play tests                  |
 | DetailSection          | Domain      | `domain/detail-section.tsx`          | `332:9114` | done   | semantic text tokens                    |                                                          |
 | BrowseCompoundScreen   | Patterns    | `src/storybook/manared/patterns/`    | `332:9041` | done   | composes above                          | Docs-only                                                |

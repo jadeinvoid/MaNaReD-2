@@ -1,9 +1,10 @@
-import { Card } from "@astryxdesign/core/Card";
 import { HStack, VStack } from "@astryxdesign/core/Layout";
-import { Text } from "@astryxdesign/core/Text";
 
 import { Chip } from "../primitives/chip";
 import { EntityBadge } from "../primitives/entity-badge";
+import { ListId, ListTitle } from "../primitives/list-text";
+import { LIST_CARD_META, LIST_CARD_TEXT_STACK } from "../primitives/list-text-styles";
+import { COMPOUND_CARD_MEDIA, SURFACE_COMPOUND_CARD } from "../primitives/surface-styles";
 import type { EntityType } from "../primitives/chip";
 
 export type CompoundCardProps = {
@@ -14,33 +15,19 @@ export type CompoundCardProps = {
   tags: { label: string; entity: EntityType }[];
 };
 
-/** Compound result card from Figma `card` symbol (search mode). */
+/** Compound result card — token-backed shell aligned with list row card surface (`367:3752`). */
 export function CompoundCard({ id, name, formula, source, tags }: CompoundCardProps) {
   return (
-    <Card className="w-full">
+    <div className={SURFACE_COMPOUND_CARD}>
       <HStack gap={4} vAlign="start">
-        <div className="flex h-36 w-44 shrink-0 items-center justify-center rounded-lg bg-muted">
-          <Text size="2xs" color="secondary">
-            Structure
-          </Text>
+        <div className={COMPOUND_CARD_MEDIA}>
+          <span className={LIST_CARD_META}>Structure</span>
         </div>
-        <VStack gap={2} className="flex-1">
-          <Text size="2xs" color="secondary" className="font-mono">
-            {id}
-          </Text>
-          <Text size="sm" weight="medium">
-            {name}
-          </Text>
-          {formula ? (
-            <Text size="2xs" color="secondary">
-              {formula}
-            </Text>
-          ) : null}
-          {source ? (
-            <Text size="2xs" color="secondary">
-              Source: {source}
-            </Text>
-          ) : null}
+        <VStack gap={2} className={LIST_CARD_TEXT_STACK}>
+          <ListId>{id}</ListId>
+          <ListTitle>{name}</ListTitle>
+          {formula ? <span className={LIST_CARD_META}>{formula}</span> : null}
+          {source ? <span className={LIST_CARD_META}>Source: {source}</span> : null}
           <HStack gap={2} className="flex-wrap pt-2">
             <EntityBadge entity="compound" label="Compound" />
             {tags.map((tag) => (
@@ -49,6 +36,6 @@ export function CompoundCard({ id, name, formula, source, tags }: CompoundCardPr
           </HStack>
         </VStack>
       </HStack>
-    </Card>
+    </div>
   );
 }
