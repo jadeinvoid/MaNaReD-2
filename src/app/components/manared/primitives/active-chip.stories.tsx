@@ -1,6 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent, within } from "storybook/test";
 
+import {
+  expectResolvedToken,
+  expectUsesTokenClasses,
+} from "@/storybook/manared/shared/assert-token-colours";
+
+import { INTERACTIVE_ACTIVE_CHIP } from "./interactive-styles";
 import { ActiveChip } from "./active-chip";
 
 const FIGMA_ACTIVE_CHIP =
@@ -23,10 +29,35 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+async function assertActiveChipTokenColours(canvasElement: HTMLElement) {
+  const canvas = within(canvasElement);
+  const chipLabel = canvas.getByText("Alkaloids");
+  const chip = chipLabel.parentElement;
+
+  if (!chip) {
+    throw new Error("ActiveChip token test element not found");
+  }
+
+  await expectUsesTokenClasses(
+    chip.className,
+    "bg-chip-active",
+    "text-secondary",
+    "border-border-secondary",
+  );
+  await expectUsesTokenClasses(INTERACTIVE_ACTIVE_CHIP, "bg-chip-active", "text-secondary");
+
+  for (const mode of ["light", "dark"] as const) {
+    await expectResolvedToken(mode, "--color-interactive-chip-active", "backgroundColor");
+    await expectResolvedToken(mode, "--color-border-secondary", "borderColor");
+    await expectResolvedToken(mode, "--color-text-secondary", "color");
+  }
+}
+
 export const Default: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Alkaloids")).toBeVisible();
+    await assertActiveChipTokenColours(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Remove Alkaloids" }));
     await expect(args.onRemove).toHaveBeenCalledOnce();
   },
@@ -50,6 +81,11 @@ export const FigmaLabels: Story = {
       <ActiveChip label="Marine" onRemove={() => {}} />
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("Alkaloids")).toBeVisible();
+    await expect(canvas.getByText("Marine")).toBeVisible();
+  },
 };
 
 export const Multiple: Story = {
@@ -61,4 +97,8 @@ export const Multiple: Story = {
       <ActiveChip label="Read only" />
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("Read only")).toBeVisible();
+  },
 };

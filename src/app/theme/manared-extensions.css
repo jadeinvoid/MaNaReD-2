@@ -13,6 +13,7 @@
   --color-tertiary: var(--color-text-tertiary);
 
   /* Border shortcuts */
+  --color-emphasized: var(--color-border-emphasized);
   --color-border-tertiary: var(--color-border-tertiary);
   --color-border-secondary: var(--color-border-secondary);
 

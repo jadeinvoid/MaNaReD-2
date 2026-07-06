@@ -13,6 +13,14 @@ export default defineConfig({
     projects: [
       {
         extends: true,
+        test: {
+          name: "theme-contract",
+          include: ["src/app/theme/**/*.test.ts"],
+          environment: "node",
+        },
+      },
+      {
+        extends: true,
         plugins: [
           storybookTest({
             configDir: path.join(dirname, ".storybook-vitest"),

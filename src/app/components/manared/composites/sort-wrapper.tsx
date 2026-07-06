@@ -1,6 +1,7 @@
 import { Button } from "@astryxdesign/core/Button";
 
 import { MaNaReDIcon } from "../icons/manared-icon";
+import { INTERACTIVE_FILTER_CONTROL } from "../primitives/interactive-styles";
 
 export type SortWrapperProps = {
   label?: string;
@@ -16,7 +17,7 @@ export function SortWrapper({ label = "Sort by: Relevance", onClick }: SortWrapp
       size="sm"
       onClick={onClick}
       endContent={<MaNaReDIcon name="arrow-down" size={16} />}
-      className="text-2xs"
+      className={INTERACTIVE_FILTER_CONTROL}
     />
   );
 }

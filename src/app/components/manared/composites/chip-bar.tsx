@@ -3,6 +3,11 @@ import { HStack } from "@astryxdesign/core/Layout";
 import { Text } from "@astryxdesign/core/Text";
 
 import { MaNaReDIcon } from "../icons/manared-icon";
+import {
+  INTERACTIVE_FILTER_CONTROL,
+  INTERACTIVE_PROVENANCE_TEXT,
+} from "../primitives/interactive-styles";
+import { SURFACE_CHIP_BAR } from "../primitives/surface-styles";
 import { ActiveChip } from "../primitives/active-chip";
 import { SortWrapper } from "./sort-wrapper";
 
@@ -25,11 +30,7 @@ export function ChipBar({
   sortLabel = "Sort by: Relevance",
 }: ChipBarProps) {
   return (
-    <HStack
-      gap={2}
-      vAlign="center"
-      className="min-h-11 flex-wrap rounded-lg bg-body-secondary px-3 py-2"
-    >
+    <HStack gap={2} vAlign="center" className={SURFACE_CHIP_BAR}>
       {chips.map((chip) => (
         <ActiveChip
           key={chip}
@@ -38,7 +39,7 @@ export function ChipBar({
         />
       ))}
       {provenanceText ? (
-        <Text size="2xs" className="ml-2 italic text-tertiary">
+        <Text size="2xs" className={INTERACTIVE_PROVENANCE_TEXT}>
           {provenanceText}
         </Text>
       ) : null}
@@ -49,7 +50,7 @@ export function ChipBar({
         size="sm"
         onClick={onMoreFilters}
         icon={<MaNaReDIcon name="filter" size={16} />}
-        className="text-2xs"
+        className={INTERACTIVE_FILTER_CONTROL}
       />
       <SortWrapper label={sortLabel} onClick={onSort} />
     </HStack>

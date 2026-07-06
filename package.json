@@ -18,6 +18,8 @@
     "astryx": "node node_modules/@astryxdesign/cli/bin/astryx.mjs",
     "generate:astryx-stories": "node scripts/generate-astryx-stories.mjs",
     "build:theme": "astryx theme build src/app/theme/manaredTheme.ts",
+    "validate:theme": "node scripts/validate-theme.mjs",
+    "pretest": "pnpm run validate:theme",
     "storybook": "storybook dev -p 6006 --host 0.0.0.0 --no-open --ci",
     "storybook-build": "storybook build",
     "storybook:preview": "npx --yes serve storybook-static -l 6006 --no-clipboard --no-port-switching",
