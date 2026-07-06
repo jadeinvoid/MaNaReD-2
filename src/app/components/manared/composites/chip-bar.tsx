@@ -34,7 +34,7 @@ export function ChipBar({
         />
       ))}
       {provenanceText ? (
-        <Text size="2xs" color="secondary" className="ml-2 text-[var(--color-text-tertiary)]">
+        <Text size="2xs" color="secondary" className="ml-2 text-tertiary">
           {provenanceText}
         </Text>
       ) : null}
