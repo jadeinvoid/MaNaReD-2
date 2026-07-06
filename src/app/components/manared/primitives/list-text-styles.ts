@@ -13,9 +13,3 @@ export const LIST_TEXT_LABEL =
 
 /** list-id + list-title stack — Figma `352:4034` padding `space/1`; gap applied via `--spacing-1` inline. */
 export const LIST_ROW_TEXT_STACK = "flex shrink-0 flex-col items-start p-1";
-
-/** Card body text stack — id, title, formula, source with `space/1` gap. */
-export const LIST_CARD_TEXT_STACK = "flex flex-1 flex-col items-start gap-1 p-1";
-
-/** Secondary card metadata — formula, source copy (`colour/text/secondary`, `font/size/3xs`). */
-export const LIST_CARD_META = "text-3xs font-normal leading-normal text-secondary";

@@ -27,3 +27,11 @@ export const INTERACTIVE_FILTER_REFINE_LABEL =
 export const INTERACTIVE_FILTER_CLEAR_ALL = `${INTERACTIVE_FILTER_ACTION_BASE} border-tertiary p-[length:var(--spacing-2)] text-3xs`;
 
 export const INTERACTIVE_FILTER_APPLY = `${INTERACTIVE_FILTER_ACTION_BASE} border-border-secondary px-[length:var(--spacing-6)] py-[length:var(--spacing-2)] text-2xs`;
+
+/** Card footer secondary action — Save / Export (page primary fill). */
+export const INTERACTIVE_CARD_ACTION =
+  "inline-flex h-7 shrink-0 items-center justify-center rounded-lg border border-solid border-border-secondary bg-body px-[length:var(--spacing-3)] py-[length:var(--spacing-1)] text-3xs font-normal leading-[var(--text-supporting-leading)] text-secondary hover:bg-button-hover focus-visible:bg-button-focus focus-visible:outline-none";
+
+/** Card footer primary navigation — Detail CTA (card tertiary fill). */
+export const INTERACTIVE_CARD_DETAIL =
+  "inline-flex h-7 shrink-0 items-center justify-center rounded-lg border border-solid border-emphasized bg-card-tertiary px-[length:var(--spacing-3)] py-[length:var(--spacing-1)] text-3xs font-normal leading-[var(--text-supporting-leading)] text-primary hover:bg-button-hover focus-visible:bg-button-focus focus-visible:outline-none";

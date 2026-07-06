@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { CSSProperties, ReactNode } from "react";
-import { expect, within } from "storybook/test";
+import { expect, fn, within } from "storybook/test";
 
 import {
   expectResolvedToken,
@@ -9,15 +9,25 @@ import {
 } from "@/storybook/manared/shared/assert-token-colours";
 
 import {
+  CARD_FORMULA,
+  CARD_HEADER_STACK,
+  CARD_ID,
+  CARD_META_GRID,
+  CARD_META_LABEL,
+  CARD_META_VALUE,
+  CARD_TAGS_ROW,
+  CARD_TITLE,
+} from "../primitives/card-text-styles";
+import { INTERACTIVE_CARD_ACTION, INTERACTIVE_CARD_DETAIL } from "../primitives/interactive-styles";
+import {
   BORDER_PRIMARY,
   COMPOUND_CARD_MEDIA,
   SHADOW_CARD,
   SURFACE_COMPOUND_CARD,
 } from "../primitives/surface-styles";
-import { LIST_CARD_TEXT_STACK } from "../primitives/list-text-styles";
 import { CompoundCard } from "./compound-card";
 
-/** Card shell shares surface tokens with Figma list row frame (`367:3752`). */
+/** Card shell shares surface tokens with Figma list/card frame (`367:3752`). */
 const FIGMA_CARD = "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=367-3752";
 
 function ColourModeFrame({ mode, children }: { mode: "light" | "dark"; children: ReactNode }) {
@@ -45,26 +55,33 @@ const meta = {
     design: { type: "figma", url: FIGMA_CARD },
     docs: {
       description: {
-        component: `Compound result card using ListText primitives and the [Figma card shell](${FIGMA_CARD}) (\`367:3752\`).`,
+        component: `Full browse compound card with [Figma card shell](${FIGMA_CARD}) typography and metadata footer.`,
       },
     },
   },
   decorators: [
     (Story) => (
-      <div className="w-full max-w-3xl">
+      <div className="w-full max-w-4xl">
         <Story />
       </div>
     ),
   ],
   args: {
-    id: "CMNPD-00482",
-    name: "Latrunculin A",
-    formula: "C₃₃H₄₅NO₅",
-    source: "Sponge Latrunculia sp.",
+    id: "# HAL-2024-001",
+    name: "Halichondrin B",
+    formula: "C₆₀H₈₆O₁₉",
+    molecularWeight: "1111.29 g/mol",
     tags: [
-      { label: "Cytotoxic", entity: "bioactivity" },
-      { label: "Marine", entity: "region" },
+      { label: "Antitumor", entity: "compound" },
+      { label: "Marine Origin", entity: "organism" },
+      { label: "Polyether Macrolide", entity: "compound" },
     ],
+    region: "Pacific Ocean",
+    organism: "Halichondria okadai",
+    bioactivity: "Antineoplastic",
+    onSave: fn(),
+    onExport: fn(),
+    onDetail: fn(),
   },
 } satisfies Meta<typeof CompoundCard>;
 
@@ -73,18 +90,22 @@ type Story = StoryObj<typeof meta>;
 
 async function assertCompoundCardContent(canvasElement: HTMLElement) {
   const canvas = within(canvasElement);
-  await expect(canvas.getByText("CMNPD-00482")).toBeVisible();
-  await expect(canvas.getByText("Latrunculin A")).toBeVisible();
-  await expect(canvas.getByText("C₃₃H₄₅NO₅")).toBeVisible();
-  await expect(canvas.getByText("Source: Sponge Latrunculia sp.")).toBeVisible();
-  await expect(canvas.getByText("Compound")).toBeVisible();
-  await expect(canvas.getByText("Cytotoxic")).toBeVisible();
-  await expect(canvas.getByText("Marine")).toBeVisible();
+  await expect(canvas.getByText("# HAL-2024-001")).toBeVisible();
+  await expect(canvas.getByText("Halichondrin B")).toBeVisible();
+  await expect(canvas.getByText("C₆₀H₈₆O₁₉ · MW: 1111.29 g/mol")).toBeVisible();
+  await expect(canvas.getByText("Antitumor")).toBeVisible();
+  await expect(canvas.getByText("Marine Origin")).toBeVisible();
+  await expect(canvas.getByText("Pacific Ocean")).toBeVisible();
+  await expect(canvas.getByText("Halichondria okadai")).toBeVisible();
+  await expect(canvas.getByText("Antineoplastic")).toBeVisible();
+  await expect(canvas.getByRole("button", { name: "Save" })).toBeVisible();
+  await expect(canvas.getByRole("button", { name: "Export" })).toBeVisible();
+  await expect(canvas.getByRole("button", { name: "Detail →" })).toBeVisible();
 }
 
 async function assertCompoundCardSurface(canvasElement: HTMLElement) {
   const canvas = within(canvasElement);
-  const shell = canvas.getByText("Latrunculin A").closest('[class*="bg-surface"]');
+  const shell = canvas.getByText("Halichondrin B").closest('[class*="bg-surface"]');
   if (!shell) {
     throw new Error("CompoundCard shell not found");
   }
@@ -93,29 +114,45 @@ async function assertCompoundCardSurface(canvasElement: HTMLElement) {
   await expect(SURFACE_COMPOUND_CARD).toContain(BORDER_PRIMARY);
   await expect(SURFACE_COMPOUND_CARD).toContain(SHADOW_CARD);
 
-  const media = canvas.getByText("Structure").parentElement;
-  await expectUsesTokenClasses(media?.className ?? "", "bg-body-secondary", "rounded-lg");
-  await expect(COMPOUND_CARD_MEDIA).toContain("bg-body-secondary");
+  const media = canvas.getByText("[Molecular Structure]").parentElement;
+  await expectUsesTokenClasses(
+    media?.className ?? "",
+    "border-dashed",
+    "border-emphasized",
+    "bg-body-secondary",
+  );
+  await expect(COMPOUND_CARD_MEDIA).toContain("border-dashed");
 }
 
 async function assertCompoundCardTypography(canvasElement: HTMLElement) {
   const canvas = within(canvasElement);
-  const id = canvas.getByText("CMNPD-00482");
-  const title = canvas.getByText("Latrunculin A");
-  const formula = canvas.getByText("C₃₃H₄₅NO₅");
+  const id = canvas.getByText("# HAL-2024-001");
+  const title = canvas.getByText("Halichondrin B");
+  const formula = canvas.getByText("C₆₀H₈₆O₁₉ · MW: 1111.29 g/mol");
 
-  await expectUsesTokenClasses(id.className, "font-mono", "text-3xs", "text-secondary");
-  await expectUsesTokenClasses(title.className, "text-xs", "font-semibold", "text-primary");
-  await expectUsesTokenClasses(formula.className, "text-3xs", "text-secondary");
+  await expectUsesTokenClasses(id.className, "font-mono", "text-2xs", "text-secondary");
+  await expectUsesTokenClasses(title.className, "text-sm", "font-semibold", "text-primary");
+  await expectUsesTokenClasses(formula.className, "font-mono", "text-2xs", "text-secondary");
+  await expect(CARD_ID).toContain("leading-[var(--text-supporting-leading)]");
+  await expect(CARD_TITLE).toContain("leading-[var(--text-heading-5-leading)]");
+  await expect(CARD_FORMULA).toContain("leading-[var(--text-supporting-leading)]");
+
+  const header = id.parentElement;
+  await expectUsesTokenClasses(header?.className ?? "", "flex-col");
+  await expect(CARD_HEADER_STACK).toContain("gap-[length:var(--spacing-1)]");
+  await expect(CARD_TAGS_ROW).toContain("pt-[length:var(--spacing-4)]");
+
+  const regionLabel = canvas.getByText("Geographic Region");
+  await expectUsesTokenClasses(regionLabel.className, "text-3xs", "text-tertiary");
   await expectUsesTokenClasses(
-    canvas.getByText("Source: Sponge Latrunculia sp.").className,
-    "text-3xs",
-    "text-secondary",
+    canvas.getByText("Pacific Ocean").className,
+    "text-2xs",
+    "font-medium",
+    "text-primary",
   );
-
-  const textStack = id.parentElement;
-  await expectUsesTokenClasses(textStack?.className ?? "", "flex-col", "gap-1", "p-1");
-  await expect(LIST_CARD_TEXT_STACK).toContain("gap-1");
+  await expect(CARD_META_LABEL).toContain("text-tertiary");
+  await expect(CARD_META_VALUE).toContain("text-primary");
+  await expect(CARD_META_GRID).toContain("grid-cols-1");
 }
 
 async function assertCompoundCardTokenColours(_canvasElement: HTMLElement) {
@@ -124,8 +161,25 @@ async function assertCompoundCardTokenColours(_canvasElement: HTMLElement) {
     await expectResolvedToken(mode, "--color-border", "borderColor");
     await expectResolvedToken(mode, "--color-text-secondary", "color");
     await expectResolvedToken(mode, "--color-text-primary", "color");
+    await expectResolvedToken(mode, "--color-text-tertiary", "color");
     await expectResolvedToken(mode, "--color-background-body-secondary", "backgroundColor");
+    await expectResolvedToken(mode, "--color-background-card-tertiary", "backgroundColor");
   }
+}
+
+async function assertCompoundCardActions(_canvasElement: HTMLElement) {
+  await expectUsesTokenClasses(
+    INTERACTIVE_CARD_ACTION,
+    "bg-body",
+    "text-3xs",
+    "border-border-secondary",
+  );
+  await expectUsesTokenClasses(
+    INTERACTIVE_CARD_DETAIL,
+    "bg-card-tertiary",
+    "border-emphasized",
+    "text-primary",
+  );
 }
 
 export const Default: Story = {
@@ -134,6 +188,7 @@ export const Default: Story = {
     await assertCompoundCardSurface(canvasElement);
     await assertCompoundCardTypography(canvasElement);
     await assertCompoundCardTokenColours(canvasElement);
+    await assertCompoundCardActions(canvasElement);
   },
 };
 
@@ -174,12 +229,16 @@ export const Minimal: Story = {
     id: "CMNPD-00103",
     name: "Manoalide",
     formula: undefined,
-    source: undefined,
+    molecularWeight: undefined,
     tags: [{ label: "Anti-inflammatory", entity: "bioactivity" }],
+    region: undefined,
+    organism: undefined,
+    bioactivity: undefined,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Manoalide")).toBeVisible();
-    await expect(canvas.queryByText(/^Source:/)).not.toBeInTheDocument();
+    await expect(canvas.queryByText("Geographic Region")).not.toBeInTheDocument();
+    await expect(canvas.getByRole("button", { name: "Detail →" })).toBeVisible();
   },
 };

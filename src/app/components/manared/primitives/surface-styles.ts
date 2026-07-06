@@ -31,7 +31,7 @@ export const SURFACE_COMPOUND_CARD = `w-full rounded-lg border border-solid ${BO
 
 /** Structure diagram placeholder — Figma card media slot. */
 export const COMPOUND_CARD_MEDIA =
-  "flex h-36 w-44 shrink-0 items-center justify-center rounded-lg bg-body-secondary";
+  "flex h-36 w-44 shrink-0 items-center justify-center rounded-lg border border-dashed border-emphasized bg-body-secondary px-2";
 
 /** 24px icon frame — Figma `icon/compound` slot. */
 export const LIST_ROW_ICON_SLOT =
