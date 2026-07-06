@@ -2,6 +2,7 @@ import { VStack } from "@astryxdesign/core/Layout";
 import { Text } from "@astryxdesign/core/Text";
 
 import { MaNaReDIcon } from "../icons/manared-icon";
+import { GRADIENT_SIDEBAR } from "../primitives/gradient-styles";
 
 export type NavSideBarProps = {
   activeItem?: string;
@@ -34,10 +35,12 @@ function NavItem({
   );
 }
 
-/** Primary navigation sidebar from Figma `MaNaReD` nav-side-bar symbol. */
+/** Primary navigation sidebar from Figma `nav-side-bar-light|dark` gradient paint styles. */
 export function NavSideBar({ activeItem = "Compound" }: NavSideBarProps) {
   return (
-    <aside className="flex h-full w-60 flex-col gap-4 rounded-lg bg-sidebar p-4">
+    <aside
+      className={`${GRADIENT_SIDEBAR} flex h-full w-60 flex-col gap-4 overflow-hidden rounded-lg p-4`}
+    >
       <Text size="lg" weight="bold" className="px-2 py-4 text-primary">
         MaNaReD
       </Text>

@@ -72,4 +72,13 @@ describe("MaNaReD theme contract", () => {
     expect(manaredCss).toContain("var(--color-text-secondary)");
     expect(manaredCss).toContain("var(--color-border-secondary)");
   });
+
+  it("defines gradient surface utilities in manaredGradients.css", () => {
+    const gradientsCss = readThemeFile("manaredGradients.css");
+
+    expect(gradientsCss).toContain(".surface-gradient-chip-bar");
+    expect(gradientsCss).toContain(".surface-gradient-sidebar");
+    expect(gradientsCss).toContain(".surface-gradient-filter");
+    expect(gradientsCss).toContain(".surface-gradient-context-bar");
+  });
 });

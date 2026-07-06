@@ -1,0 +1,182 @@
+/*
+ * MaNaReD gradient surfaces — Figma paint styles under colour/gradient/*.
+ * Layered fills (base + linear overlay). Avoid light-dark() on gradient images —
+ * split light/dark rules via data-colour-mode (Storybook) and prefers-color-scheme (app).
+ */
+@layer components {
+  @scope ([data-astryx-theme="manared"]) to ([data-astryx-theme]) {
+    /* chip-bar — colour/gradient/light|dark/chip-bar (349:3993) */
+    .surface-gradient-chip-bar {
+      background-image: linear-gradient(
+        180deg,
+        rgba(221, 238, 255, 0.2) 0%,
+        rgba(182, 211, 223, 0.2) 100%
+      );
+      background-color: light-dark(rgba(229, 233, 236, 0.46), rgba(11, 20, 38, 0.46));
+    }
+
+    /* nav-side-bar — colour/gradient/light|dark/side-bar (339:3237 / 339:3284) */
+    .surface-gradient-sidebar {
+      isolation: isolate;
+      position: relative;
+    }
+
+    .surface-gradient-sidebar::before,
+    .surface-gradient-sidebar::after {
+      border-radius: inherit;
+      content: "";
+      inset: 0;
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .surface-gradient-sidebar::before {
+      z-index: 0;
+      background-color: var(--color-background-sidebar);
+    }
+
+    .surface-gradient-sidebar::after {
+      z-index: 1;
+      mix-blend-mode: color-dodge;
+      background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(234, 252, 255, 0.2) 24.521%,
+        rgba(174, 202, 255, 0.122) 76.446%,
+        rgba(255, 255, 255, 0.2) 100%
+      );
+    }
+
+    .surface-gradient-sidebar > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :scope .surface-gradient-sidebar::before {
+        background-color: #0a171e;
+      }
+
+      :scope .surface-gradient-sidebar::after {
+        background-image: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.2) 0%,
+          rgba(89, 81, 109, 0.2) 24.521%,
+          rgba(155, 182, 232, 0.122) 76.446%,
+          rgba(255, 255, 255, 0.2) 100%
+        );
+      }
+    }
+
+    :scope[data-colour-mode="dark"] .surface-gradient-sidebar::before,
+    [data-colour-mode="dark"] .surface-gradient-sidebar::before {
+      background-color: #0a171e;
+    }
+
+    :scope[data-colour-mode="dark"] .surface-gradient-sidebar::after,
+    [data-colour-mode="dark"] .surface-gradient-sidebar::after {
+      background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(89, 81, 109, 0.2) 24.521%,
+        rgba(155, 182, 232, 0.122) 76.446%,
+        rgba(255, 255, 255, 0.2) 100%
+      );
+    }
+
+    /* filter/container — light dropdownSelect + dark filter (349:4572) */
+    .surface-gradient-filter {
+      background-color: var(--color-background-sidebar-secondary);
+      background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(234, 252, 255, 0.2) 24.521%,
+        rgba(174, 202, 255, 0.122) 76.446%,
+        rgba(255, 255, 255, 0.2) 100%
+      );
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :scope .surface-gradient-filter {
+        background-color: #384050;
+        background-image: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(89, 81, 109, 0.2) 24.521%,
+          rgba(174, 202, 255, 0.122) 76.446%,
+          rgba(255, 255, 255, 0) 100%
+        );
+      }
+    }
+
+    [data-colour-mode="dark"] .surface-gradient-filter {
+      background-color: #384050;
+      background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(89, 81, 109, 0.2) 24.521%,
+        rgba(174, 202, 255, 0.122) 76.446%,
+        rgba(255, 255, 255, 0) 100%
+      );
+    }
+
+    [data-colour-mode="light"] .surface-gradient-filter {
+      background-color: var(--color-background-sidebar-secondary);
+      background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(234, 252, 255, 0.2) 24.521%,
+        rgba(174, 202, 255, 0.122) 76.446%,
+        rgba(255, 255, 255, 0.2) 100%
+      );
+    }
+
+    /* contextual-bar — colour/gradient/light|dark/context-bar (360:2601 / 360:2602) */
+    .surface-gradient-context-bar {
+      background-color: rgb(242, 250, 255);
+      background-image: linear-gradient(
+        159.05deg,
+        rgba(186, 235, 230, 0.59) 30.762%,
+        rgba(27, 40, 110, 0.59) 51.68%,
+        rgba(30, 13, 84, 0.59) 76.282%,
+        rgba(114, 128, 163, 0.59) 107.27%,
+        rgba(90, 128, 144, 0.59) 123.79%
+      );
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :scope .surface-gradient-context-bar {
+        background-image: linear-gradient(
+          159.05deg,
+          rgba(186, 235, 230, 0.76) 30.762%,
+          rgba(27, 40, 110, 0.76) 51.68%,
+          rgba(30, 13, 84, 0.76) 76.282%,
+          rgba(114, 128, 163, 0.76) 107.27%,
+          rgba(90, 128, 144, 0.76) 123.79%
+        );
+      }
+    }
+
+    [data-colour-mode="dark"] .surface-gradient-context-bar {
+      background-image: linear-gradient(
+        159.05deg,
+        rgba(186, 235, 230, 0.76) 30.762%,
+        rgba(27, 40, 110, 0.76) 51.68%,
+        rgba(30, 13, 84, 0.76) 76.282%,
+        rgba(114, 128, 163, 0.76) 107.27%,
+        rgba(90, 128, 144, 0.76) 123.79%
+      );
+    }
+
+    [data-colour-mode="light"] .surface-gradient-context-bar {
+      background-image: linear-gradient(
+        159.05deg,
+        rgba(186, 235, 230, 0.59) 30.762%,
+        rgba(27, 40, 110, 0.59) 51.68%,
+        rgba(30, 13, 84, 0.59) 76.282%,
+        rgba(114, 128, 163, 0.59) 107.27%,
+        rgba(90, 128, 144, 0.59) 123.79%
+      );
+    }
+  }
+}

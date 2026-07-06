@@ -9,11 +9,12 @@ import {
 } from "@/storybook/manared/shared/assert-token-colours";
 
 import { INTERACTIVE_CHIP_BAR_CONTROL } from "../primitives/interactive-styles";
+import { GRADIENT_CHIP_BAR } from "../primitives/gradient-styles";
 import { SURFACE_CHIP_BAR } from "../primitives/surface-styles";
 import { ChipBar } from "./chip-bar";
 
 const FIGMA_CHIP_BAR =
-  "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=332-9081";
+  "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=349-3993";
 
 function ColourModeFrame({ mode, children }: { mode: "light" | "dark"; children: ReactNode }) {
   const frameStyle: CSSProperties = {
@@ -58,11 +59,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-async function assertChipBarTokenColours(canvasElement: HTMLElement) {
+async function assertChipBarGradient(canvasElement: HTMLElement) {
   const canvas = within(canvasElement);
   const chipLabel = canvas.getByText("Alkaloids");
   const chip = chipLabel.parentElement;
-  const bar = canvasElement.querySelector(".bg-body-secondary");
+  const bar = canvasElement.querySelector(`.${GRADIENT_CHIP_BAR}`);
   const provenance = canvas.getByText("Filter carried on from previous session.");
   const moreFilters = canvas.getByRole("button", { name: "More Filters" });
 
@@ -70,8 +71,12 @@ async function assertChipBarTokenColours(canvasElement: HTMLElement) {
     throw new Error("ChipBar token test elements not found");
   }
 
-  await expectUsesTokenClasses(bar.className, "bg-body-secondary");
-  await expectUsesTokenClasses(SURFACE_CHIP_BAR, "bg-body-secondary");
+  await expectUsesTokenClasses(bar.className, GRADIENT_CHIP_BAR);
+  await expectUsesTokenClasses(SURFACE_CHIP_BAR, GRADIENT_CHIP_BAR);
+  await expect(
+    getComputedStyle(bar).backgroundImage,
+    "chip bar should use a gradient fill",
+  ).toContain("gradient");
   await expectUsesTokenClasses(
     chip.className,
     "bg-chip-active",
@@ -94,7 +99,6 @@ async function assertChipBarTokenColours(canvasElement: HTMLElement) {
   );
 
   for (const mode of ["light", "dark"] as const) {
-    await expectResolvedToken(mode, "--color-background-body-secondary", "backgroundColor");
     await expectResolvedToken(mode, "--color-interactive-chip-active", "backgroundColor");
     await expectResolvedToken(mode, "--color-background-body", "backgroundColor");
     await expectResolvedToken(mode, "--color-border-secondary", "borderColor");
@@ -108,7 +112,7 @@ export const Default: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Alkaloids")).toBeVisible();
     await expect(canvas.getByText("Filter carried on from previous session.")).toBeVisible();
-    await assertChipBarTokenColours(canvasElement);
+    await assertChipBarGradient(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Remove Alkaloids" }));
     await expect(args.onRemoveChip).toHaveBeenCalledWith("Alkaloids");
     await userEvent.click(canvas.getByRole("button", { name: "More Filters" }));
@@ -125,7 +129,7 @@ export const LightMode: Story = {
     </ColourModeFrame>
   ),
   play: async ({ canvasElement }) => {
-    await withColourMode("light", () => assertChipBarTokenColours(canvasElement));
+    await withColourMode("light", () => assertChipBarGradient(canvasElement));
   },
 };
 
@@ -136,6 +140,6 @@ export const DarkMode: Story = {
     </ColourModeFrame>
   ),
   play: async ({ canvasElement }) => {
-    await withColourMode("dark", () => assertChipBarTokenColours(canvasElement));
+    await withColourMode("dark", () => assertChipBarGradient(canvasElement));
   },
 };

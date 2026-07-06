@@ -1,6 +1,7 @@
 import { VStack } from "@astryxdesign/core/Layout";
 
 import { MaNaReDIcon } from "../icons/manared-icon";
+import { GRADIENT_FILTER } from "../primitives/gradient-styles";
 import { FilterButton } from "../primitives/filter-button";
 import { DEFAULT_FILTER_ROWS, FilterRow } from "./filter-row";
 
@@ -26,7 +27,7 @@ export function FilterSidebar({ collapsed = false, onApply, onClear }: FilterSid
             <FilterButton variant="clear-all" onClick={onClear} />
           </div>
 
-          <VStack gap={1} className="flex-1">
+          <VStack gap={1} className={`${GRADIENT_FILTER} flex-1 rounded-md p-2`}>
             {DEFAULT_FILTER_ROWS.map((label) => (
               <FilterRow key={label} label={label} />
             ))}
