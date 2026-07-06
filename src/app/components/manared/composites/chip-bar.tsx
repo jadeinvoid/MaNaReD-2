@@ -25,7 +25,11 @@ export function ChipBar({
   sortLabel = "Sort by: Relevance",
 }: ChipBarProps) {
   return (
-    <HStack gap={2} vAlign="center" className="min-h-11 flex-wrap rounded-lg bg-surface px-3 py-2">
+    <HStack
+      gap={2}
+      vAlign="center"
+      className="min-h-11 flex-wrap rounded-lg bg-body-secondary px-3 py-2"
+    >
       {chips.map((chip) => (
         <ActiveChip
           key={chip}
@@ -34,7 +38,7 @@ export function ChipBar({
         />
       ))}
       {provenanceText ? (
-        <Text size="2xs" color="secondary" className="ml-2 text-tertiary">
+        <Text size="2xs" className="ml-2 italic text-tertiary">
           {provenanceText}
         </Text>
       ) : null}
