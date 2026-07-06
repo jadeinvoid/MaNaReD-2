@@ -26,6 +26,13 @@ export const SHADOW_CARD = "shadow-[0_4px_3.1px_rgba(198,218,245,0.05)]";
 /** Search-mode list row shell — Figma list frame (`367:3752`). */
 export const SURFACE_LIST_ROW = `w-full rounded-lg border border-solid ${BORDER_PRIMARY} bg-surface py-4 pl-6 pr-4 ${SHADOW_CARD}`;
 
+/** Compound result card shell — shares list row card surface (`367:3752`). */
+export const SURFACE_COMPOUND_CARD = `w-full rounded-lg border border-solid ${BORDER_PRIMARY} bg-surface p-4 ${SHADOW_CARD}`;
+
+/** Structure diagram placeholder — Figma card media slot. */
+export const COMPOUND_CARD_MEDIA =
+  "flex h-36 w-44 shrink-0 items-center justify-center rounded-lg border border-dashed border-emphasized bg-body-secondary px-2";
+
 /** 24px icon frame — Figma `icon/compound` slot. */
 export const LIST_ROW_ICON_SLOT =
   "flex size-6 shrink-0 items-center justify-center overflow-visible";

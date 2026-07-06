@@ -91,26 +91,32 @@ export const CardView: Story = {
         provenanceText="Filter carried on from previous session."
       />
       <CompoundCard
-        id="CMNPD-00482"
-        name="Latrunculin A"
-        formula="C₃₃H₄₅NO₅"
-        source="Sponge Latrunculia sp."
+        id="# HAL-2024-001"
+        name="Halichondrin B"
+        formula="C₆₀H₈₆O₁₉"
+        molecularWeight="1111.29 g/mol"
         tags={[
-          { label: "Cytotoxic", entity: "bioactivity" },
-          { label: "Marine", entity: "region" },
+          { label: "Antitumor", entity: "compound" },
+          { label: "Marine Origin", entity: "organism" },
         ]}
+        region="Pacific Ocean"
+        organism="Halichondria okadai"
+        bioactivity="Antineoplastic"
       />
       <CompoundCard
         id="CMNPD-00103"
         name="Manoalide"
         formula="C₂₅H₄₀O₅"
+        molecularWeight="402.6 Da"
         tags={[{ label: "Anti-inflammatory", entity: "bioactivity" }]}
+        organism="Sponge"
+        bioactivity="Anti-inflammatory"
       />
     </BrowseShell>
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByText("Latrunculin A")).toBeVisible();
+    await expect(canvas.getByText("Halichondrin B")).toBeVisible();
     await expect(canvas.getByText("Manoalide")).toBeVisible();
   },
 };
