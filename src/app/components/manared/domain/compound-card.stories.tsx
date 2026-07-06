@@ -12,13 +12,17 @@ import {
   CARD_FORMULA,
   CARD_HEADER_STACK,
   CARD_ID,
-  CARD_META_GRID,
   CARD_META_LABEL,
+  CARD_META_ROW,
   CARD_META_VALUE,
   CARD_TAGS_ROW,
   CARD_TITLE,
 } from "../primitives/card-text-styles";
-import { INTERACTIVE_CARD_ACTION, INTERACTIVE_CARD_DETAIL } from "../primitives/interactive-styles";
+import {
+  INTERACTIVE_CARD_DETAIL,
+  INTERACTIVE_CARD_EXPORT,
+  INTERACTIVE_CARD_SAVE,
+} from "../primitives/interactive-styles";
 import {
   BORDER_PRIMARY,
   COMPOUND_CARD_MEDIA,
@@ -100,7 +104,7 @@ async function assertCompoundCardContent(canvasElement: HTMLElement) {
   await expect(canvas.getByText("Antineoplastic")).toBeVisible();
   await expect(canvas.getByRole("button", { name: "Save" })).toBeVisible();
   await expect(canvas.getByRole("button", { name: "Export" })).toBeVisible();
-  await expect(canvas.getByRole("button", { name: "Detail →" })).toBeVisible();
+  await expect(canvas.getByRole("button", { name: "Detail" })).toBeVisible();
 }
 
 async function assertCompoundCardSurface(canvasElement: HTMLElement) {
@@ -143,16 +147,15 @@ async function assertCompoundCardTypography(canvasElement: HTMLElement) {
   await expect(CARD_TAGS_ROW).toContain("pt-[length:var(--spacing-4)]");
 
   const regionLabel = canvas.getByText("Geographic Region");
-  await expectUsesTokenClasses(regionLabel.className, "text-3xs", "text-tertiary");
+  await expectUsesTokenClasses(regionLabel.className, "text-tertiary");
   await expectUsesTokenClasses(
     canvas.getByText("Pacific Ocean").className,
-    "text-2xs",
-    "font-medium",
+    "text-[13px]",
     "text-primary",
   );
-  await expect(CARD_META_LABEL).toContain("text-tertiary");
-  await expect(CARD_META_VALUE).toContain("text-primary");
-  await expect(CARD_META_GRID).toContain("grid-cols-1");
+  await expect(CARD_META_LABEL).toContain("text-[11px]");
+  await expect(CARD_META_VALUE).toContain("text-[13px]");
+  await expect(CARD_META_ROW).toContain("gap-[length:var(--spacing-8)]");
 }
 
 async function assertCompoundCardTokenColours(_canvasElement: HTMLElement) {
@@ -167,19 +170,24 @@ async function assertCompoundCardTokenColours(_canvasElement: HTMLElement) {
   }
 }
 
-async function assertCompoundCardActions(_canvasElement: HTMLElement) {
+async function assertCompoundCardActions(canvasElement: HTMLElement) {
+  const canvas = within(canvasElement);
+  const save = canvas.getByRole("button", { name: "Save" });
+  const exportBtn = canvas.getByRole("button", { name: "Export" });
+  const detail = canvas.getByRole("button", { name: "Detail" });
+
+  await expectUsesTokenClasses(save.className, "bg-button-active", "text-3xs", "text-primary");
+  await expectUsesTokenClasses(exportBtn.className, "bg-button-focus", "text-3xs", "text-primary");
   await expectUsesTokenClasses(
-    INTERACTIVE_CARD_ACTION,
-    "bg-body",
-    "text-3xs",
-    "border-border-secondary",
-  );
-  await expectUsesTokenClasses(
-    INTERACTIVE_CARD_DETAIL,
+    detail.className,
     "bg-card-tertiary",
-    "border-emphasized",
+    "font-semibold",
     "text-primary",
   );
+  await expect(INTERACTIVE_CARD_SAVE).toContain("rounded-[6px]");
+  await expect(INTERACTIVE_CARD_EXPORT).toContain("bg-button-focus");
+  await expect(INTERACTIVE_CARD_DETAIL).toContain("font-semibold");
+  await expect(detail.querySelector("svg")).toBeTruthy();
 }
 
 export const Default: Story = {
@@ -239,6 +247,6 @@ export const Minimal: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Manoalide")).toBeVisible();
     await expect(canvas.queryByText("Geographic Region")).not.toBeInTheDocument();
-    await expect(canvas.getByRole("button", { name: "Detail →" })).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Detail" })).toBeVisible();
   },
 };

@@ -16,13 +16,11 @@ export const CARD_FORMULA =
 export const CARD_MEDIA_LABEL =
   "text-center text-3xs font-normal leading-[var(--text-supporting-leading)] text-tertiary";
 
-/** Metadata field label — `font/size/3xs`, tertiary. */
-export const CARD_META_LABEL =
-  "text-3xs font-normal leading-[var(--text-supporting-leading)] text-tertiary";
+/** Metadata field label — Figma `card-information-label` (11px tertiary). */
+export const CARD_META_LABEL = "text-[11px] font-normal leading-normal text-tertiary";
 
-/** Metadata field value — `font/size/2xs`, primary. */
-export const CARD_META_VALUE =
-  "text-2xs font-medium leading-[var(--text-body-leading)] text-primary";
+/** Metadata field value — Figma `card-information-label` content (13px primary). */
+export const CARD_META_VALUE = "text-[13px] font-normal leading-normal text-primary";
 
 /** id + title + formula stack — Figma `space/1` between header lines. */
 export const CARD_HEADER_STACK = "flex flex-col items-start gap-[length:var(--spacing-1)]";
@@ -34,16 +32,12 @@ export const CARD_BODY_COLUMN = "flex min-w-0 flex-1 flex-col";
 export const CARD_TAGS_ROW =
   "flex flex-wrap gap-[length:var(--spacing-2)] pt-[length:var(--spacing-4)]";
 
-/** Three-column metadata band below header row. */
-export const CARD_META_GRID =
-  "grid w-full grid-cols-1 gap-[length:var(--spacing-4)] sm:grid-cols-3";
+/** Metadata band — Figma `space/8` horizontal gap (`191:1269`). */
+export const CARD_META_ROW = "flex w-full flex-wrap items-center gap-[length:var(--spacing-8)]";
 
-/** Single metadata label/value pair. */
-export const CARD_META_CELL = "flex flex-col gap-[length:var(--spacing-1)]";
+/** Single metadata label/value pair — Figma 2px gap. */
+export const CARD_META_CELL = "flex flex-col gap-0.5";
 
-/** Footer divider + actions — Figma card footer band. */
+/** Footer actions row — Figma `space/2` gap with trailing spacer (`191:1310`). */
 export const CARD_FOOTER =
-  "mt-[length:var(--spacing-4)] flex w-full flex-wrap items-center justify-between gap-[length:var(--spacing-4)] border-t border-solid border-emphasized pt-[length:var(--spacing-4)]";
-
-/** Left-side secondary actions (Save, Export). */
-export const CARD_FOOTER_ACTIONS = "flex flex-wrap items-center gap-[length:var(--spacing-2)]";
+  "flex w-full items-center gap-[length:var(--spacing-2)] border-t border-solid border-emphasized pt-[length:var(--spacing-4)]";

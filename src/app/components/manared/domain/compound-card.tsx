@@ -1,22 +1,26 @@
 import { HStack, VStack } from "@astryxdesign/core/Layout";
 
+import { MaNaReDIcon } from "../icons/manared-icon";
 import { Chip } from "../primitives/chip";
 import {
   CARD_BODY_COLUMN,
   CARD_FOOTER,
-  CARD_FOOTER_ACTIONS,
   CARD_FORMULA,
   CARD_HEADER_STACK,
   CARD_ID,
   CARD_MEDIA_LABEL,
   CARD_META_CELL,
-  CARD_META_GRID,
   CARD_META_LABEL,
+  CARD_META_ROW,
   CARD_META_VALUE,
   CARD_TAGS_ROW,
   CARD_TITLE,
 } from "../primitives/card-text-styles";
-import { INTERACTIVE_CARD_ACTION, INTERACTIVE_CARD_DETAIL } from "../primitives/interactive-styles";
+import {
+  INTERACTIVE_CARD_DETAIL,
+  INTERACTIVE_CARD_EXPORT,
+  INTERACTIVE_CARD_SAVE,
+} from "../primitives/interactive-styles";
 import { COMPOUND_CARD_MEDIA, SURFACE_COMPOUND_CARD } from "../primitives/surface-styles";
 import type { EntityType } from "../primitives/chip";
 
@@ -90,7 +94,7 @@ export function CompoundCard({
         </HStack>
 
         {showMetadata ? (
-          <div className={CARD_META_GRID}>
+          <div className={CARD_META_ROW}>
             {region != null ? <CardMetaField label="Geographic Region" value={region} /> : null}
             {organism != null ? <CardMetaField label="Source Organism" value={organism} /> : null}
             {bioactivity != null ? (
@@ -100,16 +104,16 @@ export function CompoundCard({
         ) : null}
 
         <div className={CARD_FOOTER}>
-          <div className={CARD_FOOTER_ACTIONS}>
-            <button type="button" onClick={onSave} className={INTERACTIVE_CARD_ACTION}>
-              Save
-            </button>
-            <button type="button" onClick={onExport} className={INTERACTIVE_CARD_ACTION}>
-              Export
-            </button>
-          </div>
+          <button type="button" onClick={onSave} className={INTERACTIVE_CARD_SAVE}>
+            Save
+          </button>
+          <button type="button" onClick={onExport} className={INTERACTIVE_CARD_EXPORT}>
+            Export
+          </button>
+          <div className="min-w-px flex-1" aria-hidden="true" />
           <button type="button" onClick={onDetail} className={INTERACTIVE_CARD_DETAIL}>
-            Detail →
+            <span>Detail</span>
+            <MaNaReDIcon name="move-right" size={12} className="text-primary" aria-hidden />
           </button>
         </div>
       </VStack>
