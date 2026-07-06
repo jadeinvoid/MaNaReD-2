@@ -12,7 +12,7 @@ Figma file: `y12p7ety9bAbG9Z7m5Bd6L` — [MaNaReD UI Library](https://www.figma.
 | ActiveChip             | Primitives  | `primitives/active-chip.tsx`         | `332:9082` | done   | `interactive-styles.ts`                 | Flat span; shape.lg; 8px remove; chip interactive tokens |
 | FilterButton           | Primitives  | `primitives/filter-button.tsx`       | `332:9066` | done   | `interactive-styles` filter tokens      | light/dark play tests                                    |
 | EntityBadge            | Primitives  | `primitives/entity-badge.tsx`        | `332:9145` | done   | `entity-styles.ts`                      | rounded-md entity badge; shared tag tokens               |
-| ListText               | Primitives  | `primitives/list-text.tsx`           | `332:9204` | done   | `text-primary`, `text-secondary`        | Bundled ID/title/label primitives                        |
+| ListText               | Primitives  | `primitives/list-text.tsx`           | `352:4035` | done   | `list-text-styles`                      | Flat token spans; light/dark play tests                  |
 | DetailAtoms            | Primitives  | `primitives/detail-atoms.tsx`        | `332:9114` | done   | semantic text tokens                    | Bundled detail page atoms                                |
 | SearchBar              | Composites  | `composites/search-bar.tsx`          | `332:9047` | done   | `surface-styles.ts` (partial)           | `TextInput` client island                                |
 | NavSideBar             | Composites  | `composites/nav-side-bar.tsx`        | `339:3237` | done   | `gradient-styles`                       | Layered sidebar gradient; light/dark play tests          |
@@ -30,7 +30,7 @@ Figma file: `y12p7ety9bAbG9Z7m5Bd6L` — [MaNaReD UI Library](https://www.figma.
 
 ## New component checklist
 
-1. Add or reuse constants in `surface-styles.ts`, `interactive-styles.ts`, `gradient-styles.ts`, or `entity-styles.ts`.
+1. Add or reuse constants in `surface-styles.ts`, `interactive-styles.ts`, `gradient-styles.ts`, `list-text-styles.ts`, or `entity-styles.ts`.
 2. Register the component here with **Token deps** filled in.
 3. Add Storybook colour assertions via `src/storybook/manared/shared/assert-token-colours.ts` when Figma specifies semantic colours.
 4. Run `vp run validate:theme` and `vp test`.
