@@ -43,6 +43,11 @@ const meta = {
   parameters: {
     layout: "padded",
     design: { type: "figma", url: FIGMA_LIST_ROW },
+    docs: {
+      description: {
+        component: `Horizontal list row from the [Figma search-mode list pattern](${FIGMA_LIST_ROW}) (\`367:3752\`).`,
+      },
+    },
   },
   decorators: [
     (Story) => (
