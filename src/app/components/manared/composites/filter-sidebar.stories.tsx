@@ -27,7 +27,7 @@ export const Default: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Taxonomy")).toBeVisible();
-    await userEvent.click(canvas.getByRole("button", { name: "Apply filters" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Apply Filter" }));
     await expect(args.onApply).toHaveBeenCalledOnce();
   },
 };

@@ -10,7 +10,7 @@ Figma file: `y12p7ety9bAbG9Z7m5Bd6L` — [MaNaReD UI Library](https://www.figma.
 | MaNaReDIcon            | Icons       | `icons/manared-icon.tsx`             | `93:1469`  | done    | —                                      | 21 symbols; stroke 1.6px @ 16px scales with size         |
 | Chip                   | Primitives  | `primitives/chip.tsx`                | `332:9145` | done    | `entity-styles.ts`                     | Pill span; 12px label; space.1/2 padding                 |
 | ActiveChip             | Primitives  | `primitives/active-chip.tsx`         | `332:9082` | done    | `interactive-styles.ts`                | Flat span; shape.lg; 8px remove; chip interactive tokens |
-| FilterButton           | Primitives  | `primitives/filter-button.tsx`       | `332:9066` | done    | Astryx `Button` + theme override       | Wraps Astryx `Button`                                    |
+| FilterButton           | Primitives  | `primitives/filter-button.tsx`       | `332:9066` | done    | `interactive-styles` filter tokens     | light/dark play tests                                    |
 | EntityBadge            | Primitives  | `primitives/entity-badge.tsx`        | `332:9145` | done    | `entity-styles.ts`                     | rounded-md entity badge; shared tag tokens               |
 | ListText               | Primitives  | `primitives/list-text.tsx`           | `332:9204` | done    | `text-primary`, `text-secondary`       | Bundled ID/title/label primitives                        |
 | DetailAtoms            | Primitives  | `primitives/detail-atoms.tsx`        | `332:9114` | done    | semantic text tokens                   | Bundled detail page atoms                                |
@@ -21,7 +21,7 @@ Figma file: `y12p7ety9bAbG9Z7m5Bd6L` — [MaNaReD UI Library](https://www.figma.
 | FilterSidebar          | Composites  | `composites/filter-sidebar.tsx`      | `332:9061` | done    | `surface-styles.ts` (partial)          | 280px width matches Figma                                |
 | ChipBar                | Composites  | `composites/chip-bar.tsx`            | `332:9081` | done    | `surface-styles`, `interactive-styles` | Token-backed controls; light/dark play tests             |
 | TaxonomyBreadcrumb     | Composites  | `composites/taxonomy-breadcrumb.tsx` | `332:9054` | done    | semantic text tokens                   |                                                          |
-| SortWrapper            | Composites  | `composites/sort-wrapper.tsx`        | `332:9089` | done    | `interactive-styles` + theme btn       | Wraps Astryx `Button`; colour play tests                 |
+| SortWrapper            | Composites  | `composites/sort-wrapper.tsx`        | `332:9089` | done    | `interactive-styles`                   | Token-backed control; light/dark play tests              |
 | CompoundCard           | Domain      | `domain/compound-card.tsx`           | `332:9090` | done    | `surface-styles`, entity tokens        |                                                          |
 | ListRow                | Domain      | `domain/list-row.tsx`                | `332:9201` | done    | `surface-styles.ts` (partial)          |                                                          |
 | DetailSection          | Domain      | `domain/detail-section.tsx`          | `332:9114` | done    | semantic text tokens                   |                                                          |
