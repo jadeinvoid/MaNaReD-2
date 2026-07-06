@@ -13,3 +13,15 @@ export const INTERACTIVE_PROVENANCE_TEXT = "ml-2 italic text-tertiary";
 
 /** Secondary chip-bar control (More filters, Sort) — page primary + secondary border/text. */
 export const INTERACTIVE_FILTER_CONTROL = "text-2xs";
+
+/** Shared filter sidebar action shell — Figma `interactive.button` active/hover/focus. */
+export const INTERACTIVE_FILTER_ACTION_BASE =
+  "inline-flex shrink-0 items-center justify-center rounded-md border border-solid bg-button-active font-normal text-primary hover:bg-button-hover focus-visible:bg-button-focus focus-visible:outline-none";
+
+/** Sidebar section title — Figma `button/refine-result` (332:9066). */
+export const INTERACTIVE_FILTER_REFINE_LABEL =
+  "inline-flex shrink-0 items-center justify-center py-[length:var(--spacing-2)] text-sm font-semibold text-secondary";
+
+export const INTERACTIVE_FILTER_CLEAR_ALL = `${INTERACTIVE_FILTER_ACTION_BASE} border-tertiary p-[length:var(--spacing-2)] text-3xs`;
+
+export const INTERACTIVE_FILTER_APPLY = `${INTERACTIVE_FILTER_ACTION_BASE} border-border-secondary px-[length:var(--spacing-6)] py-[length:var(--spacing-2)] text-2xs`;
