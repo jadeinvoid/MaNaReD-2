@@ -1,8 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent, within } from "storybook/test";
 
-import { expectResolvedToken } from "@/storybook/manared/shared/assert-token-colours";
+import {
+  expectResolvedToken,
+  expectUsesTokenClasses,
+} from "@/storybook/manared/shared/assert-token-colours";
 
+import { INTERACTIVE_CHIP_BAR_CONTROL } from "../primitives/interactive-styles";
 import { SortWrapper } from "./sort-wrapper";
 
 const FIGMA_SORT = "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=332-9089";
@@ -27,7 +31,14 @@ async function assertSortWrapperTokenColours(canvasElement: HTMLElement) {
   const canvas = within(canvasElement);
   const sortButton = canvas.getByRole("button", { name: /Sort by/ });
 
-  await expect(sortButton.className).toContain("secondary");
+  await expectUsesTokenClasses(
+    sortButton.className,
+    "bg-body",
+    "border-border-secondary",
+    "text-secondary",
+    "text-3xs",
+  );
+  await expectUsesTokenClasses(INTERACTIVE_CHIP_BAR_CONTROL, "bg-body", "border-border-secondary");
 
   for (const mode of ["light", "dark"] as const) {
     await expectResolvedToken(mode, "--color-background-body", "backgroundColor");
