@@ -46,8 +46,28 @@ async function assertContextualBarGradient(canvasElement: HTMLElement) {
     throw new Error("ContextualBar gradient surface not found");
   }
 
-  const backgroundImage = getComputedStyle(bar).backgroundImage;
-  await expect(backgroundImage, "contextual bar should use a gradient fill").toContain("gradient");
+  const overlayStyle = getComputedStyle(bar, "::after");
+  await expect(
+    overlayStyle.backgroundImage,
+    "contextual bar should use a gradient overlay",
+  ).toContain("gradient");
+}
+
+async function assertChevronMatchesLabelColour(canvasElement: HTMLElement) {
+  const bar = canvasElement.querySelector(`.${GRADIENT_CONTEXT_BAR}`);
+  if (!bar) {
+    throw new Error("ContextualBar gradient surface not found");
+  }
+
+  const label = bar.querySelector(".astryx-text");
+  const chevron = bar.querySelector("svg");
+  if (!label || !chevron) {
+    throw new Error("ContextualBar breadcrumb label or chevron not found");
+  }
+
+  const labelColour = getComputedStyle(label).color;
+  const chevronColour = getComputedStyle(chevron).color;
+  await expect(chevronColour, "chevron should match breadcrumb label colour").toBe(labelColour);
 }
 
 export const Default: Story = {
@@ -58,6 +78,7 @@ export const Default: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Halichondrin B")).toBeVisible();
     await assertContextualBarGradient(canvasElement);
+    await assertChevronMatchesLabelColour(canvasElement);
   },
 };
 
@@ -71,7 +92,10 @@ export const LightMode: Story = {
     </ColourModeFrame>
   ),
   play: async ({ canvasElement }) => {
-    await withColourMode("light", () => assertContextualBarGradient(canvasElement));
+    await withColourMode("light", async () => {
+      await assertContextualBarGradient(canvasElement);
+      await assertChevronMatchesLabelColour(canvasElement);
+    });
   },
 };
 
@@ -85,6 +109,9 @@ export const DarkMode: Story = {
     </ColourModeFrame>
   ),
   play: async ({ canvasElement }) => {
-    await withColourMode("dark", () => assertContextualBarGradient(canvasElement));
+    await withColourMode("dark", async () => {
+      await assertContextualBarGradient(canvasElement);
+      await assertChevronMatchesLabelColour(canvasElement);
+    });
   },
 };

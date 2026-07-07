@@ -14,7 +14,9 @@ export function TaxonomyBreadcrumb({ items }: TaxonomyBreadcrumbProps) {
       {items.map((item, index) => (
         <HStack key={item} gap={2} vAlign="center">
           <DetailTaxonomyItem label={item} active={index === items.length - 1} />
-          {index < items.length - 1 ? <MaNaReDIcon name="chevron-right" size={24} /> : null}
+          {index < items.length - 1 ? (
+            <MaNaReDIcon name="chevron-right" size={24} className="text-inherit" />
+          ) : null}
         </HStack>
       ))}
     </HStack>

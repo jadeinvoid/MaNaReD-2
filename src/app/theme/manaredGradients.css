@@ -133,7 +133,28 @@
 
     /* contextual-bar — colour/gradient/light|dark/context-bar (360:2601 / 360:2602) */
     .surface-gradient-context-bar {
-      background-color: rgb(242, 250, 255);
+      color: #1c1b18;
+      isolation: isolate;
+      position: relative;
+    }
+
+    .surface-gradient-context-bar::before,
+    .surface-gradient-context-bar::after {
+      border-radius: inherit;
+      content: "";
+      inset: 0;
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .surface-gradient-context-bar::before {
+      z-index: 0;
+      background-color: #f2faff;
+    }
+
+    .surface-gradient-context-bar::after {
+      z-index: 1;
+      mix-blend-mode: color-burn;
       background-image: linear-gradient(
         159.05deg,
         rgba(186, 235, 230, 0.59) 30.762%,
@@ -144,8 +165,22 @@
       );
     }
 
+    .surface-gradient-context-bar > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .surface-gradient-context-bar .astryx-text {
+      color: inherit;
+    }
+
     @media (prefers-color-scheme: dark) {
       :scope .surface-gradient-context-bar {
+        color: #e8efff;
+      }
+
+      :scope .surface-gradient-context-bar::after {
+        mix-blend-mode: normal;
         background-image: linear-gradient(
           159.05deg,
           rgba(186, 235, 230, 0.76) 30.762%,
@@ -158,6 +193,11 @@
     }
 
     [data-colour-mode="dark"] .surface-gradient-context-bar {
+      color: #e8efff;
+    }
+
+    [data-colour-mode="dark"] .surface-gradient-context-bar::after {
+      mix-blend-mode: normal;
       background-image: linear-gradient(
         159.05deg,
         rgba(186, 235, 230, 0.76) 30.762%,
@@ -169,6 +209,11 @@
     }
 
     [data-colour-mode="light"] .surface-gradient-context-bar {
+      color: #1c1b18;
+    }
+
+    [data-colour-mode="light"] .surface-gradient-context-bar::after {
+      mix-blend-mode: color-burn;
       background-image: linear-gradient(
         159.05deg,
         rgba(186, 235, 230, 0.59) 30.762%,
