@@ -83,3 +83,14 @@ export const OpensOnFocus: Story = {
     await expect(canvas.getByText("Also Matches:")).toBeVisible();
   },
 };
+
+export const ClosesOnOutsideClick: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByPlaceholderText("Search compounds, organisms, regions…");
+    await userEvent.click(input);
+    await expect(canvas.getByText("Also Matches:")).toBeVisible();
+    await userEvent.click(canvas.getByText("Tools"));
+    await expect(canvas.queryByText("Also Matches:")).not.toBeInTheDocument();
+  },
+};
