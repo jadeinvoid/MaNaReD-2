@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { CSSProperties, ReactNode } from "react";
 import { expect, fn, within } from "storybook/test";
 
+import { expectHoverElevates } from "@/storybook/manared/shared/assert-hover-elevation";
 import {
   expectResolvedToken,
   expectUsesTokenClasses,
@@ -26,6 +27,7 @@ import {
 import {
   BORDER_PRIMARY,
   COMPOUND_CARD_MEDIA,
+  ELEVATION_HOVER,
   SHADOW_CARD,
   SURFACE_COMPOUND_CARD,
 } from "../primitives/surface-styles";
@@ -48,6 +50,19 @@ function ColourModeFrame({ mode, children }: { mode: "light" | "dark"; children:
       {children}
     </div>
   );
+}
+
+function getCardShell(canvasElement: HTMLElement): HTMLElement {
+  const canvas = within(canvasElement);
+  const title = canvas.getByText("Halichondrin B");
+  const shell =
+    title.closest(".shadow-card-rest") ??
+    title.closest('[class*="elevation-hover"]') ??
+    title.closest('[class*="bg-surface"]');
+  if (!shell || !(shell instanceof HTMLElement)) {
+    throw new Error("CompoundCard shell not found");
+  }
+  return shell;
 }
 
 const meta = {
@@ -117,6 +132,7 @@ async function assertCompoundCardSurface(canvasElement: HTMLElement) {
   await expectUsesTokenClasses(shell.className, "bg-surface", "rounded-lg", "p-4");
   await expect(SURFACE_COMPOUND_CARD).toContain(BORDER_PRIMARY);
   await expect(SURFACE_COMPOUND_CARD).toContain(SHADOW_CARD);
+  await expect(SURFACE_COMPOUND_CARD).toContain(ELEVATION_HOVER);
 
   const media = canvas.getByText("[Molecular Structure]").parentElement;
   await expectUsesTokenClasses(
@@ -190,6 +206,13 @@ async function assertCompoundCardActions(canvasElement: HTMLElement) {
   await expect(detail.querySelector("svg")).toBeTruthy();
 }
 
+async function assertCardHoverElevation(canvasElement: HTMLElement) {
+  const shell = getCardShell(canvasElement);
+  await expect(shell.className).toContain("shadow-card-rest");
+  await expect(shell.className).toContain("elevation-hover");
+  await expectHoverElevates(shell);
+}
+
 export const Default: Story = {
   play: async ({ canvasElement }) => {
     await assertCompoundCardContent(canvasElement);
@@ -197,6 +220,7 @@ export const Default: Story = {
     await assertCompoundCardTypography(canvasElement);
     await assertCompoundCardTokenColours(canvasElement);
     await assertCompoundCardActions(canvasElement);
+    await assertCardHoverElevation(canvasElement);
   },
 };
 
@@ -248,5 +272,46 @@ export const Minimal: Story = {
     await expect(canvas.getByText("Manoalide")).toBeVisible();
     await expect(canvas.queryByText("Geographic Region")).not.toBeInTheDocument();
     await expect(canvas.getByRole("button", { name: "Detail" })).toBeVisible();
+  },
+};
+
+export const HoverElevation: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Hover a card to see `--shadow-elevated` stack on top of the rest `--shadow-card` layer.",
+      },
+    },
+  },
+  render: () => (
+    <div className="rounded-lg bg-body p-6">
+      <div className="flex flex-col gap-4">
+        <CompoundCard
+          id="# HAL-2024-001"
+          name="Halichondrin B"
+          formula="C₆₀H₈₆O₁₉"
+          molecularWeight="1111.29 g/mol"
+          tags={[
+            { label: "Antitumor", entity: "compound" },
+            { label: "Marine Origin", entity: "organism" },
+          ]}
+          region="Pacific Ocean"
+          organism="Halichondria okadai"
+          bioactivity="Antineoplastic"
+        />
+        <CompoundCard
+          id="CMNPD-00103"
+          name="Manoalide"
+          formula="C₂₅H₄₀O₅"
+          tags={[{ label: "Anti-inflammatory", entity: "bioactivity" }]}
+        />
+      </div>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const shell = getCardShell(canvasElement);
+    await expect(shell.className).toContain("elevation-hover");
+    await assertCardHoverElevation(canvasElement);
   },
 };

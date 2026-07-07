@@ -27,5 +27,6 @@
 @import "./theme/manared-extensions.css";
 @import "./theme/manaredItemOverrides.css";
 @import "./theme/manaredGradients.css";
+@import "./theme/manaredElevation.css";
 @import "@astryxdesign/core/tailwind-theme.css";
 @import "tailwindcss/utilities.css" layer(utilities);

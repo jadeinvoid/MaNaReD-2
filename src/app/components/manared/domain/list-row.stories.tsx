@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { CSSProperties, ReactNode } from "react";
 import { expect, within } from "storybook/test";
 
+import { expectHoverElevates } from "@/storybook/manared/shared/assert-hover-elevation";
+
 import {
   expectResolvedToken,
   expectUsesTokenClasses,
@@ -10,12 +12,13 @@ import {
 
 import {
   BORDER_PRIMARY,
+  ELEVATION_HOVER,
   LIST_ROW_ICON_SLOT,
   SHADOW_CARD,
   SURFACE_LIST_ROW,
 } from "../primitives/surface-styles";
 import { LIST_ROW_TEXT_STACK } from "../primitives/list-text-styles";
-import { ListRow } from "./list-row";
+import { ListRow, type ListRowProps } from "./list-row";
 
 const FIGMA_LIST_ROW =
   "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=367-3752";
@@ -92,7 +95,21 @@ async function assertListRowSurface(canvasElement: HTMLElement) {
   await expectUsesTokenClasses(shell.className, "bg-surface", "rounded-lg", "pl-6", "pr-4", "py-4");
   await expect(SURFACE_LIST_ROW).toContain(BORDER_PRIMARY);
   await expect(SURFACE_LIST_ROW).toContain(SHADOW_CARD);
+  await expect(SURFACE_LIST_ROW).toContain(ELEVATION_HOVER);
   await expect(SURFACE_LIST_ROW).not.toContain("overflow-clip");
+}
+
+function getListRowShell(canvasElement: HTMLElement): HTMLElement {
+  const canvas = within(canvasElement);
+  const shell = canvas.getByText("Discodermolide").closest('[class*="bg-surface"]');
+  if (!shell || !(shell instanceof HTMLElement)) {
+    throw new Error("ListRow shell not found");
+  }
+  return shell;
+}
+
+async function assertListRowHoverElevation(canvasElement: HTMLElement) {
+  await expectHoverElevates(getListRowShell(canvasElement));
 }
 
 async function assertListRowSpacing(canvasElement: HTMLElement) {
@@ -148,6 +165,7 @@ export const Default: Story = {
     await assertListRowSurface(canvasElement);
     await assertListRowSpacing(canvasElement);
     await assertListRowTokenColours(canvasElement);
+    await assertListRowHoverElevation(canvasElement);
   },
 };
 
@@ -203,5 +221,52 @@ export const CombinedLabel: Story = {
       "text-3xs",
       "text-tertiary",
     );
+  },
+};
+
+const HOVER_ROW_ARGS = [
+  {
+    id: "# HAL-2024-001",
+    title: "Discodermolide",
+    chips: [{ label: "Antitumor", entity: "compound" }],
+    labelNumber: "773.0",
+    labelUnit: "Da",
+  },
+  {
+    id: "# HAL-2024-002",
+    title: "Latrunculin A",
+    chips: [{ label: "Cytotoxic", entity: "bioactivity" }],
+    labelNumber: "421.5",
+    labelUnit: "Da",
+  },
+] satisfies ListRowProps[];
+
+export const HoverElevation: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Hover a row to see `--shadow-elevated` stack on top of the rest `--shadow-card` layer.",
+      },
+    },
+  },
+  render: () => (
+    <div className="rounded-lg bg-body p-6">
+      <div className="flex flex-col gap-3">
+        {HOVER_ROW_ARGS.map((row) => (
+          <ListRow key={row.id} {...row} />
+        ))}
+      </div>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const firstRow = canvas.getByText("Discodermolide").closest('[class*="bg-surface"]');
+    if (!firstRow || !(firstRow instanceof HTMLElement)) {
+      throw new Error("ListRow shell not found");
+    }
+
+    await expect(firstRow.className).toContain("elevation-hover");
+    await expectHoverElevates(firstRow);
   },
 };
