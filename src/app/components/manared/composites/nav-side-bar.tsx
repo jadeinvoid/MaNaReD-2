@@ -49,14 +49,14 @@ function NavCategory({
 }) {
   return (
     <div
-      className={`flex w-full items-center py-1 drop-shadow-[0_4px_2.4px_rgba(0,0,0,0.17)] ${
+      className={`flex w-full items-center py-1 text-primary drop-shadow-[0_4px_2.4px_rgba(0,0,0,0.17)] ${
         collapsed ? "h-10 justify-center px-0" : "gap-4 px-4"
       }`}
     >
       <MaNaReDIcon
         name={icon}
         size={16}
-        className="text-primary"
+        className="text-current"
         label={collapsed ? label : undefined}
       />
       <Text
@@ -110,7 +110,7 @@ export function NavSideBar({
   return (
     <aside className={shellClass} data-collapsed={collapsed ? "true" : "false"}>
       <header
-        className={`flex w-full flex-col justify-center ${
+        className={`flex w-full flex-col justify-center text-primary ${
           collapsed ? "items-center" : "items-end"
         }`}
         data-name="nav-side-bar/header"
@@ -125,17 +125,17 @@ export function NavSideBar({
           <MaNaReDIcon
             name={collapsed ? "expand" : "expand-left"}
             size={24}
-            className="text-primary"
+            className="text-current"
           />
         </button>
       </header>
 
       <div
-        className="flex h-[120px] w-full shrink-0 items-center justify-center rounded-md"
+        className="flex h-[120px] w-full shrink-0 items-center justify-center rounded-md text-primary"
         data-name="logo"
       >
         <NavSidebarReveal collapsed={collapsed}>
-          <MaNaReDIcon name="logo" size={32} className="text-primary" label="MaNaReD logo" />
+          <MaNaReDIcon name="logo" size={32} className="text-current" label="MaNaReD logo" />
         </NavSidebarReveal>
       </div>
 
