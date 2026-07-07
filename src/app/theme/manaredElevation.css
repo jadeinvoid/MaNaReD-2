@@ -47,4 +47,9 @@
     flex-shrink: 0;
     width: var(--layout-sidebar-width, 192px);
   }
+
+  [data-astryx-theme="manared"] .nav-sidebar-shell-collapsed {
+    flex-shrink: 0;
+    width: var(--layout-sidebar-width-collapsed, 56px);
+  }
 }

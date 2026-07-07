@@ -1,29 +1,55 @@
+"use client";
+
+import { useState } from "react";
 import { Text } from "@astryxdesign/core/Text";
 
 import { MaNaReDIcon, type MaNaReDIconName } from "../icons/manared-icon";
-import { GRADIENT_SIDEBAR, NAV_SIDEBAR_SHELL } from "../primitives/gradient-styles";
+import {
+  INTERACTIVE_NAV_ITEM,
+  INTERACTIVE_NAV_ITEM_ACTIVE,
+} from "../primitives/interactive-styles";
+import {
+  GRADIENT_SIDEBAR,
+  NAV_SIDEBAR_SHELL,
+  NAV_SIDEBAR_SHELL_COLLAPSED,
+} from "../primitives/gradient-styles";
 
 export type NavSideBarProps = {
   activeItem?: string;
+  collapsed?: boolean;
+  defaultCollapsed?: boolean;
+  onCollapsedChange?: (collapsed: boolean) => void;
 };
 
 const exploreItems = ["Compound", "Organism", "Region"] as const;
 const workspaceItems = ["My Library", "Compare", "Export"] as const;
 
-const NAV_SHELL = [
-  GRADIENT_SIDEBAR,
-  NAV_SIDEBAR_SHELL,
-  "shadow-nav-sidebar",
-  "flex h-full min-h-screen flex-col gap-6 overflow-hidden rounded-tr-lg rounded-br-lg p-4",
-].join(" ");
-
-function NavCategory({ label, icon }: { label: string; icon: MaNaReDIconName }) {
+function NavCategory({
+  label,
+  icon,
+  collapsed,
+}: {
+  label: string;
+  icon: MaNaReDIconName;
+  collapsed?: boolean;
+}) {
   return (
-    <div className="flex w-full items-center gap-4 px-4 py-1 drop-shadow-[0_4px_2.4px_rgba(0,0,0,0.17)]">
-      <MaNaReDIcon name={icon} size={16} className="text-primary" />
-      <Text size="base" weight="bold" className="text-primary">
-        {label}
-      </Text>
+    <div
+      className={`flex w-full items-center py-1 drop-shadow-[0_4px_2.4px_rgba(0,0,0,0.17)] ${
+        collapsed ? "h-10 justify-center px-0" : "gap-4 px-4"
+      }`}
+    >
+      <MaNaReDIcon
+        name={icon}
+        size={16}
+        className="text-primary"
+        label={collapsed ? label : undefined}
+      />
+      {!collapsed && (
+        <Text size="base" weight="bold" className="text-primary">
+          {label}
+        </Text>
+      )}
     </div>
   );
 }
@@ -32,11 +58,8 @@ function NavItem({ label, active }: { label: string; active?: boolean }) {
   return (
     <button
       type="button"
-      className={`h-6 w-full rounded-md py-2 pl-10 pr-2 text-left text-2xs font-semibold tracking-[0.24px] ${
-        active
-          ? "bg-nav-active text-primary"
-          : "text-primary hover:bg-nav-hover focus-visible:bg-nav-focus"
-      }`}
+      aria-current={active ? "page" : undefined}
+      className={active ? INTERACTIVE_NAV_ITEM_ACTIVE : INTERACTIVE_NAV_ITEM}
     >
       {label}
     </button>
@@ -44,46 +67,84 @@ function NavItem({ label, active }: { label: string; active?: boolean }) {
 }
 
 /** Primary navigation sidebar from Figma `nav-side-bar-light|dark` (339:3237 / 339:3284). */
-export function NavSideBar({ activeItem = "Compound" }: NavSideBarProps) {
+export function NavSideBar({
+  activeItem = "Compound",
+  collapsed: controlledCollapsed,
+  defaultCollapsed = false,
+  onCollapsedChange,
+}: NavSideBarProps) {
+  const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
+  const collapsed = controlledCollapsed ?? internalCollapsed;
+
+  const setCollapsed = (next: boolean) => {
+    setInternalCollapsed(next);
+    onCollapsedChange?.(next);
+  };
+
+  const shellClass = [
+    GRADIENT_SIDEBAR,
+    collapsed ? NAV_SIDEBAR_SHELL_COLLAPSED : NAV_SIDEBAR_SHELL,
+    "shadow-nav-sidebar",
+    "flex h-full min-h-screen flex-col gap-6 overflow-hidden rounded-tr-lg rounded-br-lg p-4",
+  ].join(" ");
+
   return (
-    <aside className={NAV_SHELL}>
+    <aside className={shellClass} data-collapsed={collapsed ? "true" : "false"}>
       <header
         className="flex w-full flex-col items-end justify-center"
         data-name="nav-side-bar/header"
       >
-        <MaNaReDIcon name="expand" size={24} className="text-primary" label="Collapse sidebar" />
+        <button
+          type="button"
+          className="flex items-center justify-center"
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          aria-expanded={!collapsed}
+          onClick={() => setCollapsed(!collapsed)}
+        >
+          <MaNaReDIcon
+            name="expand"
+            size={24}
+            className={`text-primary ${collapsed ? "" : "-scale-y-100"}`}
+          />
+        </button>
       </header>
 
-      <div
-        className="flex h-[120px] w-full shrink-0 items-center justify-center rounded-md"
-        data-name="logo"
-      >
-        <MaNaReDIcon name="logo" size={32} className="text-primary" label="MaNaReD logo" />
-      </div>
+      {!collapsed && (
+        <div
+          className="flex h-[120px] w-full shrink-0 items-center justify-center rounded-md"
+          data-name="logo"
+        >
+          <MaNaReDIcon name="logo" size={32} className="text-primary" label="MaNaReD logo" />
+        </div>
+      )}
 
       <nav
         className="flex min-h-0 flex-1 flex-col gap-6"
         aria-label="Primary"
         data-name="nav-side-bar/content"
       >
-        <NavCategory label="Overview" icon="overview" />
+        <NavCategory label="Overview" icon="overview" collapsed={collapsed} />
 
-        <div className="flex flex-col gap-4">
-          <NavCategory label="Explore" icon="explore" />
-          <div className="flex flex-col gap-3">
-            {exploreItems.map((item) => (
-              <NavItem key={item} label={item} active={item === activeItem} />
-            ))}
-          </div>
+        <div className={`flex flex-col ${collapsed ? "gap-0" : "gap-4"}`}>
+          <NavCategory label="Explore" icon="explore" collapsed={collapsed} />
+          {!collapsed && (
+            <div className="flex flex-col gap-3">
+              {exploreItems.map((item) => (
+                <NavItem key={item} label={item} active={item === activeItem} />
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className="flex flex-col gap-4">
-          <NavCategory label="Workspace" icon="workspace" />
-          <div className="flex flex-col gap-3">
-            {workspaceItems.map((item) => (
-              <NavItem key={item} label={item} active={item === activeItem} />
-            ))}
-          </div>
+        <div className={`flex flex-col ${collapsed ? "gap-0" : "gap-4"}`}>
+          <NavCategory label="Workspace" icon="workspace" collapsed={collapsed} />
+          {!collapsed && (
+            <div className="flex flex-col gap-3">
+              {workspaceItems.map((item) => (
+                <NavItem key={item} label={item} active={item === activeItem} />
+              ))}
+            </div>
+          )}
         </div>
       </nav>
     </aside>
