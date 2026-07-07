@@ -24,6 +24,7 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Taxonomy")).toBeVisible();
+    await expect(canvas.getByLabelText("Expand filter")).toBeVisible();
   },
 };
 
@@ -38,13 +39,6 @@ export const AllRows: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Bioactivity")).toBeVisible();
-  },
-};
-
-export const NoFilter: Story = {
-  args: { label: "No active filters", icon: "no-filter" },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await expect(canvas.getByText("No active filters")).toBeVisible();
+    await expect(canvas.getAllByLabelText("Expand filter")).toHaveLength(6);
   },
 };
