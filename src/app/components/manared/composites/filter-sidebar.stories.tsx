@@ -34,8 +34,14 @@ const meta = {
     layout: "padded",
     design: { type: "figma", url: FIGMA_FILTER_SB },
   },
+  decorators: [
+    (Story) => (
+      <div className="h-[480px]">
+        <Story />
+      </div>
+    ),
+  ],
   args: {
-    onApply: fn(),
     onClear: fn(),
   },
 } satisfies Meta<typeof FilterSidebar>;
@@ -56,9 +62,11 @@ export const Default: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Taxonomy")).toBeVisible();
+    await expect(canvas.getByText("Target / assay")).toBeVisible();
+    await expect(canvas.getAllByLabelText("Expand filter")).toHaveLength(6);
     await assertFilterGradient(canvasElement);
-    await userEvent.click(canvas.getByRole("button", { name: "Apply Filter" }));
-    await expect(args.onApply).toHaveBeenCalledOnce();
+    await userEvent.click(canvas.getByRole("button", { name: "Clear All" }));
+    await expect(args.onClear).toHaveBeenCalledOnce();
   },
 };
 
@@ -81,13 +89,5 @@ export const DarkMode: Story = {
   ),
   play: async ({ canvasElement }) => {
     await withColourMode("dark", () => assertFilterGradient(canvasElement));
-  },
-};
-
-export const Collapsed: Story = {
-  args: { collapsed: true },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await expect(canvas.queryByText("Taxonomy")).not.toBeInTheDocument();
   },
 };

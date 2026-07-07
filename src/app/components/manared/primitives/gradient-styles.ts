@@ -6,6 +6,9 @@ export const GRADIENT_CHIP_BAR = "surface-gradient-chip-bar";
 /** Primary nav sidebar shell — Figma `colour/gradient/light|dark/side-bar`. */
 export const GRADIENT_SIDEBAR = "surface-gradient-sidebar";
 
+/** Fixed 192px nav rail width — Figma `--layout/sidebar/width` (339:3237). */
+export const NAV_SIDEBAR_SHELL = "nav-sidebar-shell";
+
 /** Filter sidebar scroll region — Figma `colour/gradient/light|dark/filter`. */
 export const GRADIENT_FILTER = "surface-gradient-filter";
 

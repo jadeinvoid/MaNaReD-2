@@ -23,4 +23,28 @@
   [data-astryx-theme="manared"] .shadow-dropdown {
     box-shadow: var(--shadow-dropdown);
   }
+
+  /* Primary nav sidebar — Figma nav-side-bar/shadow-light|dark */
+  [data-astryx-theme="manared"] .shadow-nav-sidebar {
+    box-shadow: var(--shadow-nav-sidebar);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    [data-astryx-theme="manared"] .shadow-nav-sidebar {
+      box-shadow: var(--shadow-nav-sidebar-dark);
+    }
+  }
+
+  [data-colour-mode="dark"] .shadow-nav-sidebar {
+    box-shadow: var(--shadow-nav-sidebar-dark);
+  }
+
+  [data-colour-mode="light"] .shadow-nav-sidebar {
+    box-shadow: var(--shadow-nav-sidebar);
+  }
+
+  [data-astryx-theme="manared"] .nav-sidebar-shell {
+    flex-shrink: 0;
+    width: var(--layout-sidebar-width, 192px);
+  }
 }

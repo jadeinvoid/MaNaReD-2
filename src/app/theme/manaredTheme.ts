@@ -63,6 +63,13 @@ export const manaredTheme = defineTheme({
     "--shadow-elevated": "0 8px 20px color-mix(in srgb, var(--color-shadow) 12%, transparent)",
     "--shadow-search-bar": "0 4px 8px color-mix(in srgb, #617990 20%, transparent)",
     "--shadow-dropdown": "0 4px 4px color-mix(in srgb, #617990 25%, transparent)",
+
+    // Layout — Figma `--layout/sidebar/width` (nav-side-bar 339:3237)
+    "--layout-sidebar-width": "192px",
+
+    // Nav sidebar elevation — Figma nav-side-bar/shadow-light|dark (339:3237 / 339:3284)
+    "--shadow-nav-sidebar": "4px 0 8px color-mix(in srgb, #0f142e 18%, transparent)",
+    "--shadow-nav-sidebar-dark": "0 4px 2px color-mix(in srgb, #c6daf5 5%, transparent)",
   } as NonNullable<DefineThemeInput["tokens"]>,
 
   components: {

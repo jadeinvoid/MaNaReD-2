@@ -1,22 +1,16 @@
-import { HStack } from "@astryxdesign/core/Layout";
-import { Text } from "@astryxdesign/core/Text";
-
 import { MaNaReDIcon } from "../icons/manared-icon";
 
 export type FilterRowProps = {
   label: string;
-  icon?: "filter" | "no-filter";
 };
 
-/** Single filter category row in the sidebar (taxonomy, MW, etc.). */
-export function FilterRow({ label, icon = "filter" }: FilterRowProps) {
+/** Single filter category row in the sidebar — Figma `filter/category` (349:4572). */
+export function FilterRow({ label }: FilterRowProps) {
   return (
-    <HStack gap={2} vAlign="center" className="w-full justify-end py-1">
-      <Text size="2xs" color="secondary">
-        {label}
-      </Text>
-      <MaNaReDIcon name={icon} size={16} />
-    </HStack>
+    <div className="flex w-full items-center justify-end gap-1 overflow-hidden pl-2 pr-1">
+      <span className="px-2 py-1 text-3xs uppercase text-primary">{label}</span>
+      <MaNaReDIcon name="chevron-down" size={24} className="text-primary" label="Expand filter" />
+    </div>
   );
 }
 
@@ -26,5 +20,5 @@ export const DEFAULT_FILTER_ROWS = [
   "Compound Class",
   "Geographic Region",
   "Bioactivity",
-  "Target Assay",
+  "Target / assay",
 ] as const;

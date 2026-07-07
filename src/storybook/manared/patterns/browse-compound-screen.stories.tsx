@@ -61,7 +61,7 @@ function BrowseShell({ children }: { children: ReactNode }) {
             Compounds
           </Text>
         </ContextualBar>
-        <div className="flex flex-1 gap-4 p-4">
+        <div className="flex min-h-0 flex-1 gap-4 p-4">
           <FilterSidebar />
           <VStack gap={4} className="flex-1">
             {children}

@@ -1,44 +1,26 @@
-import { VStack } from "@astryxdesign/core/Layout";
-
-import { MaNaReDIcon } from "../icons/manared-icon";
-import { GRADIENT_FILTER } from "../primitives/gradient-styles";
 import { FilterButton } from "../primitives/filter-button";
+import { GRADIENT_FILTER } from "../primitives/gradient-styles";
 import { DEFAULT_FILTER_ROWS, FilterRow } from "./filter-row";
 
 export type FilterSidebarProps = {
-  collapsed?: boolean;
-  onApply?: () => void;
   onClear?: () => void;
 };
 
-/** Filter sidebar from Figma `filter/side-bar`. */
-export function FilterSidebar({ collapsed = false, onApply, onClear }: FilterSidebarProps) {
+/** Filter sidebar from Figma `filter/container` (349:4572). */
+export function FilterSidebar({ onClear }: FilterSidebarProps) {
   return (
-    <aside className="flex w-[280px] shrink-0 flex-col gap-4 rounded-lg border border-emphasized bg-surface p-4">
-      <div className="flex items-center justify-between">
-        <span className="flex-1" />
-        <MaNaReDIcon name="expand" size={32} />
+    <aside
+      className={`${GRADIENT_FILTER} flex h-full min-h-0 shrink-0 flex-col gap-1 rounded-md px-1 py-4 backdrop-blur-[2px]`}
+    >
+      {DEFAULT_FILTER_ROWS.map((label) => (
+        <FilterRow key={label} label={label} />
+      ))}
+
+      <div className="min-h-0 flex-1" aria-hidden />
+
+      <div className="flex w-full justify-end">
+        <FilterButton variant="clear-all" onClick={onClear} />
       </div>
-
-      {!collapsed && (
-        <>
-          <div className="flex items-center justify-between gap-2">
-            <FilterButton variant="refine-result" />
-            <FilterButton variant="clear-all" onClick={onClear} />
-          </div>
-
-          <VStack gap={1} className={`${GRADIENT_FILTER} flex-1 rounded-md p-2`}>
-            {DEFAULT_FILTER_ROWS.map((label) => (
-              <FilterRow key={label} label={label} />
-            ))}
-          </VStack>
-
-          <div className="flex items-center justify-between border-t border-emphasized pt-3">
-            <MaNaReDIcon name="vertical-collapse" size={32} />
-            <FilterButton variant="apply-filter" onClick={onApply} />
-          </div>
-        </>
-      )}
     </aside>
   );
 }
