@@ -3,6 +3,9 @@
 /** Top bar utility link — Figma `top-bar/utilities` (`340:3575`). */
 export const INTERACTIVE_TOPBAR_UTILITY_LINK = "cursor-pointer hover:opacity-80";
 
+/** Search dropdown suggestion row — gradient on hover/focus; Figma `colour/gradient/light/dropdownSelect`. */
+export const INTERACTIVE_SEARCH_DROPDOWN_ROW = "interactive-search-dropdown-row";
+
 /** Active filter chip shell — Figma `active-chip` / `interactive/chip/active`. */
 export const INTERACTIVE_ACTIVE_CHIP =
   "inline-flex h-6 shrink-0 items-center gap-2 overflow-hidden rounded-lg border border-solid border-border-secondary bg-chip-active px-[length:var(--spacing-2)] py-[length:var(--spacing-1)] text-3xs font-normal leading-none tracking-[-0.12px] text-secondary hover:bg-chip-hover";
