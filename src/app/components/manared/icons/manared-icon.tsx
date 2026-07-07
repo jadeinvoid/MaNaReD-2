@@ -97,10 +97,12 @@ export function MaNaReDIcon({ name, size = 24, className = "", label }: MaNaReDI
   const Icon = ICON_MAP[name];
   const sizeClass = SIZE_CLASS[size];
   const strokeWidth = getIconStrokeWidth(size);
+  const hasExplicitTextColor = /\b!?text-/.test(className);
+  const toneClass = hasExplicitTextColor ? "" : "text-secondary";
 
   return (
     <Icon
-      className={`shrink-0 text-secondary ${sizeClass} ${className}`.trim()}
+      className={`shrink-0 ${toneClass} ${sizeClass} ${className}`.trim()}
       strokeWidth={strokeWidth}
       role={label ? "img" : undefined}
       aria-label={label}
