@@ -42,3 +42,9 @@ export const LIST_ROW_ICON_SLOT =
 
 /** Chip bar container — Figma `colour/gradient/light|dark/chip-bar` (349:3993). */
 export const SURFACE_CHIP_BAR = `min-h-11 flex-wrap rounded-lg ${GRADIENT_CHIP_BAR} px-3 py-[length:var(--spacing-2)]`;
+
+/** Global search input shell — Figma `search-bar` (`332:9047`). */
+export const SURFACE_SEARCH_BAR = `h-10 flex-1 rounded-lg border border-solid ${BORDER_EMPHASIZED} ${SURFACE_CARD} px-3`;
+
+/** Application top bar shell — Figma `top-bar/empty` (`332:9045`). */
+export const SURFACE_TOP_BAR = `flex h-14 items-center gap-4 border-b border-solid ${BORDER_EMPHASIZED} ${SURFACE_CARD} px-4`;

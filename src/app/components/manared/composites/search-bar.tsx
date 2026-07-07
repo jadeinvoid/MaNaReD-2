@@ -5,6 +5,7 @@ import { HStack } from "@astryxdesign/core/Layout";
 import { TextInput } from "@astryxdesign/core/TextInput";
 
 import { MaNaReDIcon } from "../icons/manared-icon";
+import { SURFACE_SEARCH_BAR } from "../primitives/surface-styles";
 
 export type SearchBarProps = {
   placeholder?: string;
@@ -27,11 +28,7 @@ export function SearchBar({
   };
 
   return (
-    <HStack
-      gap={2}
-      vAlign="center"
-      className="h-10 flex-1 rounded-lg border border-emphasized bg-surface px-3"
-    >
+    <HStack gap={2} vAlign="center" className={SURFACE_SEARCH_BAR}>
       <MaNaReDIcon name="search" size={16} />
       <TextInput
         label="Search"
