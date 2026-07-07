@@ -103,4 +103,10 @@ describe("MaNaReD theme contract", () => {
     expect(manaredCss).toContain("--shadow-card:");
     expect(manaredCss).toContain("--shadow-elevated:");
   });
+
+  it("registers Geist Mono as the code/mono font family", () => {
+    expect(manaredThemeSource).toContain('family: "Geist Mono"');
+    expect(manaredCss).toContain("--font-family-code:");
+    expect(manaredCss).toContain('"Geist Mono"');
+  });
 });

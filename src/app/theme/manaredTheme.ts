@@ -25,7 +25,7 @@ export const manaredTheme = defineTheme({
       weights: { 3: "bold", 4: "bold" },
     },
     code: {
-      family: '"Geist Mono"',
+      family: "Geist Mono",
       fallbacks: 'ui-monospace, "SF Mono", Monaco, Consolas, "Courier New", monospace',
     },
   },

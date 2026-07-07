@@ -52,10 +52,21 @@ export const Scale: Story = {
         ))}
         <Heading level={1}>Heading level 1</Heading>
         <Heading level={2}>Heading level 2</Heading>
-        <Text type="body">Body text via Astryx Text</Text>
+        <Text type="body">Body text via Astryx Text (Inter)</Text>
         <Text type="body" color="secondary">
           Secondary body text
         </Text>
+        <div className="rounded-lg border border-emphasized bg-surface p-4">
+          <VStack gap={2}>
+            <Text size="2xs" color="secondary">
+              MaNaReD.font.family.code — Geist Mono
+            </Text>
+            <Text type="code" size="2xs">
+              # HAL-2024-001 · Halichondrin B
+            </Text>
+            <p className="font-mono text-2xs text-primary">Home › Compound › Halichondrin B</p>
+          </VStack>
+        </div>
       </VStack>
     </DocsPage>
   ),
