@@ -43,13 +43,47 @@
     box-shadow: var(--shadow-nav-sidebar);
   }
 
+  /*
+   * Primary nav sidebar shell — Figma nav-side-bar (339:3237 / 339:3238).
+   * Width animates via data-collapsed; timing uses Astryx --duration-fast / --ease-standard.
+   */
   [data-astryx-theme="manared"] .nav-sidebar-shell {
     flex-shrink: 0;
     width: var(--layout-sidebar-width, 192px);
+    transition: width var(--duration-fast, 175ms) var(--ease-standard, ease);
   }
 
-  [data-astryx-theme="manared"] .nav-sidebar-shell-collapsed {
-    flex-shrink: 0;
+  [data-astryx-theme="manared"] .nav-sidebar-shell[data-collapsed="true"] {
     width: var(--layout-sidebar-width-collapsed, 56px);
+  }
+
+  /* Reveal/hide expanded-only regions (logo, sub-items) without unmounting */
+  [data-astryx-theme="manared"] .nav-sidebar-reveal {
+    display: grid;
+    transition:
+      grid-template-rows var(--duration-fast, 175ms) var(--ease-standard, ease),
+      opacity var(--duration-fast, 175ms) var(--ease-standard, ease);
+  }
+
+  [data-astryx-theme="manared"] .nav-sidebar-reveal[data-collapsed="true"] {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  [data-astryx-theme="manared"] .nav-sidebar-reveal[data-collapsed="false"] {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  [data-astryx-theme="manared"] .nav-sidebar-reveal > .nav-sidebar-reveal-inner {
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-astryx-theme="manared"] .nav-sidebar-shell,
+    [data-astryx-theme="manared"] .nav-sidebar-reveal {
+      transition: none;
+    }
   }
 }

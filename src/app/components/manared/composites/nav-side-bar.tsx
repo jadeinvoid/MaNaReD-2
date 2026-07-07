@@ -8,11 +8,7 @@ import {
   INTERACTIVE_NAV_ITEM,
   INTERACTIVE_NAV_ITEM_ACTIVE,
 } from "../primitives/interactive-styles";
-import {
-  GRADIENT_SIDEBAR,
-  NAV_SIDEBAR_SHELL,
-  NAV_SIDEBAR_SHELL_COLLAPSED,
-} from "../primitives/gradient-styles";
+import { GRADIENT_SIDEBAR, NAV_SIDEBAR_SHELL } from "../primitives/gradient-styles";
 
 export type NavSideBarProps = {
   activeItem?: string;
@@ -23,6 +19,24 @@ export type NavSideBarProps = {
 
 const exploreItems = ["Compound", "Organism", "Region"] as const;
 const workspaceItems = ["My Library", "Compare", "Export"] as const;
+
+function NavSidebarReveal({
+  collapsed,
+  children,
+}: {
+  collapsed: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className="nav-sidebar-reveal"
+      data-collapsed={collapsed ? "true" : "false"}
+      aria-hidden={collapsed}
+    >
+      <div className="nav-sidebar-reveal-inner">{children}</div>
+    </div>
+  );
+}
 
 function NavCategory({
   label,
@@ -45,11 +59,16 @@ function NavCategory({
         className="text-primary"
         label={collapsed ? label : undefined}
       />
-      {!collapsed && (
-        <Text size="base" weight="bold" className="text-primary">
-          {label}
-        </Text>
-      )}
+      <Text
+        size="base"
+        weight="bold"
+        className={`overflow-hidden whitespace-nowrap transition-[opacity,max-width] duration-[var(--duration-fast,175ms)] ease-[var(--ease-standard,ease)] ${
+          collapsed ? "max-w-0 opacity-0" : "max-w-[120px] opacity-100"
+        }`}
+        aria-hidden={collapsed}
+      >
+        {label}
+      </Text>
     </div>
   );
 }
@@ -83,7 +102,7 @@ export function NavSideBar({
 
   const shellClass = [
     GRADIENT_SIDEBAR,
-    collapsed ? NAV_SIDEBAR_SHELL_COLLAPSED : NAV_SIDEBAR_SHELL,
+    NAV_SIDEBAR_SHELL,
     "shadow-nav-sidebar",
     "flex h-full min-h-screen flex-col gap-6 overflow-hidden rounded-tr-lg rounded-br-lg p-4",
   ].join(" ");
@@ -114,11 +133,10 @@ export function NavSideBar({
       <div
         className="flex h-[120px] w-full shrink-0 items-center justify-center rounded-md"
         data-name="logo"
-        aria-hidden={collapsed}
       >
-        {!collapsed && (
+        <NavSidebarReveal collapsed={collapsed}>
           <MaNaReDIcon name="logo" size={32} className="text-primary" label="MaNaReD logo" />
-        )}
+        </NavSidebarReveal>
       </div>
 
       <nav
@@ -130,24 +148,24 @@ export function NavSideBar({
 
         <div className={`flex flex-col ${collapsed ? "gap-0" : "gap-4"}`}>
           <NavCategory label="Explore" icon="explore" collapsed={collapsed} />
-          {!collapsed && (
+          <NavSidebarReveal collapsed={collapsed}>
             <div className="flex flex-col gap-3">
               {exploreItems.map((item) => (
                 <NavItem key={item} label={item} active={item === activeItem} />
               ))}
             </div>
-          )}
+          </NavSidebarReveal>
         </div>
 
         <div className={`flex flex-col ${collapsed ? "gap-0" : "gap-4"}`}>
           <NavCategory label="Workspace" icon="workspace" collapsed={collapsed} />
-          {!collapsed && (
+          <NavSidebarReveal collapsed={collapsed}>
             <div className="flex flex-col gap-3">
               {workspaceItems.map((item) => (
                 <NavItem key={item} label={item} active={item === activeItem} />
               ))}
             </div>
-          )}
+          </NavSidebarReveal>
         </div>
       </nav>
     </aside>

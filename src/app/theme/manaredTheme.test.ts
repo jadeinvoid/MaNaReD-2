@@ -90,7 +90,10 @@ describe("MaNaReD theme contract", () => {
     expect(elevationCss).toContain("var(--shadow-card), var(--shadow-elevated)");
     expect(elevationCss).toContain(".shadow-nav-sidebar");
     expect(elevationCss).toContain(".nav-sidebar-shell");
-    expect(elevationCss).toContain(".nav-sidebar-shell-collapsed");
+    expect(elevationCss).toContain('data-collapsed="true"');
+    expect(elevationCss).toContain("transition: width");
+    expect(elevationCss).toContain(".nav-sidebar-reveal");
+    expect(elevationCss).toContain("prefers-reduced-motion: reduce");
   });
 
   it("maps supporting text to MaNaReD 3xs, not heading sm", () => {

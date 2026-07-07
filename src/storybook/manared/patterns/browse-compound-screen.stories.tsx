@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { ReactNode } from "react";
-import { expect, within } from "storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { expectHoverElevates } from "@/storybook/manared/shared/assert-hover-elevation";
+import { GRADIENT_SIDEBAR } from "@/app/components/manared/primitives/gradient-styles";
 
 import { ChipBar } from "@/app/components/manared/composites/chip-bar";
 import { CompoundCard } from "@/app/components/manared/domain/compound-card";
@@ -18,6 +19,8 @@ import { Text } from "@astryxdesign/core/Text";
 const FIGMA_SCREEN = "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=332-9041";
 const FIGMA_LIST_ITEMS =
   "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=367-3815";
+
+const NAV_ANIMATION_MS = 175;
 
 const LIST_SAMPLE_ROWS: ListRowProps[] = [
   {
@@ -126,6 +129,41 @@ export const CardView: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Halichondrin B")).toBeVisible();
     await expect(canvas.getByText("Manoalide")).toBeVisible();
+
+    const sidebar = canvasElement.querySelector(`.${GRADIENT_SIDEBAR}`);
+    if (!sidebar || !(sidebar instanceof HTMLElement)) {
+      throw new Error("NavSideBar shell not found");
+    }
+    const filterSidebar = canvas.getByText("Clear All").closest("aside");
+    if (!filterSidebar || !(filterSidebar instanceof HTMLElement)) {
+      throw new Error("FilterSidebar shell not found");
+    }
+
+    await userEvent.click(canvas.getByRole("button", { name: "Collapse sidebar" }));
+    await waitFor(
+      () => {
+        const navWidth = sidebar.getBoundingClientRect().width;
+        if (navWidth !== 56) {
+          throw new Error(`Expected collapsed nav width 56, got ${navWidth}`);
+        }
+        const navRight = sidebar.getBoundingClientRect().right;
+        const filterLeft = filterSidebar.getBoundingClientRect().left;
+        if (filterLeft < navRight) {
+          throw new Error("Filter sidebar overlaps collapsed nav rail");
+        }
+      },
+      { timeout: NAV_ANIMATION_MS + 100 },
+    );
+
+    await userEvent.click(canvas.getByRole("button", { name: "Expand sidebar" }));
+    await waitFor(
+      () => {
+        if (sidebar.getBoundingClientRect().width !== 192) {
+          throw new Error("Expected expanded nav width 192");
+        }
+      },
+      { timeout: NAV_ANIMATION_MS + 100 },
+    );
   },
 };
 
