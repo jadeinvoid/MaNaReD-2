@@ -2,6 +2,20 @@ import { GRADIENT_CHIP_BAR } from "./gradient-styles";
 
 /** MaNaReD surface roles — Figma `MaNaReD.colour.BG.*` and border tokens. */
 
+/** Top bar band — Figma `colour/bg/page/tertiary` (`340:3729`). */
+export const SURFACE_TOP_BAR = "border-b border-solid border-border bg-page-tertiary";
+
+/** Search bar shell — Figma `search-bar` (`340:3569`). */
+export const SURFACE_SEARCH_BAR =
+  "h-10 flex-1 rounded-lg border border-solid border-border-secondary bg-sidebar-secondary px-4 py-1 shadow-search-bar";
+
+/** Inner search field — Figma `search-bar/field`. */
+export const SURFACE_SEARCH_FIELD_INNER = "h-8 flex-1 rounded-md bg-sidebar-tertiary";
+
+/** Search dropdown panel — Figma `drop-down` (`340:3669`). */
+export const SURFACE_SEARCH_DROPDOWN =
+  "rounded-lg border border-solid border-border-secondary bg-surface p-2 shadow-dropdown";
+
 /** Page secondary band — Figma `colour/bg/page/secondary` → `bg-body-secondary`. */
 export const SURFACE_PAGE_SECONDARY = "bg-body-secondary";
 

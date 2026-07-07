@@ -15,4 +15,12 @@
   [data-astryx-theme="manared"] .shadow-card-rest.elevation-hover:hover {
     box-shadow: var(--shadow-card), var(--shadow-elevated);
   }
+
+  [data-astryx-theme="manared"] .shadow-search-bar {
+    box-shadow: var(--shadow-search-bar);
+  }
+
+  [data-astryx-theme="manared"] .shadow-dropdown {
+    box-shadow: var(--shadow-dropdown);
+  }
 }
