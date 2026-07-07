@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect, within } from "storybook/test";
+import { expect, fn, within } from "storybook/test";
 
-import { DEFAULT_FILTER_ROWS, FilterRow } from "./filter-row";
+import { FILTER_CATEGORIES } from "./filter-state";
+import { FilterRow } from "./filter-row";
 
 const FIGMA_FILTER_ROW =
   "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=332-9070";
@@ -14,7 +15,12 @@ const meta = {
     layout: "padded",
     design: { type: "figma", url: FIGMA_FILTER_ROW },
   },
-  args: { label: "Taxonomy" },
+  args: {
+    id: "taxonomy",
+    label: "Taxonomy",
+    expanded: false,
+    onToggle: fn(),
+  },
 } satisfies Meta<typeof FilterRow>;
 
 export default meta;
@@ -24,21 +30,34 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Taxonomy")).toBeVisible();
-    await expect(canvas.getByLabelText("Expand filter")).toBeVisible();
+    await expect(canvas.getByLabelText("Expand Taxonomy filter")).toBeVisible();
+  },
+};
+
+export const Expanded: Story = {
+  args: {
+    expanded: true,
+    children: <p className="text-3xs text-secondary">Filter panel content</p>,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("Filter panel content")).toBeVisible();
+    await expect(canvas.getByLabelText("Collapse Taxonomy filter")).toBeVisible();
   },
 };
 
 export const AllRows: Story = {
   render: () => (
     <div className="flex w-60 flex-col gap-1">
-      {DEFAULT_FILTER_ROWS.map((label) => (
-        <FilterRow key={label} label={label} />
+      {FILTER_CATEGORIES.map(({ id, label }) => (
+        <FilterRow key={id} id={id} label={label} expanded={false} onToggle={() => {}} />
       ))}
     </div>
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Bioactivity")).toBeVisible();
-    await expect(canvas.getAllByLabelText("Expand filter")).toHaveLength(6);
+    await expect(canvas.getByLabelText("Expand Bioactivity filter")).toBeVisible();
+    await expect(canvas.getByLabelText("Expand Target / assay filter")).toBeVisible();
   },
 };
