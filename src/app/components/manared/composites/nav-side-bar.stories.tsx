@@ -70,6 +70,12 @@ async function assertNavSideBarWidth(canvasElement: HTMLElement, width: number) 
   await expect(sidebar.getBoundingClientRect().width).toBe(width);
 }
 
+async function assertNavSideBarLayout(canvasElement: HTMLElement) {
+  await expect(canvasElement.querySelector('[data-name="nav-side-bar/header"]')).toBeTruthy();
+  await expect(canvasElement.querySelector('[data-name="logo"]')).toBeTruthy();
+  await expect(canvasElement.querySelector('[data-name="nav-side-bar/content"]')).toBeTruthy();
+}
+
 export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -82,6 +88,7 @@ export const Default: Story = {
     await expect(canvas.getByText("My Library")).toBeVisible();
     await expect(canvas.queryByText("Geographic Region")).not.toBeInTheDocument();
     await assertNavSideBarWidth(canvasElement, 192);
+    await assertNavSideBarLayout(canvasElement);
     await assertNavSideBarGradient(canvasElement);
   },
 };
