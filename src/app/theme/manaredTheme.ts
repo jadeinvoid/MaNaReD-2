@@ -61,6 +61,8 @@ export const manaredTheme = defineTheme({
     // Elevation — card/list rest shadow + hover add-on (stacked box-shadow)
     "--shadow-card": "0 4px 3.1px color-mix(in srgb, var(--color-shadow) 5%, transparent)",
     "--shadow-elevated": "0 8px 20px color-mix(in srgb, var(--color-shadow) 12%, transparent)",
+    "--shadow-search-bar": "0 4px 8px color-mix(in srgb, #617990 20%, transparent)",
+    "--shadow-dropdown": "0 4px 4px color-mix(in srgb, #617990 25%, transparent)",
   } as NonNullable<DefineThemeInput["tokens"]>,
 
   components: {

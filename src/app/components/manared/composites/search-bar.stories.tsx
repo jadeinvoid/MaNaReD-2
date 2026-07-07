@@ -3,7 +3,7 @@ import { expect, userEvent, within } from "storybook/test";
 
 import { SearchBar } from "./search-bar";
 
-const FIGMA_SEARCH = "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=332-9047";
+const FIGMA_SEARCH = "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=340-3569";
 
 const meta = {
   title: "MaNaReD/Composites/SearchBar",

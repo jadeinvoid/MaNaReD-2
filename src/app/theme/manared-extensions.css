@@ -8,7 +8,10 @@
 
   /* Surface shortcuts */
   --color-sidebar: var(--color-background-sidebar);
+  --color-sidebar-secondary: var(--color-background-sidebar-secondary);
+  --color-sidebar-tertiary: var(--color-background-sidebar-tertiary);
   --color-body-secondary: var(--color-background-body-secondary);
+  --color-page-tertiary: var(--color-background-page-tertiary);
   --color-card-tertiary: var(--color-background-card-tertiary);
   --color-tertiary: var(--color-text-tertiary);
 

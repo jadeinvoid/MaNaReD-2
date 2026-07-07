@@ -19,6 +19,7 @@ export const MANARED_COLOUR_MAP = colourTokens({
   "--color-background-body": ["#E9F1F9", "#203448"],
   "--color-background-body-secondary": ["#DFE9F0", "#1F3348"],
   "--color-background-body-tertiary": ["#DEE4EB", "#223649"],
+  "--color-background-page-tertiary": ["#F3F4F6", "#223649"],
 
   "--color-background-surface": ["#FFFFFF", "#181E2C"],
   "--color-background-surface-secondary": ["#E1F5FF", "#222133"],
