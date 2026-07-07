@@ -134,7 +134,13 @@
     /* contextual-bar — colour/gradient/light|dark/context-bar (360:2601 / 360:2602) */
     .surface-gradient-context-bar {
       color: #1c1b18;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      height: 200px;
       isolation: isolate;
+      justify-content: flex-end;
+      overflow: clip;
       position: relative;
     }
 

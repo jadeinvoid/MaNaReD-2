@@ -40,6 +40,23 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+async function assertContextualBarLayout(canvasElement: HTMLElement) {
+  const bar = canvasElement.querySelector(`.${GRADIENT_CONTEXT_BAR}`);
+  if (!bar) {
+    throw new Error("ContextualBar gradient surface not found");
+  }
+
+  const barStyle = getComputedStyle(bar);
+  await expect(barStyle.height, "contextual bar should be 200px tall").toBe("200px");
+  await expect(barStyle.display, "contextual bar should use flex layout").toBe("flex");
+  await expect(barStyle.justifyContent, "contextual bar content should align to bottom").toBe(
+    "flex-end",
+  );
+  await expect(barStyle.alignItems, "contextual bar content should align to left").toBe(
+    "flex-start",
+  );
+}
+
 async function assertContextualBarGradient(canvasElement: HTMLElement) {
   const bar = canvasElement.querySelector(`.${GRADIENT_CONTEXT_BAR}`);
   if (!bar) {
@@ -79,6 +96,7 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Halichondrin B")).toBeVisible();
+    await assertContextualBarLayout(canvasElement);
     await assertContextualBarGradient(canvasElement);
     await assertChevronMatchesLabelColour(canvasElement);
   },
@@ -95,6 +113,7 @@ export const LightMode: Story = {
   ),
   play: async ({ canvasElement }) => {
     await withColourMode("light", async () => {
+      await assertContextualBarLayout(canvasElement);
       await assertContextualBarGradient(canvasElement);
       await assertChevronMatchesLabelColour(canvasElement);
     });
@@ -112,6 +131,7 @@ export const DarkMode: Story = {
   ),
   play: async ({ canvasElement }) => {
     await withColourMode("dark", async () => {
+      await assertContextualBarLayout(canvasElement);
       await assertContextualBarGradient(canvasElement);
       await assertChevronMatchesLabelColour(canvasElement);
     });
