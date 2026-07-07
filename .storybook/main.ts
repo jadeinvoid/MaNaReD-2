@@ -47,6 +47,11 @@ const config: StorybookConfig = {
       resolve: {
         alias: {
           "@": path.resolve(dirname, "../src"),
+          // Storybook dev loads story modules at render time; vitest/browser throws outside Vitest.
+          "vite-plus/test/browser": path.resolve(
+            dirname,
+            "../src/storybook/manared/shared/vitest-browser-stub.ts",
+          ),
           "@astryx/blocks": path.resolve(
             dirname,
             "../node_modules/@astryxdesign/cli/templates/blocks",
