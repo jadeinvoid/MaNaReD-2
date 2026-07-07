@@ -11,6 +11,7 @@ import {
   ChevronUpIcon,
   CompoundIcon,
   ExpandIcon,
+  ExpandLeftDefaultIcon,
   ExploreIcon,
   FilterIcon,
   LogoIcon,
@@ -45,6 +46,7 @@ export type MaNaReDIconName =
   | "move-left"
   | "move-right"
   | "expand"
+  | "expand-left"
   | "vertical-collapse"
   | "remove"
   | "logo"
@@ -68,6 +70,7 @@ const ICON_MAP: Record<MaNaReDIconName, ComponentType<SVGProps<SVGSVGElement>>> 
   "move-left": MoveLeftIcon,
   "move-right": MoveRightIcon,
   expand: ExpandIcon,
+  "expand-left": ExpandLeftDefaultIcon,
   "vertical-collapse": VerticalCollapseIcon,
   remove: RemoveIcon,
   logo: LogoIcon,
@@ -135,6 +138,7 @@ export const MANARED_ICONS_24 = [
   "organism",
   "no-filter",
   "expand",
+  "expand-left",
   "chevron-up",
   "chevron-down",
   "chevron-left",

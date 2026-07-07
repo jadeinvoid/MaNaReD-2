@@ -91,32 +91,35 @@ export function NavSideBar({
   return (
     <aside className={shellClass} data-collapsed={collapsed ? "true" : "false"}>
       <header
-        className="flex w-full flex-col items-end justify-center"
+        className={`flex w-full flex-col justify-center ${
+          collapsed ? "items-center" : "items-end"
+        }`}
         data-name="nav-side-bar/header"
       >
         <button
           type="button"
-          className="flex items-center justify-center"
+          className="flex size-6 items-center justify-center"
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           aria-expanded={!collapsed}
           onClick={() => setCollapsed(!collapsed)}
         >
           <MaNaReDIcon
-            name="expand"
+            name={collapsed ? "expand" : "expand-left"}
             size={24}
-            className={`text-primary ${collapsed ? "" : "-scale-y-100"}`}
+            className="text-primary"
           />
         </button>
       </header>
 
-      {!collapsed && (
-        <div
-          className="flex h-[120px] w-full shrink-0 items-center justify-center rounded-md"
-          data-name="logo"
-        >
+      <div
+        className="flex h-[120px] w-full shrink-0 items-center justify-center rounded-md"
+        data-name="logo"
+        aria-hidden={collapsed}
+      >
+        {!collapsed && (
           <MaNaReDIcon name="logo" size={32} className="text-primary" label="MaNaReD logo" />
-        </div>
-      )}
+        )}
+      </div>
 
       <nav
         className="flex min-h-0 flex-1 flex-col gap-6"

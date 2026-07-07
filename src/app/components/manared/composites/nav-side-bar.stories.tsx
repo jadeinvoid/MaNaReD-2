@@ -106,6 +106,7 @@ export const Collapsed: Story = {
     await expect(canvas.getByLabelText("Workspace")).toBeVisible();
     await expect(canvas.queryByText("Compound")).not.toBeInTheDocument();
     await expect(canvas.queryByLabelText("MaNaReD logo")).not.toBeInTheDocument();
+    await expect(canvasElement.querySelector('[data-name="logo"]')).toBeTruthy();
     await assertNavSideBarWidth(canvasElement, 56);
     await assertNavSideBarGradient(canvasElement);
   },
