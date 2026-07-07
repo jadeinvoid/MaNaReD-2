@@ -1,5 +1,7 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 import { HStack, VStack } from "@astryxdesign/core/Layout";
 import { Text } from "@astryxdesign/core/Text";
 
@@ -8,7 +10,6 @@ import { Chip } from "../primitives/chip";
 import type { EntityType } from "../primitives/entity-styles";
 import {
   INTERACTIVE_ACTIVE_CHIP,
-  INTERACTIVE_PROVENANCE_TEXT,
   INTERACTIVE_SEARCH_DROPDOWN_ROW,
 } from "../primitives/interactive-styles";
 import { SURFACE_SEARCH_DROPDOWN } from "../primitives/surface-styles";
@@ -55,7 +56,25 @@ function Divider() {
   return <div className="h-2 w-full border-t border-border-secondary" role="separator" />;
 }
 
-const DROPDOWN_ROW_CLASS = `flex w-full items-center gap-2 overflow-hidden rounded-md px-2 py-1 text-left focus-visible:outline-none ${INTERACTIVE_SEARCH_DROPDOWN_ROW}`;
+const DROPDOWN_ROW_INTERACTIVE = `flex w-full items-center gap-2 overflow-hidden rounded-md py-1 text-left focus-visible:outline-none ${INTERACTIVE_SEARCH_DROPDOWN_ROW}`;
+const DROPDOWN_PROVENANCE_TEXT =
+  "shrink-0 text-3xs font-normal italic leading-4 tracking-[-0.12px] text-tertiary";
+
+function DropdownRow({
+  rowPadding,
+  onClick,
+  children,
+}: {
+  rowPadding: string;
+  onClick?: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <button type="button" className={`${DROPDOWN_ROW_INTERACTIVE} ${rowPadding}`} onClick={onClick}>
+      {children}
+    </button>
+  );
+}
 
 function SuggestionRow({
   suggestion,
@@ -67,21 +86,21 @@ function SuggestionRow({
   const iconName = suggestion.entity === "compound" ? "compound" : "organism";
 
   return (
-    <button type="button" className={DROPDOWN_ROW_CLASS} onClick={() => onSelect?.(suggestion)}>
-      <MaNaReDIcon name={iconName} size={16} className="shrink-0" />
+    <DropdownRow rowPadding="px-px" onClick={() => onSelect?.(suggestion)}>
+      <MaNaReDIcon name={iconName} size={16} className="size-4 shrink-0" />
       <Text size="3xs" color="primary" className="shrink-0">
         {suggestion.title}
       </Text>
-      <span className="flex-1" />
+      <span className="min-w-0 flex-1" />
       {suggestion.entityLabel && suggestion.entity ? (
         <Chip label={suggestion.entityLabel} entity={suggestion.entity} />
       ) : null}
       {suggestion.count ? (
-        <span className={`w-6 shrink-0 text-center ${INTERACTIVE_PROVENANCE_TEXT}`}>
+        <span className={`w-6 shrink-0 text-center ${DROPDOWN_PROVENANCE_TEXT}`}>
           {suggestion.count}
         </span>
       ) : null}
-    </button>
+    </DropdownRow>
   );
 }
 
@@ -97,17 +116,17 @@ export function SearchDropdown({
   return (
     <div className={`${SURFACE_SEARCH_DROPDOWN} ${className}`.trim()} role="listbox">
       {bestMatch ? (
-        <button type="button" className={DROPDOWN_ROW_CLASS} onClick={() => onSelect?.(bestMatch)}>
-          <MaNaReDIcon name="organism" size={16} className="shrink-0" />
+        <DropdownRow rowPadding="px-2" onClick={() => onSelect?.(bestMatch)}>
+          <MaNaReDIcon name="organism" size={16} className="size-4 shrink-0" />
           <Text size="3xs" color="primary" className="shrink-0">
             {bestMatch.title}
           </Text>
-          <span className="flex-1" />
+          <span className="min-w-0 flex-1" />
           <span className={INTERACTIVE_ACTIVE_CHIP}>best match</span>
           {bestMatch.count ? (
-            <span className={INTERACTIVE_PROVENANCE_TEXT}>{bestMatch.count}</span>
+            <span className={DROPDOWN_PROVENANCE_TEXT}>{bestMatch.count}</span>
           ) : null}
-        </button>
+        </DropdownRow>
       ) : null}
 
       <Divider />
