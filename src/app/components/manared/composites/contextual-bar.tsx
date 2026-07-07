@@ -10,9 +10,7 @@ export type ContextualBarProps = {
 /** Contextual header band from Figma `contextual-bar` (`360:2601` / `360:2602`). */
 export function ContextualBar({ children, className = "" }: ContextualBarProps) {
   return (
-    <section
-      className={`${GRADIENT_CONTEXT_BAR} px-4 py-2 ${className}`.trim()}
-    >
+    <section className={`${GRADIENT_CONTEXT_BAR} px-4 py-2 ${className}`.trim()}>
       {children}
     </section>
   );

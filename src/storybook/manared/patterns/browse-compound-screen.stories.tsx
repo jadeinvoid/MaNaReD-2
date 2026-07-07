@@ -13,7 +13,6 @@ import { NavSideBar } from "@/app/components/manared/composites/nav-side-bar";
 import { TaxonomyBreadcrumb } from "@/app/components/manared/composites/taxonomy-breadcrumb";
 import { TopBar } from "@/app/components/manared/composites/top-bar";
 import { VStack } from "@astryxdesign/core/Layout";
-import { Text } from "@astryxdesign/core/Text";
 
 const FIGMA_SCREEN = "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=332-9041";
 const FIGMA_LIST_ITEMS =
@@ -57,9 +56,6 @@ function BrowseShell({ children }: { children: ReactNode }) {
         <TopBar />
         <ContextualBar>
           <TaxonomyBreadcrumb items={["Home", "Compounds"]} />
-          <Text size="lg" weight="medium" className="mt-4">
-            Compounds
-          </Text>
         </ContextualBar>
         <div className="flex flex-1 gap-4 p-4">
           <FilterSidebar />
