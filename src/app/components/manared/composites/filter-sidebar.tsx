@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, type ReactNode } from "react";
 
+import { MaNaReDIcon } from "../icons/manared-icon";
 import { FilterButton } from "../primitives/filter-button";
-import { GRADIENT_FILTER } from "../primitives/gradient-styles";
+import { FILTER_SIDEBAR_SHELL, GRADIENT_FILTER } from "../primitives/gradient-styles";
 import { FilterDropdownPanel } from "./filter-dropdown-panel";
 import { FilterRangePanel } from "./filter-range-panel";
 import { FilterRow } from "./filter-row";
@@ -27,6 +28,11 @@ export type FilterSidebarProps = {
   defaultFilters?: FilterState;
   onFiltersChange?: (filters: FilterState) => void;
   onClear?: () => void;
+  collapsed?: boolean;
+  defaultCollapsed?: boolean;
+  onCollapsedChange?: (collapsed: boolean) => void;
+  onApply?: () => void;
+  showCollapseControl?: boolean;
 };
 
 const PLACEHOLDER_CATEGORIES = new Set<FilterCategoryId>([
@@ -34,6 +40,18 @@ const PLACEHOLDER_CATEGORIES = new Set<FilterCategoryId>([
   "geographicRegion",
   "targetAssay",
 ]);
+
+function FilterSidebarReveal({ collapsed, children }: { collapsed: boolean; children: ReactNode }) {
+  return (
+    <div
+      className="filter-sidebar-reveal"
+      data-collapsed={collapsed ? "true" : "false"}
+      aria-hidden={collapsed}
+    >
+      <div className="filter-sidebar-reveal-inner">{children}</div>
+    </div>
+  );
+}
 
 function selectedTags(state: FilterState, category: FilterCategoryId): string[] {
   return state.active
@@ -59,18 +77,33 @@ function selectedRange(state: FilterState, category: FilterCategoryId): [number,
   return [Number(match[1]), Number(match[2])];
 }
 
-/** Filter sidebar from Figma `filter/container` (349:4572). */
+/** Filter sidebar from Figma `filter/container` (349:4572) with chrome from `332:9061`. */
 export function FilterSidebar({
   filters: controlledFilters,
   defaultFilters = { active: [] },
   onFiltersChange,
   onClear,
+  collapsed: controlledCollapsed,
+  defaultCollapsed = false,
+  onCollapsedChange,
+  onApply,
+  showCollapseControl = true,
 }: FilterSidebarProps) {
   const [internalFilters, setInternalFilters] = useState<FilterState>(defaultFilters);
+  const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
   const [expandedCategory, setExpandedCategory] = useState<FilterCategoryId | null>(null);
   const [rangeDraft, setRangeDraft] = useState<[number, number]>(MW_DEFAULT_RANGE);
 
   const filters = controlledFilters ?? internalFilters;
+  const collapsed = controlledCollapsed ?? internalCollapsed;
+  const activeFilterCount = filters.active.length;
+
+  const setCollapsed = (next: boolean) => {
+    if (controlledCollapsed === undefined) {
+      setInternalCollapsed(next);
+    }
+    onCollapsedChange?.(next);
+  };
 
   const updateFilters = useCallback(
     (next: FilterState) => {
@@ -86,6 +119,10 @@ export function FilterSidebar({
     updateFilters(clearAllFilters());
     setRangeDraft(MW_DEFAULT_RANGE);
     onClear?.();
+  };
+
+  const handleApply = () => {
+    onApply?.();
   };
 
   const renderPanel = (categoryId: FilterCategoryId) => {
@@ -131,40 +168,86 @@ export function FilterSidebar({
     return null;
   };
 
+  const shellClass = [
+    GRADIENT_FILTER,
+    FILTER_SIDEBAR_SHELL,
+    "flex h-full min-h-0 flex-col gap-1 overflow-hidden rounded-md px-1 py-4 backdrop-blur-[2px]",
+  ].join(" ");
+
   return (
-    <aside
-      className={`${GRADIENT_FILTER} flex h-full min-h-0 shrink-0 flex-col gap-1 overflow-y-auto rounded-md px-1 py-4 backdrop-blur-[2px]`}
-    >
-      {FILTER_CATEGORIES.map(({ id, label }) => (
-        <FilterRow
-          key={id}
-          id={id}
-          label={label}
-          activeCount={activeCountForCategory(filters, id)}
-          expanded={expandedCategory === id}
-          onToggle={() => {
-            setExpandedCategory((current) => {
-              const next = current === id ? null : id;
-              if (next === "molecularWeight") {
-                const draft = selectedRange(filters, "molecularWeight");
-                setRangeDraft(draft);
-                if (!filters.active.some((filter) => filter.category === "molecularWeight")) {
-                  updateFilters(setRangeFilter(filters, "molecularWeight", draft[0], draft[1]));
-                }
-              }
-              return next;
-            });
-          }}
+    <aside className={shellClass} data-collapsed={collapsed ? "true" : "false"}>
+      {showCollapseControl ? (
+        <header
+          className={`flex w-full shrink-0 flex-col items-center gap-1 ${collapsed ? "pb-1" : "items-end pb-2"}`}
+          data-name="filter-sidebar/collapse"
         >
-          {renderPanel(id)}
-        </FilterRow>
-      ))}
+          <button
+            type="button"
+            className="flex size-8 items-center justify-center"
+            aria-label={collapsed ? "Expand filters" : "Collapse filters"}
+            aria-expanded={!collapsed}
+            onClick={() => setCollapsed(!collapsed)}
+          >
+            <MaNaReDIcon
+              name={collapsed ? "vertical-collapse" : "expand-left"}
+              size={32}
+              className="text-current"
+            />
+          </button>
+          {collapsed && activeFilterCount > 0 ? (
+            <span
+              className="flex size-6 items-center justify-center rounded-full bg-button-active text-3xs font-semibold text-primary"
+              aria-label={`${activeFilterCount} active filters`}
+            >
+              {activeFilterCount}
+            </span>
+          ) : null}
+        </header>
+      ) : null}
 
-      <div className="min-h-0 flex-1" aria-hidden />
+      <FilterSidebarReveal collapsed={collapsed}>
+        <header
+          className="flex w-full shrink-0 items-center justify-between gap-2 px-1"
+          data-name="filter-sidebar/header"
+        >
+          <FilterButton variant="refine-result" />
+          <FilterButton variant="clear-all" onClick={handleClear} />
+        </header>
 
-      <div className="flex w-full justify-end">
-        <FilterButton variant="clear-all" onClick={handleClear} />
-      </div>
+        <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto">
+          {FILTER_CATEGORIES.map(({ id, label }) => (
+            <FilterRow
+              key={id}
+              id={id}
+              label={label}
+              activeCount={activeCountForCategory(filters, id)}
+              expanded={expandedCategory === id}
+              onToggle={() => {
+                setExpandedCategory((current) => {
+                  const next = current === id ? null : id;
+                  if (next === "molecularWeight") {
+                    const draft = selectedRange(filters, "molecularWeight");
+                    setRangeDraft(draft);
+                    if (!filters.active.some((filter) => filter.category === "molecularWeight")) {
+                      updateFilters(setRangeFilter(filters, "molecularWeight", draft[0], draft[1]));
+                    }
+                  }
+                  return next;
+                });
+              }}
+            >
+              {renderPanel(id)}
+            </FilterRow>
+          ))}
+        </div>
+
+        <footer
+          className="flex w-full shrink-0 justify-end px-1 pt-1"
+          data-name="filter-sidebar/footer"
+        >
+          <FilterButton variant="apply-filter" onClick={handleApply} />
+        </footer>
+      </FilterSidebarReveal>
     </aside>
   );
 }

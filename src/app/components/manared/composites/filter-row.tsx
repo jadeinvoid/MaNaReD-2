@@ -36,7 +36,7 @@ export function FilterRow({
       >
         <span className="px-2 py-1 text-3xs uppercase text-primary">{displayLabel}</span>
         <MaNaReDIcon
-          name="chevron-down"
+          name="arrow-down"
           size={24}
           className={`text-primary transition-transform duration-[var(--duration-fast,175ms)] ${expanded ? "rotate-180" : ""}`}
           label={expanded ? `Collapse ${label} filter` : `Expand ${label} filter`}

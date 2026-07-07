@@ -12,6 +12,9 @@ export const NAV_SIDEBAR_SHELL = "nav-sidebar-shell";
 /** Filter sidebar scroll region — Figma `colour/gradient/light|dark/filter`. */
 export const GRADIENT_FILTER = "surface-gradient-filter";
 
+/** Filter sidebar shell — width driven by data-collapsed in manaredElevation.css (349:4572). */
+export const FILTER_SIDEBAR_SHELL = "filter-sidebar-shell";
+
 /** Search dropdown row hover — Figma `colour/gradient/light/dropdownSelect`; applied via `INTERACTIVE_SEARCH_DROPDOWN_ROW`. */
 export const GRADIENT_DROPDOWN_SELECT = "surface-gradient-filter";
 

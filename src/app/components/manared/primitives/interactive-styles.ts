@@ -38,7 +38,7 @@ export const INTERACTIVE_FILTER_ACTION_BASE =
 export const INTERACTIVE_FILTER_REFINE_LABEL =
   "inline-flex shrink-0 items-center justify-center py-[length:var(--spacing-2)] text-sm font-semibold text-secondary";
 
-export const INTERACTIVE_FILTER_CLEAR_ALL = `${INTERACTIVE_FILTER_ACTION_BASE} border-tertiary p-[length:var(--spacing-2)] text-3xs`;
+export const INTERACTIVE_FILTER_CLEAR_ALL = `${INTERACTIVE_FILTER_ACTION_BASE} border-tertiary p-[length:var(--spacing-2)] text-3xs shadow-filter-action`;
 
 export const INTERACTIVE_FILTER_APPLY = `${INTERACTIVE_FILTER_ACTION_BASE} border-border-secondary px-[length:var(--spacing-6)] py-[length:var(--spacing-2)] text-2xs`;
 
