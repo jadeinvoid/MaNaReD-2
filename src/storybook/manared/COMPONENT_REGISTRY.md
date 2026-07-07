@@ -27,6 +27,7 @@ Figma file: `y12p7ety9bAbG9Z7m5Bd6L` — [MaNaReD UI Library](https://www.figma.
 | ListRow                | Domain      | `domain/list-row.tsx`                | `367:3752` | done   | `surface-styles`, `list-text-styles`                       | Figma list frame; light/dark play tests                                     |
 | DetailSection          | Domain      | `domain/detail-section.tsx`          | `332:9114` | done   | semantic text tokens                                       |                                                                             |
 | BrowseCompoundScreen   | Patterns    | `src/storybook/manared/patterns/`    | `332:9041` | done   | composes above                                             | Card + list view stories; list uses `367:3815`                              |
+| CompoundDetailScreen   | Patterns    | `src/storybook/manared/patterns/`    | `332:9114` | done   | composes above                                             | Detail shell with `DetailSection`; light/dark token play tests              |
 
 ## New component checklist
 
