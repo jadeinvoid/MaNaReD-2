@@ -6,7 +6,6 @@ import { GRADIENT_SIDEBAR } from "../primitives/gradient-styles";
 
 export type NavSideBarProps = {
   activeItem?: string;
-  showExplore?: boolean;
 };
 
 const exploreItems = ["Compound", "Organism", "Geographic Region"];
@@ -37,7 +36,7 @@ function NavItem({
 }
 
 /** Primary navigation sidebar from Figma `nav-side-bar-light|dark` gradient paint styles. */
-export function NavSideBar({ activeItem = "Compound", showExplore = true }: NavSideBarProps) {
+export function NavSideBar({ activeItem = "Compound" }: NavSideBarProps) {
   return (
     <aside
       className={`${GRADIENT_SIDEBAR} flex h-full w-60 flex-col gap-4 overflow-hidden rounded-lg p-4`}
@@ -48,21 +47,17 @@ export function NavSideBar({ activeItem = "Compound", showExplore = true }: NavS
 
       <VStack gap={1}>
         <NavItem label="Overview" icon="overview" />
-        {showExplore ? (
-          <>
-            <Text size="2xs" weight="medium" color="secondary" className="px-3 pt-4 uppercase">
-              Explore
-            </Text>
-            {exploreItems.map((item) => (
-              <NavItem
-                key={item}
-                label={item}
-                active={item === activeItem}
-                icon={item === "Compound" ? "compound" : "explore"}
-              />
-            ))}
-          </>
-        ) : null}
+        <Text size="2xs" weight="medium" color="secondary" className="px-3 pt-4 uppercase">
+          Explore
+        </Text>
+        {exploreItems.map((item) => (
+          <NavItem
+            key={item}
+            label={item}
+            active={item === activeItem}
+            icon={item === "Compound" ? "compound" : "explore"}
+          />
+        ))}
         <Text size="2xs" weight="medium" color="secondary" className="px-3 pt-4 uppercase">
           Workspace
         </Text>

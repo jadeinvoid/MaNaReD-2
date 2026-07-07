@@ -14,7 +14,6 @@ const meta = {
     design: { type: "figma", url: FIGMA_TOPBAR },
   },
   args: {
-    onEntityChange: fn(),
     onRemoveChip: fn(),
     onOpenFilters: fn(),
     chips: [{ label: "MW 200–400", provenance: "Compounds" }],
@@ -34,7 +33,9 @@ export const Desktop: Story = {
   ],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getAllByRole("radiogroup", { name: "Browse entity" })).toHaveLength(2);
+    await expect(
+      canvas.queryByRole("radiogroup", { name: "Browse entity" }),
+    ).not.toBeInTheDocument();
     await expect(canvas.getByText(/MW 200–400/)).toBeVisible();
   },
 };
@@ -51,14 +52,6 @@ export const Mobile: Story = {
     await expect(canvas.getByLabelText("Open filters")).toBeVisible();
     await userEvent.click(canvas.getByLabelText("Open filters"));
     await expect(args.onOpenFilters).toHaveBeenCalled();
-  },
-};
-
-export const EntitySwitch: Story = {
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-    await userEvent.click(canvas.getAllByText("Regions")[0]!);
-    await expect(args.onEntityChange).toHaveBeenCalledWith("regions");
   },
 };
 
