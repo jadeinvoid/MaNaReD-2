@@ -3,6 +3,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { expect, fn, within } from "storybook/test";
 
 import {
+  expectCardElevation,
   expectResolvedToken,
   expectUsesTokenClasses,
   withColourMode,
@@ -212,6 +213,12 @@ export const LightMode: Story = {
     await withColourMode("light", async () => {
       await assertCompoundCardContent(canvasElement);
       await assertCompoundCardTokenColours(canvasElement);
+      const canvas = within(canvasElement);
+      const shell = canvas.getByText("Halichondrin B").closest('[class*="bg-surface"]');
+      if (!shell || !(shell instanceof HTMLElement)) {
+        throw new Error("CompoundCard shell not found");
+      }
+      await expectCardElevation(shell, "light");
     });
   },
 };
@@ -228,6 +235,12 @@ export const DarkMode: Story = {
     await withColourMode("dark", async () => {
       await assertCompoundCardContent(canvasElement);
       await assertCompoundCardTokenColours(canvasElement);
+      const canvas = within(canvasElement);
+      const shell = canvas.getByText("Halichondrin B").closest('[class*="bg-surface"]');
+      if (!shell || !(shell instanceof HTMLElement)) {
+        throw new Error("CompoundCard shell not found");
+      }
+      await expectCardElevation(shell, "dark");
     });
   },
 };

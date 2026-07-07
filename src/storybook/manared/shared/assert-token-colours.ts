@@ -103,3 +103,16 @@ export async function expectUsesTokenClasses(className: string, ...tokens: strin
     await expect(className, `expected class list to include ${token}`).toContain(token);
   }
 }
+
+/** Assert browse card/list shells render Figma card elevation in the active colour mode. */
+export async function expectCardElevation(element: HTMLElement, mode: ColourMode) {
+  await withColourMode(mode, async () => {
+    const shadow = getComputedStyle(element).boxShadow;
+    await expect(shadow, `box-shadow in ${mode} mode`).not.toBe("none");
+    if (mode === "light") {
+      await expect(shadow, "light mode uses Figma card/shadow").toMatch(/19,\s*48,\s*86/);
+    } else {
+      await expect(shadow, "dark mode uses Figma card/shadow-dark").toMatch(/198,\s*218,\s*245/);
+    }
+  });
+}

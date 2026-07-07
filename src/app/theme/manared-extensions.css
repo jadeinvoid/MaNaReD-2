@@ -48,3 +48,26 @@
   --color-entity-region-border: var(--color-border-orange);
   --color-entity-region-text: var(--color-text-orange);
 }
+
+@layer components {
+  @scope ([data-astryx-theme="manared"]) to ([data-astryx-theme]) {
+    /* Elevation — Figma `card/shadow` (light) and `card/shadow-dark` (367:3752) */
+    .surface-shadow-card {
+      box-shadow: 0 4px 3.1px rgb(19 48 86 / 0.25);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :scope .surface-shadow-card {
+        box-shadow: 0 4px 3.1px rgb(198 218 245 / 0.05);
+      }
+    }
+
+    [data-colour-mode="dark"] .surface-shadow-card {
+      box-shadow: 0 4px 3.1px rgb(198 218 245 / 0.05);
+    }
+
+    [data-colour-mode="light"] .surface-shadow-card {
+      box-shadow: 0 4px 3.1px rgb(19 48 86 / 0.25);
+    }
+  }
+}

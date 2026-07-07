@@ -3,6 +3,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { expect, within } from "storybook/test";
 
 import {
+  expectCardElevation,
   expectResolvedToken,
   expectUsesTokenClasses,
   withColourMode,
@@ -163,6 +164,12 @@ export const LightMode: Story = {
     await withColourMode("light", async () => {
       await assertListRowContent(canvasElement);
       await assertListRowTokenColours(canvasElement);
+      const canvas = within(canvasElement);
+      const shell = canvas.getByText("Discodermolide").closest('[class*="bg-surface"]');
+      if (!shell || !(shell instanceof HTMLElement)) {
+        throw new Error("ListRow shell not found");
+      }
+      await expectCardElevation(shell, "light");
     });
   },
 };
@@ -179,6 +186,12 @@ export const DarkMode: Story = {
     await withColourMode("dark", async () => {
       await assertListRowContent(canvasElement);
       await assertListRowTokenColours(canvasElement);
+      const canvas = within(canvasElement);
+      const shell = canvas.getByText("Discodermolide").closest('[class*="bg-surface"]');
+      if (!shell || !(shell instanceof HTMLElement)) {
+        throw new Error("ListRow shell not found");
+      }
+      await expectCardElevation(shell, "dark");
     });
   },
 };

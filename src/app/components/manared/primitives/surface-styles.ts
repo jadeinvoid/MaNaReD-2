@@ -20,8 +20,8 @@ export const SURFACE_CARD_PANEL = "rounded-lg border border-solid border-emphasi
 /** Primary card outline — Figma `colour/border/primary` → `--color-border`. */
 export const BORDER_PRIMARY = "border-[color:var(--color-border)]";
 
-/** Card row drop shadow — Figma `card/shadow-dark` (367:3752). */
-export const SHADOW_CARD = "shadow-[0_4px_3.1px_rgba(198,218,245,0.05)]";
+/** Card elevation — Figma `card/shadow` (light) / `card/shadow-dark` (367:3752). */
+export const SHADOW_CARD = "surface-shadow-card";
 
 /** Search-mode list row shell — Figma list frame (`367:3752`). */
 export const SURFACE_LIST_ROW = `w-full rounded-lg border border-solid ${BORDER_PRIMARY} bg-surface py-4 pl-6 pr-4 ${SHADOW_CARD}`;
