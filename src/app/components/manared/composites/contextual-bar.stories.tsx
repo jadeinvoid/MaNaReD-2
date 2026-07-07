@@ -65,9 +65,11 @@ async function assertChevronMatchesLabelColour(canvasElement: HTMLElement) {
     throw new Error("ContextualBar breadcrumb label or chevron not found");
   }
 
+  const barColour = getComputedStyle(bar).color;
   const labelColour = getComputedStyle(label).color;
   const chevronColour = getComputedStyle(chevron).color;
-  await expect(chevronColour, "chevron should match breadcrumb label colour").toBe(labelColour);
+  await expect(labelColour, "breadcrumb label should use bar text colour").toBe(barColour);
+  await expect(chevronColour, "chevron should use bar text colour").toBe(barColour);
 }
 
 export const Default: Story = {
