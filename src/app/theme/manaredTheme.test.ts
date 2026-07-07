@@ -90,6 +90,7 @@ describe("MaNaReD theme contract", () => {
     expect(elevationCss).toContain("var(--shadow-card), var(--shadow-elevated)");
     expect(elevationCss).toContain(".shadow-nav-sidebar");
     expect(elevationCss).toContain(".nav-sidebar-shell");
+    expect(elevationCss).toContain(".nav-sidebar-shell-collapsed");
   });
 
   it("maps supporting text to MaNaReD 3xs, not heading sm", () => {
@@ -103,6 +104,7 @@ describe("MaNaReD theme contract", () => {
     expect(manaredThemeSource).toContain('"--shadow-card"');
     expect(manaredThemeSource).toContain('"--shadow-elevated"');
     expect(manaredThemeSource).toContain('"--layout-sidebar-width"');
+    expect(manaredThemeSource).toContain('"--layout-sidebar-width-collapsed"');
     expect(manaredThemeSource).toContain('"--shadow-nav-sidebar"');
     expect(manaredCss).toContain("--shadow-card:");
     expect(manaredCss).toContain("--shadow-elevated:");

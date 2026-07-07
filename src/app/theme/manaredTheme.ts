@@ -64,8 +64,9 @@ export const manaredTheme = defineTheme({
     "--shadow-search-bar": "0 4px 8px color-mix(in srgb, #617990 20%, transparent)",
     "--shadow-dropdown": "0 4px 4px color-mix(in srgb, #617990 25%, transparent)",
 
-    // Layout — Figma `--layout/sidebar/width` (nav-side-bar 339:3237)
+    // Layout — Figma `--layout/sidebar/width` (nav-side-bar 339:3237 / collapsed 339:3238)
     "--layout-sidebar-width": "192px",
+    "--layout-sidebar-width-collapsed": "56px",
 
     // Nav sidebar elevation — Figma nav-side-bar/shadow-light|dark (339:3237 / 339:3284)
     "--shadow-nav-sidebar": "4px 0 8px color-mix(in srgb, #0f142e 18%, transparent)",
