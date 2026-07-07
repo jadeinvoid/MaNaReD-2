@@ -6,10 +6,10 @@ import { Text } from "@astryxdesign/core/Text";
 import { MaNaReDIcon } from "../icons/manared-icon";
 import { Chip } from "../primitives/chip";
 import type { EntityType } from "../primitives/entity-styles";
-import { GRADIENT_DROPDOWN_SELECT } from "../primitives/gradient-styles";
 import {
   INTERACTIVE_ACTIVE_CHIP,
   INTERACTIVE_PROVENANCE_TEXT,
+  INTERACTIVE_SEARCH_DROPDOWN_ROW,
 } from "../primitives/interactive-styles";
 import { SURFACE_SEARCH_DROPDOWN } from "../primitives/surface-styles";
 
@@ -55,6 +55,8 @@ function Divider() {
   return <div className="h-2 w-full border-t border-border-secondary" role="separator" />;
 }
 
+const DROPDOWN_ROW_CLASS = `flex w-full items-center gap-2 overflow-hidden rounded-md px-2 py-1 text-left focus-visible:outline-none ${INTERACTIVE_SEARCH_DROPDOWN_ROW}`;
+
 function SuggestionRow({
   suggestion,
   onSelect,
@@ -65,11 +67,7 @@ function SuggestionRow({
   const iconName = suggestion.entity === "compound" ? "compound" : "organism";
 
   return (
-    <button
-      type="button"
-      className="flex w-full items-center gap-2 overflow-hidden rounded-md px-2 py-1 text-left hover:bg-dropdown-hover focus-visible:bg-dropdown-focus focus-visible:outline-none"
-      onClick={() => onSelect?.(suggestion)}
-    >
+    <button type="button" className={DROPDOWN_ROW_CLASS} onClick={() => onSelect?.(suggestion)}>
       <MaNaReDIcon name={iconName} size={16} className="shrink-0" />
       <Text size="3xs" color="primary" className="shrink-0">
         {suggestion.title}
@@ -99,11 +97,7 @@ export function SearchDropdown({
   return (
     <div className={`${SURFACE_SEARCH_DROPDOWN} ${className}`.trim()} role="listbox">
       {bestMatch ? (
-        <HStack
-          gap={2}
-          vAlign="center"
-          className={`${GRADIENT_DROPDOWN_SELECT} overflow-hidden rounded-md px-2 py-1`}
-        >
+        <button type="button" className={DROPDOWN_ROW_CLASS} onClick={() => onSelect?.(bestMatch)}>
           <MaNaReDIcon name="organism" size={16} className="shrink-0" />
           <Text size="3xs" color="primary" className="shrink-0">
             {bestMatch.title}
@@ -113,7 +107,7 @@ export function SearchDropdown({
           {bestMatch.count ? (
             <span className={INTERACTIVE_PROVENANCE_TEXT}>{bestMatch.count}</span>
           ) : null}
-        </HStack>
+        </button>
       ) : null}
 
       <Divider />

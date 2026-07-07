@@ -85,7 +85,9 @@
     }
 
     /* filter/container — light dropdownSelect + dark filter (349:4572) */
-    .surface-gradient-filter {
+    .surface-gradient-filter,
+    .interactive-search-dropdown-row:hover,
+    .interactive-search-dropdown-row:focus-visible {
       background-color: var(--color-background-sidebar-secondary);
       background-image: linear-gradient(
         180deg,
@@ -97,7 +99,9 @@
     }
 
     @media (prefers-color-scheme: dark) {
-      :scope .surface-gradient-filter {
+      :scope .surface-gradient-filter,
+      :scope .interactive-search-dropdown-row:hover,
+      :scope .interactive-search-dropdown-row:focus-visible {
         background-color: #384050;
         background-image: linear-gradient(
           180deg,
@@ -109,7 +113,9 @@
       }
     }
 
-    [data-colour-mode="dark"] .surface-gradient-filter {
+    [data-colour-mode="dark"] .surface-gradient-filter,
+    [data-colour-mode="dark"] .interactive-search-dropdown-row:hover,
+    [data-colour-mode="dark"] .interactive-search-dropdown-row:focus-visible {
       background-color: #384050;
       background-image: linear-gradient(
         180deg,
@@ -120,7 +126,9 @@
       );
     }
 
-    [data-colour-mode="light"] .surface-gradient-filter {
+    [data-colour-mode="light"] .surface-gradient-filter,
+    [data-colour-mode="light"] .interactive-search-dropdown-row:hover,
+    [data-colour-mode="light"] .interactive-search-dropdown-row:focus-visible {
       background-color: var(--color-background-sidebar-secondary);
       background-image: linear-gradient(
         180deg,
