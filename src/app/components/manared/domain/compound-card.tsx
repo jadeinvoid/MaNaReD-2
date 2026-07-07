@@ -1,4 +1,4 @@
-import { HStack, VStack } from "@astryxdesign/core/Layout";
+import { VStack } from "@astryxdesign/core/Layout";
 
 import { MaNaReDIcon } from "../icons/manared-icon";
 import { Chip } from "../primitives/chip";
@@ -8,11 +8,14 @@ import {
   CARD_FORMULA,
   CARD_HEADER_STACK,
   CARD_ID,
+  CARD_INFO_ROW,
   CARD_MEDIA_LABEL,
   CARD_META_CELL,
+  CARD_META_DIVIDER,
   CARD_META_LABEL,
   CARD_META_ROW,
   CARD_META_VALUE,
+  CARD_SECTION_DIVIDER,
   CARD_TAGS_ROW,
   CARD_TITLE,
 } from "../primitives/card-text-styles";
@@ -74,8 +77,8 @@ export function CompoundCard({
 
   return (
     <div className={SURFACE_COMPOUND_CARD}>
-      <VStack gap={4} className="w-full">
-        <HStack gap={4} vAlign="start" className="w-full">
+      <VStack gap={3} className="w-full">
+        <div className={CARD_INFO_ROW}>
           <div className={COMPOUND_CARD_MEDIA}>
             <span className={CARD_MEDIA_LABEL}>[Molecular Structure]</span>
           </div>
@@ -90,19 +93,26 @@ export function CompoundCard({
                 <Chip key={tag.label} label={tag.label} entity={tag.entity} />
               ))}
             </div>
-          </div>
-        </HStack>
-
-        {showMetadata ? (
-          <div className={CARD_META_ROW}>
-            {region != null ? <CardMetaField label="Geographic Region" value={region} /> : null}
-            {organism != null ? <CardMetaField label="Source Organism" value={organism} /> : null}
-            {bioactivity != null ? (
-              <CardMetaField label="Biological Activity" value={bioactivity} />
+            {showMetadata ? (
+              <>
+                <hr className={CARD_META_DIVIDER} />
+                <div className={CARD_META_ROW}>
+                  {region != null ? (
+                    <CardMetaField label="Geographic Region" value={region} />
+                  ) : null}
+                  {organism != null ? (
+                    <CardMetaField label="Source Organism" value={organism} />
+                  ) : null}
+                  {bioactivity != null ? (
+                    <CardMetaField label="Biological Activity" value={bioactivity} />
+                  ) : null}
+                </div>
+              </>
             ) : null}
           </div>
-        ) : null}
+        </div>
 
+        <hr className={CARD_SECTION_DIVIDER} />
         <div className={CARD_FOOTER}>
           <button type="button" onClick={onSave} className={INTERACTIVE_CARD_SAVE}>
             Save
