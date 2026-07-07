@@ -38,3 +38,22 @@ When implementing, reviewing, or referring to any design resource (tokens, compo
 MCP is configured in [`.cursor/mcp.json`](./.cursor/mcp.json) (`https://mcp.figma.com/mcp`). If tools are unavailable, ask the user to enable the Figma Cursor plugin (`/add-plugin figma`).
 
 URL node-id format: `31-80` in Figma URLs → `31:80` for MCP tool calls.
+
+# UX decisions (`UX-INTERACTION.md`)
+
+[`UX-INTERACTION.md`](./UX-INTERACTION.md) records MaNaReD UX decisions and interaction rationale. It is **documentation only** — not an implementation backlog.
+
+## Before implementing
+
+**Ask the user for confirmation** before making code or design changes that implement, extend, or depend on content in `UX-INTERACTION.md` (routes, components, filters, PQRS, interaction flows, etc.).
+
+Do not treat doc status values (`not built`, `TBD`, `Figma TBD`) as tasks to execute automatically.
+
+## Allowed without asking
+
+- **Read** `UX-INTERACTION.md` for context when discussing, reviewing, or documenting UX
+- **Edit** `UX-INTERACTION.md` when the user asks to update UX rationale or documentation
+
+## When the user confirms implementation
+
+Proceed only after explicit approval (e.g. "build the filter sidebar", "implement from UX-INTERACTION"). Then follow [`.cursor/rules/vibework.mdc`](./.cursor/rules/vibework.mdc), [`.cursor/rules/ui-stack.mdc`](./.cursor/rules/ui-stack.mdc), and [`.cursor/rules/figma-design-system.mdc`](./.cursor/rules/figma-design-system.mdc).
