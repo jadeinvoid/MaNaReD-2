@@ -1,7 +1,5 @@
-"use client";
-
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { expect, within } from "storybook/test";
 
 import { expectHoverElevates } from "@/storybook/manared/shared/assert-hover-elevation";
@@ -14,7 +12,6 @@ import { FilterSidebar } from "@/app/components/manared/composites/filter-sideba
 import { NavSideBar } from "@/app/components/manared/composites/nav-side-bar";
 import { TaxonomyBreadcrumb } from "@/app/components/manared/composites/taxonomy-breadcrumb";
 import { TopBarRegion } from "@/app/components/manared/composites/top-bar-region";
-import type { BrowseEntity } from "@/app/components/manared/composites/entity-nav";
 import { VStack } from "@astryxdesign/core/Layout";
 import { Text } from "@astryxdesign/core/Text";
 
@@ -53,13 +50,11 @@ const LIST_SAMPLE_ROWS: ListRowProps[] = [
 ];
 
 function BrowseShell({ children }: { children: ReactNode }) {
-  const [activeEntity, setActiveEntity] = useState<BrowseEntity>("compounds");
-
   return (
     <div className="flex min-h-screen bg-body">
-      <NavSideBar showExplore={false} />
+      <NavSideBar activeItem="Compound" />
       <div className="flex flex-1 flex-col">
-        <TopBarRegion activeEntity={activeEntity} onEntityChange={setActiveEntity} />
+        <TopBarRegion />
         <ContextualBar>
           <TaxonomyBreadcrumb items={["Home", "Compounds"]} />
           <Text size="lg" weight="medium" className="mt-4">

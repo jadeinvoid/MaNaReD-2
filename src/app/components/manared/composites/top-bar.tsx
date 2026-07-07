@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HStack } from "@astryxdesign/core/Layout";
 
 import { MaNaReDIcon } from "../icons/manared-icon";
@@ -49,17 +49,35 @@ export function TopBar({
 }: TopBarProps) {
   const [internalState, setInternalState] = useState<TopBarState>("collapsed");
   const state = controlledState ?? internalState;
+  const searchRegionRef = useRef<HTMLDivElement>(null);
 
   const setState = (next: TopBarState) => {
     setInternalState(next);
     onStateChange?.(next);
   };
 
+  useEffect(() => {
+    if (state !== "extended") {
+      return;
+    }
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (searchRegionRef.current?.contains(event.target as Node)) {
+        return;
+      }
+      setInternalState("collapsed");
+      onStateChange?.("collapsed");
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [state, onStateChange]);
+
   return (
     <header className={`relative ${SURFACE_TOP_BAR}`}>
       <div className="flex h-14 items-center gap-4 px-6 py-2">
         {leadingContent}
-        <div className="relative flex min-w-0 flex-1 items-center gap-2">
+        <div ref={searchRegionRef} className="relative flex min-w-0 flex-1 items-center gap-2">
           <SearchBar
             value={searchValue}
             onChange={onSearchChange}
