@@ -13,6 +13,7 @@ import {
   CARD_FORMULA,
   CARD_HEADER_STACK,
   CARD_ID,
+  CARD_INFO_ROW,
   CARD_META_LABEL,
   CARD_META_ROW,
   CARD_META_VALUE,
@@ -33,8 +34,8 @@ import {
 } from "../primitives/surface-styles";
 import { CompoundCard } from "./compound-card";
 
-/** Card shell shares surface tokens with Figma list/card frame (`367:3752`). */
-const FIGMA_CARD = "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=367-3752";
+/** Figma compound card frame (`367:4387`). */
+const FIGMA_CARD = "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=367-4387";
 
 function ColourModeFrame({ mode, children }: { mode: "light" | "dark"; children: ReactNode }) {
   const frameStyle: CSSProperties = {
@@ -74,7 +75,7 @@ const meta = {
     design: { type: "figma", url: FIGMA_CARD },
     docs: {
       description: {
-        component: `Full browse compound card with [Figma card shell](${FIGMA_CARD}) typography and metadata footer.`,
+        component: `Full browse compound card with [Figma card frame](${FIGMA_CARD}) layout, typography, and metadata footer.`,
       },
     },
   },
@@ -140,8 +141,31 @@ async function assertCompoundCardSurface(canvasElement: HTMLElement) {
     "border-dashed",
     "border-emphasized",
     "bg-body-secondary",
+    "w-[300px]",
+    "min-h-[164px]",
+    "self-stretch",
   );
   await expect(COMPOUND_CARD_MEDIA).toContain("border-dashed");
+  await expect(COMPOUND_CARD_MEDIA).toContain("w-[300px]");
+}
+
+async function assertCompoundCardLayout(canvasElement: HTMLElement) {
+  const canvas = within(canvasElement);
+  const regionLabel = canvas.getByText("Geographic Region");
+  const bodyColumn = regionLabel.closest('[class*="flex-1"]');
+  const infoRow = bodyColumn?.parentElement;
+
+  if (!bodyColumn || !infoRow) {
+    throw new Error("CompoundCard body column not found");
+  }
+
+  await expectUsesTokenClasses(infoRow.className, "items-stretch");
+  await expect(CARD_INFO_ROW).toContain("items-stretch");
+  await expect(bodyColumn.className).toContain("flex-1");
+
+  const picture = canvas.getByText("[Molecular Structure]").parentElement;
+  await expect(picture?.parentElement).toBe(infoRow);
+  await expect(bodyColumn.contains(regionLabel)).toBe(true);
 }
 
 async function assertCompoundCardTypography(canvasElement: HTMLElement) {
@@ -160,7 +184,8 @@ async function assertCompoundCardTypography(canvasElement: HTMLElement) {
   const header = id.parentElement;
   await expectUsesTokenClasses(header?.className ?? "", "flex-col");
   await expect(CARD_HEADER_STACK).toContain("gap-[length:var(--spacing-1)]");
-  await expect(CARD_TAGS_ROW).toContain("pt-[length:var(--spacing-4)]");
+  await expect(CARD_TAGS_ROW).toContain("gap-[length:var(--spacing-2)]");
+  await expect(CARD_TAGS_ROW).not.toContain("pt-[length:var(--spacing-4)]");
 
   const regionLabel = canvas.getByText("Geographic Region");
   await expectUsesTokenClasses(regionLabel.className, "text-tertiary");
@@ -217,6 +242,7 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     await assertCompoundCardContent(canvasElement);
     await assertCompoundCardSurface(canvasElement);
+    await assertCompoundCardLayout(canvasElement);
     await assertCompoundCardTypography(canvasElement);
     await assertCompoundCardTokenColours(canvasElement);
     await assertCompoundCardActions(canvasElement);
