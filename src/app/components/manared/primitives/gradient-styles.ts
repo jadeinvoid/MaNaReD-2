@@ -9,7 +9,7 @@ export const GRADIENT_SIDEBAR = "surface-gradient-sidebar";
 /** Filter sidebar scroll region — Figma `colour/gradient/light|dark/filter`. */
 export const GRADIENT_FILTER = "surface-gradient-filter";
 
-/** Search dropdown top-match row — Figma `colour/gradient/light/dropdownSelect`. */
+/** Search dropdown row hover — Figma `colour/gradient/light/dropdownSelect`; applied via `INTERACTIVE_SEARCH_DROPDOWN_ROW`. */
 export const GRADIENT_DROPDOWN_SELECT = "surface-gradient-filter";
 
 /** Contextual header band — Figma `colour/gradient/light|dark/context-bar`. */
