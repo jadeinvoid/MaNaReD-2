@@ -29,9 +29,9 @@ export const SURFACE_LIST_ROW = `w-full rounded-lg border border-solid ${BORDER_
 /** Compound result card shell — shares list row card surface (`367:3752`). */
 export const SURFACE_COMPOUND_CARD = `w-full rounded-lg border border-solid ${BORDER_PRIMARY} bg-surface p-4 ${SHADOW_CARD}`;
 
-/** Structure diagram placeholder — Figma card media slot. */
+/** Structure diagram placeholder — Figma `card-picture` (`367:4387`, 300×164). */
 export const COMPOUND_CARD_MEDIA =
-  "flex h-36 w-44 shrink-0 items-center justify-center rounded-lg border border-dashed border-emphasized bg-body-secondary px-2";
+  "flex h-full min-h-[164px] w-[300px] shrink-0 self-stretch items-center justify-center rounded-lg border border-dashed border-emphasized bg-body-secondary px-2";
 
 /** 24px icon frame — Figma `icon/compound` slot. */
 export const LIST_ROW_ICON_SLOT =

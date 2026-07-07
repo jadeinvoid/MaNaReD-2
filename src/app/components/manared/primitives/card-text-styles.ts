@@ -25,19 +25,26 @@ export const CARD_META_VALUE = "text-[13px] font-normal leading-normal text-prim
 /** id + title + formula stack — Figma `space/1` between header lines. */
 export const CARD_HEADER_STACK = "flex flex-col items-start gap-[length:var(--spacing-1)]";
 
-/** Main text column beside structure media. */
-export const CARD_BODY_COLUMN = "flex min-w-0 flex-1 flex-col";
+/** Main text column beside structure media — stacks header, tags, metadata. */
+export const CARD_BODY_COLUMN = "flex min-w-0 flex-1 flex-col gap-[length:var(--spacing-2)]";
 
-/** Tag row below formula — Figma `space/4` top padding. */
-export const CARD_TAGS_ROW =
-  "flex flex-wrap gap-[length:var(--spacing-2)] pt-[length:var(--spacing-4)]";
+/** Top band — picture column + body column (`351:3721`). */
+export const CARD_INFO_ROW = "flex w-full items-stretch gap-[length:var(--spacing-2)]";
 
-/** Metadata band — Figma `space/8` horizontal gap (`191:1269`). */
-export const CARD_META_ROW = "flex w-full flex-wrap items-center gap-[length:var(--spacing-8)]";
+/** Tag row below formula — Figma `space/2` chip gap. */
+export const CARD_TAGS_ROW = "flex flex-wrap gap-[length:var(--spacing-2)]";
+
+/** Divider above metadata inside the body column (`351:3732`). */
+export const CARD_META_DIVIDER = "w-full border-0 border-t border-solid border-emphasized";
+
+/** Metadata band — Figma `space/8` horizontal gap, right of picture (`351:3733`). */
+export const CARD_META_ROW = "flex flex-wrap items-center gap-[length:var(--spacing-8)]";
+
+/** Divider between info band and footer (`351:3737`). */
+export const CARD_SECTION_DIVIDER = "w-full border-0 border-t border-solid border-emphasized";
 
 /** Single metadata label/value pair — Figma 2px gap. */
 export const CARD_META_CELL = "flex flex-col gap-0.5";
 
-/** Footer actions row — Figma `space/2` gap with trailing spacer (`191:1310`). */
-export const CARD_FOOTER =
-  "flex w-full items-center gap-[length:var(--spacing-2)] border-t border-solid border-emphasized pt-[length:var(--spacing-4)]";
+/** Footer actions row — Figma `space/2` gap with trailing spacer (`351:3738`). */
+export const CARD_FOOTER = "flex w-full items-center gap-[length:var(--spacing-2)]";
