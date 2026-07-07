@@ -4,7 +4,11 @@ import { useCallback, useState, type ReactNode } from "react";
 
 import { MaNaReDIcon } from "../icons/manared-icon";
 import { FilterButton } from "../primitives/filter-button";
-import { FILTER_SIDEBAR_SHELL, GRADIENT_FILTER } from "../primitives/gradient-styles";
+import {
+  FILTER_BAR_SURFACE,
+  FILTER_SIDEBAR_SHELL,
+  GRADIENT_FILTER,
+} from "../primitives/gradient-styles";
 import { FilterDropdownPanel } from "./filter-dropdown-panel";
 import { FilterRangePanel } from "./filter-range-panel";
 import { FilterRow } from "./filter-row";
@@ -77,7 +81,7 @@ function selectedRange(state: FilterState, category: FilterCategoryId): [number,
   return [Number(match[1]), Number(match[2])];
 }
 
-/** Filter sidebar from Figma `filter/container` (349:4572) with chrome from `332:9061`. */
+/** Filter sidebar from Figma `filter-bar` (351:1736). */
 export function FilterSidebar({
   filters: controlledFilters,
   defaultFilters = { active: [] },
@@ -96,7 +100,6 @@ export function FilterSidebar({
 
   const filters = controlledFilters ?? internalFilters;
   const collapsed = controlledCollapsed ?? internalCollapsed;
-  const activeFilterCount = filters.active.length;
 
   const setCollapsed = (next: boolean) => {
     if (controlledCollapsed === undefined) {
@@ -169,85 +172,108 @@ export function FilterSidebar({
   };
 
   const shellClass = [
-    GRADIENT_FILTER,
+    FILTER_BAR_SURFACE,
     FILTER_SIDEBAR_SHELL,
-    "flex h-full min-h-0 flex-col gap-1 overflow-hidden rounded-md px-1 py-4 backdrop-blur-[2px]",
+    "flex h-full min-h-0 flex-col gap-4 overflow-hidden rounded-tr-md rounded-br-md px-4 py-6",
+  ].join(" ");
+
+  const containerClass = [
+    GRADIENT_FILTER,
+    "flex min-h-0 flex-1 flex-col gap-1 overflow-hidden rounded-md px-1 py-4 backdrop-blur-[2px]",
   ].join(" ");
 
   return (
     <aside className={shellClass} data-collapsed={collapsed ? "true" : "false"}>
-      {showCollapseControl ? (
-        <header
-          className={`flex w-full shrink-0 flex-col items-center gap-1 ${collapsed ? "pb-1" : "items-end pb-2"}`}
-          data-name="filter-sidebar/collapse"
-        >
+      <header
+        className={`flex h-8 w-full shrink-0 items-center px-1 ${collapsed ? "justify-center" : "gap-2"}`}
+        data-name="filter/header"
+      >
+        <FilterSidebarReveal collapsed={collapsed}>
+          <FilterButton variant="refine-result" />
+        </FilterSidebarReveal>
+        {!collapsed ? <div className="min-h-px min-w-px flex-1" aria-hidden /> : null}
+        {showCollapseControl ? (
           <button
             type="button"
-            className="flex size-8 items-center justify-center"
+            className="flex size-6 shrink-0 items-center justify-center"
             aria-label={collapsed ? "Expand filters" : "Collapse filters"}
             aria-expanded={!collapsed}
             onClick={() => setCollapsed(!collapsed)}
           >
             <MaNaReDIcon
-              name={collapsed ? "vertical-collapse" : "expand-left"}
-              size={32}
+              name={collapsed ? "expand" : "expand-left"}
+              size={24}
               className="text-current"
             />
           </button>
-          {collapsed && activeFilterCount > 0 ? (
-            <span
-              className="flex size-6 items-center justify-center rounded-full bg-button-active text-3xs font-semibold text-primary"
-              aria-label={`${activeFilterCount} active filters`}
-            >
-              {activeFilterCount}
-            </span>
-          ) : null}
-        </header>
-      ) : null}
+        ) : null}
+      </header>
 
-      <FilterSidebarReveal collapsed={collapsed}>
-        <header
-          className="flex w-full shrink-0 items-center justify-between gap-2 px-1"
-          data-name="filter-sidebar/header"
-        >
-          <FilterButton variant="refine-result" />
-          <FilterButton variant="clear-all" onClick={handleClear} />
-        </header>
+      <div className={containerClass} data-name="filter/container">
+        {collapsed ? (
+          <div className="filter-sidebar-collapsed-rail" aria-hidden />
+        ) : (
+          <>
+            <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto">
+              {FILTER_CATEGORIES.map(({ id, label }) => (
+                <FilterRow
+                  key={id}
+                  id={id}
+                  label={label}
+                  activeCount={activeCountForCategory(filters, id)}
+                  expanded={expandedCategory === id}
+                  onToggle={() => {
+                    setExpandedCategory((current) => {
+                      const next = current === id ? null : id;
+                      if (next === "molecularWeight") {
+                        const draft = selectedRange(filters, "molecularWeight");
+                        setRangeDraft(draft);
+                        if (
+                          !filters.active.some((filter) => filter.category === "molecularWeight")
+                        ) {
+                          updateFilters(
+                            setRangeFilter(filters, "molecularWeight", draft[0], draft[1]),
+                          );
+                        }
+                      }
+                      return next;
+                    });
+                  }}
+                >
+                  {renderPanel(id)}
+                </FilterRow>
+              ))}
+            </div>
 
-        <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto">
-          {FILTER_CATEGORIES.map(({ id, label }) => (
-            <FilterRow
-              key={id}
-              id={id}
-              label={label}
-              activeCount={activeCountForCategory(filters, id)}
-              expanded={expandedCategory === id}
-              onToggle={() => {
-                setExpandedCategory((current) => {
-                  const next = current === id ? null : id;
-                  if (next === "molecularWeight") {
-                    const draft = selectedRange(filters, "molecularWeight");
-                    setRangeDraft(draft);
-                    if (!filters.active.some((filter) => filter.category === "molecularWeight")) {
-                      updateFilters(setRangeFilter(filters, "molecularWeight", draft[0], draft[1]));
-                    }
-                  }
-                  return next;
-                });
-              }}
-            >
-              {renderPanel(id)}
-            </FilterRow>
-          ))}
-        </div>
+            <div className="min-h-0 flex-1" aria-hidden />
 
-        <footer
-          className="flex w-full shrink-0 justify-end px-1 pt-1"
-          data-name="filter-sidebar/footer"
-        >
-          <FilterButton variant="apply-filter" onClick={handleApply} />
-        </footer>
-      </FilterSidebarReveal>
+            <div className="flex w-full shrink-0 justify-end">
+              <FilterButton variant="clear-all" onClick={handleClear} />
+            </div>
+          </>
+        )}
+      </div>
+
+      <footer
+        className={`flex w-full shrink-0 items-start gap-2 ${collapsed ? "h-[33px]" : ""}`}
+        data-name="filter/footer"
+      >
+        <FilterSidebarReveal collapsed={collapsed}>
+          <div className="flex w-full items-start gap-2">
+            {showCollapseControl ? (
+              <div
+                className="flex size-8 shrink-0 items-center justify-center"
+                aria-hidden
+                data-name="icon/vertical-collapse"
+              >
+                <MaNaReDIcon name="vertical-collapse" size={32} className="text-current" />
+              </div>
+            ) : null}
+            <div className="min-h-px min-w-px flex-1 self-stretch" aria-hidden />
+            <FilterButton variant="apply-filter" onClick={handleApply} />
+          </div>
+        </FilterSidebarReveal>
+      </footer>
     </aside>
   );
 }

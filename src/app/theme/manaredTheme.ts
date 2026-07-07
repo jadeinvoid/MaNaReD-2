@@ -68,9 +68,9 @@ export const manaredTheme = defineTheme({
     "--layout-sidebar-width": "192px",
     "--layout-sidebar-width-collapsed": "56px",
 
-    // Layout — Figma filter/container (349:4572)
-    "--layout-filter-sidebar-width": "192px",
-    "--layout-filter-sidebar-width-collapsed": "48px",
+    // Layout — Figma filter-bar (351:1736) / filter/container (349:4572)
+    "--layout-filter-sidebar-width": "224px",
+    "--layout-filter-sidebar-width-collapsed": "45px",
 
     // Nav sidebar elevation — Figma nav-side-bar/shadow-light|dark (339:3237 / 339:3284)
     "--shadow-nav-sidebar": "4px 0 8px color-mix(in srgb, #0f142e 18%, transparent)",
@@ -78,6 +78,9 @@ export const manaredTheme = defineTheme({
 
     // Filter action buttons — Figma filter/shadow-light (349:4627 clear-all)
     "--shadow-filter-action": "0 4px 4px color-mix(in srgb, #1e2441 25%, transparent)",
+
+    // Filter bar outer shell — Figma filter-bar (351:1736)
+    "--shadow-filter-bar": "4px 0 12px color-mix(in srgb, #0f142e 14%, transparent)",
   } as NonNullable<DefineThemeInput["tokens"]>,
 
   components: {

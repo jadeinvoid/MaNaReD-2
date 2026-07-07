@@ -112,18 +112,22 @@ describe("MaNaReD theme contract", () => {
     expect(manaredThemeSource).toContain('"--layout-filter-sidebar-width-collapsed"');
     expect(manaredThemeSource).toContain('"--shadow-nav-sidebar"');
     expect(manaredThemeSource).toContain('"--shadow-filter-action"');
+    expect(manaredThemeSource).toContain('"--shadow-filter-bar"');
     expect(manaredCss).toContain("--shadow-card:");
     expect(manaredCss).toContain("--shadow-elevated:");
     expect(manaredCss).toContain("--layout-filter-sidebar-width:");
     expect(manaredCss).toContain("--shadow-filter-action:");
+    expect(manaredCss).toContain("--shadow-filter-bar:");
   });
 
   it("defines filter sidebar shell utilities in manaredElevation.css", () => {
     const elevationCss = readThemeFile("manaredElevation.css");
 
     expect(elevationCss).toContain(".shadow-filter-action");
+    expect(elevationCss).toContain(".shadow-filter-bar");
     expect(elevationCss).toContain(".filter-sidebar-shell");
     expect(elevationCss).toContain(".filter-sidebar-reveal");
+    expect(elevationCss).toContain(".filter-sidebar-collapsed-rail");
     expect(elevationCss).toContain("--layout-filter-sidebar-width");
   });
 });

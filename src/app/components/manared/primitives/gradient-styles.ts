@@ -12,8 +12,11 @@ export const NAV_SIDEBAR_SHELL = "nav-sidebar-shell";
 /** Filter sidebar scroll region — Figma `colour/gradient/light|dark/filter`. */
 export const GRADIENT_FILTER = "surface-gradient-filter";
 
-/** Filter sidebar shell — width driven by data-collapsed in manaredElevation.css (349:4572). */
+/** Filter bar outer shell — width driven by data-collapsed in manaredElevation.css (351:1736). */
 export const FILTER_SIDEBAR_SHELL = "filter-sidebar-shell";
+
+/** Filter bar outer card surface — Figma `colour/bg/card/primary` + filter-bar shadow (351:1736). */
+export const FILTER_BAR_SURFACE = "bg-surface shadow-filter-bar";
 
 /** Search dropdown row hover — Figma `colour/gradient/light/dropdownSelect`; applied via `INTERACTIVE_SEARCH_DROPDOWN_ROW`. */
 export const GRADIENT_DROPDOWN_SELECT = "surface-gradient-filter";
