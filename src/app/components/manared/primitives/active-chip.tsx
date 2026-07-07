@@ -10,7 +10,7 @@ export type ActiveChipProps = {
 export function ActiveChip({ label, onRemove }: ActiveChipProps) {
   return (
     <span className={INTERACTIVE_ACTIVE_CHIP}>
-      <span className="translate-y-0.5 whitespace-nowrap">{label}</span>
+      <span className="whitespace-nowrap">{label}</span>
       {onRemove ? (
         <button
           type="button"
