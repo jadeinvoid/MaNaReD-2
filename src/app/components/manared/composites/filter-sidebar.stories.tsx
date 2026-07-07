@@ -6,6 +6,7 @@ import { withColourMode } from "@/storybook/manared/shared/assert-token-colours"
 
 import { GRADIENT_FILTER } from "../primitives/gradient-styles";
 import { FilterSidebar } from "./filter-sidebar";
+import { FILTER_CATEGORIES, type ActiveFilter } from "./filter-state";
 
 const FIGMA_FILTER_SB =
   "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=349-4572";
@@ -43,6 +44,7 @@ const meta = {
   ],
   args: {
     onClear: fn(),
+    onFiltersChange: fn(),
   },
 } satisfies Meta<typeof FilterSidebar>;
 
@@ -63,10 +65,50 @@ export const Default: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Taxonomy")).toBeVisible();
     await expect(canvas.getByText("Target / assay")).toBeVisible();
-    await expect(canvas.getAllByLabelText("Expand filter")).toHaveLength(6);
+    for (const { label } of FILTER_CATEGORIES) {
+      await expect(canvas.getByLabelText(`Expand ${label} filter`)).toBeVisible();
+    }
     await assertFilterGradient(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Clear All" }));
     await expect(args.onClear).toHaveBeenCalledOnce();
+  },
+};
+
+export const ExpandBioactivity: Story = {
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
+    await expect(canvas.getByRole("button", { name: "Cytotoxic" })).toBeVisible();
+    await userEvent.click(canvas.getByRole("button", { name: "Cytotoxic" }));
+    await expect(args.onFiltersChange).toHaveBeenCalled();
+    const lastCall = args.onFiltersChange?.mock.calls.at(-1)?.[0];
+    await expect(
+      lastCall?.active.some((filter: ActiveFilter) => filter.label === "Cytotoxic"),
+    ).toBe(true);
+  },
+};
+
+export const RangeSelection: Story = {
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByLabelText("Expand Molecular Weight filter"));
+    await expect(canvas.getByText(/MW \d+–\d+/)).toBeVisible();
+    await expect(args.onFiltersChange).toHaveBeenCalled();
+    const lastCall = args.onFiltersChange?.mock.calls.at(-1)?.[0];
+    await expect(
+      lastCall?.active.some((filter: ActiveFilter) => filter.label.startsWith("MW ")),
+    ).toBe(true);
+  },
+};
+
+export const ClearAll: Story = {
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
+    await userEvent.click(canvas.getByRole("button", { name: "Cytotoxic" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Clear All" }));
+    const lastCall = args.onFiltersChange?.mock.calls.at(-1)?.[0];
+    await expect(lastCall?.active).toEqual([]);
   },
 };
 

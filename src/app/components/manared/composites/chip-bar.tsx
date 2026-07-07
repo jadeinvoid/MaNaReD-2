@@ -9,10 +9,15 @@ import { SURFACE_CHIP_BAR } from "../primitives/surface-styles";
 import { ActiveChip } from "../primitives/active-chip";
 import { SortWrapper } from "./sort-wrapper";
 
+export type ChipBarItem = {
+  id: string;
+  label: string;
+};
+
 export type ChipBarProps = {
-  chips: string[];
+  chips: ChipBarItem[];
   provenanceText?: string;
-  onRemoveChip?: (label: string) => void;
+  onRemoveChip?: (id: string) => void;
   onMoreFilters?: () => void;
   onSort?: () => void;
   sortLabel?: string;
@@ -31,9 +36,9 @@ export function ChipBar({
     <HStack gap={2} vAlign="center" className={SURFACE_CHIP_BAR}>
       {chips.map((chip) => (
         <ActiveChip
-          key={chip}
-          label={chip}
-          onRemove={onRemoveChip ? () => onRemoveChip(chip) : undefined}
+          key={chip.id}
+          label={chip.label}
+          onRemove={onRemoveChip ? () => onRemoveChip(chip.id) : undefined}
         />
       ))}
       {provenanceText ? (

@@ -48,7 +48,11 @@ const meta = {
     ),
   ],
   args: {
-    chips: ["Alkaloids", "MW 200–400", "Marine"],
+    chips: [
+      { id: "compoundClass:Alkaloids", label: "Alkaloids" },
+      { id: "molecularWeight:range", label: "MW 200–400" },
+      { id: "bioactivity:Marine", label: "Marine" },
+    ],
     provenanceText: "Filter carried on from previous session.",
     onRemoveChip: fn(),
     onMoreFilters: fn(),
@@ -114,7 +118,7 @@ export const Default: Story = {
     await expect(canvas.getByText("Filter carried on from previous session.")).toBeVisible();
     await assertChipBarGradient(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Remove Alkaloids" }));
-    await expect(args.onRemoveChip).toHaveBeenCalledWith("Alkaloids");
+    await expect(args.onRemoveChip).toHaveBeenCalledWith("compoundClass:Alkaloids");
     await userEvent.click(canvas.getByRole("button", { name: "More Filters" }));
     await expect(args.onMoreFilters).toHaveBeenCalledOnce();
     await userEvent.click(canvas.getByRole("button", { name: /Sort by/ }));

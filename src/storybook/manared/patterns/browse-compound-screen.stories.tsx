@@ -5,15 +5,13 @@ import { expect, userEvent, waitFor, within } from "storybook/test";
 import { expectHoverElevates } from "@/storybook/manared/shared/assert-hover-elevation";
 import { GRADIENT_SIDEBAR } from "@/app/components/manared/primitives/gradient-styles";
 
-import { ChipBar } from "@/app/components/manared/composites/chip-bar";
 import { CompoundCard } from "@/app/components/manared/domain/compound-card";
 import { ListRow, type ListRowProps } from "@/app/components/manared/domain/list-row";
 import { ContextualBar } from "@/app/components/manared/composites/contextual-bar";
-import { FilterSidebar } from "@/app/components/manared/composites/filter-sidebar";
 import { NavSideBar } from "@/app/components/manared/composites/nav-side-bar";
 import { TaxonomyBreadcrumb } from "@/app/components/manared/composites/taxonomy-breadcrumb";
 import { TopBarRegion } from "@/app/components/manared/composites/top-bar-region";
-import { VStack } from "@astryxdesign/core/Layout";
+import { BrowseFiltersDemo } from "@/storybook/manared/patterns/browse-filters-demo";
 import { Text } from "@astryxdesign/core/Text";
 
 const FIGMA_SCREEN = "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=332-9041";
@@ -65,10 +63,7 @@ function BrowseShell({ children }: { children: ReactNode }) {
           </Text>
         </ContextualBar>
         <div className="flex min-h-0 flex-1 gap-4 p-4">
-          <FilterSidebar />
-          <VStack gap={4} className="flex-1">
-            {children}
-          </VStack>
+          <BrowseFiltersDemo>{children}</BrowseFiltersDemo>
         </div>
       </div>
     </div>
@@ -97,10 +92,6 @@ export const CardView: Story = {
   name: "Card view",
   render: () => (
     <BrowseShell>
-      <ChipBar
-        chips={["Alkaloids", "MW 200–400"]}
-        provenanceText="Filter carried on from previous session."
-      />
       <CompoundCard
         id="# HAL-2024-001"
         name="Halichondrin B"
@@ -129,6 +120,14 @@ export const CardView: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Halichondrin B")).toBeVisible();
     await expect(canvas.getByText("Manoalide")).toBeVisible();
+
+    await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
+    await userEvent.click(canvas.getByRole("button", { name: "Cytotoxic" }));
+    const chipBar = canvasElement.querySelector(".surface-gradient-chip-bar");
+    if (!chipBar || !(chipBar instanceof HTMLElement)) {
+      throw new Error("ChipBar not found");
+    }
+    await expect(within(chipBar).getByText("Cytotoxic")).toBeVisible();
 
     const sidebar = canvasElement.querySelector(`.${GRADIENT_SIDEBAR}`);
     if (!sidebar || !(sidebar instanceof HTMLElement)) {
@@ -174,10 +173,6 @@ export const ListView: Story = {
   },
   render: () => (
     <BrowseShell>
-      <ChipBar
-        chips={["Alkaloids", "MW 200–400"]}
-        provenanceText="Filter carried on from previous session."
-      />
       {LIST_SAMPLE_ROWS.map((row) => (
         <ListRow key={row.id} {...row} />
       ))}
