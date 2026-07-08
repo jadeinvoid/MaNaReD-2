@@ -139,6 +139,86 @@
       );
     }
 
+    /* filter/container panel — layered base + softened gradient overlay (349:4572) */
+    .surface-gradient-filter-panel {
+      isolation: isolate;
+      position: relative;
+    }
+
+    .surface-gradient-filter-panel::before,
+    .surface-gradient-filter-panel::after {
+      border-radius: inherit;
+      content: "";
+      inset: 0;
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .surface-gradient-filter-panel::before {
+      z-index: 0;
+      background-color: var(--color-background-sidebar-secondary);
+    }
+
+    .surface-gradient-filter-panel::after {
+      z-index: 1;
+      background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(234, 252, 255, 0.12) 24.521%,
+        rgba(174, 202, 255, 0.07) 76.446%,
+        rgba(255, 255, 255, 0.12) 100%
+      );
+    }
+
+    .surface-gradient-filter-panel > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :scope .surface-gradient-filter-panel::before {
+        background-color: #384050;
+      }
+
+      :scope .surface-gradient-filter-panel::after {
+        background-image: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(89, 81, 109, 0.12) 24.521%,
+          rgba(174, 202, 255, 0.07) 76.446%,
+          rgba(255, 255, 255, 0) 100%
+        );
+      }
+    }
+
+    [data-colour-mode="dark"] .surface-gradient-filter-panel::before {
+      background-color: #384050;
+    }
+
+    [data-colour-mode="dark"] .surface-gradient-filter-panel::after {
+      background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(89, 81, 109, 0.12) 24.521%,
+        rgba(174, 202, 255, 0.07) 76.446%,
+        rgba(255, 255, 255, 0) 100%
+      );
+    }
+
+    [data-colour-mode="light"] .surface-gradient-filter-panel::before {
+      background-color: var(--color-background-sidebar-secondary);
+    }
+
+    [data-colour-mode="light"] .surface-gradient-filter-panel::after {
+      background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(234, 252, 255, 0.12) 24.521%,
+        rgba(174, 202, 255, 0.07) 76.446%,
+        rgba(255, 255, 255, 0.12) 100%
+      );
+    }
+
     /* contextual-bar — colour/gradient/light|dark/context-bar (360:2601 / 360:2602) */
     .surface-gradient-context-bar {
       color: #1c1b18;

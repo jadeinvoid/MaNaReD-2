@@ -54,7 +54,7 @@ export function FilterTaxonomyPanel({ selected, onToggleLeaf }: FilterTaxonomyPa
               aria-label={isExpanded ? `Collapse ${group.label}` : `Expand ${group.label}`}
               aria-expanded={isExpanded}
               onClick={toggleGroup}
-              className="flex w-full items-center justify-end gap-2 rounded-md px-2 py-1 text-right text-3xs uppercase text-primary hover:bg-body-secondary focus-visible:outline-none"
+              className="flex w-full items-center justify-end gap-2 rounded-md px-2 py-1 pr-1 text-right text-3xs uppercase text-primary hover:bg-body-secondary focus-visible:outline-none"
             >
               <span>{group.label}</span>
               <MaNaReDIcon
@@ -65,7 +65,7 @@ export function FilterTaxonomyPanel({ selected, onToggleLeaf }: FilterTaxonomyPa
             </button>
 
             {isExpanded ? (
-              <div className="flex w-full flex-col gap-0.5 items-end pr-2">
+              <div className="flex w-full flex-col gap-0.5 items-end pr-2 pl-2">
                 {group.leaves.map((leaf) => {
                   const isSelected = selectedSet.has(leaf.label);
                   return (

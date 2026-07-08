@@ -36,7 +36,7 @@ export const INTERACTIVE_FILTER_ACTION_BASE =
 
 /** Sidebar section title — Figma `filter/header` refine-result (351:1736 / 349:4569). */
 export const INTERACTIVE_FILTER_REFINE_LABEL =
-  "inline-flex shrink-0 items-center justify-center p-[length:var(--spacing-1)] text-2xs font-semibold leading-4 text-primary";
+  "block min-w-0 truncate p-[length:var(--spacing-1)] text-xs font-semibold leading-5 text-primary";
 
 export const INTERACTIVE_FILTER_CLEAR_ALL = `${INTERACTIVE_FILTER_ACTION_BASE} border-0 px-[length:var(--spacing-4)] py-[length:var(--spacing-1)] text-3xs text-secondary shadow-filter-action`;
 
