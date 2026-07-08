@@ -44,8 +44,6 @@ export type FilterSidebarProps = {
 const PLACEHOLDER_CATEGORIES = new Set<FilterCategoryId>(["geographicRegion", "targetAssay"]);
 
 function FilterSidebarReveal({ collapsed, children }: { collapsed: boolean; children: ReactNode }) {
-  const showHeaderToggle = showCollapseControl || collapsed;
-
   return (
     <div
       className="filter-sidebar-reveal"
@@ -190,6 +188,8 @@ export function FilterSidebar({
     GRADIENT_FILTER,
     "flex min-h-0 flex-1 flex-col gap-1 overflow-hidden rounded-md px-1 py-4 backdrop-blur-[2px]",
   ].join(" ");
+
+  const showHeaderToggle = showCollapseControl || collapsed;
 
   return (
     <aside className={shellClass} data-collapsed={collapsed ? "true" : "false"}>
