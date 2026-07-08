@@ -79,7 +79,7 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
               onClick={() => setOpenRank(isExpanded ? null : rank.id)}
               className="flex w-full items-center justify-between overflow-hidden rounded-md pl-2 pr-0 hover:bg-body-secondary focus-visible:outline-none"
             >
-              <span className="min-w-0 flex-1 truncate px-2 py-0.5 text-left text-3xs uppercase text-primary">
+              <span className="min-w-0 flex-1 truncate py-0.5 pl-4 pr-2 text-left text-3xs uppercase text-primary">
                 {rank.label}
               </span>
               <MaNaReDIcon
