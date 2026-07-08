@@ -118,6 +118,17 @@ export const Collapsed: Story = {
   },
 };
 
+export const CollapsedKeepsExpandControl: Story = {
+  args: { defaultCollapsed: true, showCollapseControl: false },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const shell = getFilterShell(canvasElement);
+
+    await expect(shell.dataset.collapsed).toBe("true");
+    await expect(canvas.getByRole("button", { name: "Expand filters" })).toBeVisible();
+  },
+};
+
 export const ToggleCollapse: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
@@ -127,6 +138,8 @@ export const ToggleCollapse: Story = {
     await expect(args.onCollapsedChange).toHaveBeenCalledWith(true);
     await expect(shell.dataset.collapsed).toBe("true");
     await expect(canvas.queryByText("Taxonomy")).not.toBeInTheDocument();
+
+    await expect(canvas.getByRole("button", { name: "Expand filters" })).toBeVisible();
 
     await userEvent.click(canvas.getByRole("button", { name: "Expand filters" }));
     await expect(args.onCollapsedChange).toHaveBeenCalledWith(false);
