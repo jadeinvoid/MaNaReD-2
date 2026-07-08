@@ -4,12 +4,17 @@ import { expect, fn, userEvent, within } from "storybook/test";
 
 import { withColourMode } from "@/storybook/manared/shared/assert-token-colours";
 
-import { GRADIENT_FILTER } from "../primitives/gradient-styles";
+import {
+  FILTER_BAR_SURFACE,
+  FILTER_SIDEBAR_SHELL,
+  GRADIENT_FILTER,
+} from "../primitives/gradient-styles";
+import { INTERACTIVE_FILTER_CLEAR_ALL } from "../primitives/interactive-styles";
 import { FilterSidebar } from "./filter-sidebar";
 import { FILTER_CATEGORIES, type ActiveFilter } from "./filter-state";
 
-const FIGMA_FILTER_SB =
-  "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=349-4572";
+const FIGMA_FILTER_BAR =
+  "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=351-1736";
 
 function ColourModeFrame({ mode, children }: { mode: "light" | "dark"; children: ReactNode }) {
   const frameStyle: CSSProperties = {
@@ -33,7 +38,7 @@ const meta = {
   tags: ["autodocs", "test"],
   parameters: {
     layout: "padded",
-    design: { type: "figma", url: FIGMA_FILTER_SB },
+    design: { type: "figma", url: FIGMA_FILTER_BAR },
   },
   decorators: [
     (Story) => (
@@ -45,6 +50,8 @@ const meta = {
   args: {
     onClear: fn(),
     onFiltersChange: fn(),
+    onApply: fn(),
+    onCollapsedChange: fn(),
   },
 } satisfies Meta<typeof FilterSidebar>;
 
@@ -60,9 +67,20 @@ async function assertFilterGradient(canvasElement: HTMLElement) {
   await expect(getComputedStyle(region).backgroundImage).toContain("gradient");
 }
 
+function getFilterShell(canvasElement: HTMLElement): HTMLElement {
+  const shell = canvasElement.querySelector(`.${FILTER_SIDEBAR_SHELL}`);
+  if (!shell || !(shell instanceof HTMLElement)) {
+    throw new Error("FilterSidebar shell not found");
+  }
+  return shell;
+}
+
 export const Default: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
+    await expect(canvas.getByText("Refine Results")).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Clear All" })).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Apply Filter" })).toBeVisible();
     await expect(canvas.getByText("Taxonomy")).toBeVisible();
     await expect(canvas.getByText("Target / assay")).toBeVisible();
     for (const { label } of FILTER_CATEGORIES) {
@@ -71,6 +89,82 @@ export const Default: Story = {
     await assertFilterGradient(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Clear All" }));
     await expect(args.onClear).toHaveBeenCalledOnce();
+  },
+};
+
+export const WithChrome: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const shell = canvasElement.querySelector(`.${FILTER_BAR_SURFACE.split(" ")[0]}`);
+    await expect(shell).toBeTruthy();
+    await expect(canvas.getByText("Refine Results")).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Clear All" })).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Apply Filter" })).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Collapse filters" })).toBeVisible();
+    await expect(canvasElement.querySelector('[data-name="icon/vertical-collapse"]')).toBeTruthy();
+  },
+};
+
+export const Collapsed: Story = {
+  args: { defaultCollapsed: true },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const shell = getFilterShell(canvasElement);
+
+    await expect(canvas.getByRole("button", { name: "Expand filters" })).toBeVisible();
+    await expect(shell.dataset.collapsed).toBe("true");
+    await expect(canvasElement.querySelector(".filter-sidebar-collapsed-rail")).toBeTruthy();
+    await expect(canvas.queryByText("Taxonomy")).not.toBeInTheDocument();
+  },
+};
+
+export const ToggleCollapse: Story = {
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    const shell = getFilterShell(canvasElement);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Collapse filters" }));
+    await expect(args.onCollapsedChange).toHaveBeenCalledWith(true);
+    await expect(shell.dataset.collapsed).toBe("true");
+    await expect(canvas.queryByText("Taxonomy")).not.toBeInTheDocument();
+
+    await userEvent.click(canvas.getByRole("button", { name: "Expand filters" }));
+    await expect(args.onCollapsedChange).toHaveBeenCalledWith(false);
+    await expect(shell.dataset.collapsed).toBe("false");
+    await expect(canvas.getByText("Taxonomy")).toBeVisible();
+  },
+};
+
+export const ClearAllFromContainer: Story = {
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
+    await userEvent.click(canvas.getByRole("button", { name: "Cytotoxic" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Clear All" }));
+    const lastCall = args.onFiltersChange?.mock.calls.at(-1)?.[0];
+    await expect(lastCall?.active).toEqual([]);
+    await expect(args.onClear).toHaveBeenCalled();
+  },
+};
+
+export const TabletDefault: Story = {
+  args: { defaultCollapsed: true },
+  parameters: {
+    viewport: { defaultViewport: "tablet" },
+  },
+  play: async ({ canvasElement }) => {
+    const shell = getFilterShell(canvasElement);
+    await expect(shell.dataset.collapsed).toBe("true");
+  },
+};
+
+export const ClearAllShadowToken: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const clearAll = canvas.getByRole("button", { name: "Clear All" });
+    await expect(clearAll.className).toContain("shadow-filter-action");
+    await expect(INTERACTIVE_FILTER_CLEAR_ALL).toContain("shadow-filter-action");
+    await expect(getComputedStyle(clearAll).boxShadow).not.toBe("none");
   },
 };
 

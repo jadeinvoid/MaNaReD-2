@@ -72,24 +72,23 @@ async function assertFilterButtonTokenColours(canvasElement: HTMLElement) {
   const clearAll = canvas.getByRole("button", { name: "Clear All" });
   const applyFilter = canvas.getByRole("button", { name: "Apply Filter" });
 
-  await expectUsesTokenClasses(refineLabel.className, "text-secondary", "text-sm");
-  await expectUsesTokenClasses(INTERACTIVE_FILTER_REFINE_LABEL, "text-secondary", "text-sm");
+  await expectUsesTokenClasses(refineLabel.className, "text-primary", "text-2xs");
+  await expectUsesTokenClasses(INTERACTIVE_FILTER_REFINE_LABEL, "text-primary", "text-2xs");
   await expectUsesTokenClasses(
     clearAll.className,
     "bg-button-active",
-    "text-primary",
-    "border-tertiary",
+    "text-secondary",
     "text-3xs",
   );
   await expectUsesTokenClasses(
     applyFilter.className,
     "bg-button-active",
-    "border-border-secondary",
     "text-2xs",
+    "text-secondary",
   );
   await expectUsesTokenClasses(INTERACTIVE_FILTER_ACTION_BASE, "bg-button-active", "text-primary");
-  await expectUsesTokenClasses(INTERACTIVE_FILTER_CLEAR_ALL, "border-tertiary", "text-3xs");
-  await expectUsesTokenClasses(INTERACTIVE_FILTER_APPLY, "border-border-secondary", "text-2xs");
+  await expectUsesTokenClasses(INTERACTIVE_FILTER_CLEAR_ALL, "text-secondary", "text-3xs");
+  await expectUsesTokenClasses(INTERACTIVE_FILTER_APPLY, "text-2xs", "text-secondary");
 
   for (const mode of ["light", "dark"] as const) {
     await expectResolvedToken(mode, "--color-interactive-button-active", "backgroundColor");

@@ -43,6 +43,84 @@
     box-shadow: var(--shadow-nav-sidebar);
   }
 
+  /* Filter sidebar action buttons — Figma filter/shadow-light (349:4627) */
+  [data-astryx-theme="manared"] .shadow-filter-action {
+    box-shadow: var(--shadow-filter-action);
+  }
+
+  /* Filter bar outer shell — Figma filter-bar (351:1736) */
+  [data-astryx-theme="manared"] .shadow-filter-bar {
+    box-shadow: var(--shadow-filter-bar);
+  }
+
+  /*
+   * Filter sidebar shell — Figma filter-bar (351:1736).
+   * Width animates via data-collapsed; timing uses Astryx --duration-fast / --ease-standard.
+   */
+  [data-astryx-theme="manared"] .filter-sidebar-shell {
+    flex-shrink: 0;
+    width: var(--layout-filter-sidebar-width, 224px);
+    transition: width var(--duration-fast, 175ms) var(--ease-standard, ease);
+  }
+
+  [data-astryx-theme="manared"] .filter-sidebar-shell[data-collapsed="true"] {
+    width: var(--layout-filter-sidebar-width-collapsed, 45px);
+  }
+
+  /* Collapsed inner rail — Figma filter-bar collapsed state (351:1735) */
+  [data-astryx-theme="manared"] .filter-sidebar-collapsed-rail {
+    display: flex;
+    min-height: 0;
+    flex: 1 1 auto;
+    align-items: stretch;
+    justify-content: center;
+    padding: var(--spacing-4, 16px) var(--spacing-1, 4px);
+  }
+
+  [data-astryx-theme="manared"] .filter-sidebar-collapsed-rail::before {
+    content: "";
+    width: 8px;
+    flex: 1 1 auto;
+    max-width: 12px;
+    border-radius: var(--radius-container, 12px);
+    background-color: var(--color-background-sidebar-secondary);
+    background-image: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(234, 252, 255, 0.2) 24.521%,
+      rgba(174, 202, 255, 0.122) 76.446%,
+      rgba(255, 255, 255, 0.2) 100%
+    );
+  }
+
+  [data-astryx-theme="manared"] .filter-sidebar-reveal {
+    display: grid;
+    min-height: 0;
+    flex: 1 1 auto;
+    transition:
+      grid-template-rows var(--duration-fast, 175ms) var(--ease-standard, ease),
+      opacity var(--duration-fast, 175ms) var(--ease-standard, ease);
+  }
+
+  [data-astryx-theme="manared"] .filter-sidebar-reveal[data-collapsed="true"] {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    pointer-events: none;
+    flex: 0 0 auto;
+  }
+
+  [data-astryx-theme="manared"] .filter-sidebar-reveal[data-collapsed="false"] {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  [data-astryx-theme="manared"] .filter-sidebar-reveal > .filter-sidebar-reveal-inner {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
   /*
    * Primary nav sidebar shell — Figma nav-side-bar (339:3237 / 339:3238).
    * Width animates via data-collapsed; timing uses Astryx --duration-fast / --ease-standard.
@@ -82,7 +160,9 @@
 
   @media (prefers-reduced-motion: reduce) {
     [data-astryx-theme="manared"] .nav-sidebar-shell,
-    [data-astryx-theme="manared"] .nav-sidebar-reveal {
+    [data-astryx-theme="manared"] .nav-sidebar-reveal,
+    [data-astryx-theme="manared"] .filter-sidebar-shell,
+    [data-astryx-theme="manared"] .filter-sidebar-reveal {
       transition: none;
     }
   }

@@ -34,13 +34,13 @@ export const INTERACTIVE_CHIP_BAR_CONTROL =
 export const INTERACTIVE_FILTER_ACTION_BASE =
   "inline-flex shrink-0 items-center justify-center rounded-md border border-solid bg-button-active font-normal text-primary hover:bg-button-hover focus-visible:bg-button-focus focus-visible:outline-none";
 
-/** Sidebar section title — Figma `button/refine-result` (332:9066). */
+/** Sidebar section title — Figma `filter/header` refine-result (351:1736 / 349:4569). */
 export const INTERACTIVE_FILTER_REFINE_LABEL =
-  "inline-flex shrink-0 items-center justify-center py-[length:var(--spacing-2)] text-sm font-semibold text-secondary";
+  "inline-flex shrink-0 items-center justify-center p-[length:var(--spacing-1)] text-2xs font-semibold leading-4 text-primary";
 
-export const INTERACTIVE_FILTER_CLEAR_ALL = `${INTERACTIVE_FILTER_ACTION_BASE} border-tertiary p-[length:var(--spacing-2)] text-3xs`;
+export const INTERACTIVE_FILTER_CLEAR_ALL = `${INTERACTIVE_FILTER_ACTION_BASE} border-0 px-[length:var(--spacing-4)] py-[length:var(--spacing-1)] text-3xs text-secondary shadow-filter-action`;
 
-export const INTERACTIVE_FILTER_APPLY = `${INTERACTIVE_FILTER_ACTION_BASE} border-border-secondary px-[length:var(--spacing-6)] py-[length:var(--spacing-2)] text-2xs`;
+export const INTERACTIVE_FILTER_APPLY = `${INTERACTIVE_FILTER_ACTION_BASE} border-0 px-[length:var(--spacing-6)] py-[length:var(--spacing-2)] text-2xs text-secondary shadow-filter-action`;
 
 /** Shared card footer button shell — Figma `button/*` (`191:1310`). */
 const CARD_FOOTER_BUTTON_BASE =

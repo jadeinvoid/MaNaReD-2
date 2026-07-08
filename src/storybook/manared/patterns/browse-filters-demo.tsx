@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { VStack } from "@astryxdesign/core/Layout";
 
@@ -16,13 +16,32 @@ export type BrowseFiltersDemoProps = {
   children: ReactNode;
 };
 
+function isTabletTier(): boolean {
+  if (typeof window === "undefined") {
+    return false;
+  }
+  return window.matchMedia("(min-width: 768px) and (max-width: 1023px)").matches;
+}
+
 /** Client wrapper wiring FilterSidebar selections to ChipBar in browse patterns. */
 export function BrowseFiltersDemo({ children }: BrowseFiltersDemoProps) {
   const [filters, setFilters] = useState<FilterState>({ active: [] });
+  const [collapsed, setCollapsed] = useState(isTabletTier);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px) and (max-width: 1023px)");
+    const update = () => setCollapsed(mq.matches);
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   return (
     <>
-      <FilterSidebar onFiltersChange={setFilters} />
+      <FilterSidebar
+        collapsed={collapsed}
+        onCollapsedChange={setCollapsed}
+        onFiltersChange={setFilters}
+      />
       <VStack gap={4} className="flex-1">
         <ChipBar chips={filtersToChipItems(filters)} />
         {children}
