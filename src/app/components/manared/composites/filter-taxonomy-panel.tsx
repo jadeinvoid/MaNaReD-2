@@ -77,9 +77,11 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
               aria-label={isExpanded ? `Collapse ${rank.label}` : `Expand ${rank.label}`}
               aria-expanded={isExpanded}
               onClick={() => setOpenRank(isExpanded ? null : rank.id)}
-              className="flex w-full items-center justify-between gap-2 rounded-md pl-2 pr-0 py-1 text-left text-3xs uppercase text-primary hover:bg-body-secondary focus-visible:outline-none"
+              className="flex w-full items-center justify-between overflow-hidden rounded-md pl-2 pr-0 hover:bg-body-secondary focus-visible:outline-none"
             >
-              <span>{rank.label}</span>
+              <span className="min-w-0 flex-1 truncate px-2 py-1 text-left text-3xs uppercase text-primary">
+                {rank.label}
+              </span>
               <MaNaReDIcon
                 name={isExpanded ? "chevron-down" : "chevron-right"}
                 size={24}
