@@ -93,6 +93,29 @@
     );
   }
 
+  /* Collapsed inner rail — dark mode softer gradient */
+  @media (prefers-color-scheme: dark) {
+    [data-astryx-theme="manared"] .filter-sidebar-collapsed-rail::before {
+      background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(234, 252, 255, 0.1) 24.521%,
+        rgba(174, 202, 255, 0.061) 76.446%,
+        rgba(255, 255, 255, 0) 100%
+      );
+    }
+  }
+
+  [data-colour-mode="dark"] [data-astryx-theme="manared"] .filter-sidebar-collapsed-rail::before {
+    background-image: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(234, 252, 255, 0.1) 24.521%,
+      rgba(174, 202, 255, 0.061) 76.446%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+
   [data-astryx-theme="manared"] .filter-sidebar-reveal {
     display: grid;
     min-height: 0;
