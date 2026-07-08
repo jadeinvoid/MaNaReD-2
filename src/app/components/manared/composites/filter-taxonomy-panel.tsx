@@ -65,13 +65,13 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
   }, [filters, selected, visibleRanks]);
 
   return (
-    <div className="flex min-h-0 w-full flex-col gap-1 px-1 py-1">
+    <div className="flex min-h-0 w-full flex-col gap-0.5 px-0 py-0.5">
       {visibleRanks.map((rank) => {
         const isExpanded = openRank === rank.id;
         const currentValue = selected[rank.id];
 
         return (
-          <div key={rank.id} className="flex w-full flex-col gap-0.5 items-stretch">
+          <div key={rank.id} className="flex w-full flex-col gap-px items-stretch">
             <button
               type="button"
               aria-label={isExpanded ? `Collapse ${rank.label}` : `Expand ${rank.label}`}
@@ -79,7 +79,7 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
               onClick={() => setOpenRank(isExpanded ? null : rank.id)}
               className="flex w-full items-center justify-between overflow-hidden rounded-md pl-2 pr-0 hover:bg-body-secondary focus-visible:outline-none"
             >
-              <span className="min-w-0 flex-1 truncate px-2 py-1 text-left text-3xs uppercase text-primary">
+              <span className="min-w-0 flex-1 truncate px-2 py-0.5 text-left text-3xs uppercase text-primary">
                 {rank.label}
               </span>
               <MaNaReDIcon
@@ -90,7 +90,7 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
             </button>
 
             {isExpanded ? (
-              <div className="flex w-full flex-col gap-0.5 pl-4">
+              <div className="flex w-full flex-col gap-px pl-4">
                 {rank.leaves.map((leaf) => {
                   const isSelected = currentValue === leaf.label;
                   return (
@@ -106,7 +106,7 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
                         setOpenRank(nextValue ? (nextRankId(rank.id) ?? rank.id) : rank.id);
                       }}
                       className={[
-                        "grid w-full grid-cols-[1fr_auto] items-center gap-2 rounded-md pl-2 pr-0 py-1 text-3xs",
+                        "grid w-full grid-cols-[1fr_auto] items-center gap-2 rounded-md pl-2 pr-0 py-0.5 text-3xs",
                         isSelected
                           ? "border border-border-secondary bg-chip-active text-secondary"
                           : "border border-transparent bg-transparent text-tertiary hover:bg-body-secondary",
