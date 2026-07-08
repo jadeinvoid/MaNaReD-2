@@ -123,16 +123,10 @@ export function FilterSidebar({
 
   void onApply;
 
-  const allCategoryIds = FILTER_CATEGORIES.map(({ id }) => id);
   const allCategoriesCollapsed = expandedCategories.length === 0;
 
-  const toggleAllCategories = () => {
-    setExpandedCategories((current) => {
-      if (current.length > 0) {
-        return [];
-      }
-      return [...allCategoryIds];
-    });
+  const collapseAllCategories = () => {
+    setExpandedCategories([]);
   };
 
   const renderPanel = (categoryId: FilterCategoryId) => {
@@ -289,13 +283,8 @@ export function FilterSidebar({
               <button
                 type="button"
                 className="flex size-8 shrink-0 items-center justify-center text-primary"
-                aria-label={
-                  allCategoriesCollapsed
-                    ? "Expand all filter categories"
-                    : "Collapse all filter categories"
-                }
-                aria-pressed={!allCategoriesCollapsed}
-                onClick={toggleAllCategories}
+                aria-label="Collapse all filter categories"
+                onClick={collapseAllCategories}
                 data-name="icon/vertical-collapse"
               >
                 <MaNaReDIcon name="vertical-collapse" size={32} className="text-current" />
