@@ -92,6 +92,42 @@ export const Default: Story = {
   },
 };
 
+export const NoWrapLongLabels: Story = {
+  args: {
+    defaultFilters: {
+      active: [
+        {
+          id: "bio-1",
+          category: "bioactivity",
+          categoryLabel: "Bioactivity",
+          label: "Cytotoxic",
+        },
+        {
+          id: "bio-2",
+          category: "bioactivity",
+          categoryLabel: "Bioactivity",
+          label: "Antiviral",
+        },
+      ],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByLabelText("Expand Geographic Region filter"));
+
+    const geoLabel = canvas.getByText("Geographic Region");
+    await expect(geoLabel).toBeVisible();
+    await expect(geoLabel.className).toContain("whitespace-nowrap");
+    await expect(geoLabel.getClientRects().length).toBe(1);
+
+    await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
+    const bioLabel = canvas.getByText("Bioactivity (2)");
+    await expect(bioLabel).toBeVisible();
+    await expect(bioLabel.className).toContain("whitespace-nowrap");
+    await expect(bioLabel.getClientRects().length).toBe(1);
+  },
+};
+
 export const WithChrome: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

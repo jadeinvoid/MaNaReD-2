@@ -34,7 +34,9 @@ export function FilterRow({
         onClick={onToggle}
         className="flex w-full items-center justify-end gap-1 overflow-hidden pl-2 pr-1 text-left"
       >
-        <span className="px-2 py-1 text-3xs uppercase text-primary">{displayLabel}</span>
+        <span className="min-w-0 whitespace-nowrap px-1.5 py-1 text-3xs uppercase text-primary">
+          {displayLabel}
+        </span>
         <MaNaReDIcon
           name="chevron-down"
           size={24}
