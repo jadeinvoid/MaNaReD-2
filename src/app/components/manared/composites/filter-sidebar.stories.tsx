@@ -169,7 +169,7 @@ export const Default: Story = {
     await expect(canvas.getByRole("button", { name: "Clear All" })).toBeVisible();
     await expect(canvas.queryByRole("button", { name: "Apply Filter" })).not.toBeInTheDocument();
     await expect(
-      canvas.getByRole("button", { name: "Expand all filter categories" }),
+      canvas.getByRole("button", { name: "Collapse all filter categories" }),
     ).toBeVisible();
     await expect(canvas.getByText("Taxonomy")).toBeVisible();
     await expect(canvas.getByText("Target / assay")).toBeVisible();
@@ -195,7 +195,7 @@ export const WithChrome: Story = {
     await expect(canvas.queryByRole("button", { name: "Apply Filter" })).not.toBeInTheDocument();
     await expect(canvas.getByRole("button", { name: "Collapse filters" })).toBeVisible();
     await expect(
-      canvas.getByRole("button", { name: "Expand all filter categories" }),
+      canvas.getByRole("button", { name: "Collapse all filter categories" }),
     ).toBeVisible();
   },
 };
@@ -249,21 +249,13 @@ export const ToggleCollapse: Story = {
 export const ToggleAllCategories: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole("button", { name: "Expand all filter categories" }));
-    await expect(
-      canvas.getByRole("button", { name: "Collapse all filter categories" }),
-    ).toBeVisible();
-
+    await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
     await expect(canvas.getByRole("button", { name: "Cytotoxic" })).toBeVisible();
 
     await userEvent.click(canvas.getByRole("button", { name: "Collapse all filter categories" }));
     await expect(canvas.queryByRole("button", { name: "Cytotoxic" })).not.toBeInTheDocument();
-    await expect(
-      canvas.getByRole("button", { name: "Expand all filter categories" }),
-    ).toBeVisible();
-
-    await userEvent.click(canvas.getByRole("button", { name: "Expand all filter categories" }));
-    await expect(canvas.getByRole("button", { name: "Cytotoxic" })).toBeVisible();
+    await userEvent.click(canvas.getByRole("button", { name: "Collapse all filter categories" }));
+    await expect(canvas.queryByRole("button", { name: "Cytotoxic" })).not.toBeInTheDocument();
   },
 };
 
