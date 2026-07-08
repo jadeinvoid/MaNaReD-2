@@ -52,6 +52,47 @@ export const MOCK_COMPOUND_CLASSES = [
   "Polyketides",
 ] as const;
 
+export type TaxonomyLeaf = {
+  /** Display label (also used as the leaf filter id suffix in this prototype). */
+  label: string;
+  /** Facet count shown in the taxonomy panel (not persisted into chips). */
+  count: number;
+};
+
+export type TaxonomyGroup = {
+  /** Stable group key for expansion state in the taxonomy panel. */
+  key: string;
+  /** Group label shown in the taxonomy panel. */
+  label: string;
+  leaves: readonly TaxonomyLeaf[];
+};
+
+/**
+ * Mock progressive taxonomy tree for the filter sidebar prototype.
+ * UX requires a hierarchical (tree) control for taxonomy; this slice keeps it
+ * deliberately shallow (two levels) to land the interaction plumbing first.
+ */
+export const MOCK_TAXONOMY_TREE: readonly TaxonomyGroup[] = [
+  {
+    key: "organism-taxonomy",
+    label: "Organism taxonomy",
+    leaves: [
+      { label: "Porifera", count: 1 },
+      { label: "Sponge", count: 1 },
+      { label: "Halichondria okadai", count: 1 },
+    ],
+  },
+  {
+    key: "region-hierarchy",
+    label: "Region hierarchy",
+    leaves: [
+      { label: "Pacific Ocean", count: 1 },
+      { label: "Indian Ocean", count: 1 },
+      { label: "Atlantic Ocean", count: 1 },
+    ],
+  },
+] as const;
+
 export const MW_MIN = 0;
 export const MW_MAX = 2000;
 export const MW_DEFAULT_RANGE: [number, number] = [200, 400];
@@ -100,6 +141,16 @@ export function toggleTagFilter(
       },
     ],
   };
+}
+
+/**
+ * Taxonomy leaf toggle (progressive tree).
+ *
+ * This is a thin wrapper over `toggleTagFilter` for the prototype: taxonomy
+ * leaves are stored as flat filter chips, while the UI presents a hierarchy.
+ */
+export function toggleTaxonomyLeafFilter(state: FilterState, leafLabel: string) {
+  return toggleTagFilter(state, "taxonomy", leafLabel);
 }
 
 export function setRangeFilter(

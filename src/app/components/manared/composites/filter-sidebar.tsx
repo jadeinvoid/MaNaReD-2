@@ -21,11 +21,13 @@ import {
   MW_DEFAULT_RANGE,
   setDropdownFilter,
   setRangeFilter,
+  toggleTaxonomyLeafFilter,
   toggleTagFilter,
   type FilterCategoryId,
   type FilterState,
 } from "./filter-state";
 import { FilterTagPanel } from "./filter-tag-panel";
+import { FilterTaxonomyPanel } from "./filter-taxonomy-panel";
 
 export type FilterSidebarProps = {
   filters?: FilterState;
@@ -40,7 +42,6 @@ export type FilterSidebarProps = {
 };
 
 const PLACEHOLDER_CATEGORIES = new Set<FilterCategoryId>([
-  "taxonomy",
   "geographicRegion",
   "targetAssay",
 ]);
@@ -131,6 +132,15 @@ export function FilterSidebar({
   const renderPanel = (categoryId: FilterCategoryId) => {
     if (PLACEHOLDER_CATEGORIES.has(categoryId)) {
       return <p className="text-right text-3xs italic text-tertiary">Not available in prototype</p>;
+    }
+
+    if (categoryId === "taxonomy") {
+      return (
+        <FilterTaxonomyPanel
+          selected={selectedTags(filters, categoryId)}
+          onToggleLeaf={(leafLabel) => updateFilters(toggleTaxonomyLeafFilter(filters, leafLabel))}
+        />
+      );
     }
 
     if (categoryId === "bioactivity") {
