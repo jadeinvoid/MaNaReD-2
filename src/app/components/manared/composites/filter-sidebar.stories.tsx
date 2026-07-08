@@ -139,6 +139,8 @@ export const ToggleCollapse: Story = {
     await expect(shell.dataset.collapsed).toBe("true");
     await expect(canvas.queryByText("Taxonomy")).not.toBeInTheDocument();
 
+    await expect(canvas.getByRole("button", { name: "Expand filters" })).toBeVisible();
+
     await userEvent.click(canvas.getByRole("button", { name: "Expand filters" }));
     await expect(args.onCollapsedChange).toHaveBeenCalledWith(false);
     await expect(shell.dataset.collapsed).toBe("false");

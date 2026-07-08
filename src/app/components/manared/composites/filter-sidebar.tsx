@@ -181,7 +181,7 @@ export function FilterSidebar({
   const shellClass = [
     FILTER_BAR_SURFACE,
     FILTER_SIDEBAR_SHELL,
-    "flex h-full min-h-0 flex-col gap-4 overflow-hidden rounded-tr-md rounded-br-md px-4 py-6",
+    "flex h-full min-h-0 flex-col gap-4 overflow-hidden rounded-tr-md rounded-br-md",
   ].join(" ");
 
   const containerClass = [
@@ -194,28 +194,40 @@ export function FilterSidebar({
   return (
     <aside className={shellClass} data-collapsed={collapsed ? "true" : "false"}>
       <header
-        className={`flex h-8 w-full shrink-0 items-center px-1 ${collapsed ? "justify-center" : "gap-2"}`}
+        className={`flex h-8 w-full shrink-0 items-center ${collapsed ? "justify-center px-0" : "gap-2 px-1"}`}
         data-name="filter/header"
       >
-        <FilterSidebarReveal collapsed={collapsed}>
-          <FilterButton variant="refine-result" />
-        </FilterSidebarReveal>
-        {!collapsed ? <div className="min-h-px min-w-px flex-1" aria-hidden /> : null}
-        {showHeaderToggle ? (
-          <button
-            type="button"
-            className="flex size-6 shrink-0 items-center justify-center"
-            aria-label={collapsed ? "Expand filters" : "Collapse filters"}
-            aria-expanded={!collapsed}
-            onClick={() => setCollapsed(!collapsed)}
-          >
-            <MaNaReDIcon
-              name={collapsed ? "expand" : "expand-left"}
-              size={24}
-              className="text-current"
-            />
-          </button>
-        ) : null}
+        {collapsed ? (
+          showHeaderToggle ? (
+            <button
+              type="button"
+              className="flex size-6 shrink-0 items-center justify-center text-primary"
+              aria-label="Expand filters"
+              aria-expanded={false}
+              onClick={() => setCollapsed(false)}
+            >
+              <MaNaReDIcon name="expand" size={24} className="text-current" />
+            </button>
+          ) : null
+        ) : (
+          <>
+            <FilterSidebarReveal collapsed={false}>
+              <FilterButton variant="refine-result" />
+            </FilterSidebarReveal>
+            <div className="min-h-px min-w-px flex-1" aria-hidden />
+            {showCollapseControl ? (
+              <button
+                type="button"
+                className="flex size-6 shrink-0 items-center justify-center text-primary"
+                aria-label="Collapse filters"
+                aria-expanded
+                onClick={() => setCollapsed(true)}
+              >
+                <MaNaReDIcon name="expand-left" size={24} className="text-current" />
+              </button>
+            ) : null}
+          </>
+        )}
       </header>
 
       <div className={containerClass} data-name="filter/container">
