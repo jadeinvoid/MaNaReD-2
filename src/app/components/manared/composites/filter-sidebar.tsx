@@ -242,6 +242,7 @@ export function FilterSidebar({
                   activeCount={activeCountForCategory(filters, id)}
                   expanded={expandedCategories.includes(id)}
                   forceCollapsed={allCategoriesCollapsed}
+                  panelClassName={id === "taxonomy" ? "w-full pb-1" : undefined}
                   onToggle={() => {
                     setExpandedCategories((current) => {
                       const isExpanded = current.includes(id);

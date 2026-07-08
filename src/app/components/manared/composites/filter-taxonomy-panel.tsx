@@ -2,7 +2,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+import { useToast } from "@astryxdesign/core/Toast";
+
 import { MaNaReDIcon } from "../icons/manared-icon";
+import {
+  getRemovedTaxonomyRanks,
+  getTaxonomyBacktrackToastMessage,
+} from "./filter-taxonomy-notice";
 import {
   selectedTaxonomyRanks,
   setTaxonomyRankFilter,
@@ -34,8 +40,20 @@ function defaultOpenRank(filters: FilterState) {
 }
 
 export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomyPanelProps) {
+  const toast = useToast();
   const [openRank, setOpenRank] = useState<TaxonomyRankId | null>(() => defaultOpenRank(filters));
   const selected = useMemo(() => selectedTaxonomyRanks(filters), [filters]);
+  const visibleRanks = useMemo(
+    () =>
+      TAXONOMY_RANKS.filter((_, index) => {
+        if (index === 0) {
+          return true;
+        }
+        const parentRank = TAXONOMY_RANKS[index - 1];
+        return Boolean(parentRank && selected[parentRank.id]);
+      }),
+    [selected],
+  );
 
   useEffect(() => {
     if (Object.keys(selected).length === 0) {
@@ -43,42 +61,43 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
       return;
     }
 
-    setOpenRank((current) => current ?? defaultOpenRank(filters));
-  }, [filters, selected]);
+    setOpenRank((current) => {
+      if (!current) {
+        return defaultOpenRank(filters);
+      }
+
+      const isVisible = visibleRanks.some((rank) => rank.id === current);
+      return isVisible ? current : defaultOpenRank(filters);
+    });
+  }, [filters, selected, visibleRanks]);
 
   return (
-    <div className="flex min-h-0 w-full flex-col gap-2 px-1 py-1">
-      {TAXONOMY_RANKS.map((rank) => {
+    <div className="flex min-h-0 w-full flex-col gap-0.5 px-0 py-0.5">
+      {visibleRanks.map((rank) => {
         const isExpanded = openRank === rank.id;
         const currentValue = selected[rank.id];
-        const parentRank =
-          TAXONOMY_RANKS[TAXONOMY_RANKS.findIndex((entry) => entry.id === rank.id) - 1];
-        const isDisabled = Boolean(parentRank) && !selected[parentRank.id];
 
         return (
-          <div key={rank.id} className="flex w-full flex-col gap-1 items-start">
+          <div key={rank.id} className="flex w-full flex-col gap-px items-stretch">
             <button
               type="button"
               aria-label={isExpanded ? `Collapse ${rank.label}` : `Expand ${rank.label}`}
               aria-expanded={isExpanded}
               onClick={() => setOpenRank(isExpanded ? null : rank.id)}
-              className="flex w-full items-center justify-between gap-2 rounded-md px-2 py-1 text-left text-3xs uppercase text-primary hover:bg-body-secondary focus-visible:outline-none"
+              className="flex w-full items-center justify-between overflow-hidden rounded-md pl-2 pr-0 hover:bg-body-secondary focus-visible:outline-none"
             >
-              <span>{rank.label}</span>
+              <span className="min-w-0 flex-1 truncate py-0.5 pl-4 pr-2 text-left text-3xs uppercase text-primary">
+                {rank.label}
+              </span>
               <MaNaReDIcon
                 name={isExpanded ? "chevron-down" : "chevron-right"}
                 size={24}
-                className="text-primary"
+                className="shrink-0 text-primary"
               />
             </button>
 
             {isExpanded ? (
-              <div className="flex w-full flex-col gap-0.5 pl-2">
-                {isDisabled ? (
-                  <p className="px-2 py-1 text-left text-3xs italic text-tertiary">
-                    Select {parentRank?.label.toLowerCase()} first
-                  </p>
-                ) : null}
+              <div className="flex w-full flex-col gap-px pl-4">
                 {rank.leaves.map((leaf) => {
                   const isSelected = currentValue === leaf.label;
                   return (
@@ -87,23 +106,41 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
                       type="button"
                       aria-label={leaf.label}
                       aria-pressed={isSelected}
-                      disabled={isDisabled}
                       onClick={() => {
                         const nextValue = isSelected ? null : leaf.label;
                         const nextFilters = setTaxonomyRankFilter(filters, rank.id, nextValue);
+                        const removedRanks = getRemovedTaxonomyRanks(filters, nextFilters);
+                        const message = getTaxonomyBacktrackToastMessage(
+                          rank.id,
+                          nextValue,
+                          removedRanks,
+                        );
+
                         onFiltersChange(nextFilters);
+
+                        if (message) {
+                          toast({
+                            body: message,
+                            type: "info",
+                            isAutoHide: true,
+                            autoHideDuration: 4000,
+                            uniqueID: "taxonomy-backtrack",
+                          });
+                        }
+
                         setOpenRank(nextValue ? (nextRankId(rank.id) ?? rank.id) : rank.id);
                       }}
                       className={[
-                        "flex w-full items-center justify-between gap-2 rounded-md px-2 py-1 text-left text-3xs",
-                        isDisabled ? "cursor-not-allowed opacity-60" : "",
+                        "grid w-full grid-cols-[1fr_auto] items-center gap-2 rounded-md pl-2 pr-0 py-0.5 text-3xs",
                         isSelected
                           ? "border border-border-secondary bg-chip-active text-secondary"
                           : "border border-transparent bg-transparent text-tertiary hover:bg-body-secondary",
                       ].join(" ")}
                     >
-                      <span>{leaf.label}</span>
-                      <span className="text-3xs text-tertiary">({leaf.count})</span>
+                      <span className="ml-auto text-right">{leaf.label}</span>
+                      <span className="min-w-8 text-right text-3xs text-tertiary">
+                        ({leaf.count})
+                      </span>
                     </button>
                   );
                 })}

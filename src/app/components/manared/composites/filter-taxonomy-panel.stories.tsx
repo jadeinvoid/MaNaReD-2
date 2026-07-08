@@ -59,3 +59,29 @@ export const CollapseGroup: Story = {
     await expect(canvas.queryByRole("button", { name: "Porifera" })).not.toBeInTheDocument();
   },
 };
+
+export const BacktrackPrunesDeeperRanks: Story = {
+  args: {
+    filters: setTaxonomyRankFilter(
+      setTaxonomyRankFilter(
+        setTaxonomyRankFilter({ active: [] }, "phylum", "Porifera"),
+        "class",
+        "Demospongiae",
+      ),
+      "order",
+      "Suberitida",
+    ),
+    onFiltersChange: fn(),
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Expand Class" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Demospongiae" }));
+
+    const lastCall = args.onFiltersChange.mock.calls.at(-1)?.[0];
+    await expect(lastCall?.active.map((filter: { id: string }) => filter.id)).toEqual([
+      "taxonomy:phylum",
+    ]);
+  },
+};

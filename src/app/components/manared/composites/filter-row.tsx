@@ -14,6 +14,7 @@ export type FilterRowProps = {
   forceCollapsed?: boolean;
   onToggle: () => void;
   activeCount?: number;
+  panelClassName?: string;
   children?: ReactNode;
 };
 
@@ -25,6 +26,7 @@ export function FilterRow({
   forceCollapsed = false,
   onToggle,
   activeCount = 0,
+  panelClassName,
   children,
 }: FilterRowProps) {
   const panelId = `filter-panel-${id}`;
@@ -32,7 +34,7 @@ export function FilterRow({
   const displayLabel = activeCount > 0 ? `${label} (${activeCount})` : label;
 
   return (
-    <div className="flex w-full flex-col items-stretch gap-1">
+    <div className="flex w-full flex-col items-stretch gap-0.5">
       <button
         type="button"
         aria-expanded={isExpanded}
@@ -40,7 +42,7 @@ export function FilterRow({
         onClick={onToggle}
         className="flex w-full items-center justify-between overflow-hidden pl-2 pr-0"
       >
-        <span className="min-w-0 flex-1 truncate px-2 py-1 text-left text-3xs uppercase text-primary">
+        <span className="min-w-0 flex-1 truncate px-2 py-0.5 text-left text-3xs uppercase text-primary">
           {displayLabel}
         </span>
         <MaNaReDIcon
@@ -51,7 +53,7 @@ export function FilterRow({
         />
       </button>
       {isExpanded ? (
-        <div id={panelId} className="w-full px-2 pb-2">
+        <div id={panelId} className={panelClassName ?? "w-full px-2 pb-1"}>
           {children}
         </div>
       ) : null}
