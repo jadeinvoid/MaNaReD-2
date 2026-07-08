@@ -38,7 +38,7 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
   const selected = useMemo(() => selectedTaxonomyRanks(filters), [filters]);
   const visibleRanks = useMemo(
     () =>
-      TAXONOMY_RANKS.filter((rank, index) => {
+      TAXONOMY_RANKS.filter((_, index) => {
         if (index === 0) {
           return true;
         }
