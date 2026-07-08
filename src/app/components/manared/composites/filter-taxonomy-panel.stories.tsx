@@ -76,6 +76,7 @@ export const BacktrackPrunesDeeperRanks: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
 
+    await userEvent.click(canvas.getByRole("button", { name: "Expand Class" }));
     await userEvent.click(canvas.getByRole("button", { name: "Demospongiae" }));
 
     const lastCall = args.onFiltersChange.mock.calls.at(-1)?.[0];
