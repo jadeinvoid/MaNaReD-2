@@ -92,7 +92,7 @@ export function FilterSidebar({
 }: FilterSidebarProps) {
   const [internalFilters, setInternalFilters] = useState<FilterState>(defaultFilters);
   const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
-  const [expandedCategory, setExpandedCategory] = useState<FilterCategoryId | null>(null);
+  const [expandedCategories, setExpandedCategories] = useState<FilterCategoryId[]>([]);
   const [rangeDraft, setRangeDraft] = useState<[number, number]>(MW_DEFAULT_RANGE);
 
   const filters = controlledFilters ?? internalFilters;
@@ -121,8 +121,18 @@ export function FilterSidebar({
     onClear?.();
   };
 
-  const handleApply = () => {
-    onApply?.();
+  void onApply;
+
+  const allCategoryIds = FILTER_CATEGORIES.map(({ id }) => id);
+  const allCategoriesCollapsed = expandedCategories.length === 0;
+
+  const toggleAllCategories = () => {
+    setExpandedCategories((current) => {
+      if (current.length > 0) {
+        return [];
+      }
+      return [...allCategoryIds];
+    });
   };
 
   const renderPanel = (categoryId: FilterCategoryId) => {
@@ -146,7 +156,7 @@ export function FilterSidebar({
 
     if (categoryId === "molecularWeight") {
       const currentRange = selectedRange(filters, categoryId);
-      const value = expandedCategory === "molecularWeight" ? rangeDraft : currentRange;
+      const value = expandedCategories.includes("molecularWeight") ? rangeDraft : currentRange;
 
       return (
         <FilterRangePanel
@@ -236,11 +246,15 @@ export function FilterSidebar({
                   id={id}
                   label={label}
                   activeCount={activeCountForCategory(filters, id)}
-                  expanded={expandedCategory === id}
+                  expanded={expandedCategories.includes(id)}
+                  forceCollapsed={allCategoriesCollapsed}
                   onToggle={() => {
-                    setExpandedCategory((current) => {
-                      const next = current === id ? null : id;
-                      if (next === "molecularWeight") {
+                    setExpandedCategories((current) => {
+                      const isExpanded = current.includes(id);
+                      const next = isExpanded
+                        ? current.filter((categoryId) => categoryId !== id)
+                        : [...current, id];
+                      if (!isExpanded && id === "molecularWeight") {
                         const draft = selectedRange(filters, "molecularWeight");
                         setRangeDraft(draft);
                         if (
@@ -261,10 +275,6 @@ export function FilterSidebar({
             </div>
 
             <div className="min-h-0 flex-1" aria-hidden />
-
-            <div className="flex w-full shrink-0 justify-end">
-              <FilterButton variant="clear-all" onClick={handleClear} />
-            </div>
           </>
         )}
       </div>
@@ -276,16 +286,23 @@ export function FilterSidebar({
         <FilterSidebarReveal collapsed={collapsed}>
           <div className="flex w-full items-start gap-2">
             {showCollapseControl ? (
-              <div
-                className="flex size-8 shrink-0 items-center justify-center"
-                aria-hidden
+              <button
+                type="button"
+                className="flex size-8 shrink-0 items-center justify-center text-primary"
+                aria-label={
+                  allCategoriesCollapsed
+                    ? "Expand all filter categories"
+                    : "Collapse all filter categories"
+                }
+                aria-pressed={!allCategoriesCollapsed}
+                onClick={toggleAllCategories}
                 data-name="icon/vertical-collapse"
               >
                 <MaNaReDIcon name="vertical-collapse" size={32} className="text-current" />
-              </div>
+              </button>
             ) : null}
             <div className="min-h-px min-w-px flex-1 self-stretch" aria-hidden />
-            <FilterButton variant="apply-filter" onClick={handleApply} />
+            <FilterButton variant="clear-all" onClick={handleClear} />
           </div>
         </FilterSidebarReveal>
       </footer>
