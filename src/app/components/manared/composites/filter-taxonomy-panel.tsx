@@ -72,13 +72,13 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
   }, [filters, selected, visibleRanks]);
 
   return (
-    <div className="flex min-h-0 w-full flex-col gap-0.5 px-0 py-0.5">
+    <div className="flex min-h-0 w-full flex-col gap-0.5 px-0 pt-0.5 pb-1">
       {visibleRanks.map((rank) => {
         const isExpanded = openRank === rank.id;
         const currentValue = selected[rank.id];
 
         return (
-          <div key={rank.id} className="flex w-full flex-col gap-px items-stretch">
+          <div key={rank.id} className="flex w-full flex-col gap-0.5 items-stretch">
             <button
               type="button"
               aria-label={isExpanded ? `Collapse ${rank.label}` : `Expand ${rank.label}`}
@@ -97,7 +97,7 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
             </button>
 
             {isExpanded ? (
-              <div className="flex w-full flex-col gap-px pl-4">
+              <div className="flex w-full flex-col gap-1 pl-4 pb-1">
                 {rank.leaves.map((leaf) => {
                   const isSelected = currentValue === leaf.label;
                   return (
@@ -131,7 +131,7 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
                         setOpenRank(nextValue ? (nextRankId(rank.id) ?? rank.id) : rank.id);
                       }}
                       className={[
-                        "grid w-full grid-cols-[1fr_auto] items-center gap-2 rounded-md pl-2 pr-0 py-0.5 text-3xs",
+                        "box-border grid w-full grid-cols-[1fr_auto] items-center gap-2 rounded-md pl-2 pr-0 py-1 text-3xs",
                         isSelected
                           ? "border border-border-secondary bg-chip-active text-secondary"
                           : "border border-transparent bg-transparent text-tertiary hover:bg-body-secondary",
