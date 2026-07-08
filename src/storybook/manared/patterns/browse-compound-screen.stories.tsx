@@ -62,7 +62,7 @@ function BrowseShell({ children }: { children: ReactNode }) {
             Compounds
           </Text>
         </ContextualBar>
-        <div className="flex min-h-0 flex-1 gap-4 p-4">
+        <div className="flex min-h-0 flex-1 gap-2 p-2 lg:gap-4 lg:p-4">
           <BrowseFiltersDemo>{children}</BrowseFiltersDemo>
         </div>
       </div>

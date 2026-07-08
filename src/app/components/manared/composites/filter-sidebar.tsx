@@ -188,9 +188,7 @@ export function FilterSidebar({
         className={`flex h-8 w-full shrink-0 items-center px-1 ${collapsed ? "justify-center" : "gap-2"}`}
         data-name="filter/header"
       >
-        <FilterSidebarReveal collapsed={collapsed}>
-          <FilterButton variant="refine-result" />
-        </FilterSidebarReveal>
+        {!collapsed ? <FilterButton variant="refine-result" /> : null}
         {!collapsed ? <div className="min-h-px min-w-px flex-1" aria-hidden /> : null}
         {showCollapseControl ? (
           <button
