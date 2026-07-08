@@ -71,7 +71,7 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
         const currentValue = selected[rank.id];
 
         return (
-          <div key={rank.id} className="flex w-full flex-col gap-0.5 items-start">
+          <div key={rank.id} className="flex w-full flex-col gap-0.5 items-stretch">
             <button
               type="button"
               aria-label={isExpanded ? `Collapse ${rank.label}` : `Expand ${rank.label}`}
