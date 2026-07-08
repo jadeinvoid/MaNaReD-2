@@ -268,8 +268,6 @@ export function FilterSidebar({
                 </FilterRow>
               ))}
             </div>
-
-            <div className="min-h-0 flex-1" aria-hidden />
           </>
         )}
       </div>
