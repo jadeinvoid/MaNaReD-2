@@ -310,7 +310,8 @@ export const RangeSelection: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByLabelText("Expand Molecular Weight filter"));
-    await expect(canvas.getByText(/MW \d+–\d+/)).toBeVisible();
+    await expect(canvas.getByText("200 Da")).toBeVisible();
+    await expect(canvas.getByText("400 Da")).toBeVisible();
     await expect(args.onFiltersChange).toHaveBeenCalled();
     const lastCall = args.onFiltersChange?.mock.calls.at(-1)?.[0];
     await expect(

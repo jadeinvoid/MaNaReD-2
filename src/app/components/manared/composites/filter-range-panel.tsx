@@ -11,6 +11,10 @@ export type FilterRangePanelProps = {
   max?: number;
 };
 
+function formatMolecularWeight(amount: number) {
+  return `${amount} Da`;
+}
+
 /** Molecular weight range filter — UX §5 continuous numeric control. */
 export function FilterRangePanel({
   value,
@@ -19,25 +23,31 @@ export function FilterRangePanel({
   max = MW_MAX,
 }: FilterRangePanelProps) {
   return (
-    <div className="px-1">
-      <Slider
-        label="Molecular weight range"
-        isLabelHidden
-        value={value}
-        min={min}
-        max={max}
-        step={10}
-        valueDisplay="text"
-        formatValue={(amount) => `${amount} Da`}
-        onChange={(next: number | [number, number]) => {
-          if (Array.isArray(next)) {
-            onChange(next as [number, number]);
-          }
-        }}
-      />
-      <p className="mt-1 text-right text-3xs text-secondary">
-        MW {value[0]}–{value[1]}
-      </p>
+    <div className="flex w-full flex-col gap-2 py-1">
+      <div className="flex w-full items-start">
+        <span className="text-3xs uppercase text-primary">{formatMolecularWeight(value[0])}</span>
+        <span className="min-w-0 flex-1" aria-hidden />
+        <span className="text-3xs uppercase text-primary">{formatMolecularWeight(value[1])}</span>
+      </div>
+      <div className="px-2.5">
+        <Slider
+          label="Molecular weight range"
+          isLabelHidden
+          value={value}
+          min={min}
+          max={max}
+          step={10}
+          valueDisplay="none"
+          width="100%"
+          minStepsBetweenThumbs={1}
+          formatValue={formatMolecularWeight}
+          onChange={(next: number | [number, number]) => {
+            if (Array.isArray(next)) {
+              onChange(next as [number, number]);
+            }
+          }}
+        />
+      </div>
     </div>
   );
 }
