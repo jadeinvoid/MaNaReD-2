@@ -41,10 +41,7 @@ export type FilterSidebarProps = {
   showCollapseControl?: boolean;
 };
 
-const PLACEHOLDER_CATEGORIES = new Set<FilterCategoryId>([
-  "geographicRegion",
-  "targetAssay",
-]);
+const PLACEHOLDER_CATEGORIES = new Set<FilterCategoryId>(["geographicRegion", "targetAssay"]);
 
 function FilterSidebarReveal({ collapsed, children }: { collapsed: boolean; children: ReactNode }) {
   return (

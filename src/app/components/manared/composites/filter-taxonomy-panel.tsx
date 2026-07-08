@@ -24,8 +24,8 @@ function groupDefaultExpanded(groups: readonly TaxonomyGroup[], selected: readon
 }
 
 export function FilterTaxonomyPanel({ selected, onToggleLeaf }: FilterTaxonomyPanelProps) {
-  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(
-    () => groupDefaultExpanded(MOCK_TAXONOMY_TREE, selected),
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(() =>
+    groupDefaultExpanded(MOCK_TAXONOMY_TREE, selected),
   );
 
   const selectedSet = useMemo(() => new Set(selected), [selected]);
@@ -95,4 +95,3 @@ export function FilterTaxonomyPanel({ selected, onToggleLeaf }: FilterTaxonomyPa
     </div>
   );
 }
-

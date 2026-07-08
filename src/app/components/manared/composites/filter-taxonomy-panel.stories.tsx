@@ -57,4 +57,3 @@ export const CollapseGroup: Story = {
     await expect(canvas.queryByRole("button", { name: "Porifera" })).not.toBeInTheDocument();
   },
 };
-
