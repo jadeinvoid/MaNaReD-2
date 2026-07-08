@@ -14,6 +14,7 @@ const config: StorybookConfig = {
   ],
   core: {
     disableTelemetry: true,
+    allowedHosts: true,
   },
   addons: [
     "@storybook/addon-docs",
