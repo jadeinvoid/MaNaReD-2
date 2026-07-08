@@ -7,7 +7,7 @@ import { withColourMode } from "@/storybook/manared/shared/assert-token-colours"
 import {
   FILTER_BAR_SURFACE,
   FILTER_SIDEBAR_SHELL,
-  GRADIENT_FILTER,
+  GRADIENT_FILTER_PANEL,
 } from "../primitives/gradient-styles";
 import { INTERACTIVE_FILTER_CLEAR_ALL } from "../primitives/interactive-styles";
 import { FilterSidebar } from "./filter-sidebar";
@@ -59,12 +59,99 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 async function assertFilterGradient(canvasElement: HTMLElement) {
-  const region = canvasElement.querySelector(`.${GRADIENT_FILTER}`);
+  const region = canvasElement.querySelector(`.${GRADIENT_FILTER_PANEL}`);
   if (!region) {
     throw new Error("FilterSidebar gradient region not found");
   }
 
-  await expect(getComputedStyle(region).backgroundImage).toContain("gradient");
+  const afterLayer = getComputedStyle(region, "::after").backgroundImage;
+  await expect(
+    afterLayer === "none" ? getComputedStyle(region).backgroundImage : afterLayer,
+  ).toContain("gradient");
+}
+
+function getCollapseButton(canvasElement: HTMLElement): HTMLElement {
+  const header = canvasElement.querySelector('[data-name="filter/header"]');
+  const button = header?.querySelector(
+    '[aria-label="Collapse filters"], [aria-label="Expand filters"]',
+  );
+  if (!button || !(button instanceof HTMLElement)) {
+    throw new Error("Filter collapse control not found");
+  }
+  return button;
+}
+
+function getCategoryChevron(canvasElement: HTMLElement, label: string): SVGElement {
+  const control = canvasElement.querySelector(`[aria-label="Expand ${label} filter"]`);
+  if (!control) {
+    throw new Error(`Category chevron for ${label} not found`);
+  }
+  if (control instanceof SVGElement) {
+    return control;
+  }
+  if (control instanceof HTMLElement) {
+    const icon = control.querySelector("svg");
+    if (icon) {
+      return icon;
+    }
+  }
+  throw new Error(`Chevron icon for ${label} not found`);
+}
+
+async function assertHeaderNoOverlap(canvasElement: HTMLElement) {
+  const header = canvasElement.querySelector('[data-name="filter/header"]');
+  const refineHost = header?.querySelector('.filter-sidebar-reveal[data-collapsed="false"]');
+  const collapse = getCollapseButton(canvasElement);
+  if (!refineHost || !(refineHost instanceof HTMLElement)) {
+    throw new Error("Refine Results host not found");
+  }
+
+  const refineRect = refineHost.getBoundingClientRect();
+  const collapseRect = collapse.getBoundingClientRect();
+  if (collapseRect.left < refineRect.right - 1) {
+    throw new Error(
+      `Refine Results host overlaps collapse control: refine right ${refineRect.right}, collapse left ${collapseRect.left}`,
+    );
+  }
+}
+
+async function assertChevronColumnAligned(canvasElement: HTMLElement) {
+  const collapse = getCollapseButton(canvasElement);
+  const chevron = getCategoryChevron(canvasElement, "Taxonomy");
+  const collapseRight = collapse.getBoundingClientRect().right;
+  const chevronRight = chevron.getBoundingClientRect().right;
+  if (Math.abs(collapseRight - chevronRight) > 1) {
+    throw new Error(
+      `Chevron column misaligned: collapse right ${collapseRight}, chevron right ${chevronRight}`,
+    );
+  }
+}
+
+async function assertCollapsedFitsRail(canvasElement: HTMLElement) {
+  const canvas = within(canvasElement);
+  const shell = getFilterShell(canvasElement);
+  const collapse = getCollapseButton(canvasElement);
+
+  await expect(canvas.getByRole("button", { name: "Expand filters" })).toBeVisible();
+  await expect(shell.dataset.collapsed).toBe("true");
+
+  const shellWidth = shell.getBoundingClientRect().width;
+  if (shellWidth > 48) {
+    throw new Error(`Expected collapsed shell width <= 48px, got ${shellWidth}`);
+  }
+
+  const icon = collapse.querySelector("svg");
+  if (!icon) {
+    throw new Error("Collapse control icon not found");
+  }
+  const iconRect = icon.getBoundingClientRect();
+  const shellRect = shell.getBoundingClientRect();
+  if (iconRect.width === 0 || iconRect.height === 0) {
+    throw new Error("Collapse control icon has no layout box");
+  }
+  if (iconRect.left < shellRect.left || iconRect.right > shellRect.right) {
+    throw new Error("Collapse control clips outside collapsed filter sidebar shell");
+  }
 }
 
 function getFilterShell(canvasElement: HTMLElement): HTMLElement {
@@ -87,6 +174,9 @@ export const Default: Story = {
       await expect(canvas.getByLabelText(`Expand ${label} filter`)).toBeVisible();
     }
     await assertFilterGradient(canvasElement);
+    await assertHeaderNoOverlap(canvasElement);
+    await assertChevronColumnAligned(canvasElement);
+    await expect(canvas.getByText("Refine Results").className).toContain("text-xs");
     await userEvent.click(canvas.getByRole("button", { name: "Clear All" }));
     await expect(args.onClear).toHaveBeenCalledOnce();
   },
@@ -115,6 +205,7 @@ export const Collapsed: Story = {
     await expect(shell.dataset.collapsed).toBe("true");
     await expect(canvasElement.querySelector(".filter-sidebar-collapsed-rail")).toBeTruthy();
     await expect(canvas.queryByText("Taxonomy")).not.toBeInTheDocument();
+    await assertCollapsedFitsRail(canvasElement);
   },
 };
 
@@ -132,6 +223,8 @@ export const ToggleCollapse: Story = {
     await expect(args.onCollapsedChange).toHaveBeenCalledWith(false);
     await expect(shell.dataset.collapsed).toBe("false");
     await expect(canvas.getByText("Taxonomy")).toBeVisible();
+    await assertHeaderNoOverlap(canvasElement);
+    await assertChevronColumnAligned(canvasElement);
   },
 };
 

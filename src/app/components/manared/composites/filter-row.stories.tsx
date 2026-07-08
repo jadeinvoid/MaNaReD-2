@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, within } from "storybook/test";
 
 import { FILTER_CATEGORIES } from "./filter-state";
-import { FilterRow } from "./filter-row";
+import { FILTER_ROW_BUTTON, FilterRow } from "./filter-row";
 
 const FIGMA_FILTER_ROW =
   "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=332-9070";
@@ -59,5 +59,14 @@ export const AllRows: Story = {
     await expect(canvas.getByText("Bioactivity")).toBeVisible();
     await expect(canvas.getByLabelText("Expand Bioactivity filter")).toBeVisible();
     await expect(canvas.getByLabelText("Expand Target / assay filter")).toBeVisible();
+
+    const taxonomyRow = canvas.getByLabelText("Expand Taxonomy filter").closest("button");
+    if (!taxonomyRow) {
+      throw new Error("Taxonomy filter row button not found");
+    }
+    await expect(taxonomyRow.className).toContain("justify-between");
+    await expect(FILTER_ROW_BUTTON).toContain("justify-between");
+    const label = canvas.getByText("Taxonomy");
+    await expect(label.className).toContain("text-left");
   },
 };
