@@ -11,6 +11,13 @@ const meta = {
   parameters: {
     layout: "padded",
   },
+  decorators: [
+    (Story) => (
+      <div style={{ width: "224px" }}>
+        <Story />
+      </div>
+    ),
+  ],
   args: {
     value: MW_DEFAULT_RANGE,
     onChange: fn(),
@@ -23,6 +30,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByText("MW 200–400")).toBeVisible();
+    await expect(canvas.getByText("200 Da")).toBeVisible();
+    await expect(canvas.getByText("400 Da")).toBeVisible();
+    await expect(canvas.queryByText("MW 200–400")).not.toBeInTheDocument();
   },
 };
