@@ -60,13 +60,15 @@
   [data-astryx-theme="manared"] .filter-sidebar-shell {
     flex-shrink: 0;
     width: var(--layout-filter-sidebar-width, 224px);
-    padding: var(--spacing-6, 24px) var(--spacing-4, 16px);
+    padding-block: var(--spacing-6, 24px);
+    padding-inline: var(--spacing-4, 16px);
     transition: width var(--duration-fast, 175ms) var(--ease-standard, ease);
   }
 
   [data-astryx-theme="manared"] .filter-sidebar-shell[data-collapsed="true"] {
     width: var(--layout-filter-sidebar-width-collapsed, 45px);
-    padding: var(--spacing-4, 16px) var(--spacing-1, 4px);
+    /* Center the 24px expand control within the collapsed rail (Figma 351:1735). */
+    padding-inline: calc((var(--layout-filter-sidebar-width-collapsed, 45px) - 24px) / 2);
   }
 
   [data-astryx-theme="manared"]
