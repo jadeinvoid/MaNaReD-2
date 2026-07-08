@@ -97,7 +97,7 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
             </button>
 
             {isExpanded ? (
-              <div className="flex w-full flex-col gap-1 pl-4 pb-1">
+              <div className="flex w-full flex-col gap-1 pl-4 pr-6 pb-1">
                 {rank.leaves.map((leaf) => {
                   const isSelected = currentValue === leaf.label;
                   return (
@@ -131,7 +131,7 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
                         setOpenRank(nextValue ? (nextRankId(rank.id) ?? rank.id) : rank.id);
                       }}
                       className={[
-                        "box-border grid w-full grid-cols-[1fr_auto] items-center gap-2 rounded-md pl-2 pr-0 py-1 text-3xs",
+                        "box-border grid w-full grid-cols-[1fr_auto] items-center gap-2 rounded-md pl-2 pr-2 py-1 text-3xs",
                         isSelected
                           ? "border border-border-secondary bg-chip-active text-secondary"
                           : "border border-transparent bg-transparent text-tertiary hover:bg-body-secondary",
