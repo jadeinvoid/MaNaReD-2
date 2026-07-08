@@ -71,6 +71,18 @@
     padding-inline: calc((var(--layout-filter-sidebar-width-collapsed, 45px) - 24px) / 2);
   }
 
+  [data-astryx-theme="manared"]
+    [data-name="filter/container"]
+    button[aria-controls^="filter-panel-"] {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    padding-left: var(--spacing-2, 8px);
+    padding-right: 0;
+  }
+
   /* Collapsed inner rail — Figma filter-bar collapsed state (351:1735) */
   [data-astryx-theme="manared"] .filter-sidebar-collapsed-rail {
     display: flex;
@@ -122,6 +134,30 @@
     display: flex;
     min-height: 0;
     flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Header refine label must not flex-grow into the collapse control column */
+  [data-astryx-theme="manared"] [data-name="filter/header"][data-collapsed-header="false"] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--spacing-2, 8px);
+  }
+
+  [data-astryx-theme="manared"] [data-name="filter/header"] button[aria-label$="filters"] {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  [data-astryx-theme="manared"]
+    [data-name="filter/header"]
+    .filter-sidebar-reveal[data-collapsed="false"] {
+    min-width: 0;
     overflow: hidden;
   }
 

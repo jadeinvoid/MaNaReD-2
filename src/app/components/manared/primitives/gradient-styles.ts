@@ -12,6 +12,12 @@ export const NAV_SIDEBAR_SHELL = "nav-sidebar-shell";
 /** Filter sidebar scroll region — Figma `colour/gradient/light|dark/filter`. */
 export const GRADIENT_FILTER = "surface-gradient-filter";
 
+/** Filter sidebar container — layered base + softened gradient overlay (349:4572). */
+export const GRADIENT_FILTER_PANEL = "surface-gradient-filter-panel";
+
+/** Shared right inset for header collapse control and category chevrons (24px icon + pr-1). */
+export const FILTER_ICON_COLUMN = "pr-1";
+
 /** Filter bar outer shell — width driven by data-collapsed in manaredElevation.css (351:1736). */
 export const FILTER_SIDEBAR_SHELL = "filter-sidebar-shell";
 

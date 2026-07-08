@@ -79,6 +79,7 @@ describe("MaNaReD theme contract", () => {
     expect(gradientsCss).toContain(".surface-gradient-chip-bar");
     expect(gradientsCss).toContain(".surface-gradient-sidebar");
     expect(gradientsCss).toContain(".surface-gradient-filter");
+    expect(gradientsCss).toContain(".surface-gradient-filter-panel");
     expect(gradientsCss).toContain(".surface-gradient-context-bar");
   });
 

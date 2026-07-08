@@ -6,8 +6,9 @@ import { MaNaReDIcon } from "../icons/manared-icon";
 import { FilterButton } from "../primitives/filter-button";
 import {
   FILTER_BAR_SURFACE,
+  FILTER_ICON_COLUMN,
   FILTER_SIDEBAR_SHELL,
-  GRADIENT_FILTER,
+  GRADIENT_FILTER_PANEL,
 } from "../primitives/gradient-styles";
 import { FilterDropdownPanel } from "./filter-dropdown-panel";
 import { FilterRangePanel } from "./filter-range-panel";
@@ -49,7 +50,7 @@ function FilterSidebarReveal({ collapsed, children }: { collapsed: boolean; chil
       data-collapsed={collapsed ? "true" : "false"}
       aria-hidden={collapsed}
     >
-      <div className="filter-sidebar-reveal-inner">{children}</div>
+      <div className="filter-sidebar-reveal-inner min-w-0">{children}</div>
     </div>
   );
 }
@@ -179,8 +180,8 @@ export function FilterSidebar({
   ].join(" ");
 
   const containerClass = [
-    GRADIENT_FILTER,
-    "flex min-h-0 flex-1 flex-col gap-1 overflow-hidden rounded-md px-1 py-4 backdrop-blur-[2px]",
+    GRADIENT_FILTER_PANEL,
+    "flex min-h-0 flex-1 flex-col gap-1 overflow-hidden rounded-md px-1 py-4",
   ].join(" ");
 
   const showHeaderToggle = showCollapseControl || collapsed;
@@ -188,8 +189,9 @@ export function FilterSidebar({
   return (
     <aside className={shellClass} data-collapsed={collapsed ? "true" : "false"}>
       <header
-        className={`flex h-8 w-full shrink-0 items-center ${collapsed ? "justify-center px-0" : "gap-2 px-1"}`}
+        className={`h-8 w-full shrink-0 ${FILTER_ICON_COLUMN} pl-1`}
         data-name="filter/header"
+        data-collapsed-header={collapsed ? "true" : "false"}
       >
         {collapsed ? (
           showHeaderToggle ? (
