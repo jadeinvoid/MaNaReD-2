@@ -213,16 +213,7 @@ export function FilterSidebar({
 
       <div className={containerClass} data-name="filter/container">
         {collapsed ? (
-          <div className="filter-sidebar-collapsed-rail relative">
-            <button
-              type="button"
-              className="absolute left-1/2 top-1 z-10 flex size-6 -translate-x-1/2 items-center justify-center rounded-sm bg-sidebar text-primary shadow-filter-action hover:bg-body-secondary focus-visible:bg-body-secondary focus-visible:outline-none"
-              aria-label="Expand filters rail"
-              onClick={() => setCollapsed(false)}
-            >
-              <MaNaReDIcon name="expand" size={24} className="text-primary" />
-            </button>
-          </div>
+          <div className="filter-sidebar-collapsed-rail" aria-hidden />
         ) : (
           <>
             <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto">
