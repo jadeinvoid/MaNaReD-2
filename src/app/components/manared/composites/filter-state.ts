@@ -79,16 +79,12 @@ export const TAXONOMY_RANKS: readonly TaxonomyRank[] = [
   {
     id: "phylum",
     label: "Phylum",
-    leaves: [
-      { label: "Porifera", count: 1 },
-    ],
+    leaves: [{ label: "Porifera", count: 1 }],
   },
   {
     id: "class",
     label: "Class",
-    leaves: [
-      { label: "Demospongiae", count: 1 },
-    ],
+    leaves: [{ label: "Demospongiae", count: 1 }],
   },
   {
     id: "order",
@@ -108,9 +104,7 @@ export const TAXONOMY_RANKS: readonly TaxonomyRank[] = [
   {
     id: "species",
     label: "Species",
-    leaves: [
-      { label: "Halichondria okadai", count: 1 },
-    ],
+    leaves: [{ label: "Halichondria okadai", count: 1 }],
   },
 ] as const;
 
@@ -235,7 +229,9 @@ export function taxonomyChipItem(state: FilterState): ChipBarItem | null {
   let deepestIndex = -1;
 
   for (const filter of taxonomyFilters) {
-    const currentIndex = TAXONOMY_RANKS.findIndex((entry) => filter.id === taxonomyFilterId(entry.id));
+    const currentIndex = TAXONOMY_RANKS.findIndex(
+      (entry) => filter.id === taxonomyFilterId(entry.id),
+    );
     if (currentIndex >= deepestIndex) {
       deepestFilter = filter;
       deepestIndex = currentIndex;

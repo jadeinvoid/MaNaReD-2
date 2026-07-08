@@ -131,12 +131,7 @@ export function FilterSidebar({
     }
 
     if (categoryId === "taxonomy") {
-      return (
-        <FilterTaxonomyPanel
-          filters={filters}
-          onFiltersChange={updateFilters}
-        />
-      );
+      return <FilterTaxonomyPanel filters={filters} onFiltersChange={updateFilters} />;
     }
 
     if (categoryId === "bioactivity") {

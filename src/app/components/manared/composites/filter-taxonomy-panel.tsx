@@ -44,14 +44,15 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
     }
 
     setOpenRank((current) => current ?? defaultOpenRank(filters));
-  }, [filters]);
+  }, [filters, selected]);
 
   return (
     <div className="flex min-h-0 w-full flex-col gap-2 px-1 py-1">
       {TAXONOMY_RANKS.map((rank) => {
         const isExpanded = openRank === rank.id;
         const currentValue = selected[rank.id];
-        const parentRank = TAXONOMY_RANKS[TAXONOMY_RANKS.findIndex((entry) => entry.id === rank.id) - 1];
+        const parentRank =
+          TAXONOMY_RANKS[TAXONOMY_RANKS.findIndex((entry) => entry.id === rank.id) - 1];
         const isDisabled = Boolean(parentRank) && !selected[parentRank.id];
 
         return (
@@ -91,7 +92,7 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
                         const nextValue = isSelected ? null : leaf.label;
                         const nextFilters = setTaxonomyRankFilter(filters, rank.id, nextValue);
                         onFiltersChange(nextFilters);
-                        setOpenRank(nextValue ? nextRankId(rank.id) ?? rank.id : rank.id);
+                        setOpenRank(nextValue ? (nextRankId(rank.id) ?? rank.id) : rank.id);
                       }}
                       className={[
                         "flex w-full items-center justify-between gap-2 rounded-md px-2 py-1 text-left text-3xs",
