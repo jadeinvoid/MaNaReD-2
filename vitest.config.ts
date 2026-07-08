@@ -15,7 +15,7 @@ export default defineConfig({
         extends: true,
         test: {
           name: "theme-contract",
-          include: ["src/app/theme/**/*.test.ts"],
+          include: ["src/app/theme/**/*.test.ts", "src/app/components/**/*.test.ts"],
           environment: "node",
         },
       },

@@ -2,7 +2,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+import { useToast } from "@astryxdesign/core/Toast";
+
 import { MaNaReDIcon } from "../icons/manared-icon";
+import {
+  getRemovedTaxonomyRanks,
+  getTaxonomyBacktrackToastMessage,
+} from "./filter-taxonomy-notice";
 import {
   selectedTaxonomyRanks,
   setTaxonomyRankFilter,
@@ -34,6 +40,7 @@ function defaultOpenRank(filters: FilterState) {
 }
 
 export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomyPanelProps) {
+  const toast = useToast();
   const [openRank, setOpenRank] = useState<TaxonomyRankId | null>(() => defaultOpenRank(filters));
   const selected = useMemo(() => selectedTaxonomyRanks(filters), [filters]);
   const visibleRanks = useMemo(
@@ -102,7 +109,25 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
                       onClick={() => {
                         const nextValue = isSelected ? null : leaf.label;
                         const nextFilters = setTaxonomyRankFilter(filters, rank.id, nextValue);
+                        const removedRanks = getRemovedTaxonomyRanks(filters, nextFilters);
+                        const message = getTaxonomyBacktrackToastMessage(
+                          rank.id,
+                          nextValue,
+                          removedRanks,
+                        );
+
                         onFiltersChange(nextFilters);
+
+                        if (message) {
+                          toast({
+                            body: message,
+                            type: "info",
+                            isAutoHide: true,
+                            autoHideDuration: 4000,
+                            uniqueID: "taxonomy-backtrack",
+                          });
+                        }
+
                         setOpenRank(nextValue ? (nextRankId(rank.id) ?? rank.id) : rank.id);
                       }}
                       className={[
