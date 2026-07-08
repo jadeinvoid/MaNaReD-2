@@ -167,7 +167,10 @@ export const Default: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Refine Results")).toBeVisible();
     await expect(canvas.getByRole("button", { name: "Clear All" })).toBeVisible();
-    await expect(canvas.getByRole("button", { name: "Apply Filter" })).toBeVisible();
+    await expect(canvas.queryByRole("button", { name: "Apply Filter" })).not.toBeInTheDocument();
+    await expect(
+      canvas.getByRole("button", { name: "Expand all filter categories" }),
+    ).toBeVisible();
     await expect(canvas.getByText("Taxonomy")).toBeVisible();
     await expect(canvas.getByText("Target / assay")).toBeVisible();
     for (const { label } of FILTER_CATEGORIES) {
@@ -189,9 +192,11 @@ export const WithChrome: Story = {
     await expect(shell).toBeTruthy();
     await expect(canvas.getByText("Refine Results")).toBeVisible();
     await expect(canvas.getByRole("button", { name: "Clear All" })).toBeVisible();
-    await expect(canvas.getByRole("button", { name: "Apply Filter" })).toBeVisible();
+    await expect(canvas.queryByRole("button", { name: "Apply Filter" })).not.toBeInTheDocument();
     await expect(canvas.getByRole("button", { name: "Collapse filters" })).toBeVisible();
-    await expect(canvasElement.querySelector('[data-name="icon/vertical-collapse"]')).toBeTruthy();
+    await expect(
+      canvas.getByRole("button", { name: "Expand all filter categories" }),
+    ).toBeVisible();
   },
 };
 
@@ -238,6 +243,27 @@ export const ToggleCollapse: Story = {
     await expect(canvas.getByText("Taxonomy")).toBeVisible();
     await assertHeaderNoOverlap(canvasElement);
     await assertChevronColumnAligned(canvasElement);
+  },
+};
+
+export const ToggleAllCategories: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Expand all filter categories" }));
+    await expect(
+      canvas.getByRole("button", { name: "Collapse all filter categories" }),
+    ).toBeVisible();
+
+    await expect(canvas.getByRole("button", { name: "Cytotoxic" })).toBeVisible();
+
+    await userEvent.click(canvas.getByRole("button", { name: "Collapse all filter categories" }));
+    await expect(canvas.queryByRole("button", { name: "Cytotoxic" })).not.toBeInTheDocument();
+    await expect(
+      canvas.getByRole("button", { name: "Expand all filter categories" }),
+    ).toBeVisible();
+
+    await userEvent.click(canvas.getByRole("button", { name: "Expand all filter categories" }));
+    await expect(canvas.getByRole("button", { name: "Cytotoxic" })).toBeVisible();
   },
 };
 
@@ -309,6 +335,7 @@ export const ClearAll: Story = {
     await userEvent.click(canvas.getByRole("button", { name: "Clear All" }));
     const lastCall = args.onFiltersChange?.mock.calls.at(-1)?.[0];
     await expect(lastCall?.active).toEqual([]);
+    await expect(canvas.getByRole("button", { name: "Cytotoxic" })).toBeVisible();
   },
 };
 
