@@ -1,62 +1,70 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { MaNaReDIcon } from "../icons/manared-icon";
-import { MOCK_TAXONOMY_TREE, type TaxonomyGroup } from "./filter-state";
+import {
+  selectedTaxonomyRanks,
+  setTaxonomyRankFilter,
+  TAXONOMY_RANKS,
+  type FilterState,
+  type TaxonomyRankId,
+} from "./filter-state";
 
 export type FilterTaxonomyPanelProps = {
-  /** Selected leaf labels (leaf labels are stored as the filter label in this prototype). */
-  selected: readonly string[];
-  onToggleLeaf: (leafLabel: string) => void;
+  filters: FilterState;
+  onFiltersChange: (next: FilterState) => void;
 };
 
-function groupDefaultExpanded(groups: readonly TaxonomyGroup[], selected: readonly string[]) {
-  // Expand any group that has a selected leaf; otherwise expand the first group for discoverability.
-  const selectedSet = new Set(selected);
-  for (const group of groups) {
-    if (group.leaves.some((leaf) => selectedSet.has(leaf.label))) {
-      return new Set([group.key]);
-    }
-  }
-  const first = groups[0];
-  return new Set(first ? [first.key] : []);
+function nextRankId(rank: TaxonomyRankId): TaxonomyRankId | null {
+  const currentIndex = TAXONOMY_RANKS.findIndex((entry) => entry.id === rank);
+  const next = TAXONOMY_RANKS[currentIndex + 1];
+  return next?.id ?? null;
 }
 
-export function FilterTaxonomyPanel({ selected, onToggleLeaf }: FilterTaxonomyPanelProps) {
-  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(() =>
-    groupDefaultExpanded(MOCK_TAXONOMY_TREE, selected),
-  );
+function defaultOpenRank(filters: FilterState) {
+  const selected = selectedTaxonomyRanks(filters);
+  for (let index = TAXONOMY_RANKS.length - 1; index >= 0; index -= 1) {
+    const rank = TAXONOMY_RANKS[index];
+    if (selected[rank.id]) {
+      return nextRankId(rank.id) ?? rank.id;
+    }
+  }
+  return TAXONOMY_RANKS[0]?.id ?? null;
+}
 
-  const selectedSet = useMemo(() => new Set(selected), [selected]);
+export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomyPanelProps) {
+  const [openRank, setOpenRank] = useState<TaxonomyRankId | null>(() => defaultOpenRank(filters));
+  const selected = useMemo(() => selectedTaxonomyRanks(filters), [filters]);
+
+  useEffect(() => {
+    if (Object.keys(selected).length === 0) {
+      setOpenRank(defaultOpenRank(filters));
+      return;
+    }
+
+    setOpenRank((current) => current ?? defaultOpenRank(filters));
+  }, [filters, selected]);
 
   return (
     <div className="flex min-h-0 w-full flex-col gap-2 px-1 py-1">
-      {MOCK_TAXONOMY_TREE.map((group) => {
-        const isExpanded = expandedGroups.has(group.key);
-
-        const toggleGroup = () => {
-          setExpandedGroups((current) => {
-            const next = new Set(current);
-            if (next.has(group.key)) {
-              next.delete(group.key);
-            } else {
-              next.add(group.key);
-            }
-            return next;
-          });
-        };
+      {TAXONOMY_RANKS.map((rank) => {
+        const isExpanded = openRank === rank.id;
+        const currentValue = selected[rank.id];
+        const parentRank =
+          TAXONOMY_RANKS[TAXONOMY_RANKS.findIndex((entry) => entry.id === rank.id) - 1];
+        const isDisabled = Boolean(parentRank) && !selected[parentRank.id];
 
         return (
-          <div key={group.key} className="flex w-full flex-col gap-1 items-end">
+          <div key={rank.id} className="flex w-full flex-col gap-1 items-start">
             <button
               type="button"
-              aria-label={isExpanded ? `Collapse ${group.label}` : `Expand ${group.label}`}
+              aria-label={isExpanded ? `Collapse ${rank.label}` : `Expand ${rank.label}`}
               aria-expanded={isExpanded}
-              onClick={toggleGroup}
-              className="flex w-full items-center justify-end gap-2 rounded-md px-2 py-1 pr-1 text-right text-3xs uppercase text-primary hover:bg-body-secondary focus-visible:outline-none"
+              onClick={() => setOpenRank(isExpanded ? null : rank.id)}
+              className="flex w-full items-center justify-between gap-2 rounded-md px-2 py-1 text-left text-3xs uppercase text-primary hover:bg-body-secondary focus-visible:outline-none"
             >
-              <span>{group.label}</span>
+              <span>{rank.label}</span>
               <MaNaReDIcon
                 name={isExpanded ? "chevron-down" : "chevron-right"}
                 size={24}
@@ -65,18 +73,30 @@ export function FilterTaxonomyPanel({ selected, onToggleLeaf }: FilterTaxonomyPa
             </button>
 
             {isExpanded ? (
-              <div className="flex w-full flex-col gap-0.5 items-end pr-2 pl-2">
-                {group.leaves.map((leaf) => {
-                  const isSelected = selectedSet.has(leaf.label);
+              <div className="flex w-full flex-col gap-0.5 pl-2">
+                {isDisabled ? (
+                  <p className="px-2 py-1 text-left text-3xs italic text-tertiary">
+                    Select {parentRank?.label.toLowerCase()} first
+                  </p>
+                ) : null}
+                {rank.leaves.map((leaf) => {
+                  const isSelected = currentValue === leaf.label;
                   return (
                     <button
                       key={leaf.label}
                       type="button"
                       aria-label={leaf.label}
                       aria-pressed={isSelected}
-                      onClick={() => onToggleLeaf(leaf.label)}
+                      disabled={isDisabled}
+                      onClick={() => {
+                        const nextValue = isSelected ? null : leaf.label;
+                        const nextFilters = setTaxonomyRankFilter(filters, rank.id, nextValue);
+                        onFiltersChange(nextFilters);
+                        setOpenRank(nextValue ? (nextRankId(rank.id) ?? rank.id) : rank.id);
+                      }}
                       className={[
-                        "flex w-full items-center justify-end gap-2 rounded-md px-2 py-1 text-right text-3xs",
+                        "flex w-full items-center justify-between gap-2 rounded-md px-2 py-1 text-left text-3xs",
+                        isDisabled ? "cursor-not-allowed opacity-60" : "",
                         isSelected
                           ? "border border-border-secondary bg-chip-active text-secondary"
                           : "border border-transparent bg-transparent text-tertiary hover:bg-body-secondary",

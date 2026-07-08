@@ -21,6 +21,7 @@ export type FilterState = {
 export type ChipBarItem = {
   id: string;
   label: string;
+  title?: string;
 };
 
 export type FilterCategoryConfig = {
@@ -59,37 +60,51 @@ export type TaxonomyLeaf = {
   count: number;
 };
 
-export type TaxonomyGroup = {
-  /** Stable group key for expansion state in the taxonomy panel. */
-  key: string;
-  /** Group label shown in the taxonomy panel. */
+export type TaxonomyRankId = "phylum" | "class" | "order" | "family" | "genus" | "species";
+
+export type TaxonomyRank = {
+  /** Stable rank key for expansion state in the taxonomy panel. */
+  id: TaxonomyRankId;
+  /** Rank label shown in the taxonomy panel. */
   label: string;
   leaves: readonly TaxonomyLeaf[];
 };
 
 /**
- * Mock progressive taxonomy tree for the filter sidebar prototype.
- * UX requires a hierarchical (tree) control for taxonomy; this slice keeps it
- * deliberately shallow (two levels) to land the interaction plumbing first.
+ * Mock cascading taxonomy ranks for the filter sidebar prototype.
+ * Each rank narrows the next rank, and the UI auto-opens the next rank after
+ * a selection while keeping only one rank panel open at a time.
  */
-export const MOCK_TAXONOMY_TREE: readonly TaxonomyGroup[] = [
+export const TAXONOMY_RANKS: readonly TaxonomyRank[] = [
   {
-    key: "organism-taxonomy",
-    label: "Organism taxonomy",
-    leaves: [
-      { label: "Porifera", count: 1 },
-      { label: "Sponge", count: 1 },
-      { label: "Halichondria okadai", count: 1 },
-    ],
+    id: "phylum",
+    label: "Phylum",
+    leaves: [{ label: "Porifera", count: 1 }],
   },
   {
-    key: "region-hierarchy",
-    label: "Region hierarchy",
-    leaves: [
-      { label: "Pacific Ocean", count: 1 },
-      { label: "Indian Ocean", count: 1 },
-      { label: "Atlantic Ocean", count: 1 },
-    ],
+    id: "class",
+    label: "Class",
+    leaves: [{ label: "Demospongiae", count: 1 }],
+  },
+  {
+    id: "order",
+    label: "Order",
+    leaves: [{ label: "Suberitida", count: 1 }],
+  },
+  {
+    id: "family",
+    label: "Family",
+    leaves: [{ label: "Halichondriidae", count: 1 }],
+  },
+  {
+    id: "genus",
+    label: "Genus",
+    leaves: [{ label: "Halichondria", count: 1 }],
+  },
+  {
+    id: "species",
+    label: "Species",
+    leaves: [{ label: "Halichondria okadai", count: 1 }],
   },
 ] as const;
 
@@ -115,6 +130,9 @@ export function clearAllFilters(): FilterState {
 }
 
 export function removeFilter(state: FilterState, id: string): FilterState {
+  if (id === "taxonomy:path") {
+    return { active: state.active.filter((filter) => filter.category !== "taxonomy") };
+  }
   return { active: state.active.filter((filter) => filter.id !== id) };
 }
 
@@ -143,14 +161,91 @@ export function toggleTagFilter(
   };
 }
 
-/**
- * Taxonomy leaf toggle (progressive tree).
- *
- * This is a thin wrapper over `toggleTagFilter` for the prototype: taxonomy
- * leaves are stored as flat filter chips, while the UI presents a hierarchy.
- */
-export function toggleTaxonomyLeafFilter(state: FilterState, leafLabel: string) {
-  return toggleTagFilter(state, "taxonomy", leafLabel);
+function taxonomyFilterId(rank: TaxonomyRankId) {
+  return filterId("taxonomy", rank);
+}
+
+export function selectedTaxonomyRanks(state: FilterState): Partial<Record<TaxonomyRankId, string>> {
+  const result: Partial<Record<TaxonomyRankId, string>> = {};
+
+  for (const filter of state.active) {
+    if (filter.category !== "taxonomy") {
+      continue;
+    }
+
+    const rank = TAXONOMY_RANKS.find((entry) => filter.id === taxonomyFilterId(entry.id));
+    if (rank) {
+      result[rank.id] = filter.label.replace(`${rank.label} · `, "");
+    }
+  }
+
+  return result;
+}
+
+export function setTaxonomyRankFilter(
+  state: FilterState,
+  rank: TaxonomyRankId,
+  value: string | null,
+): FilterState {
+  const rankIndex = TAXONOMY_RANKS.findIndex((entry) => entry.id === rank);
+  const remaining = state.active.filter((filter) => {
+    if (filter.category !== "taxonomy") {
+      return true;
+    }
+
+    const currentRankIndex = TAXONOMY_RANKS.findIndex(
+      (entry) => filter.id === taxonomyFilterId(entry.id),
+    );
+    return currentRankIndex > -1 && currentRankIndex < rankIndex;
+  });
+
+  if (!value) {
+    return { active: remaining };
+  }
+
+  const rankLabel = TAXONOMY_RANKS.find((entry) => entry.id === rank)?.label ?? rank;
+
+  return {
+    active: [
+      ...remaining,
+      {
+        id: taxonomyFilterId(rank),
+        category: "taxonomy",
+        categoryLabel: categoryLabel("taxonomy"),
+        label: `${rankLabel} · ${value}`,
+        provenance: rankLabel,
+      },
+    ],
+  };
+}
+
+export function taxonomyChipItem(state: FilterState): ChipBarItem | null {
+  const taxonomyFilters = state.active.filter((filter) => filter.category === "taxonomy");
+  if (taxonomyFilters.length === 0) {
+    return null;
+  }
+
+  let deepestFilter = taxonomyFilters[0];
+  let deepestIndex = -1;
+
+  for (const filter of taxonomyFilters) {
+    const currentIndex = TAXONOMY_RANKS.findIndex(
+      (entry) => filter.id === taxonomyFilterId(entry.id),
+    );
+    if (currentIndex >= deepestIndex) {
+      deepestFilter = filter;
+      deepestIndex = currentIndex;
+    }
+  }
+
+  const overflowCount = Math.max(0, taxonomyFilters.length - 1);
+  const overflowSuffix = overflowCount > 0 ? ` (+${overflowCount})` : "";
+
+  return {
+    id: "taxonomy:path",
+    label: `${deepestFilter.label}${overflowSuffix}`,
+    title: taxonomyFilters.map((filter) => filter.label).join(" / "),
+  };
 }
 
 export function setRangeFilter(
@@ -211,8 +306,13 @@ export function activeCountForCategory(state: FilterState, category: FilterCateg
 }
 
 export function filtersToChipItems(state: FilterState): ChipBarItem[] {
-  return state.active.map((filter) => ({
-    id: filter.id,
-    label: filter.label,
-  }));
+  const taxonomy = taxonomyChipItem(state);
+  const nonTaxonomy = state.active
+    .filter((filter) => filter.category !== "taxonomy")
+    .map((filter) => ({
+      id: filter.id,
+      label: filter.label,
+    }));
+
+  return taxonomy ? [taxonomy, ...nonTaxonomy] : nonTaxonomy;
 }

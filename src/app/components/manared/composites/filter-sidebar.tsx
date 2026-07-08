@@ -6,7 +6,6 @@ import { MaNaReDIcon } from "../icons/manared-icon";
 import { FilterButton } from "../primitives/filter-button";
 import {
   FILTER_BAR_SURFACE,
-  FILTER_ICON_COLUMN,
   FILTER_SIDEBAR_SHELL,
   GRADIENT_FILTER_PANEL,
 } from "../primitives/gradient-styles";
@@ -22,7 +21,6 @@ import {
   MW_DEFAULT_RANGE,
   setDropdownFilter,
   setRangeFilter,
-  toggleTaxonomyLeafFilter,
   toggleTagFilter,
   type FilterCategoryId,
   type FilterState,
@@ -133,12 +131,7 @@ export function FilterSidebar({
     }
 
     if (categoryId === "taxonomy") {
-      return (
-        <FilterTaxonomyPanel
-          selected={selectedTags(filters, categoryId)}
-          onToggleLeaf={(leafLabel) => updateFilters(toggleTaxonomyLeafFilter(filters, leafLabel))}
-        />
-      );
+      return <FilterTaxonomyPanel filters={filters} onFiltersChange={updateFilters} />;
     }
 
     if (categoryId === "bioactivity") {
@@ -195,7 +188,7 @@ export function FilterSidebar({
   return (
     <aside className={shellClass} data-collapsed={collapsed ? "true" : "false"}>
       <header
-        className={`h-8 w-full shrink-0 ${FILTER_ICON_COLUMN} pl-1`}
+        className={`flex h-8 w-full shrink-0 items-center ${collapsed ? "justify-center px-0" : "gap-2 px-1"}`}
         data-name="filter/header"
         data-collapsed-header={collapsed ? "true" : "false"}
       >
@@ -216,7 +209,6 @@ export function FilterSidebar({
             <FilterSidebarReveal collapsed={false}>
               <FilterButton variant="refine-result" />
             </FilterSidebarReveal>
-            <div className="min-h-px min-w-px flex-1" aria-hidden />
             {showCollapseControl ? (
               <button
                 type="button"
