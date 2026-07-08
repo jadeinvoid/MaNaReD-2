@@ -129,6 +129,14 @@ export const CardView: Story = {
     }
     await expect(within(chipBar).getByText("Cytotoxic")).toBeVisible();
 
+    await userEvent.click(canvas.getByLabelText("Expand Taxonomy filter"));
+    await userEvent.click(canvas.getByRole("button", { name: "Porifera" }));
+    await expect(within(chipBar).getByText("Porifera")).toBeVisible();
+
+    // Toggle off and confirm chip disappears.
+    await userEvent.click(canvas.getByRole("button", { name: "Porifera" }));
+    await expect(within(chipBar).queryByText("Porifera")).not.toBeInTheDocument();
+
     const sidebar = canvasElement.querySelector(`.${GRADIENT_SIDEBAR}`);
     if (!sidebar || !(sidebar instanceof HTMLElement)) {
       throw new Error("NavSideBar shell not found");
