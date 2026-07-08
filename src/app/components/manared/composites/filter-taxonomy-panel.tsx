@@ -36,6 +36,17 @@ function defaultOpenRank(filters: FilterState) {
 export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomyPanelProps) {
   const [openRank, setOpenRank] = useState<TaxonomyRankId | null>(() => defaultOpenRank(filters));
   const selected = useMemo(() => selectedTaxonomyRanks(filters), [filters]);
+  const visibleRanks = useMemo(
+    () =>
+      TAXONOMY_RANKS.filter((rank, index) => {
+        if (index === 0) {
+          return true;
+        }
+        const parentRank = TAXONOMY_RANKS[index - 1];
+        return Boolean(parentRank && selected[parentRank.id]);
+      }),
+    [selected],
+  );
 
   useEffect(() => {
     if (Object.keys(selected).length === 0) {
@@ -43,17 +54,21 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
       return;
     }
 
-    setOpenRank((current) => current ?? defaultOpenRank(filters));
-  }, [filters, selected]);
+    setOpenRank((current) => {
+      if (!current) {
+        return defaultOpenRank(filters);
+      }
+
+      const isVisible = visibleRanks.some((rank) => rank.id === current);
+      return isVisible ? current : defaultOpenRank(filters);
+    });
+  }, [filters, selected, visibleRanks]);
 
   return (
     <div className="flex min-h-0 w-full flex-col gap-2 px-1 py-1">
-      {TAXONOMY_RANKS.map((rank) => {
+      {visibleRanks.map((rank) => {
         const isExpanded = openRank === rank.id;
         const currentValue = selected[rank.id];
-        const parentRank =
-          TAXONOMY_RANKS[TAXONOMY_RANKS.findIndex((entry) => entry.id === rank.id) - 1];
-        const isDisabled = Boolean(parentRank) && !selected[parentRank.id];
 
         return (
           <div key={rank.id} className="flex w-full flex-col gap-1 items-start">
@@ -74,11 +89,6 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
 
             {isExpanded ? (
               <div className="flex w-full flex-col gap-0.5 pl-2">
-                {isDisabled ? (
-                  <p className="px-2 py-1 text-left text-3xs italic text-tertiary">
-                    Select {parentRank?.label.toLowerCase()} first
-                  </p>
-                ) : null}
                 {rank.leaves.map((leaf) => {
                   const isSelected = currentValue === leaf.label;
                   return (
@@ -87,7 +97,6 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
                       type="button"
                       aria-label={leaf.label}
                       aria-pressed={isSelected}
-                      disabled={isDisabled}
                       onClick={() => {
                         const nextValue = isSelected ? null : leaf.label;
                         const nextFilters = setTaxonomyRankFilter(filters, rank.id, nextValue);
@@ -96,7 +105,6 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
                       }}
                       className={[
                         "flex w-full items-center justify-between gap-2 rounded-md px-2 py-1 text-left text-3xs",
-                        isDisabled ? "cursor-not-allowed opacity-60" : "",
                         isSelected
                           ? "border border-border-secondary bg-chip-active text-secondary"
                           : "border border-transparent bg-transparent text-tertiary hover:bg-body-secondary",
