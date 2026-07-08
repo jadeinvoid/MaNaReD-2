@@ -12,6 +12,7 @@ import { SortWrapper } from "./sort-wrapper";
 export type ChipBarItem = {
   id: string;
   label: string;
+  title?: string;
 };
 
 export type ChipBarProps = {
@@ -38,6 +39,7 @@ export function ChipBar({
         <ActiveChip
           key={chip.id}
           label={chip.label}
+          title={chip.title}
           onRemove={onRemoveChip ? () => onRemoveChip(chip.id) : undefined}
         />
       ))}

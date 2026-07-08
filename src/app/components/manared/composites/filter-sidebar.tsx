@@ -21,7 +21,6 @@ import {
   MW_DEFAULT_RANGE,
   setDropdownFilter,
   setRangeFilter,
-  toggleTaxonomyLeafFilter,
   toggleTagFilter,
   type FilterCategoryId,
   type FilterState,
@@ -134,8 +133,8 @@ export function FilterSidebar({
     if (categoryId === "taxonomy") {
       return (
         <FilterTaxonomyPanel
-          selected={selectedTags(filters, categoryId)}
-          onToggleLeaf={(leafLabel) => updateFilters(toggleTaxonomyLeafFilter(filters, leafLabel))}
+          filters={filters}
+          onFiltersChange={updateFilters}
         />
       );
     }
@@ -181,7 +180,8 @@ export function FilterSidebar({
   const shellClass = [
     FILTER_BAR_SURFACE,
     FILTER_SIDEBAR_SHELL,
-    "flex h-full min-h-0 flex-col gap-4 overflow-hidden rounded-tr-md rounded-br-md px-4 py-6",
+    "flex h-full min-h-0 flex-col gap-4 overflow-hidden rounded-tr-md rounded-br-md py-6",
+    collapsed ? "px-2" : "px-4",
   ].join(" ");
 
   const containerClass = [
