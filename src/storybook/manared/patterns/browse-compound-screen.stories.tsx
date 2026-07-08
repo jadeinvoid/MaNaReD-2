@@ -62,7 +62,7 @@ function BrowseShell({ children }: { children: ReactNode }) {
             Compounds
           </Text>
         </ContextualBar>
-        <div className="flex min-h-0 flex-1 gap-4 p-4">
+        <div className="flex min-h-0 flex-1 gap-4">
           <BrowseFiltersDemo>{children}</BrowseFiltersDemo>
         </div>
       </div>
@@ -131,11 +131,11 @@ export const CardView: Story = {
 
     await userEvent.click(canvas.getByLabelText("Expand Taxonomy filter"));
     await userEvent.click(canvas.getByRole("button", { name: "Porifera" }));
-    await expect(within(chipBar).getByText("Porifera")).toBeVisible();
+    await expect(within(chipBar).getByText("Phylum · Porifera")).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Demospongiae" })).toBeVisible();
 
-    // Toggle off and confirm chip disappears.
-    await userEvent.click(canvas.getByRole("button", { name: "Porifera" }));
-    await expect(within(chipBar).queryByText("Porifera")).not.toBeInTheDocument();
+    await userEvent.click(canvas.getByRole("button", { name: "Demospongiae" }));
+    await expect(within(chipBar).getByText("Class · Demospongiae (+1)")).toBeVisible();
 
     const sidebar = canvasElement.querySelector(`.${GRADIENT_SIDEBAR}`);
     if (!sidebar || !(sidebar instanceof HTMLElement)) {
@@ -145,6 +145,10 @@ export const CardView: Story = {
     if (!filterSidebar || !(filterSidebar instanceof HTMLElement)) {
       throw new Error("FilterSidebar shell not found");
     }
+
+    const navRight = sidebar.getBoundingClientRect().right;
+    const filterLeft = filterSidebar.getBoundingClientRect().left;
+    await expect(Math.abs(filterLeft - navRight)).toBeLessThanOrEqual(1);
 
     await userEvent.click(canvas.getByRole("button", { name: "Collapse sidebar" }));
     await waitFor(
@@ -161,6 +165,11 @@ export const CardView: Story = {
       },
       { timeout: NAV_ANIMATION_MS + 100 },
     );
+
+    await userEvent.click(canvas.getByRole("button", { name: "Collapse filters" }));
+    await expect(canvas.getByRole("button", { name: /More Filters/i })).toBeVisible();
+    await userEvent.click(within(chipBar).getByRole("button", { name: /More Filters/i }));
+    await expect(canvas.getByRole("button", { name: "Collapse filters" })).toBeVisible();
 
     await userEvent.click(canvas.getByRole("button", { name: "Expand sidebar" }));
     await waitFor(

@@ -3,13 +3,14 @@ import { INTERACTIVE_ACTIVE_CHIP, INTERACTIVE_CHIP_REMOVE } from "./interactive-
 
 export type ActiveChipProps = {
   label: string;
+  title?: string;
   onRemove?: () => void;
 };
 
 /** Removable filter chip from Figma `active-chip` symbol (332:9082). */
-export function ActiveChip({ label, onRemove }: ActiveChipProps) {
+export function ActiveChip({ label, title, onRemove }: ActiveChipProps) {
   return (
-    <span className={INTERACTIVE_ACTIVE_CHIP}>
+    <span className={INTERACTIVE_ACTIVE_CHIP} title={title}>
       <span className="translate-y-px whitespace-nowrap">{label}</span>
       {onRemove ? (
         <button

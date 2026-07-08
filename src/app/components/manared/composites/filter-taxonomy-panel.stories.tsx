@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { expect, fn, userEvent, within } from "storybook/test";
 
+import { setTaxonomyRankFilter } from "./filter-state";
 import { FilterTaxonomyPanel } from "./filter-taxonomy-panel";
 
 const FIGMA_FILTER_BAR =
@@ -16,8 +17,8 @@ const meta = {
     design: { type: "figma", url: FIGMA_FILTER_BAR },
   },
   args: {
-    selected: [],
-    onToggleLeaf: fn(),
+    filters: { active: [] },
+    onFiltersChange: fn(),
   },
 } satisfies Meta<typeof FilterTaxonomyPanel>;
 
@@ -28,22 +29,23 @@ export const Default: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await expect(canvas.getByText("Organism taxonomy")).toBeVisible();
+    await expect(canvas.getByText("Phylum")).toBeVisible();
     await expect(canvas.getByRole("button", { name: "Porifera" })).toBeVisible();
 
     await userEvent.click(canvas.getByRole("button", { name: "Porifera" }));
-    await expect(args.onToggleLeaf).toHaveBeenCalledWith("Porifera");
+    const lastCall = args.onFiltersChange.mock.calls.at(-1)?.[0];
+    await expect(lastCall?.active[0]?.label).toBe("Phylum · Porifera");
   },
 };
 
 export const Selected: Story = {
   args: {
-    selected: ["Porifera"],
+    filters: setTaxonomyRankFilter({ active: [] }, "phylum", "Porifera"),
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const leaf = canvas.getByRole("button", { name: "Porifera" });
-    await expect(leaf).toHaveAttribute("aria-pressed", "true");
+    await expect(canvas.getByText("Class")).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Demospongiae" })).toBeVisible();
   },
 };
 
@@ -51,7 +53,7 @@ export const CollapseGroup: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    const collapseBtn = canvas.getByRole("button", { name: "Collapse Organism taxonomy" });
+    const collapseBtn = canvas.getByRole("button", { name: "Collapse Phylum" });
     await userEvent.click(collapseBtn);
 
     await expect(canvas.queryByRole("button", { name: "Porifera" })).not.toBeInTheDocument();
