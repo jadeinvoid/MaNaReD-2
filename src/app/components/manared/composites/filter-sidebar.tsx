@@ -44,6 +44,8 @@ export type FilterSidebarProps = {
 const PLACEHOLDER_CATEGORIES = new Set<FilterCategoryId>(["geographicRegion", "targetAssay"]);
 
 function FilterSidebarReveal({ collapsed, children }: { collapsed: boolean; children: ReactNode }) {
+  const showHeaderToggle = showCollapseControl || collapsed;
+
   return (
     <div
       className="filter-sidebar-reveal"
@@ -199,7 +201,7 @@ export function FilterSidebar({
           <FilterButton variant="refine-result" />
         </FilterSidebarReveal>
         {!collapsed ? <div className="min-h-px min-w-px flex-1" aria-hidden /> : null}
-        {showCollapseControl ? (
+        {showHeaderToggle ? (
           <button
             type="button"
             className="flex size-6 shrink-0 items-center justify-center"
