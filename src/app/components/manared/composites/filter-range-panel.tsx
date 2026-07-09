@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-
+import { NumberInput } from "@astryxdesign/core/NumberInput";
 import { Slider } from "@astryxdesign/core/Slider";
 
-import { MW_MAX, MW_MIN } from "./filter-state";
+import { clampMwRange, MW_MAX, MW_MIN, MW_RANGE_STEP } from "./filter-state";
 
 export type FilterRangePanelProps = {
   value: [number, number];
@@ -14,42 +13,64 @@ export type FilterRangePanelProps = {
   max?: number;
 };
 
-type ActiveEnd = "min" | "max" | null;
-
 function formatMolecularWeight(amount: number) {
   return `${amount} Da`;
 }
 
-function EndpointLabel({
+function RangeEndpoint({
   end,
-  activeEnd,
   value,
-  domainBound,
-  align,
+  peerValue,
+  domainMin,
+  domainMax,
+  onDraft,
+  onCommit,
 }: {
   end: "min" | "max";
-  activeEnd: ActiveEnd;
   value: number;
-  domainBound: number;
-  align: "left" | "right";
+  peerValue: number;
+  domainMin: number;
+  domainMax: number;
+  onDraft: (next: [number, number]) => void;
+  onCommit: (next: [number, number]) => void;
 }) {
-  const isActive = activeEnd === end;
-  const showDomainHint = value !== domainBound;
+  const label = end === "min" ? "Minimum molecular weight" : "Maximum molecular weight";
+  const inputMin = end === "min" ? domainMin : peerValue + MW_RANGE_STEP;
+  const inputMax = end === "max" ? domainMax : peerValue - MW_RANGE_STEP;
+
+  const handleChange = (next: number) => {
+    const draft =
+      end === "min"
+        ? clampMwRange([next, peerValue], [domainMin, domainMax])
+        : clampMwRange([peerValue, next], [domainMin, domainMax]);
+    onDraft(draft);
+  };
+
+  const handleBlur = () => {
+    const committed =
+      end === "min"
+        ? clampMwRange([value, peerValue], [domainMin, domainMax])
+        : clampMwRange([peerValue, value], [domainMin, domainMax]);
+    onCommit(committed);
+  };
 
   return (
-    <div
-      className={`flex flex-col gap-0.5 ${align === "right" ? "items-end text-right" : "items-start"}`}
-      data-active-end={isActive ? end : undefined}
-    >
-      <span className="text-3xs text-tertiary">{end === "min" ? "Min" : "Max"}</span>
-      <span
-        className={`text-3xs uppercase ${isActive ? "font-semibold text-primary" : "text-primary"}`}
-      >
-        {formatMolecularWeight(value)}
-      </span>
-      {showDomainHint ? (
-        <span className="text-3xs text-tertiary">{formatMolecularWeight(domainBound)}</span>
-      ) : null}
+    <div className="filter-mw-range-end min-w-0" data-range-end={end}>
+      <NumberInput
+        className="filter-mw-range-input"
+        label={label}
+        isLabelHidden
+        size="sm"
+        value={value}
+        min={inputMin}
+        max={inputMax}
+        step={MW_RANGE_STEP}
+        units="Da"
+        isIntegerOnly
+        width="100%"
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
     </div>
   );
 }
@@ -62,72 +83,24 @@ export function FilterRangePanel({
   min = MW_MIN,
   max = MW_MAX,
 }: FilterRangePanelProps) {
-  const panelRef = useRef<HTMLDivElement>(null);
-  const [activeEnd, setActiveEnd] = useState<ActiveEnd>(null);
-
-  useEffect(() => {
-    const panel = panelRef.current;
-    if (!panel) {
-      return;
-    }
-
-    const handleFocusIn = (event: FocusEvent) => {
-      const target = event.target;
-      if (!(target instanceof HTMLElement) || target.getAttribute("role") !== "slider") {
-        return;
-      }
-
-      const label = target.getAttribute("aria-label") ?? "";
-      if (label.includes("minimum")) {
-        setActiveEnd("min");
-      } else if (label.includes("maximum")) {
-        setActiveEnd("max");
-      }
-    };
-
-    const handleFocusOut = (event: FocusEvent) => {
-      const related = event.relatedTarget;
-      if (!(related instanceof Node) || !panel.contains(related)) {
-        setActiveEnd(null);
-      }
-    };
-
-    panel.addEventListener("focusin", handleFocusIn);
-    panel.addEventListener("focusout", handleFocusOut);
-
-    return () => {
-      panel.removeEventListener("focusin", handleFocusIn);
-      panel.removeEventListener("focusout", handleFocusOut);
-    };
-  }, []);
+  const commitRange = (next: [number, number]) => {
+    onChangeEnd?.(next);
+  };
 
   return (
-    <div ref={panelRef} className="flex w-full flex-col gap-2 py-1" data-filter-range-panel>
-      <div className="flex w-full items-start justify-between gap-2">
-        <EndpointLabel
-          end="min"
-          activeEnd={activeEnd}
-          value={value[0]}
-          domainBound={min}
-          align="left"
-        />
-        <EndpointLabel
-          end="max"
-          activeEnd={activeEnd}
-          value={value[1]}
-          domainBound={max}
-          align="right"
-        />
-      </div>
-      <div className="px-2.5">
+    <div
+      className="flex w-full min-w-0 flex-col gap-2 overflow-hidden py-1"
+      data-filter-range-panel
+    >
+      <div className="filter-mw-slider">
         <Slider
           label="Molecular weight range"
           isLabelHidden
           value={value}
           min={min}
           max={max}
-          step={10}
-          valueDisplay="none"
+          step={MW_RANGE_STEP}
+          valueDisplay="tooltip"
           width="100%"
           minStepsBetweenThumbs={1}
           formatValue={formatMolecularWeight}
@@ -141,6 +114,29 @@ export function FilterRangePanel({
               onChangeEnd?.(next as [number, number]);
             }
           }}
+        />
+      </div>
+      <div className="filter-mw-inputs flex w-full min-w-0 max-w-full items-center justify-center">
+        <RangeEndpoint
+          end="min"
+          value={value[0]}
+          peerValue={value[1]}
+          domainMin={min}
+          domainMax={max}
+          onDraft={onChange}
+          onCommit={commitRange}
+        />
+        <span aria-hidden="true" className="filter-mw-input-separator">
+          –
+        </span>
+        <RangeEndpoint
+          end="max"
+          value={value[1]}
+          peerValue={value[0]}
+          domainMin={min}
+          domainMax={max}
+          onDraft={onChange}
+          onCommit={commitRange}
         />
       </div>
     </div>

@@ -149,6 +149,26 @@ export function draftRangeForCategory(
   return committedRangeForCategory(state, category) ?? MW_FULL_RANGE;
 }
 
+export const MW_RANGE_STEP = 10;
+
+/** Clamp a MW draft range to domain bounds and minimum thumb separation. */
+export function clampMwRange(
+  [minVal, maxVal]: [number, number],
+  domain: [number, number] = MW_FULL_RANGE,
+  minGap = MW_RANGE_STEP,
+): [number, number] {
+  const [domainMin, domainMax] = domain;
+  let min = Math.max(domainMin, Math.min(minVal, domainMax));
+  let max = Math.max(domainMin, Math.min(maxVal, domainMax));
+
+  if (min > max - minGap) {
+    max = Math.min(domainMax, min + minGap);
+    min = Math.max(domainMin, max - minGap);
+  }
+
+  return [min, max];
+}
+
 function filterId(category: FilterCategoryId, suffix: string) {
   return `${category}:${suffix}`;
 }
