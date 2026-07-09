@@ -1,9 +1,12 @@
 import type { Preview } from "@storybook/react-vite";
 import { themes } from "storybook/theming";
 
+import { injectManaredFontLinks } from "../src/app/theme/manaredFonts";
 import { Providers } from "../src/app/providers";
 import stylesUrl from "../src/app/styles.css?url";
 import docsStylesUrl from "./docs.css?url";
+
+injectManaredFontLinks();
 
 for (const href of [stylesUrl, docsStylesUrl]) {
   const link = document.createElement("link");

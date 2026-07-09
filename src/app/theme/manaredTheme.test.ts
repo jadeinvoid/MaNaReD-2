@@ -131,4 +131,10 @@ describe("MaNaReD theme contract", () => {
     expect(elevationCss).toContain(".filter-sidebar-collapsed-rail");
     expect(elevationCss).toContain("--layout-filter-sidebar-width");
   });
+
+  it("registers Geist Mono as the code/mono font family", () => {
+    expect(manaredThemeSource).toContain('family: "Geist Mono"');
+    expect(manaredCss).toContain("--font-family-code:");
+    expect(manaredCss).toContain('"Geist Mono"');
+  });
 });
