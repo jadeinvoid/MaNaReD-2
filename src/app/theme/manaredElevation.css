@@ -406,23 +406,29 @@
     min-width: 0;
   }
 
-  /* Compound class + geographic region — shared lower-rank horizontal inset */
-  [data-astryx-theme="manared"] [data-filter-dropdown-panel],
-  [data-astryx-theme="manared"] [data-filter-region-panel] {
+  /* Compound class dropdown — lower-rank horizontal inset */
+  [data-astryx-theme="manared"] [data-filter-dropdown-panel] {
     --filter-dropdown-label-inset: calc(var(--spacing-2, 8px) * 2);
     --filter-dropdown-chevron-inset: 24px;
     box-sizing: border-box;
     max-width: 100%;
     padding-inline: var(--filter-dropdown-label-inset) var(--filter-dropdown-chevron-inset);
-  }
-
-  [data-astryx-theme="manared"] [data-filter-dropdown-panel] {
     display: flex;
     align-items: center;
     gap: var(--spacing-2, 8px);
   }
 
+  /* Geographic region — nested inset (category inset + pl-4) so items sit inside the filter */
   [data-astryx-theme="manared"] [data-filter-region-panel] {
+    --filter-dropdown-label-inset: calc(var(--spacing-2, 8px) * 2);
+    --filter-dropdown-chevron-inset: 24px;
+    --filter-region-nested-inset: var(--spacing-4, 16px);
+    box-sizing: border-box;
+    max-width: 100%;
+    padding-inline-start: calc(
+      var(--filter-dropdown-label-inset) + var(--filter-region-nested-inset)
+    );
+    padding-inline-end: var(--filter-dropdown-chevron-inset);
     display: flex;
     flex-direction: column;
     gap: 2px;

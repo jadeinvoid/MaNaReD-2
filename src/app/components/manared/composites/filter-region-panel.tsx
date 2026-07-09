@@ -15,7 +15,7 @@ export type FilterRegionPanelProps = {
   onFiltersChange: (next: FilterState) => void;
 };
 
-/** Flat multi-select geographic regions — checkbox list aligned with compound class inset. */
+/** Flat multi-select geographic regions — checkbox list nested under category header. */
 export function FilterRegionPanel({ filters, onFiltersChange }: FilterRegionPanelProps) {
   const selected = selectedGeographicRegions(filters);
   const allRegionsActive = selected.length === 0;
