@@ -242,8 +242,8 @@
   }
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-end {
-    flex: 1 1 0;
-    min-width: 0;
+    flex: 0 1 auto;
+    min-width: 4.25rem;
     max-width: calc((100% - var(--spacing-2, 8px) * 2 - 0.375rem) / 2);
   }
 
@@ -279,7 +279,7 @@
     min-height: 1.5rem;
     gap: var(--spacing-1, 4px);
     padding-block: 3px;
-    padding-inline: var(--spacing-2, 8px);
+    padding-inline: var(--spacing-3, 12px);
     border-width: 1px;
     border-style: solid;
     border-color: var(--color-border-emphasized);
@@ -288,7 +288,7 @@
     font-size: var(--font-size-3xs, 0.75rem);
     line-height: 1.2;
     justify-content: center;
-    overflow: hidden;
+    overflow: visible;
   }
 
   [data-astryx-theme="manared"]
@@ -305,8 +305,11 @@
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input input {
     font-size: var(--font-size-3xs, 0.75rem);
     line-height: 1.2;
-    min-width: 0;
-    text-align: center;
+    flex: 0 1 auto;
+    width: auto;
+    min-width: 2.5ch;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
   }
 
   [data-astryx-theme="manared"]
@@ -332,6 +335,5 @@
     font-size: var(--font-size-3xs, 0.75rem);
     line-height: 1.2;
     flex-shrink: 0;
-    padding-inline-end: var(--spacing-1, 4px);
   }
 }
