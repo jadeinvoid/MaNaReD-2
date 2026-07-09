@@ -224,18 +224,6 @@
     outline-offset: 2px;
   }
 
-  [data-astryx-theme="manared"]
-    [data-filter-range-panel]
-    [data-active-end="min"]
-    > span:first-child,
-  [data-astryx-theme="manared"]
-    [data-filter-range-panel]
-    [data-active-end="max"]
-    > span:first-child {
-    color: var(--color-accent);
-    font-weight: 600;
-  }
-
   /* MW range inputs — match filter category text-3xs; prevent unit clipping */
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input {
     box-sizing: border-box;

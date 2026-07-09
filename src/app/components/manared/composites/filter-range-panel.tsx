@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-
 import { NumberInput } from "@astryxdesign/core/NumberInput";
 import { Slider } from "@astryxdesign/core/Slider";
 
@@ -15,37 +13,27 @@ export type FilterRangePanelProps = {
   max?: number;
 };
 
-type ActiveEnd = "min" | "max" | null;
-
 function formatMolecularWeight(amount: number) {
   return `${amount} Da`;
 }
 
 function RangeEndpoint({
   end,
-  activeEnd,
   value,
-  domainBound,
   peerValue,
   domainMin,
   domainMax,
-  align,
   onDraft,
   onCommit,
 }: {
   end: "min" | "max";
-  activeEnd: ActiveEnd;
   value: number;
-  domainBound: number;
   peerValue: number;
   domainMin: number;
   domainMax: number;
-  align: "left" | "right";
   onDraft: (next: [number, number]) => void;
   onCommit: (next: [number, number]) => void;
 }) {
-  const isActive = activeEnd === end;
-  const showDomainHint = value !== domainBound;
   const label = end === "min" ? "Minimum molecular weight" : "Maximum molecular weight";
   const inputMin = end === "min" ? domainMin : peerValue + MW_RANGE_STEP;
   const inputMax = end === "max" ? domainMax : peerValue - MW_RANGE_STEP;
@@ -67,14 +55,7 @@ function RangeEndpoint({
   };
 
   return (
-    <div
-      className="flex min-w-0 flex-1 flex-col gap-0.5"
-      data-active-end={isActive ? end : undefined}
-      data-range-end={end}
-    >
-      <span className={`text-3xs text-tertiary ${align === "right" ? "self-end" : "self-start"}`}>
-        {end === "min" ? "Min" : "Max"}
-      </span>
+    <div className="min-w-0 flex-1" data-range-end={end}>
       <NumberInput
         className="filter-mw-range-input w-full min-w-0"
         label={label}
@@ -90,9 +71,6 @@ function RangeEndpoint({
         onChange={handleChange}
         onBlur={handleBlur}
       />
-      {showDomainHint ? (
-        <span className="text-3xs text-tertiary">{formatMolecularWeight(domainBound)}</span>
-      ) : null}
     </div>
   );
 }
@@ -105,87 +83,12 @@ export function FilterRangePanel({
   min = MW_MIN,
   max = MW_MAX,
 }: FilterRangePanelProps) {
-  const panelRef = useRef<HTMLDivElement>(null);
-  const [activeEnd, setActiveEnd] = useState<ActiveEnd>(null);
-
-  useEffect(() => {
-    const panel = panelRef.current;
-    if (!panel) {
-      return;
-    }
-
-    const handleFocusIn = (event: FocusEvent) => {
-      const target = event.target;
-      if (!(target instanceof HTMLElement)) {
-        return;
-      }
-
-      const endpoint = target.closest<HTMLElement>("[data-range-end]");
-      if (endpoint?.dataset.rangeEnd === "min" || endpoint?.dataset.rangeEnd === "max") {
-        setActiveEnd(endpoint.dataset.rangeEnd);
-        return;
-      }
-
-      if (target.getAttribute("role") !== "slider") {
-        return;
-      }
-
-      const label = target.getAttribute("aria-label") ?? "";
-      if (label.includes("minimum")) {
-        setActiveEnd("min");
-      } else if (label.includes("maximum")) {
-        setActiveEnd("max");
-      }
-    };
-
-    const handleFocusOut = (event: FocusEvent) => {
-      const related = event.relatedTarget;
-      if (!(related instanceof Node) || !panel.contains(related)) {
-        setActiveEnd(null);
-      }
-    };
-
-    panel.addEventListener("focusin", handleFocusIn);
-    panel.addEventListener("focusout", handleFocusOut);
-
-    return () => {
-      panel.removeEventListener("focusin", handleFocusIn);
-      panel.removeEventListener("focusout", handleFocusOut);
-    };
-  }, []);
-
   const commitRange = (next: [number, number]) => {
     onChangeEnd?.(next);
   };
 
   return (
-    <div ref={panelRef} className="flex w-full flex-col gap-2 py-1" data-filter-range-panel>
-      <div className="flex w-full items-start gap-1">
-        <RangeEndpoint
-          end="min"
-          activeEnd={activeEnd}
-          value={value[0]}
-          domainBound={min}
-          peerValue={value[1]}
-          domainMin={min}
-          domainMax={max}
-          align="left"
-          onDraft={onChange}
-          onCommit={commitRange}
-        />
-        <RangeEndpoint
-          end="max"
-          activeEnd={activeEnd}
-          value={value[1]}
-          domainBound={max}
-          peerValue={value[0]}
-          domainMin={min}
-          domainMax={max}
-          align="right"
-          onDraft={onChange}
-          onCommit={commitRange}
-        />
-      </div>
+    <div className="flex w-full flex-col gap-2 py-1" data-filter-range-panel>
       <div className="px-2.5">
         <Slider
           label="Molecular weight range"
@@ -208,6 +111,26 @@ export function FilterRangePanel({
               onChangeEnd?.(next as [number, number]);
             }
           }}
+        />
+      </div>
+      <div className="flex w-full items-start gap-1 px-2.5">
+        <RangeEndpoint
+          end="min"
+          value={value[0]}
+          peerValue={value[1]}
+          domainMin={min}
+          domainMax={max}
+          onDraft={onChange}
+          onCommit={commitRange}
+        />
+        <RangeEndpoint
+          end="max"
+          value={value[1]}
+          peerValue={value[0]}
+          domainMin={min}
+          domainMax={max}
+          onDraft={onChange}
+          onCommit={commitRange}
         />
       </div>
     </div>

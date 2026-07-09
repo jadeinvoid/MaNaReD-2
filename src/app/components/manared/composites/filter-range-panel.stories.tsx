@@ -31,8 +31,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByText("Min")).toBeVisible();
-    await expect(canvas.getByText("Max")).toBeVisible();
     await expect(canvas.getByRole("spinbutton", { name: /minimum molecular weight/i })).toHaveValue(
       200,
     );
