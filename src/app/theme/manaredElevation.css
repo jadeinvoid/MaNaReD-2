@@ -218,12 +218,29 @@
   }
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-slider {
+    padding-block-start: var(--spacing-3, 12px);
     padding-inline: var(--filter-mw-track-inset-start) var(--filter-mw-track-inset-end);
   }
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-inputs {
-    gap: var(--spacing-1, 4px);
-    padding-inline: var(--filter-mw-label-inset) 0;
+    gap: var(--spacing-2, 8px);
+    justify-content: center;
+    align-items: center;
+  }
+
+  [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-input-separator {
+    flex-shrink: 0;
+    width: 0.5rem;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-3xs, 0.75rem);
+    line-height: 1;
+    text-align: center;
+    user-select: none;
+  }
+
+  [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-end {
+    width: 5.5rem;
+    min-width: 0;
   }
 
   /* MW range slider — min thumb outlined, max thumb filled (FilterRangePanel) */
@@ -243,7 +260,7 @@
     outline-offset: 2px;
   }
 
-  /* MW range inputs — no border; keep surface background and compact text-3xs */
+  /* MW range inputs — outline pill treatment; compact text-3xs */
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input {
     box-sizing: border-box;
     width: 100%;
@@ -252,19 +269,26 @@
     min-height: 1.5rem;
     gap: var(--spacing-1, 4px);
     padding-block: 2px;
-    padding-inline: var(--spacing-1, 4px);
-    border-width: 0;
-    border-color: transparent;
+    padding-inline: var(--spacing-2, 8px);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--color-border-emphasized);
+    border-radius: var(--radius-full, 9999px);
     background-color: var(--color-background-surface);
     font-size: var(--font-size-3xs, 0.75rem);
     line-height: 1.2;
     overflow: visible;
   }
 
-  [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input:hover,
+  [data-astryx-theme="manared"]
+    [data-filter-range-panel]
+    .filter-mw-range-input:hover:not(:focus-within) {
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--color-border-emphasized) 55%, transparent);
+  }
+
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input:focus-within {
-    border-width: 0;
-    border-color: transparent;
+    border-color: var(--color-accent);
+    box-shadow: inset 0 0 0 2px var(--color-accent-muted);
   }
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input input {

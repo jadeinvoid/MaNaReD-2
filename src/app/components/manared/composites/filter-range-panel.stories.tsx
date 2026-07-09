@@ -38,6 +38,7 @@ export const Default: Story = {
       400,
     );
     await expect(canvas.queryByText("MW 200–400")).not.toBeInTheDocument();
+    await expect(canvasElement.querySelector(".filter-mw-input-separator")).toBeInTheDocument();
   },
 };
 

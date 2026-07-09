@@ -55,9 +55,9 @@ function RangeEndpoint({
   };
 
   return (
-    <div className="min-w-0 flex-1" data-range-end={end}>
+    <div className="filter-mw-range-end shrink-0" data-range-end={end}>
       <NumberInput
-        className="filter-mw-range-input w-full min-w-0"
+        className="filter-mw-range-input"
         label={label}
         isLabelHidden
         size="sm"
@@ -67,7 +67,6 @@ function RangeEndpoint({
         step={MW_RANGE_STEP}
         units="Da"
         isIntegerOnly
-        width="100%"
         onChange={handleChange}
         onBlur={handleBlur}
       />
@@ -97,7 +96,7 @@ export function FilterRangePanel({
           min={min}
           max={max}
           step={MW_RANGE_STEP}
-          valueDisplay="none"
+          valueDisplay="tooltip"
           width="100%"
           minStepsBetweenThumbs={1}
           formatValue={formatMolecularWeight}
@@ -113,7 +112,7 @@ export function FilterRangePanel({
           }}
         />
       </div>
-      <div className="filter-mw-inputs flex w-full items-start">
+      <div className="filter-mw-inputs flex w-full items-center justify-center">
         <RangeEndpoint
           end="min"
           value={value[0]}
@@ -123,6 +122,9 @@ export function FilterRangePanel({
           onDraft={onChange}
           onCommit={commitRange}
         />
+        <span aria-hidden="true" className="filter-mw-input-separator">
+          –
+        </span>
         <RangeEndpoint
           end="max"
           value={value[1]}
