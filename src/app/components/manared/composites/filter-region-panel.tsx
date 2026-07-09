@@ -19,8 +19,8 @@ const REGION_ITEM_BASE =
 
 function regionItemClass(isSelected: boolean): string {
   return isSelected
-    ? `${REGION_ITEM_BASE} border-border-secondary bg-chip-active text-secondary`
-    : `${REGION_ITEM_BASE} border-transparent bg-transparent text-tertiary hover:bg-body-secondary`;
+    ? `${REGION_ITEM_BASE} border-border-secondary bg-chip-active text-primary`
+    : `${REGION_ITEM_BASE} border-transparent bg-transparent text-primary hover:bg-body-secondary`;
 }
 
 /** Flat multi-select geographic regions — matches taxonomy leaf / filter panel lower-rank styling. */
@@ -40,7 +40,7 @@ export function FilterRegionPanel({ filters, onFiltersChange }: FilterRegionPane
         <MaNaReDIcon name="chevron-down" size={24} className="shrink-0 text-primary" aria-hidden />
       </button>
 
-      <div className="flex w-full flex-col gap-px pl-4">
+      <div className="flex w-full flex-col gap-px">
         {MOCK_GEOGRAPHIC_REGIONS.map((region) => {
           const isSelected = selected.includes(region);
           return (

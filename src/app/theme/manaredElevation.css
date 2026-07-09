@@ -482,4 +482,22 @@
     width: 100%;
     text-align: left;
   }
+
+  /* Geographic region list — align with compound class dropdown insets */
+  [data-astryx-theme="manared"] [data-filter-region-panel] {
+    --filter-dropdown-label-inset: calc(var(--spacing-2, 8px) * 2);
+    --filter-dropdown-chevron-inset: 24px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-width: 100%;
+    padding-inline: var(--filter-dropdown-label-inset) var(--filter-dropdown-chevron-inset);
+  }
+
+  [data-astryx-theme="manared"] [data-filter-region-panel] button {
+    font-size: var(--font-size-3xs, 0.75rem);
+    line-height: 1.2;
+    color: var(--color-text-primary);
+  }
 }

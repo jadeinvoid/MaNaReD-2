@@ -32,7 +32,7 @@ export const Default: Story = {
     await expect(canvas.getByRole("button", { name: "All regions" })).toBeVisible();
     const indoPacific = canvas.getByRole("button", { name: "Indo-Pacific" });
     await expect(indoPacific.className).toContain("text-3xs");
-    await expect(indoPacific.className).toContain("text-tertiary");
+    await expect(indoPacific.className).toContain("text-primary");
 
     await userEvent.click(canvas.getByRole("button", { name: "Indo-Pacific" }));
     const lastCall = args.onFiltersChange.mock.calls.at(-1)?.[0];

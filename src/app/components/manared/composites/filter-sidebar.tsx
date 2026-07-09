@@ -261,13 +261,11 @@ export function FilterSidebar({
                   expanded={expandedCategories.includes(id)}
                   forceCollapsed={allCategoriesCollapsed}
                   panelClassName={
-                    id === "taxonomy" || id === "geographicRegion"
+                    id === "taxonomy" || id === "geographicRegion" || id === "compoundClass"
                       ? "w-full pb-1"
                       : id === "molecularWeight"
                         ? "w-full pb-2"
-                        : id === "compoundClass"
-                          ? "w-full pb-1"
-                          : undefined
+                        : undefined
                   }
                   onToggle={() => {
                     setExpandedCategories((current) => {
