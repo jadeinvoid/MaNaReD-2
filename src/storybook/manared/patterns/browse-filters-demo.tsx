@@ -10,6 +10,7 @@ import { FilterSidebar } from "@/app/components/manared/composites/filter-sideba
 import {
   filtersToChipItems,
   removeFilter,
+  type FilterCategoryId,
   type FilterState,
 } from "@/app/components/manared/composites/filter-state";
 
@@ -28,6 +29,7 @@ function isTabletTier(): boolean {
 export function BrowseFiltersDemo({ children }: BrowseFiltersDemoProps) {
   const [filters, setFilters] = useState<FilterState>({ active: [] });
   const [collapsed, setCollapsed] = useState(isTabletTier);
+  const [expandRequest, setExpandRequest] = useState<FilterCategoryId | null>(null);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px) and (max-width: 1023px)");
@@ -43,12 +45,20 @@ export function BrowseFiltersDemo({ children }: BrowseFiltersDemoProps) {
         onCollapsedChange={setCollapsed}
         filters={filters}
         onFiltersChange={setFilters}
+        requestExpandCategory={expandRequest}
+        onRequestExpandCategoryHandled={() => setExpandRequest(null)}
       />
       <VStack gap={4} className="flex-1 p-4">
         <ChipBar
           chips={filtersToChipItems(filters)}
           onMoreFilters={() => setCollapsed(false)}
           onRemoveChip={(id) => setFilters((current) => removeFilter(current, id))}
+          onChipClick={(id) => {
+            if (id.startsWith("molecularWeight")) {
+              setCollapsed(false);
+              setExpandRequest("molecularWeight");
+            }
+          }}
         />
         {children}
       </VStack>

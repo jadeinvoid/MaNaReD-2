@@ -55,6 +55,7 @@ const meta = {
     ],
     provenanceText: "Filter carried on from previous session.",
     onRemoveChip: fn(),
+    onChipClick: fn(),
     onMoreFilters: fn(),
     onSort: fn(),
   },
@@ -119,6 +120,10 @@ export const Default: Story = {
     await assertChipBarGradient(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Remove Alkaloids" }));
     await expect(args.onRemoveChip).toHaveBeenCalledWith("compoundClass:Alkaloids");
+    await userEvent.click(canvas.getByRole("button", { name: "MW 200–400" }));
+    await expect(args.onChipClick).toHaveBeenCalledWith("molecularWeight:range");
+    await userEvent.click(canvas.getByRole("button", { name: "Remove MW 200–400" }));
+    await expect(args.onRemoveChip).toHaveBeenCalledWith("molecularWeight:range");
     await userEvent.click(canvas.getByRole("button", { name: "More Filters" }));
     await expect(args.onMoreFilters).toHaveBeenCalledOnce();
     await userEvent.click(canvas.getByRole("button", { name: /Sort by/ }));

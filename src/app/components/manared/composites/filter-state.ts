@@ -113,6 +113,42 @@ export const MW_MAX = 2000;
 export const MW_DEFAULT_RANGE: [number, number] = [200, 400];
 export const MW_FULL_RANGE: [number, number] = [MW_MIN, MW_MAX];
 
+const MW_RANGE_LABEL = /^MW (\d+)–(\d+)$/;
+
+export function parseMwRangeLabel(label: string): [number, number] | null {
+  const match = MW_RANGE_LABEL.exec(label);
+  if (!match) {
+    return null;
+  }
+  return [Number(match[1]), Number(match[2])];
+}
+
+export function isMwFullRange(
+  [min, max]: [number, number],
+  fullRange: [number, number] = MW_FULL_RANGE,
+): boolean {
+  const [fullMin, fullMax] = fullRange;
+  return min <= fullMin && max >= fullMax;
+}
+
+export function committedRangeForCategory(
+  state: FilterState,
+  category: FilterCategoryId,
+): [number, number] | null {
+  const rangeFilter = state.active.find((filter) => filter.category === category);
+  if (!rangeFilter) {
+    return null;
+  }
+  return parseMwRangeLabel(rangeFilter.label);
+}
+
+export function draftRangeForCategory(
+  state: FilterState,
+  category: FilterCategoryId,
+): [number, number] {
+  return committedRangeForCategory(state, category) ?? MW_FULL_RANGE;
+}
+
 function filterId(category: FilterCategoryId, suffix: string) {
   return `${category}:${suffix}`;
 }
@@ -309,10 +345,23 @@ export function filtersToChipItems(state: FilterState): ChipBarItem[] {
   const taxonomy = taxonomyChipItem(state);
   const nonTaxonomy = state.active
     .filter((filter) => filter.category !== "taxonomy")
-    .map((filter) => ({
-      id: filter.id,
-      label: filter.label,
-    }));
+    .map((filter) => {
+      if (filter.category === "molecularWeight") {
+        const range = parseMwRangeLabel(filter.label);
+        if (range) {
+          const [min, max] = range;
+          return {
+            id: filter.id,
+            label: filter.label,
+            title: `Molecular weight between ${min} and ${max} Daltons — click to edit`,
+          };
+        }
+      }
+      return {
+        id: filter.id,
+        label: filter.label,
+      };
+    });
 
   return taxonomy ? [taxonomy, ...nonTaxonomy] : nonTaxonomy;
 }

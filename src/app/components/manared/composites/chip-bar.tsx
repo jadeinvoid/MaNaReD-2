@@ -19,6 +19,7 @@ export type ChipBarProps = {
   chips: ChipBarItem[];
   provenanceText?: string;
   onRemoveChip?: (id: string) => void;
+  onChipClick?: (id: string) => void;
   onMoreFilters?: () => void;
   onSort?: () => void;
   sortLabel?: string;
@@ -29,6 +30,7 @@ export function ChipBar({
   chips,
   provenanceText,
   onRemoveChip,
+  onChipClick,
   onMoreFilters,
   onSort,
   sortLabel = "Sort by: Relevance",
@@ -40,6 +42,7 @@ export function ChipBar({
           key={chip.id}
           label={chip.label}
           title={chip.title}
+          onClick={onChipClick ? () => onChipClick(chip.id) : undefined}
           onRemove={onRemoveChip ? () => onRemoveChip(chip.id) : undefined}
         />
       ))}
