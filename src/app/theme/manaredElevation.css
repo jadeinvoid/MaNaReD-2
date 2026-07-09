@@ -243,7 +243,7 @@
     outline-offset: 2px;
   }
 
-  /* MW range inputs — borderless, text-3xs, aligned with category row */
+  /* MW range inputs — no border; keep surface background and compact text-3xs */
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input {
     box-sizing: border-box;
     width: 100%;
@@ -252,11 +252,10 @@
     min-height: 1.5rem;
     gap: var(--spacing-1, 4px);
     padding-block: 2px;
-    padding-inline: 0;
+    padding-inline: var(--spacing-1, 4px);
     border-width: 0;
     border-color: transparent;
-    background-color: transparent;
-    box-shadow: none;
+    background-color: var(--color-background-surface);
     font-size: var(--font-size-3xs, 0.75rem);
     line-height: 1.2;
     overflow: visible;
@@ -264,8 +263,8 @@
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input:hover,
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input:focus-within {
+    border-width: 0;
     border-color: transparent;
-    box-shadow: none;
   }
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input input {
