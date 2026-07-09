@@ -2,6 +2,8 @@
 
 import { Selector } from "@astryxdesign/core/Selector";
 
+import { MaNaReDIcon } from "../icons/manared-icon";
+
 export type FilterDropdownPanelProps = {
   options: readonly string[];
   value: string | null;
@@ -17,19 +19,28 @@ export function FilterDropdownPanel({
   placeholder = "Select class…",
 }: FilterDropdownPanelProps) {
   return (
-    <div className="w-full min-w-0" data-filter-dropdown-panel>
+    <div className="filter-compound-class-row w-full min-w-0" data-filter-dropdown-panel>
       <Selector
         className="filter-compound-class-selector"
         label="Compound class"
         isLabelHidden
         placeholder={placeholder}
         options={[...options]}
-        value={value}
-        hasClear={true}
+        value={value ?? undefined}
         size="sm"
         width="100%"
         onChange={onChange}
       />
+      {value != null ? (
+        <button
+          type="button"
+          className="filter-compound-class-clear"
+          aria-label="Clear compound class"
+          onClick={() => onChange(null)}
+        >
+          <MaNaReDIcon name="remove" size={16} className="text-current" />
+        </button>
+      ) : null}
     </div>
   );
 }

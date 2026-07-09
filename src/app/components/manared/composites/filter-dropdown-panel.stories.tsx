@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect, fn, within } from "storybook/test";
+import { expect, fn, userEvent, within } from "storybook/test";
 
 import { expectedTokenColour } from "@/storybook/manared/shared/assert-token-colours";
 
@@ -67,6 +67,9 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Select class…")).toBeVisible();
+    await expect(
+      canvas.queryByRole("button", { name: "Clear compound class" }),
+    ).not.toBeInTheDocument();
     await assertCompactPrimaryTrigger(canvasElement);
   },
 };
@@ -75,11 +78,21 @@ export const WithSelection: Story = {
   args: {
     value: "Alkaloids",
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
+    const trigger = canvasElement.querySelector<HTMLElement>(".filter-compound-class-selector");
+    if (!trigger) {
+      throw new Error("Compound class selector trigger not found");
+    }
+
     await expect(canvas.getByRole("combobox", { name: "Compound class" })).toHaveTextContent(
       "Alkaloids",
     );
+    await expect(trigger.querySelector('button[aria-label="Clear Compound class"]')).toBeNull();
+    const clearButton = canvas.getByRole("button", { name: "Clear compound class" });
+    await expect(clearButton.className).toContain("filter-compound-class-clear");
     await assertCompactPrimaryTrigger(canvasElement);
+    await userEvent.click(clearButton);
+    await expect(args.onChange).toHaveBeenCalledWith(null);
   },
 };
