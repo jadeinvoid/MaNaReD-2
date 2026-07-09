@@ -267,7 +267,9 @@ export function FilterSidebar({
                       ? "w-full pb-1"
                       : id === "molecularWeight"
                         ? "w-full pb-2"
-                        : undefined
+                        : id === "compoundClass"
+                          ? "w-full pb-1"
+                          : undefined
                   }
                   onToggle={() => {
                     setExpandedCategories((current) => {

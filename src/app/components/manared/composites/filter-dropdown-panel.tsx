@@ -17,14 +17,17 @@ export function FilterDropdownPanel({
   placeholder = "Select class…",
 }: FilterDropdownPanelProps) {
   return (
-    <div className="px-1">
+    <div className="w-full min-w-0" data-filter-dropdown-panel>
       <Selector
+        className="filter-compound-class-selector"
         label="Compound class"
         isLabelHidden
         placeholder={placeholder}
         options={[...options]}
         value={value}
         hasClear={true}
+        size="sm"
+        width="100%"
         onChange={onChange}
       />
     </div>

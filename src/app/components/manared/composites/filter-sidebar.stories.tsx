@@ -330,6 +330,25 @@ export const RangeSelection: Story = {
   },
 };
 
+export const ExpandCompoundClass: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByLabelText("Expand Compound Class filter"));
+    await expect(canvas.getByRole("combobox", { name: "Compound class" })).toBeVisible();
+    await expect(canvasElement.querySelector("[data-filter-dropdown-panel]")).toBeTruthy();
+    const trigger = canvasElement.querySelector<HTMLElement>(".filter-compound-class-selector");
+    if (!trigger) {
+      throw new Error("Compound class selector trigger not found");
+    }
+    const probe = document.createElement("div");
+    probe.style.fontSize = "var(--font-size-3xs)";
+    document.body.appendChild(probe);
+    const expectedFontSize = getComputedStyle(probe).fontSize;
+    probe.remove();
+    await expect(getComputedStyle(trigger).fontSize).toBe(expectedFontSize);
+  },
+};
+
 export const ClearAll: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
