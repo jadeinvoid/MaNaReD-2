@@ -323,6 +323,20 @@ export const RangeSelection: Story = {
   },
 };
 
+export const ExpandGeographicRegion: Story = {
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByLabelText("Expand Geographic Region filter"));
+    await expect(canvas.getByText("Ocean")).toBeVisible();
+    await userEvent.click(canvas.getByRole("button", { name: "Pacific Ocean" }));
+    await expect(args.onFiltersChange).toHaveBeenCalled();
+    const lastCall = args.onFiltersChange?.mock.calls.at(-1)?.[0];
+    await expect(
+      lastCall?.active.some((filter: ActiveFilter) => filter.label === "Ocean · Pacific Ocean"),
+    ).toBe(true);
+  },
+};
+
 export const ExpandCompoundClass: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

@@ -12,6 +12,10 @@ import { NavSideBar } from "@/app/components/manared/composites/nav-side-bar";
 import { TaxonomyBreadcrumb } from "@/app/components/manared/composites/taxonomy-breadcrumb";
 import { TopBarRegion } from "@/app/components/manared/composites/top-bar-region";
 import { BrowseFiltersDemo } from "@/storybook/manared/patterns/browse-filters-demo";
+import {
+  matchesRegionFilter,
+  type FilterState,
+} from "@/app/components/manared/composites/filter-state";
 
 const FIGMA_SCREEN = "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=332-9041";
 const FIGMA_LIST_ITEMS =
@@ -49,7 +53,11 @@ const LIST_SAMPLE_ROWS: ListRowProps[] = [
   },
 ];
 
-function BrowseShell({ children }: { children: ReactNode }) {
+function BrowseShell({
+  children,
+}: {
+  children: ReactNode | ((filters: FilterState) => ReactNode);
+}) {
   return (
     <div className="flex min-h-screen bg-body">
       <NavSideBar activeItem="Compound" />
@@ -88,28 +96,37 @@ export const CardView: Story = {
   name: "Card view",
   render: () => (
     <BrowseShell>
-      <CompoundCard
-        id="# HAL-2024-001"
-        name="Halichondrin B"
-        formula="C₆₀H₈₆O₁₉"
-        molecularWeight="1111.29 g/mol"
-        tags={[
-          { label: "Antitumor", entity: "compound" },
-          { label: "Marine Origin", entity: "organism" },
-        ]}
-        region="Pacific Ocean"
-        organism="Halichondria okadai"
-        bioactivity="Antineoplastic"
-      />
-      <CompoundCard
-        id="CMNPD-00103"
-        name="Manoalide"
-        formula="C₂₅H₄₀O₅"
-        molecularWeight="402.6 Da"
-        tags={[{ label: "Anti-inflammatory", entity: "bioactivity" }]}
-        organism="Sponge"
-        bioactivity="Anti-inflammatory"
-      />
+      {(filters) => (
+        <>
+          {matchesRegionFilter("Pacific Ocean", filters) ? (
+            <CompoundCard
+              id="# HAL-2024-001"
+              name="Halichondrin B"
+              formula="C₆₀H₈₆O₁₉"
+              molecularWeight="1111.29 g/mol"
+              tags={[
+                { label: "Antitumor", entity: "compound" },
+                { label: "Marine Origin", entity: "organism" },
+              ]}
+              region="Pacific Ocean"
+              organism="Halichondria okadai"
+              bioactivity="Antineoplastic"
+            />
+          ) : null}
+          {matchesRegionFilter("South China Sea", filters) ? (
+            <CompoundCard
+              id="CMNPD-00103"
+              name="Manoalide"
+              formula="C₂₅H₄₀O₅"
+              molecularWeight="402.6 Da"
+              tags={[{ label: "Anti-inflammatory", entity: "bioactivity" }]}
+              region="South China Sea"
+              organism="Sponge"
+              bioactivity="Anti-inflammatory"
+            />
+          ) : null}
+        </>
+      )}
     </BrowseShell>
   ),
   play: async ({ canvasElement }) => {
@@ -117,12 +134,19 @@ export const CardView: Story = {
     await expect(canvas.getByText("Halichondrin B")).toBeVisible();
     await expect(canvas.getByText("Manoalide")).toBeVisible();
 
-    await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
-    await userEvent.click(canvas.getByRole("button", { name: "Cytotoxic" }));
     const chipBar = canvasElement.querySelector(".surface-gradient-chip-bar");
     if (!chipBar || !(chipBar instanceof HTMLElement)) {
       throw new Error("ChipBar not found");
     }
+
+    await userEvent.click(canvas.getByLabelText("Expand Geographic Region filter"));
+    await userEvent.click(canvas.getByRole("button", { name: "Pacific Ocean" }));
+    await expect(within(chipBar).getByText("Ocean · Pacific Ocean")).toBeVisible();
+    await expect(canvas.getByText("Halichondrin B")).toBeVisible();
+    await expect(canvas.queryByText("Manoalide")).not.toBeInTheDocument();
+
+    await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
+    await userEvent.click(canvas.getByRole("button", { name: "Cytotoxic" }));
     await expect(within(chipBar).getByText("Cytotoxic")).toBeVisible();
 
     await userEvent.click(canvas.getByLabelText("Expand Taxonomy filter"));

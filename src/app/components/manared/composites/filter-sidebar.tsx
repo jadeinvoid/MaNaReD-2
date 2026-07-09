@@ -7,6 +7,7 @@ import { FilterButton } from "../primitives/filter-button";
 import { FILTER_BAR_SURFACE, FILTER_SIDEBAR_SHELL } from "../primitives/gradient-styles";
 import { FilterDropdownPanel } from "./filter-dropdown-panel";
 import { FilterRangePanel } from "./filter-range-panel";
+import { FilterRegionPanel } from "./filter-region-panel";
 import { FilterRow } from "./filter-row";
 import {
   activeCountForCategory,
@@ -39,7 +40,7 @@ export type FilterSidebarProps = {
   onRequestExpandCategoryHandled?: () => void;
 };
 
-const PLACEHOLDER_CATEGORIES = new Set<FilterCategoryId>(["geographicRegion", "targetAssay"]);
+const PLACEHOLDER_CATEGORIES = new Set<FilterCategoryId>(["targetAssay"]);
 
 function FilterSidebarReveal({ collapsed, children }: { collapsed: boolean; children: ReactNode }) {
   return (
@@ -159,6 +160,10 @@ export function FilterSidebar({
       return <FilterTaxonomyPanel filters={filters} onFiltersChange={updateFilters} />;
     }
 
+    if (categoryId === "geographicRegion") {
+      return <FilterRegionPanel filters={filters} onFiltersChange={updateFilters} />;
+    }
+
     if (categoryId === "bioactivity") {
       return (
         <FilterTagPanel
@@ -256,7 +261,7 @@ export function FilterSidebar({
                   expanded={expandedCategories.includes(id)}
                   forceCollapsed={allCategoriesCollapsed}
                   panelClassName={
-                    id === "taxonomy"
+                    id === "taxonomy" || id === "geographicRegion"
                       ? "w-full pb-1"
                       : id === "molecularWeight"
                         ? "w-full pb-2"
