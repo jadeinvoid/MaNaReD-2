@@ -207,14 +207,13 @@
     }
   }
 
-  /* MW range panel — content fits between category label start and chevron column */
+  /* MW range panel — symmetric insets; content aligned with category label column */
   [data-astryx-theme="manared"] [data-filter-range-panel] {
-    --filter-mw-label-inset: calc(var(--spacing-2, 8px) * 2);
-    --filter-mw-chevron-inset: 24px;
+    --filter-mw-content-inset: calc(var(--spacing-2, 8px) * 2);
     --filter-mw-thumb-radius: 10px;
     box-sizing: border-box;
     max-width: 100%;
-    padding-inline: var(--filter-mw-label-inset) var(--filter-mw-chevron-inset);
+    padding-inline: var(--filter-mw-content-inset);
   }
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-slider {
@@ -223,12 +222,13 @@
   }
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-inputs {
-    gap: var(--spacing-1, 4px);
+    gap: var(--spacing-2, 8px);
     justify-content: center;
     align-items: center;
     width: 100%;
     min-width: 0;
     max-width: 100%;
+    padding-inline: var(--spacing-1, 4px);
   }
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-input-separator {
@@ -244,7 +244,7 @@
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-end {
     flex: 1 1 0;
     min-width: 0;
-    max-width: calc((100% - var(--spacing-1, 4px) * 2 - 0.375rem) / 2);
+    max-width: calc((100% - var(--spacing-2, 8px) * 2 - 0.375rem) / 2);
   }
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-end > * {
@@ -278,8 +278,8 @@
     height: auto;
     min-height: 1.5rem;
     gap: var(--spacing-1, 4px);
-    padding-block: 2px;
-    padding-inline: var(--spacing-1, 4px);
+    padding-block: 3px;
+    padding-inline: var(--spacing-2, 8px);
     border-width: 1px;
     border-style: solid;
     border-color: var(--color-border-emphasized);
@@ -287,6 +287,7 @@
     background-color: var(--color-background-surface);
     font-size: var(--font-size-3xs, 0.75rem);
     line-height: 1.2;
+    justify-content: center;
     overflow: hidden;
   }
 
@@ -305,6 +306,7 @@
     font-size: var(--font-size-3xs, 0.75rem);
     line-height: 1.2;
     min-width: 0;
+    text-align: center;
   }
 
   [data-astryx-theme="manared"]
@@ -329,7 +331,7 @@
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input span {
     font-size: var(--font-size-3xs, 0.75rem);
     line-height: 1.2;
-    flex-shrink: 1;
-    min-width: 0;
+    flex-shrink: 0;
+    padding-inline-end: var(--spacing-1, 4px);
   }
 }
