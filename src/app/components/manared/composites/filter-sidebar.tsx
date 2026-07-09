@@ -4,11 +4,7 @@ import { useCallback, useEffect, useState, type ReactNode } from "react";
 
 import { MaNaReDIcon } from "../icons/manared-icon";
 import { FilterButton } from "../primitives/filter-button";
-import {
-  FILTER_BAR_SURFACE,
-  FILTER_SIDEBAR_SHELL,
-  GRADIENT_FILTER_PANEL,
-} from "../primitives/gradient-styles";
+import { FILTER_BAR_SURFACE, FILTER_SIDEBAR_SHELL } from "../primitives/gradient-styles";
 import { FilterDropdownPanel } from "./filter-dropdown-panel";
 import { FilterRangePanel } from "./filter-range-panel";
 import { FilterRow } from "./filter-row";
@@ -202,10 +198,7 @@ export function FilterSidebar({
     "flex h-full min-h-0 flex-col gap-4 overflow-hidden rounded-tr-md rounded-br-md",
   ].join(" ");
 
-  const containerClass = [
-    GRADIENT_FILTER_PANEL,
-    "flex min-h-0 flex-1 flex-col gap-1 overflow-hidden rounded-md px-1 py-4",
-  ].join(" ");
+  const containerClass = "flex min-h-0 flex-1 flex-col gap-1 overflow-hidden rounded-md px-1 py-4";
 
   const showHeaderToggle = showCollapseControl || collapsed;
 
