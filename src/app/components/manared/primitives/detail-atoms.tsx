@@ -9,9 +9,11 @@ export type DetailTaxonomyItemProps = {
 export function DetailTaxonomyItem({ label, active = false }: DetailTaxonomyItemProps) {
   return (
     <Text
+      type="code"
       size="2xs"
       weight={active ? "semibold" : undefined}
-      className="rounded-md p-1 font-mono capitalize text-inherit"
+      style={{ color: "inherit" }}
+      className="rounded-md p-1 capitalize"
     >
       {label}
     </Text>
