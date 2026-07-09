@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect, fn, within } from "storybook/test";
+import { expect, fn, userEvent, within } from "storybook/test";
 
-import {
-  expectedTokenColour,
-} from "@/storybook/manared/shared/assert-token-colours";
+import { expectedTokenColour } from "@/storybook/manared/shared/assert-token-colours";
 
 import { MOCK_COMPOUND_CLASSES } from "./filter-state";
 import { FilterDropdownPanel } from "./filter-dropdown-panel";
@@ -28,6 +26,17 @@ async function assertCompactPrimaryTrigger(canvasElement: HTMLElement) {
   const style = getComputedStyle(trigger);
   await expect(style.fontSize).toBe(readTokenFontSize("--font-size-3xs"));
   await expect(style.color).toBe(expectedTokenColour("--color-text-primary", "light"));
+  await expect(style.justifyContent).toBe("flex-start");
+
+  const combobox = trigger.querySelector<HTMLElement>('[role="combobox"]');
+  if (!combobox) {
+    throw new Error("Compound class combobox not found");
+  }
+  const label = combobox.querySelector("span");
+  if (!label) {
+    throw new Error("Compound class combobox label not found");
+  }
+  await expect(getComputedStyle(label).textAlign).toBe("left");
 }
 
 const meta = {
@@ -58,6 +67,9 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Select class…")).toBeVisible();
+    await expect(
+      canvas.queryByRole("button", { name: "Clear compound class" }),
+    ).not.toBeInTheDocument();
     await assertCompactPrimaryTrigger(canvasElement);
   },
 };
@@ -66,11 +78,24 @@ export const WithSelection: Story = {
   args: {
     value: "Alkaloids",
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
+    const trigger = canvasElement.querySelector<HTMLElement>(".filter-compound-class-selector");
+    if (!trigger) {
+      throw new Error("Compound class selector trigger not found");
+    }
+
     await expect(canvas.getByRole("combobox", { name: "Compound class" })).toHaveTextContent(
       "Alkaloids",
     );
+    await expect(trigger.querySelector('button[aria-label="Clear Compound class"]')).toBeNull();
+    const clearButton = canvas.getByRole("button", { name: "Clear compound class" });
+    await expect(clearButton.className).toContain("filter-compound-class-clear");
+    await expect(getComputedStyle(clearButton).color).toBe(
+      expectedTokenColour("--color-text-primary", "light"),
+    );
     await assertCompactPrimaryTrigger(canvasElement);
+    await userEvent.click(clearButton);
+    await expect(args.onChange).toHaveBeenCalledWith(null);
   },
 };

@@ -4,11 +4,7 @@ import { expect, fn, userEvent, within } from "storybook/test";
 
 import { withColourMode } from "@/storybook/manared/shared/assert-token-colours";
 
-import {
-  FILTER_BAR_SURFACE,
-  FILTER_SIDEBAR_SHELL,
-  GRADIENT_FILTER_PANEL,
-} from "../primitives/gradient-styles";
+import { FILTER_BAR_SURFACE, FILTER_SIDEBAR_SHELL } from "../primitives/gradient-styles";
 import { INTERACTIVE_FILTER_CLEAR_ALL } from "../primitives/interactive-styles";
 import { FilterSidebar } from "./filter-sidebar";
 import { FILTER_CATEGORIES, type ActiveFilter } from "./filter-state";
@@ -58,16 +54,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-async function assertFilterGradient(canvasElement: HTMLElement) {
-  const region = canvasElement.querySelector(`.${GRADIENT_FILTER_PANEL}`);
+async function assertFilterContainer(canvasElement: HTMLElement) {
+  const region = canvasElement.querySelector('[data-name="filter/container"]');
   if (!region) {
-    throw new Error("FilterSidebar gradient region not found");
+    throw new Error("FilterSidebar container not found");
   }
 
-  const afterLayer = getComputedStyle(region, "::after").backgroundImage;
-  await expect(
-    afterLayer === "none" ? getComputedStyle(region).backgroundImage : afterLayer,
-  ).toContain("gradient");
+  await expect(region.className).not.toContain("surface-gradient-filter-panel");
 }
 
 function getCollapseButton(canvasElement: HTMLElement): HTMLElement {
@@ -176,7 +169,7 @@ export const Default: Story = {
     for (const { label } of FILTER_CATEGORIES) {
       await expect(canvas.getByLabelText(`Expand ${label} filter`)).toBeVisible();
     }
-    await assertFilterGradient(canvasElement);
+    await assertFilterContainer(canvasElement);
     await assertHeaderNoOverlap(canvasElement);
     await assertChevronColumnAligned(canvasElement);
     await expect(canvas.getByText("Refine Results").className).toContain("text-xs");
@@ -346,6 +339,7 @@ export const ExpandCompoundClass: Story = {
     const expectedFontSize = getComputedStyle(probe).fontSize;
     probe.remove();
     await expect(getComputedStyle(trigger).fontSize).toBe(expectedFontSize);
+    await expect(getComputedStyle(trigger).justifyContent).toBe("flex-start");
   },
 };
 
@@ -368,7 +362,7 @@ export const LightMode: Story = {
     </ColourModeFrame>
   ),
   play: async ({ canvasElement }) => {
-    await withColourMode("light", () => assertFilterGradient(canvasElement));
+    await withColourMode("light", () => assertFilterContainer(canvasElement));
   },
 };
 
@@ -379,6 +373,6 @@ export const DarkMode: Story = {
     </ColourModeFrame>
   ),
   play: async ({ canvasElement }) => {
-    await withColourMode("dark", () => assertFilterGradient(canvasElement));
+    await withColourMode("dark", () => assertFilterContainer(canvasElement));
   },
 };
