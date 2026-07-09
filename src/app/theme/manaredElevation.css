@@ -224,11 +224,61 @@
     outline-offset: 2px;
   }
 
-  [data-astryx-theme="manared"] [data-filter-range-panel] [data-active-end="min"] span:nth-child(2),
+  [data-astryx-theme="manared"]
+    [data-filter-range-panel]
+    [data-active-end="min"]
+    > span:first-child,
   [data-astryx-theme="manared"]
     [data-filter-range-panel]
     [data-active-end="max"]
-    span:nth-child(2) {
+    > span:first-child {
     color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  /* MW range inputs — match filter category text-3xs; prevent unit clipping */
+  [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 1.5rem;
+    gap: var(--spacing-1, 4px);
+    padding-block: 2px;
+    padding-inline: var(--spacing-1, 4px);
+    font-size: var(--font-size-3xs, 0.75rem);
+    line-height: 1.2;
+    overflow: visible;
+  }
+
+  [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input input {
+    font-size: var(--font-size-3xs, 0.75rem);
+    line-height: 1.2;
+    min-width: 0;
+  }
+
+  [data-astryx-theme="manared"]
+    [data-filter-range-panel]
+    .filter-mw-range-input
+    input[type="number"] {
+    appearance: textfield;
+  }
+
+  [data-astryx-theme="manared"]
+    [data-filter-range-panel]
+    .filter-mw-range-input
+    input[type="number"]::-webkit-inner-spin-button,
+  [data-astryx-theme="manared"]
+    [data-filter-range-panel]
+    .filter-mw-range-input
+    input[type="number"]::-webkit-outer-spin-button {
+    margin: 0;
+    appearance: none;
+  }
+
+  [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input span {
+    font-size: var(--font-size-3xs, 0.75rem);
+    line-height: 1.2;
+    flex-shrink: 0;
   }
 }

@@ -68,12 +68,15 @@ function RangeEndpoint({
 
   return (
     <div
-      className={`flex min-w-0 flex-1 flex-col gap-0.5 ${align === "right" ? "items-end text-right" : "items-start"}`}
+      className="flex min-w-0 flex-1 flex-col gap-0.5"
       data-active-end={isActive ? end : undefined}
       data-range-end={end}
     >
-      <span className="text-3xs text-tertiary">{end === "min" ? "Min" : "Max"}</span>
+      <span className={`text-3xs text-tertiary ${align === "right" ? "self-end" : "self-start"}`}>
+        {end === "min" ? "Min" : "Max"}
+      </span>
       <NumberInput
+        className="filter-mw-range-input w-full min-w-0"
         label={label}
         isLabelHidden
         size="sm"
@@ -157,7 +160,7 @@ export function FilterRangePanel({
 
   return (
     <div ref={panelRef} className="flex w-full flex-col gap-2 py-1" data-filter-range-panel>
-      <div className="flex w-full items-start justify-between gap-2">
+      <div className="flex w-full items-start gap-1">
         <RangeEndpoint
           end="min"
           activeEnd={activeEnd}
