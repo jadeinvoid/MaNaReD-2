@@ -310,8 +310,12 @@ export const RangeSelection: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByLabelText("Expand Molecular Weight filter"));
-    await expect(canvas.getByText("0 Da")).toBeVisible();
-    await expect(canvas.getByText("2000 Da")).toBeVisible();
+    await expect(canvas.getByRole("spinbutton", { name: /minimum molecular weight/i })).toHaveValue(
+      0,
+    );
+    await expect(canvas.getByRole("spinbutton", { name: /maximum molecular weight/i })).toHaveValue(
+      2000,
+    );
     await expect(args.onFiltersChange).not.toHaveBeenCalled();
 
     const maxThumb = canvas.getByRole("slider", { name: /maximum value/i });
