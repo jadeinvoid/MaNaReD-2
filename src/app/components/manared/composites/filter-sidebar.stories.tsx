@@ -327,8 +327,8 @@ export const ExpandGeographicRegion: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByLabelText("Expand Geographic Region filter"));
-    await expect(canvas.getByRole("button", { name: "All regions" })).toBeVisible();
-    await userEvent.click(canvas.getByRole("button", { name: "Indo-Pacific" }));
+    await expect(canvas.getByText("All regions")).toBeVisible();
+    await userEvent.click(canvas.getByRole("checkbox", { name: "Indo-Pacific" }));
     await expect(args.onFiltersChange).toHaveBeenCalled();
     const lastCall = args.onFiltersChange?.mock.calls.at(-1)?.[0];
     await expect(

@@ -140,12 +140,12 @@ export const CardView: Story = {
     }
 
     await userEvent.click(canvas.getByLabelText("Expand Geographic Region filter"));
-    await userEvent.click(canvas.getByRole("button", { name: "Indo-Pacific" }));
+    await userEvent.click(canvas.getByRole("checkbox", { name: "Indo-Pacific" }));
     await expect(within(chipBar).getByText("Indo-Pacific")).toBeVisible();
     await expect(canvas.getByText("Halichondrin B")).toBeVisible();
     await expect(canvas.queryByText("Manoalide")).not.toBeInTheDocument();
 
-    await userEvent.click(canvas.getByRole("button", { name: "Mediterranean" }));
+    await userEvent.click(canvas.getByRole("checkbox", { name: "Mediterranean" }));
     await expect(within(chipBar).getByText("Mediterranean")).toBeVisible();
     await expect(canvas.getByText("Manoalide")).toBeVisible();
 

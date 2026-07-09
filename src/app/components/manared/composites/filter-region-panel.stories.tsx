@@ -16,6 +16,13 @@ const meta = {
     layout: "padded",
     design: { type: "figma", url: FIGMA_FILTER_BAR },
   },
+  decorators: [
+    (Story) => (
+      <div style={{ width: "224px" }}>
+        <Story />
+      </div>
+    ),
+  ],
   args: {
     filters: { active: [] },
     onFiltersChange: fn(),
@@ -29,12 +36,10 @@ export const Default: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await expect(canvas.getByRole("button", { name: "All regions" })).toBeVisible();
-    const indoPacific = canvas.getByRole("button", { name: "Indo-Pacific" });
-    await expect(indoPacific.className).toContain("text-3xs");
-    await expect(indoPacific.className).toContain("text-primary");
+    await expect(canvas.getByRole("checkbox", { name: "All regions" })).toBeChecked();
+    await expect(canvas.getByRole("checkbox", { name: "Indo-Pacific" })).not.toBeChecked();
 
-    await userEvent.click(canvas.getByRole("button", { name: "Indo-Pacific" }));
+    await userEvent.click(canvas.getByRole("checkbox", { name: "Indo-Pacific" }));
     const lastCall = args.onFiltersChange.mock.calls.at(-1)?.[0];
     await expect(lastCall?.active[0]?.label).toBe("Indo-Pacific");
   },
@@ -46,18 +51,10 @@ export const Selected: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByRole("button", { name: "Indo-Pacific" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
-    await expect(canvas.getByRole("button", { name: "Mediterranean" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
-    await expect(canvas.getByRole("button", { name: "Red Sea" })).toHaveAttribute(
-      "aria-pressed",
-      "false",
-    );
+    await expect(canvas.getByRole("checkbox", { name: "All regions" })).not.toBeChecked();
+    await expect(canvas.getByRole("checkbox", { name: "Indo-Pacific" })).toBeChecked();
+    await expect(canvas.getByRole("checkbox", { name: "Mediterranean" })).toBeChecked();
+    await expect(canvas.getByRole("checkbox", { name: "Red Sea" })).not.toBeChecked();
   },
 };
 
@@ -69,7 +66,7 @@ export const ClearAllRegions: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.click(canvas.getByRole("button", { name: "All regions" }));
+    await userEvent.click(canvas.getByRole("checkbox", { name: "All regions" }));
 
     const lastCall = args.onFiltersChange.mock.calls.at(-1)?.[0];
     await expect(lastCall?.active).toEqual([]);
@@ -84,7 +81,7 @@ export const MultiSelect: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.click(canvas.getByRole("button", { name: "Mediterranean" }));
+    await userEvent.click(canvas.getByRole("checkbox", { name: "Mediterranean" }));
 
     const lastCall = args.onFiltersChange.mock.calls.at(-1)?.[0];
     await expect(lastCall?.active.map((filter: { label: string }) => filter.label)).toEqual([
