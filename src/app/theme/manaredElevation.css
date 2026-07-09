@@ -207,6 +207,25 @@
     }
   }
 
+  /* MW range panel — align track thumbs with filter/category label + chevron column */
+  [data-astryx-theme="manared"] [data-filter-range-panel] {
+    --filter-mw-label-inset: calc(var(--spacing-2, 8px) * 2);
+    --filter-mw-thumb-radius: 10px;
+    --filter-mw-track-inset-start: calc(
+      var(--filter-mw-label-inset) + var(--filter-mw-thumb-radius)
+    );
+    --filter-mw-track-inset-end: var(--filter-mw-thumb-radius);
+  }
+
+  [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-slider {
+    padding-inline: var(--filter-mw-track-inset-start) var(--filter-mw-track-inset-end);
+  }
+
+  [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-inputs {
+    gap: var(--spacing-1, 4px);
+    padding-inline: var(--filter-mw-label-inset) 0;
+  }
+
   /* MW range slider — min thumb outlined, max thumb filled (FilterRangePanel) */
   [data-astryx-theme="manared"]
     [data-filter-range-panel]
@@ -224,7 +243,7 @@
     outline-offset: 2px;
   }
 
-  /* MW range inputs — match filter category text-3xs; prevent unit clipping */
+  /* MW range inputs — borderless, text-3xs, aligned with category row */
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input {
     box-sizing: border-box;
     width: 100%;
@@ -233,10 +252,20 @@
     min-height: 1.5rem;
     gap: var(--spacing-1, 4px);
     padding-block: 2px;
-    padding-inline: var(--spacing-1, 4px);
+    padding-inline: 0;
+    border-width: 0;
+    border-color: transparent;
+    background-color: transparent;
+    box-shadow: none;
     font-size: var(--font-size-3xs, 0.75rem);
     line-height: 1.2;
     overflow: visible;
+  }
+
+  [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input:hover,
+  [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input:focus-within {
+    border-color: transparent;
+    box-shadow: none;
   }
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-range-input input {

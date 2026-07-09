@@ -89,7 +89,7 @@ export function FilterRangePanel({
 
   return (
     <div className="flex w-full flex-col gap-2 py-1" data-filter-range-panel>
-      <div className="px-2.5">
+      <div className="filter-mw-slider">
         <Slider
           label="Molecular weight range"
           isLabelHidden
@@ -113,7 +113,7 @@ export function FilterRangePanel({
           }}
         />
       </div>
-      <div className="flex w-full items-start gap-1 px-2.5">
+      <div className="filter-mw-inputs flex w-full items-start">
         <RangeEndpoint
           end="min"
           value={value[0]}
