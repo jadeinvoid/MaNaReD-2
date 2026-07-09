@@ -384,7 +384,7 @@
     min-height: 1.5rem;
     gap: var(--spacing-1, 4px);
     padding-block: 2px;
-    padding-inline: var(--spacing-1, 4px);
+    padding-inline: var(--spacing-2, 8px);
     font-size: var(--font-size-3xs, 0.75rem);
     line-height: 1.2;
     color: var(--color-text-primary);
