@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 
 import { MaNaReDIcon } from "../icons/manared-icon";
 import { FilterButton } from "../primitives/filter-button";
@@ -15,10 +15,11 @@ import { FilterRow } from "./filter-row";
 import {
   activeCountForCategory,
   clearAllFilters,
+  draftRangeForCategory,
   FILTER_CATEGORIES,
   MOCK_BIOACTIVITY_TAGS,
   MOCK_COMPOUND_CLASSES,
-  MW_DEFAULT_RANGE,
+  MW_FULL_RANGE,
   setDropdownFilter,
   setRangeFilter,
   toggleTagFilter,
@@ -38,6 +39,8 @@ export type FilterSidebarProps = {
   onCollapsedChange?: (collapsed: boolean) => void;
   onApply?: () => void;
   showCollapseControl?: boolean;
+  requestExpandCategory?: FilterCategoryId | null;
+  onRequestExpandCategoryHandled?: () => void;
 };
 
 const PLACEHOLDER_CATEGORIES = new Set<FilterCategoryId>(["geographicRegion", "targetAssay"]);
@@ -64,20 +67,6 @@ function selectedDropdownValue(state: FilterState, category: FilterCategoryId): 
   return state.active.find((filter) => filter.category === category)?.label ?? null;
 }
 
-function selectedRange(state: FilterState, category: FilterCategoryId): [number, number] {
-  const rangeFilter = state.active.find((filter) => filter.category === category);
-  if (!rangeFilter) {
-    return MW_DEFAULT_RANGE;
-  }
-
-  const match = /^MW (\d+)–(\d+)$/.exec(rangeFilter.label);
-  if (!match) {
-    return MW_DEFAULT_RANGE;
-  }
-
-  return [Number(match[1]), Number(match[2])];
-}
-
 /** Filter sidebar from Figma `filter-bar` (351:1736). */
 export function FilterSidebar({
   filters: controlledFilters,
@@ -89,11 +78,13 @@ export function FilterSidebar({
   onCollapsedChange,
   onApply,
   showCollapseControl = true,
+  requestExpandCategory,
+  onRequestExpandCategoryHandled,
 }: FilterSidebarProps) {
   const [internalFilters, setInternalFilters] = useState<FilterState>(defaultFilters);
   const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
   const [expandedCategories, setExpandedCategories] = useState<FilterCategoryId[]>([]);
-  const [rangeDraft, setRangeDraft] = useState<[number, number]>(MW_DEFAULT_RANGE);
+  const [rangeDraft, setRangeDraft] = useState<[number, number]>(MW_FULL_RANGE);
 
   const filters = controlledFilters ?? internalFilters;
   const collapsed = controlledCollapsed ?? internalCollapsed;
@@ -117,11 +108,45 @@ export function FilterSidebar({
 
   const handleClear = () => {
     updateFilters(clearAllFilters());
-    setRangeDraft(MW_DEFAULT_RANGE);
+    setRangeDraft(MW_FULL_RANGE);
     onClear?.();
   };
 
+  const commitRangeDraft = useCallback(
+    (next: [number, number]) => {
+      setRangeDraft(next);
+      updateFilters(setRangeFilter(filters, "molecularWeight", next[0], next[1]));
+    },
+    [filters, updateFilters],
+  );
+
   void onApply;
+
+  useEffect(() => {
+    if (!requestExpandCategory) {
+      return;
+    }
+
+    setExpandedCategories((current) =>
+      current.includes(requestExpandCategory) ? current : [...current, requestExpandCategory],
+    );
+
+    if (requestExpandCategory === "molecularWeight") {
+      setRangeDraft(draftRangeForCategory(filters, "molecularWeight"));
+    }
+
+    const frameId = window.requestAnimationFrame(() => {
+      const panel = document.getElementById(`filter-panel-${requestExpandCategory}`);
+      const thumb = panel?.querySelector<HTMLElement>('[aria-label*="minimum value"]');
+      thumb?.focus();
+    });
+
+    onRequestExpandCategoryHandled?.();
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [requestExpandCategory, filters, onRequestExpandCategoryHandled]);
 
   const allCategoriesCollapsed = expandedCategories.length === 0;
 
@@ -149,17 +174,12 @@ export function FilterSidebar({
     }
 
     if (categoryId === "molecularWeight") {
-      const currentRange = selectedRange(filters, categoryId);
-      const value = expandedCategories.includes("molecularWeight") ? rangeDraft : currentRange;
+      const value = expandedCategories.includes("molecularWeight")
+        ? rangeDraft
+        : draftRangeForCategory(filters, categoryId);
 
       return (
-        <FilterRangePanel
-          value={value}
-          onChange={(next) => {
-            setRangeDraft(next);
-            updateFilters(setRangeFilter(filters, categoryId, next[0], next[1]));
-          }}
-        />
+        <FilterRangePanel value={value} onChange={setRangeDraft} onChangeEnd={commitRangeDraft} />
       );
     }
 
@@ -256,15 +276,7 @@ export function FilterSidebar({
                         ? current.filter((categoryId) => categoryId !== id)
                         : [...current, id];
                       if (!isExpanded && id === "molecularWeight") {
-                        const draft = selectedRange(filters, "molecularWeight");
-                        setRangeDraft(draft);
-                        if (
-                          !filters.active.some((filter) => filter.category === "molecularWeight")
-                        ) {
-                          updateFilters(
-                            setRangeFilter(filters, "molecularWeight", draft[0], draft[1]),
-                          );
-                        }
+                        setRangeDraft(draftRangeForCategory(filters, "molecularWeight"));
                       }
                       return next;
                     });
