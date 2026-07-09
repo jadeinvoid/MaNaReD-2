@@ -67,6 +67,7 @@ function RangeEndpoint({
         step={MW_RANGE_STEP}
         units="Da"
         isIntegerOnly
+        width="100%"
         onChange={handleChange}
         onBlur={handleBlur}
       />
