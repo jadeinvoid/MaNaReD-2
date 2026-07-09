@@ -88,10 +88,7 @@ export function FilterRangePanel({
   };
 
   return (
-    <div
-      className="flex w-full min-w-0 flex-col gap-2 overflow-hidden py-1"
-      data-filter-range-panel
-    >
+    <div className="flex w-full min-w-0 flex-col gap-2 py-1" data-filter-range-panel>
       <div className="filter-mw-slider">
         <Slider
           label="Molecular weight range"
