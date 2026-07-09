@@ -91,6 +91,9 @@ export const WithSelection: Story = {
     await expect(trigger.querySelector('button[aria-label="Clear Compound class"]')).toBeNull();
     const clearButton = canvas.getByRole("button", { name: "Clear compound class" });
     await expect(clearButton.className).toContain("filter-compound-class-clear");
+    await expect(getComputedStyle(clearButton).color).toBe(
+      expectedTokenColour("--color-text-primary", "light"),
+    );
     await assertCompactPrimaryTrigger(canvasElement);
     await userEvent.click(clearButton);
     await expect(args.onChange).toHaveBeenCalledWith(null);

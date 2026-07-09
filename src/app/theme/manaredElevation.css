@@ -357,12 +357,14 @@
     padding: 0;
     border: 0;
     background: transparent;
-    color: var(--color-text-secondary);
+    font-size: var(--font-size-3xs, 0.75rem);
+    line-height: 1.2;
+    color: var(--color-text-primary);
     cursor: pointer;
   }
 
   [data-astryx-theme="manared"] [data-filter-dropdown-panel] .filter-compound-class-clear:hover {
-    color: var(--color-text-primary);
+    opacity: 0.8;
   }
 
   [data-astryx-theme="manared"]
