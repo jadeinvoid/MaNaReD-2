@@ -38,7 +38,7 @@ export function FilterDropdownPanel({
           aria-label="Clear compound class"
           onClick={() => onChange(null)}
         >
-          <MaNaReDIcon name="remove" size={16} className="text-current" />
+          <MaNaReDIcon name="remove" size={12} className="text-current" />
         </button>
       ) : null}
     </div>
