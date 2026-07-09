@@ -58,7 +58,7 @@ export function BrowseFiltersDemo({ children }: BrowseFiltersDemoProps) {
               setCollapsed(false);
               setExpandRequest("molecularWeight");
             }
-            if (id === "geographicRegion:path") {
+            if (id.startsWith("geographicRegion:")) {
               setCollapsed(false);
               setExpandRequest("geographicRegion");
             }

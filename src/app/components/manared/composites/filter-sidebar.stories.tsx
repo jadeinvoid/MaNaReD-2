@@ -327,12 +327,12 @@ export const ExpandGeographicRegion: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByLabelText("Expand Geographic Region filter"));
-    await expect(canvas.getByText("Ocean")).toBeVisible();
-    await userEvent.click(canvas.getByRole("button", { name: "Pacific Ocean" }));
+    await expect(canvas.getByRole("button", { name: "All regions" })).toBeVisible();
+    await userEvent.click(canvas.getByRole("button", { name: "Indo-Pacific" }));
     await expect(args.onFiltersChange).toHaveBeenCalled();
     const lastCall = args.onFiltersChange?.mock.calls.at(-1)?.[0];
     await expect(
-      lastCall?.active.some((filter: ActiveFilter) => filter.label === "Ocean · Pacific Ocean"),
+      lastCall?.active.some((filter: ActiveFilter) => filter.label === "Indo-Pacific"),
     ).toBe(true);
   },
 };

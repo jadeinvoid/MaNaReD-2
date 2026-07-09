@@ -98,7 +98,7 @@ export const CardView: Story = {
     <BrowseShell>
       {(filters) => (
         <>
-          {matchesRegionFilter("Pacific Ocean", filters) ? (
+          {matchesRegionFilter("Indo-Pacific", filters) ? (
             <CompoundCard
               id="# HAL-2024-001"
               name="Halichondrin B"
@@ -108,19 +108,19 @@ export const CardView: Story = {
                 { label: "Antitumor", entity: "compound" },
                 { label: "Marine Origin", entity: "organism" },
               ]}
-              region="Pacific Ocean"
+              region="Indo-Pacific"
               organism="Halichondria okadai"
               bioactivity="Antineoplastic"
             />
           ) : null}
-          {matchesRegionFilter("South China Sea", filters) ? (
+          {matchesRegionFilter("Mediterranean", filters) ? (
             <CompoundCard
               id="CMNPD-00103"
               name="Manoalide"
               formula="C₂₅H₄₀O₅"
               molecularWeight="402.6 Da"
               tags={[{ label: "Anti-inflammatory", entity: "bioactivity" }]}
-              region="South China Sea"
+              region="Mediterranean"
               organism="Sponge"
               bioactivity="Anti-inflammatory"
             />
@@ -140,10 +140,14 @@ export const CardView: Story = {
     }
 
     await userEvent.click(canvas.getByLabelText("Expand Geographic Region filter"));
-    await userEvent.click(canvas.getByRole("button", { name: "Pacific Ocean" }));
-    await expect(within(chipBar).getByText("Ocean · Pacific Ocean")).toBeVisible();
+    await userEvent.click(canvas.getByRole("button", { name: "Indo-Pacific" }));
+    await expect(within(chipBar).getByText("Indo-Pacific")).toBeVisible();
     await expect(canvas.getByText("Halichondrin B")).toBeVisible();
     await expect(canvas.queryByText("Manoalide")).not.toBeInTheDocument();
+
+    await userEvent.click(canvas.getByRole("button", { name: "Mediterranean" }));
+    await expect(within(chipBar).getByText("Mediterranean")).toBeVisible();
+    await expect(canvas.getByText("Manoalide")).toBeVisible();
 
     await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
     await userEvent.click(canvas.getByRole("button", { name: "Cytotoxic" }));

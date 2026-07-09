@@ -108,47 +108,14 @@ export const TAXONOMY_RANKS: readonly TaxonomyRank[] = [
   },
 ] as const;
 
-export type RegionLeaf = {
-  /** Display label (also used as the leaf filter id suffix in this prototype). */
-  label: string;
-  /** Facet count shown in the region panel (not persisted into chips). */
-  count: number;
-};
-
-export type RegionRankId = "ocean" | "sea";
-
-export type RegionRank = {
-  /** Stable rank key for expansion state in the region panel. */
-  id: RegionRankId;
-  /** Rank label shown in the region panel. */
-  label: string;
-  leaves: readonly RegionLeaf[];
-};
-
-/**
- * Mock cascading geographic region ranks for the filter sidebar prototype.
- * Each rank narrows the next rank, and the UI auto-opens the next rank after
- * a selection while keeping only one rank panel open at a time.
- */
-export const REGION_RANKS: readonly RegionRank[] = [
-  {
-    id: "ocean",
-    label: "Ocean",
-    leaves: [
-      { label: "Pacific Ocean", count: 42 },
-      { label: "Atlantic Ocean", count: 18 },
-      { label: "Indian Ocean", count: 11 },
-    ],
-  },
-  {
-    id: "sea",
-    label: "Sea / basin",
-    leaves: [
-      { label: "South China Sea", count: 12 },
-      { label: "Coral Sea", count: 7 },
-      { label: "Caribbean Sea", count: 5 },
-    ],
-  },
+/** Flat biogeographic regions for the geographic region filter (UX §5 additive categorical). */
+export const MOCK_GEOGRAPHIC_REGIONS = [
+  "Indo-Pacific",
+  "Mediterranean",
+  "Arctic / Sub-Arctic",
+  "Pacific Northwest",
+  "Caribbean",
+  "Red Sea",
 ] as const;
 
 export const MW_MIN = 0;
@@ -231,9 +198,6 @@ export function clearAllFilters(): FilterState {
 export function removeFilter(state: FilterState, id: string): FilterState {
   if (id === "taxonomy:path") {
     return { active: state.active.filter((filter) => filter.category !== "taxonomy") };
-  }
-  if (id === "geographicRegion:path") {
-    return { active: state.active.filter((filter) => filter.category !== "geographicRegion") };
   }
   return { active: state.active.filter((filter) => filter.id !== id) };
 }
@@ -321,111 +285,46 @@ export function setTaxonomyRankFilter(
   };
 }
 
-function regionFilterId(rank: RegionRankId) {
-  return filterId("geographicRegion", rank);
+export function selectedGeographicRegions(state: FilterState): string[] {
+  return state.active
+    .filter((filter) => filter.category === "geographicRegion")
+    .map((filter) => filter.label);
 }
 
-export function selectedRegionRanks(state: FilterState): Partial<Record<RegionRankId, string>> {
-  const result: Partial<Record<RegionRankId, string>> = {};
-
-  for (const filter of state.active) {
-    if (filter.category !== "geographicRegion") {
-      continue;
-    }
-
-    const rank = REGION_RANKS.find((entry) => filter.id === regionFilterId(entry.id));
-    if (rank) {
-      result[rank.id] = filter.label.replace(`${rank.label} · `, "");
-    }
-  }
-
-  return result;
+export function clearGeographicRegions(state: FilterState): FilterState {
+  return { active: withoutCategory(state, "geographicRegion") };
 }
 
-export function setRegionRankFilter(
-  state: FilterState,
-  rank: RegionRankId,
-  value: string | null,
-): FilterState {
-  const rankIndex = REGION_RANKS.findIndex((entry) => entry.id === rank);
-  const remaining = state.active.filter((filter) => {
-    if (filter.category !== "geographicRegion") {
-      return true;
-    }
+export function setGeographicRegions(state: FilterState, regions: readonly string[]): FilterState {
+  const withoutRegions = withoutCategory(state, "geographicRegion");
 
-    const currentRankIndex = REGION_RANKS.findIndex(
-      (entry) => filter.id === regionFilterId(entry.id),
-    );
-    return currentRankIndex > -1 && currentRankIndex < rankIndex;
-  });
-
-  if (!value) {
-    return { active: remaining };
+  if (regions.length === 0) {
+    return { active: withoutRegions };
   }
-
-  const rankLabel = REGION_RANKS.find((entry) => entry.id === rank)?.label ?? rank;
 
   return {
     active: [
-      ...remaining,
-      {
-        id: regionFilterId(rank),
-        category: "geographicRegion",
+      ...withoutRegions,
+      ...regions.map((label) => ({
+        id: filterId("geographicRegion", label),
+        category: "geographicRegion" as const,
         categoryLabel: categoryLabel("geographicRegion"),
-        label: `${rankLabel} · ${value}`,
-        provenance: rankLabel,
-      },
+        label,
+      })),
     ],
   };
 }
 
-export function regionChipItem(state: FilterState): ChipBarItem | null {
-  const regionFilters = state.active.filter((filter) => filter.category === "geographicRegion");
-  if (regionFilters.length === 0) {
-    return null;
-  }
-
-  let deepestFilter = regionFilters[0];
-  let deepestIndex = -1;
-
-  for (const filter of regionFilters) {
-    const currentIndex = REGION_RANKS.findIndex((entry) => filter.id === regionFilterId(entry.id));
-    if (currentIndex >= deepestIndex) {
-      deepestFilter = filter;
-      deepestIndex = currentIndex;
-    }
-  }
-
-  const overflowCount = Math.max(0, regionFilters.length - 1);
-  const overflowSuffix = overflowCount > 0 ? ` (+${overflowCount})` : "";
-
-  return {
-    id: "geographicRegion:path",
-    label: `${deepestFilter.label}${overflowSuffix}`,
-    title: regionFilters.map((filter) => filter.label).join(" / "),
-  };
-}
-
-/** Deepest committed region label for mock result matching in browse patterns. */
-export function deepestRegionLabel(state: FilterState): string | null {
-  const selected = selectedRegionRanks(state);
-  for (let index = REGION_RANKS.length - 1; index >= 0; index -= 1) {
-    const rank = REGION_RANKS[index];
-    const value = selected[rank.id];
-    if (value) {
-      return value;
-    }
-  }
-  return null;
-}
-
-/** Returns true when no region filter is active or the card region matches the deepest selection. */
+/** Returns true when no region filter is active or the card region matches any selection (OR). */
 export function matchesRegionFilter(region: string | undefined, state: FilterState): boolean {
-  const deepest = deepestRegionLabel(state);
-  if (!deepest) {
+  const selected = selectedGeographicRegions(state);
+  if (selected.length === 0) {
     return true;
   }
-  return region === deepest;
+  if (!region) {
+    return false;
+  }
+  return selected.includes(region);
 }
 
 export function taxonomyChipItem(state: FilterState): ChipBarItem | null {
@@ -516,10 +415,8 @@ export function activeCountForCategory(state: FilterState, category: FilterCateg
 
 export function filtersToChipItems(state: FilterState): ChipBarItem[] {
   const taxonomy = taxonomyChipItem(state);
-  const region = regionChipItem(state);
-  const collapsedCategories = new Set<FilterCategoryId>(["taxonomy", "geographicRegion"]);
   const otherFilters = state.active
-    .filter((filter) => !collapsedCategories.has(filter.category))
+    .filter((filter) => filter.category !== "taxonomy")
     .map((filter) => {
       if (filter.category === "molecularWeight") {
         const range = parseMwRangeLabel(filter.label);
@@ -538,5 +435,5 @@ export function filtersToChipItems(state: FilterState): ChipBarItem[] {
       };
     });
 
-  return [taxonomy, region, ...otherFilters].filter((item): item is ChipBarItem => item !== null);
+  return [taxonomy, ...otherFilters].filter((item): item is ChipBarItem => item !== null);
 }

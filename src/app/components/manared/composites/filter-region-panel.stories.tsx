@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { expect, fn, userEvent, within } from "storybook/test";
 
-import { setRegionRankFilter } from "./filter-state";
+import { setGeographicRegions } from "./filter-state";
 import { FilterRegionPanel } from "./filter-region-panel";
 
 const FIGMA_FILTER_BAR =
@@ -29,59 +29,67 @@ export const Default: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await expect(canvas.getByText("Ocean")).toBeVisible();
-    const oceanLabel = canvas.getByText("Ocean");
-    await expect(oceanLabel.className).toContain("text-center");
-    const pacific = canvas.getByRole("button", { name: "Pacific Ocean" });
-    await expect(pacific.className).toContain("justify-center");
-    await expect(pacific.className).toContain("text-center");
-    await expect(canvas.getByRole("button", { name: "Pacific Ocean" })).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "All regions" })).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Indo-Pacific" })).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Mediterranean" })).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Red Sea" })).toBeVisible();
 
-    await userEvent.click(canvas.getByRole("button", { name: "Pacific Ocean" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Indo-Pacific" }));
     const lastCall = args.onFiltersChange.mock.calls.at(-1)?.[0];
-    await expect(lastCall?.active[0]?.label).toBe("Ocean · Pacific Ocean");
+    await expect(lastCall?.active[0]?.label).toBe("Indo-Pacific");
   },
 };
 
 export const Selected: Story = {
   args: {
-    filters: setRegionRankFilter({ active: [] }, "ocean", "Pacific Ocean"),
+    filters: setGeographicRegions({ active: [] }, ["Indo-Pacific", "Mediterranean"]),
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByText("Sea / basin")).toBeVisible();
-    await expect(canvas.getByRole("button", { name: "South China Sea" })).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Indo-Pacific" }).closest("li")).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+    await expect(canvas.getByRole("button", { name: "Mediterranean" }).closest("li")).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+    await expect(canvas.getByRole("button", { name: "Red Sea" }).closest("li")).toHaveAttribute(
+      "aria-checked",
+      "false",
+    );
   },
 };
 
-export const CollapseGroup: Story = {
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    const collapseBtn = canvas.getByRole("button", { name: "Collapse Ocean" });
-    await userEvent.click(collapseBtn);
-
-    await expect(canvas.queryByRole("button", { name: "Pacific Ocean" })).not.toBeInTheDocument();
-  },
-};
-
-export const BacktrackPrunesDeeperRanks: Story = {
+export const ClearAllRegions: Story = {
   args: {
-    filters: setRegionRankFilter(
-      setRegionRankFilter({ active: [] }, "ocean", "Pacific Ocean"),
-      "sea",
-      "South China Sea",
-    ),
+    filters: setGeographicRegions({ active: [] }, ["Caribbean"]),
     onFiltersChange: fn(),
   },
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.click(canvas.getByRole("button", { name: "South China Sea" }));
+    await userEvent.click(canvas.getByRole("button", { name: "All regions" }));
 
     const lastCall = args.onFiltersChange.mock.calls.at(-1)?.[0];
-    await expect(lastCall?.active.map((filter: { id: string }) => filter.id)).toEqual([
-      "geographicRegion:ocean",
+    await expect(lastCall?.active).toEqual([]);
+  },
+};
+
+export const MultiSelect: Story = {
+  args: {
+    filters: setGeographicRegions({ active: [] }, ["Indo-Pacific"]),
+    onFiltersChange: fn(),
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Mediterranean" }));
+
+    const lastCall = args.onFiltersChange.mock.calls.at(-1)?.[0];
+    await expect(lastCall?.active.map((filter: { label: string }) => filter.label)).toEqual([
+      "Indo-Pacific",
+      "Mediterranean",
     ]);
   },
 };
