@@ -218,8 +218,15 @@
   }
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-slider {
-    padding-block-start: var(--spacing-3, 12px);
+    display: flex;
+    align-items: center;
+    min-height: 2rem;
+    padding-block: var(--spacing-1, 4px);
     padding-inline: var(--filter-mw-thumb-radius);
+  }
+
+  [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-slider > * {
+    width: 100%;
   }
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-inputs {
