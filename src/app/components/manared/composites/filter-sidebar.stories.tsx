@@ -346,6 +346,7 @@ export const ExpandCompoundClass: Story = {
     const expectedFontSize = getComputedStyle(probe).fontSize;
     probe.remove();
     await expect(getComputedStyle(trigger).fontSize).toBe(expectedFontSize);
+    await expect(getComputedStyle(trigger).justifyContent).toBe("center");
   },
 };
 

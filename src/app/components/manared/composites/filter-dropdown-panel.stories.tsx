@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, within } from "storybook/test";
 
-import {
-  expectedTokenColour,
-} from "@/storybook/manared/shared/assert-token-colours";
+import { expectedTokenColour } from "@/storybook/manared/shared/assert-token-colours";
 
 import { MOCK_COMPOUND_CLASSES } from "./filter-state";
 import { FilterDropdownPanel } from "./filter-dropdown-panel";
@@ -28,6 +26,17 @@ async function assertCompactPrimaryTrigger(canvasElement: HTMLElement) {
   const style = getComputedStyle(trigger);
   await expect(style.fontSize).toBe(readTokenFontSize("--font-size-3xs"));
   await expect(style.color).toBe(expectedTokenColour("--color-text-primary", "light"));
+  await expect(style.justifyContent).toBe("center");
+
+  const combobox = trigger.querySelector<HTMLElement>('[role="combobox"]');
+  if (!combobox) {
+    throw new Error("Compound class combobox not found");
+  }
+  const label = combobox.querySelector("span");
+  if (!label) {
+    throw new Error("Compound class combobox label not found");
+  }
+  await expect(getComputedStyle(label).textAlign).toBe("center");
 }
 
 const meta = {

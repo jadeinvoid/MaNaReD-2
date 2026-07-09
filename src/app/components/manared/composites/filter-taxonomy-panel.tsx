@@ -86,7 +86,7 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
               onClick={() => setOpenRank(isExpanded ? null : rank.id)}
               className="flex w-full items-center justify-between overflow-hidden rounded-md pl-2 pr-0 hover:bg-body-secondary focus-visible:outline-none"
             >
-              <span className="min-w-0 flex-1 truncate py-0.5 pl-4 pr-2 text-left text-3xs uppercase text-primary">
+              <span className="min-w-0 flex-1 truncate py-0.5 pl-4 pr-2 text-center text-3xs uppercase text-primary">
                 {rank.label}
               </span>
               <MaNaReDIcon
@@ -131,16 +131,14 @@ export function FilterTaxonomyPanel({ filters, onFiltersChange }: FilterTaxonomy
                         setOpenRank(nextValue ? (nextRankId(rank.id) ?? rank.id) : rank.id);
                       }}
                       className={[
-                        "grid w-full grid-cols-[1fr_auto] items-center gap-2 rounded-md pl-2 pr-0 py-0.5 text-3xs",
+                        "flex w-full items-center justify-center gap-2 rounded-md pl-2 pr-0 py-0.5 text-center text-3xs",
                         isSelected
                           ? "border border-border-secondary bg-chip-active text-secondary"
                           : "border border-transparent bg-transparent text-tertiary hover:bg-body-secondary",
                       ].join(" ")}
                     >
-                      <span className="ml-auto text-right">{leaf.label}</span>
-                      <span className="min-w-8 text-right text-3xs text-tertiary">
-                        ({leaf.count})
-                      </span>
+                      <span>{leaf.label}</span>
+                      <span className="text-3xs text-tertiary">({leaf.count})</span>
                     </button>
                   );
                 })}

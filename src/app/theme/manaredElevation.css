@@ -288,6 +288,7 @@
     font-size: var(--font-size-3xs, 0.75rem);
     line-height: 1.2;
     overflow: hidden;
+    justify-content: center;
   }
 
   [data-astryx-theme="manared"]
@@ -305,6 +306,7 @@
     font-size: var(--font-size-3xs, 0.75rem);
     line-height: 1.2;
     min-width: 0;
+    text-align: center;
   }
 
   [data-astryx-theme="manared"]
@@ -354,14 +356,27 @@
     font-size: var(--font-size-3xs, 0.75rem);
     line-height: 1.2;
     color: var(--color-text-primary);
+    justify-content: center;
   }
 
   [data-astryx-theme="manared"]
     [data-filter-dropdown-panel]
     .filter-compound-class-selector
     [role="combobox"] {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
     font-size: inherit;
     line-height: inherit;
     color: inherit;
+  }
+
+  [data-astryx-theme="manared"]
+    [data-filter-dropdown-panel]
+    .filter-compound-class-selector
+    [role="combobox"]
+    span {
+    width: 100%;
+    text-align: center;
   }
 }
