@@ -342,7 +342,7 @@
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    gap: var(--spacing-1, 4px);
+    gap: var(--spacing-2, 8px);
     max-width: 100%;
     padding-inline: var(--filter-dropdown-label-inset) var(--filter-dropdown-chevron-inset);
   }
