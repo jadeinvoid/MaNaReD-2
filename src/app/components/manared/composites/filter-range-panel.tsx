@@ -55,7 +55,7 @@ function RangeEndpoint({
   };
 
   return (
-    <div className="filter-mw-range-end shrink-0" data-range-end={end}>
+    <div className="filter-mw-range-end min-w-0" data-range-end={end}>
       <NumberInput
         className="filter-mw-range-input"
         label={label}
@@ -87,7 +87,10 @@ export function FilterRangePanel({
   };
 
   return (
-    <div className="flex w-full flex-col gap-2 py-1" data-filter-range-panel>
+    <div
+      className="flex w-full min-w-0 flex-col gap-2 overflow-hidden py-1"
+      data-filter-range-panel
+    >
       <div className="filter-mw-slider">
         <Slider
           label="Molecular weight range"
@@ -112,7 +115,7 @@ export function FilterRangePanel({
           }}
         />
       </div>
-      <div className="filter-mw-inputs flex w-full items-center justify-center">
+      <div className="filter-mw-inputs flex w-full min-w-0 max-w-full items-center justify-center">
         <RangeEndpoint
           end="min"
           value={value[0]}
