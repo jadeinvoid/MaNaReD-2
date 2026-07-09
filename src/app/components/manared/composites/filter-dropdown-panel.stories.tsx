@@ -3,7 +3,6 @@ import { expect, fn, within } from "storybook/test";
 
 import {
   expectedTokenColour,
-  withColourMode,
 } from "@/storybook/manared/shared/assert-token-colours";
 
 import { MOCK_COMPOUND_CLASSES } from "./filter-state";
@@ -28,11 +27,7 @@ async function assertCompactPrimaryTrigger(canvasElement: HTMLElement) {
 
   const style = getComputedStyle(trigger);
   await expect(style.fontSize).toBe(readTokenFontSize("--font-size-3xs"));
-
-  await withColourMode("dark", async () => {
-    const darkStyle = getComputedStyle(trigger);
-    await expect(darkStyle.color).toBe(expectedTokenColour("--color-text-primary", "dark"));
-  });
+  await expect(style.color).toBe(expectedTokenColour("--color-text-primary", "light"));
 }
 
 const meta = {
