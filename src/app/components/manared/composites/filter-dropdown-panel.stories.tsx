@@ -26,7 +26,7 @@ async function assertCompactPrimaryTrigger(canvasElement: HTMLElement) {
   const style = getComputedStyle(trigger);
   await expect(style.fontSize).toBe(readTokenFontSize("--font-size-3xs"));
   await expect(style.color).toBe(expectedTokenColour("--color-text-primary", "light"));
-  await expect(style.justifyContent).toBe("center");
+  await expect(style.justifyContent).toBe("flex-start");
 
   const combobox = trigger.querySelector<HTMLElement>('[role="combobox"]');
   if (!combobox) {
@@ -36,7 +36,7 @@ async function assertCompactPrimaryTrigger(canvasElement: HTMLElement) {
   if (!label) {
     throw new Error("Compound class combobox label not found");
   }
-  await expect(getComputedStyle(label).textAlign).toBe("center");
+  await expect(getComputedStyle(label).textAlign).toBe("left");
 }
 
 const meta = {

@@ -388,7 +388,7 @@
     font-size: var(--font-size-3xs, 0.75rem);
     line-height: 1.2;
     color: var(--color-text-primary);
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   [data-astryx-theme="manared"]
@@ -397,7 +397,7 @@
     [role="combobox"] {
     flex: 1 1 0;
     min-width: 0;
-    justify-content: center;
+    justify-content: flex-start;
     font-size: inherit;
     line-height: inherit;
     color: inherit;
@@ -409,6 +409,6 @@
     [role="combobox"]
     span {
     width: 100%;
-    text-align: center;
+    text-align: left;
   }
 }
