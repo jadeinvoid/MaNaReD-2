@@ -426,7 +426,7 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
-    padding-block-start: var(--spacing-2, 8px);
+    padding-block-start: 4px;
     padding-inline-start: calc(var(--filter-dropdown-label-inset) + 4px);
     padding-inline-end: var(--filter-dropdown-chevron-inset);
   }
