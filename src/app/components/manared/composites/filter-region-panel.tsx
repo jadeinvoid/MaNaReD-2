@@ -1,13 +1,11 @@
 "use client";
 
-import { CheckboxList, CheckboxListItem } from "@astryxdesign/core/CheckboxList";
-
 import { MaNaReDIcon } from "../icons/manared-icon";
 import {
   clearGeographicRegions,
   MOCK_GEOGRAPHIC_REGIONS,
   selectedGeographicRegions,
-  setGeographicRegions,
+  toggleTagFilter,
   type FilterState,
 } from "./filter-state";
 
@@ -16,39 +14,49 @@ export type FilterRegionPanelProps = {
   onFiltersChange: (next: FilterState) => void;
 };
 
-/** Flat multi-select geographic regions — UX §5 additive categorical (checkbox list). */
+const REGION_ITEM_BASE =
+  "flex w-full items-center justify-start rounded-md border px-2 py-0.5 text-left text-3xs";
+
+function regionItemClass(isSelected: boolean): string {
+  return isSelected
+    ? `${REGION_ITEM_BASE} border-border-secondary bg-chip-active text-secondary`
+    : `${REGION_ITEM_BASE} border-transparent bg-transparent text-tertiary hover:bg-body-secondary`;
+}
+
+/** Flat multi-select geographic regions — matches taxonomy leaf / filter panel lower-rank styling. */
 export function FilterRegionPanel({ filters, onFiltersChange }: FilterRegionPanelProps) {
   const selected = selectedGeographicRegions(filters);
   const allRegionsActive = selected.length === 0;
 
   return (
-    <div className="flex w-full min-w-0 flex-col gap-1 py-0.5" data-filter-region-panel>
+    <div className="flex min-h-0 w-full flex-col gap-0.5 px-0 py-0.5" data-filter-region-panel>
       <button
         type="button"
         aria-pressed={allRegionsActive}
         onClick={() => onFiltersChange(clearGeographicRegions(filters))}
-        className={[
-          "flex w-full items-center justify-between rounded-md px-2 py-1.5 text-left text-3xs",
-          allRegionsActive
-            ? "bg-chip-active text-secondary"
-            : "text-primary hover:bg-body-secondary",
-        ].join(" ")}
+        className={regionItemClass(allRegionsActive)}
       >
-        <span>All regions</span>
-        <MaNaReDIcon name="chevron-up" size={16} className="shrink-0 text-tertiary" aria-hidden />
+        <span className="min-w-0 flex-1 truncate">All regions</span>
+        <MaNaReDIcon name="chevron-down" size={24} className="shrink-0 text-primary" aria-hidden />
       </button>
 
-      <CheckboxList
-        label="Geographic regions"
-        isLabelHidden
-        density="compact"
-        value={selected}
-        onChange={(values) => onFiltersChange(setGeographicRegions(filters, values))}
-      >
-        {MOCK_GEOGRAPHIC_REGIONS.map((region) => (
-          <CheckboxListItem key={region} label={region} value={region} />
-        ))}
-      </CheckboxList>
+      <div className="flex w-full flex-col gap-px pl-4">
+        {MOCK_GEOGRAPHIC_REGIONS.map((region) => {
+          const isSelected = selected.includes(region);
+          return (
+            <button
+              key={region}
+              type="button"
+              aria-label={region}
+              aria-pressed={isSelected}
+              onClick={() => onFiltersChange(toggleTagFilter(filters, "geographicRegion", region))}
+              className={regionItemClass(isSelected)}
+            >
+              <span className="min-w-0 flex-1 truncate">{region}</span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

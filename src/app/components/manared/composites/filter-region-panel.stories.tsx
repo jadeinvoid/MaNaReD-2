@@ -30,9 +30,9 @@ export const Default: Story = {
     const canvas = within(canvasElement);
 
     await expect(canvas.getByRole("button", { name: "All regions" })).toBeVisible();
-    await expect(canvas.getByRole("button", { name: "Indo-Pacific" })).toBeVisible();
-    await expect(canvas.getByRole("button", { name: "Mediterranean" })).toBeVisible();
-    await expect(canvas.getByRole("button", { name: "Red Sea" })).toBeVisible();
+    const indoPacific = canvas.getByRole("button", { name: "Indo-Pacific" });
+    await expect(indoPacific.className).toContain("text-3xs");
+    await expect(indoPacific.className).toContain("text-tertiary");
 
     await userEvent.click(canvas.getByRole("button", { name: "Indo-Pacific" }));
     const lastCall = args.onFiltersChange.mock.calls.at(-1)?.[0];
@@ -46,16 +46,16 @@ export const Selected: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByRole("button", { name: "Indo-Pacific" }).closest("li")).toHaveAttribute(
-      "aria-checked",
+    await expect(canvas.getByRole("button", { name: "Indo-Pacific" })).toHaveAttribute(
+      "aria-pressed",
       "true",
     );
-    await expect(canvas.getByRole("button", { name: "Mediterranean" }).closest("li")).toHaveAttribute(
-      "aria-checked",
+    await expect(canvas.getByRole("button", { name: "Mediterranean" })).toHaveAttribute(
+      "aria-pressed",
       "true",
     );
-    await expect(canvas.getByRole("button", { name: "Red Sea" }).closest("li")).toHaveAttribute(
-      "aria-checked",
+    await expect(canvas.getByRole("button", { name: "Red Sea" })).toHaveAttribute(
+      "aria-pressed",
       "false",
     );
   },
