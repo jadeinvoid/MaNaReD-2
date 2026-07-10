@@ -1,7 +1,7 @@
 import { ENTITY_TAG_BASE } from "./entity-styles";
 
-/** Outer hit target — Figma compound-tag wrapper padding space.1. */
-export const FILTER_COMPOUND_TAG_HIT = "p-1";
+/** Outer hit target — horizontal space.1 inset; vertical spacing from panel gap. */
+export const FILTER_COMPOUND_TAG_HIT = "px-1 py-0";
 
 /** Shared pill shell — colours resolved in manaredElevation.css for light/dark parity. */
 export const FILTER_COMPOUND_TAG_PILL = `${ENTITY_TAG_BASE} filter-compound-tag-pill rounded-lg border border-solid`;

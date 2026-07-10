@@ -466,8 +466,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    gap: 0;
-    padding-block: var(--spacing-1, 4px);
+    gap: 2px;
+    padding-block-end: var(--spacing-1, 4px);
   }
 
   [data-astryx-theme="manared"] [data-filter-tag-panel] .filter-tag-search {
