@@ -217,8 +217,8 @@
     align-items: center;
     min-height: 2rem;
     padding-block: var(--spacing-1, 4px);
-    padding-inline-start: 0;
-    padding-inline-end: var(--filter-mw-thumb-radius);
+    /* Inset track so thumb outer edges align with range inputs at min/max */
+    padding-inline: var(--filter-mw-thumb-radius);
   }
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-slider > * {
