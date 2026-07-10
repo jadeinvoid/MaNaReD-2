@@ -57,14 +57,14 @@ function BrowseShell({
   defaultViewMode?: ResultsViewMode;
 }) {
   return (
-    <div className="flex min-h-screen bg-body">
+    <div className="flex h-screen overflow-hidden bg-body">
       <NavSideBar activeItem="Compound" />
-      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
+      <div className="flex h-screen min-w-0 flex-1 flex-col overflow-hidden">
         <TopBarRegion />
         <ContextualBar>
           <TaxonomyBreadcrumb items={["Home", "Compounds"]} />
         </ContextualBar>
-        <div className="flex flex-1 items-stretch gap-4">
+        <div className="flex min-h-0 min-w-0 flex-1 overflow-hidden">
           <BrowseFiltersDemo defaultViewMode={defaultViewMode}>{children}</BrowseFiltersDemo>
         </div>
       </div>

@@ -42,7 +42,7 @@ export function BrowseFiltersDemo({ defaultViewMode = "card", children }: Browse
   }, []);
 
   return (
-    <div className="flex w-full flex-1 items-stretch gap-4">
+    <div className="flex h-full min-w-0 flex-1 overflow-hidden">
       <FilterSidebar
         collapsed={collapsed}
         onCollapsedChange={setCollapsed}
@@ -51,7 +51,7 @@ export function BrowseFiltersDemo({ defaultViewMode = "card", children }: Browse
         requestExpandCategory={expandRequest}
         onRequestExpandCategoryHandled={() => setExpandRequest(null)}
       />
-      <VStack gap={4} className="flex-1 p-4">
+      <VStack gap={4} className="min-h-0 min-w-0 flex-1 overflow-y-auto p-4">
         <ChipBar
           chips={filtersToChipItems(filters)}
           onMoreFilters={() => setCollapsed(false)}
