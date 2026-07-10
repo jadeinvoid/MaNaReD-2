@@ -38,12 +38,34 @@ export const FILTER_CATEGORIES: FilterCategoryConfig[] = [
   { id: "targetAssay", label: "Target / assay" },
 ];
 
-export const MOCK_BIOACTIVITY_TAGS = [
-  "Antiviral",
-  "Cytotoxic",
-  "Antifungal",
-  "Anti-Inflam.",
-  "Antibacterial",
+export type FilterTagOption = {
+  label: string;
+  count?: number;
+};
+
+export const MOCK_BIOACTIVITY_TAGS: readonly FilterTagOption[] = [
+  { label: "Antiviral", count: 12 },
+  { label: "Cytotoxic", count: 48 },
+  { label: "Antifungal", count: 7 },
+  { label: "Anti-Inflam.", count: 23 },
+  { label: "Antibacterial", count: 0 },
+] as const;
+
+export const MOCK_TARGET_ASSAY_TAGS: readonly FilterTagOption[] = [
+  { label: "MTT assay", count: 31 },
+  { label: "DPPH", count: 18 },
+  { label: "AChE inhibition", count: 9 },
+  { label: "Brine shrimp", count: 0 },
+  { label: "Antibacterial plate", count: 14 },
+] as const;
+
+/** Extended mock list for search-threshold Storybook coverage. */
+export const MOCK_BIOACTIVITY_TAGS_EXTENDED: readonly FilterTagOption[] = [
+  ...MOCK_BIOACTIVITY_TAGS,
+  { label: "Antineoplastic", count: 15 },
+  { label: "Antioxidant", count: 22 },
+  { label: "Antimalarial", count: 6 },
+  { label: "Neuroprotective", count: 4 },
 ] as const;
 
 export const MOCK_COMPOUND_CLASSES = [
