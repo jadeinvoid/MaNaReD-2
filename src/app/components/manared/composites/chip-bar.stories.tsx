@@ -131,6 +131,23 @@ export const Default: Story = {
   },
 };
 
+export const WithViewToggle: Story = {
+  args: {
+    viewMode: "card",
+    onViewModeChange: fn(),
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole("group", { name: "Results view" })).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Card view" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await userEvent.click(canvas.getByRole("button", { name: "List view" }));
+    await expect(args.onViewModeChange).toHaveBeenCalledWith("list");
+  },
+};
+
 export const LightMode: Story = {
   render: (args) => (
     <ColourModeFrame mode="light">

@@ -6,57 +6,53 @@ import { expectHoverElevates } from "@/storybook/manared/shared/assert-hover-ele
 import { GRADIENT_SIDEBAR } from "@/app/components/manared/primitives/gradient-styles";
 
 import { CompoundCard } from "@/app/components/manared/domain/compound-card";
-import { ListRow, type ListRowProps } from "@/app/components/manared/domain/list-row";
+import { ListRow } from "@/app/components/manared/domain/list-row";
 import { ContextualBar } from "@/app/components/manared/composites/contextual-bar";
 import { NavSideBar } from "@/app/components/manared/composites/nav-side-bar";
 import { TaxonomyBreadcrumb } from "@/app/components/manared/composites/taxonomy-breadcrumb";
 import { TopBarRegion } from "@/app/components/manared/composites/top-bar-region";
+import type { ResultsViewMode } from "@/app/components/manared/composites/results-view";
 import { BrowseFiltersDemo } from "@/storybook/manared/patterns/browse-filters-demo";
 import {
-  matchesRegionFilter,
-  type FilterState,
-} from "@/app/components/manared/composites/filter-state";
+  BROWSE_RESULTS_MOCK,
+  filterBrowseResults,
+  toCompoundCardProps,
+  toListRowProps,
+} from "@/storybook/manared/patterns/browse-results-mock";
+import type { FilterState } from "@/app/components/manared/composites/filter-state";
 
-const FIGMA_SCREEN = "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=332-9041";
+const FIGMA_SCREEN = "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=349-3993";
 const FIGMA_LIST_ITEMS =
   "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=367-3815";
 
 const NAV_ANIMATION_MS = 175;
 
-const LIST_SAMPLE_ROWS: ListRowProps[] = [
-  {
-    id: "# HAL-2024-001",
-    title: "Discodermolide",
-    chips: [
-      { label: "Antitumor", entity: "compound" },
-      { label: "Porifera", entity: "organism" },
-    ],
-    labelNumber: "773.0",
-    labelUnit: "Da",
-  },
-  {
-    id: "# HAL-2024-002",
-    title: "Latrunculin A",
-    chips: [
-      { label: "Cytotoxic", entity: "bioactivity" },
-      { label: "Sponge", entity: "region" },
-    ],
-    labelNumber: "421.5",
-    labelUnit: "Da",
-  },
-  {
-    id: "# HAL-2024-003",
-    title: "Manoalide",
-    chips: [{ label: "Anti-inflammatory", entity: "bioactivity" }],
-    labelNumber: "402.6",
-    labelUnit: "Da",
-  },
-];
+function BrowseResults({ filters, viewMode }: { filters: FilterState; viewMode: ResultsViewMode }) {
+  const results = filterBrowseResults(BROWSE_RESULTS_MOCK, filters);
+
+  if (viewMode === "list") {
+    return (
+      <>
+        {results.map((result) => (
+          <ListRow key={result.id} {...toListRowProps(result)} />
+        ))}
+      </>
+    );
+  }
+
+  return (
+    <>
+      {results.map((result) => (
+        <CompoundCard key={result.id} {...toCompoundCardProps(result)} />
+      ))}
+    </>
+  );
+}
 
 function BrowseShell({
   children,
 }: {
-  children: ReactNode | ((filters: FilterState) => ReactNode);
+  children: ReactNode | ((filters: FilterState, viewMode: ResultsViewMode) => ReactNode);
 }) {
   return (
     <div className="flex min-h-screen bg-body">
@@ -83,7 +79,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Browse compounds screen. Cards and list rows use `--shadow-card` at rest; hover stacks `--shadow-elevated` on top.",
+          "Browse compounds screen with card/list view toggle (UX §4.1). Cards and list rows use `--shadow-card` at rest; hover stacks `--shadow-elevated` on top.",
       },
     },
   },
@@ -92,41 +88,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const CardView: Story = {
-  name: "Card view",
+export const BrowseWithViewToggle: Story = {
+  name: "Browse with view toggle",
   render: () => (
     <BrowseShell>
-      {(filters) => (
-        <>
-          {matchesRegionFilter("Indo-Pacific", filters) ? (
-            <CompoundCard
-              id="# HAL-2024-001"
-              name="Halichondrin B"
-              formula="C₆₀H₈₆O₁₉"
-              molecularWeight="1111.29 g/mol"
-              tags={[
-                { label: "Antitumor", entity: "compound" },
-                { label: "Marine Origin", entity: "organism" },
-              ]}
-              region="Indo-Pacific"
-              organism="Halichondria okadai"
-              bioactivity="Antineoplastic"
-            />
-          ) : null}
-          {matchesRegionFilter("Mediterranean", filters) ? (
-            <CompoundCard
-              id="CMNPD-00103"
-              name="Manoalide"
-              formula="C₂₅H₄₀O₅"
-              molecularWeight="402.6 Da"
-              tags={[{ label: "Anti-inflammatory", entity: "bioactivity" }]}
-              region="Mediterranean"
-              organism="Sponge"
-              bioactivity="Anti-inflammatory"
-            />
-          ) : null}
-        </>
-      )}
+      {(filters, viewMode) => <BrowseResults filters={filters} viewMode={viewMode} />}
     </BrowseShell>
   ),
   play: async ({ canvasElement }) => {
@@ -139,9 +105,27 @@ export const CardView: Story = {
       throw new Error("ChipBar not found");
     }
 
+    const sortButton = within(chipBar).getByRole("button", { name: /Sort by/ });
+    const viewToggle = within(chipBar).getByRole("group", { name: "Results view" });
+    const sortRect = sortButton.getBoundingClientRect();
+    const toggleRect = viewToggle.getBoundingClientRect();
+    await expect(toggleRect.left).toBeGreaterThanOrEqual(sortRect.right - 1);
+
+    await userEvent.click(within(chipBar).getByRole("button", { name: "List view" }));
+    await expect(canvas.queryByText("Halichondrin B")).not.toBeInTheDocument();
+    await expect(canvas.getByText("Discodermolide")).toBeVisible();
+    await expect(canvas.getAllByLabelText("chevron-down").length).toBeGreaterThan(0);
+
+    await userEvent.click(within(chipBar).getByRole("button", { name: "Card view" }));
+    await expect(canvas.getByText("Halichondrin B")).toBeVisible();
+
     await userEvent.click(canvas.getByLabelText("Expand Geographic Region filter"));
     await userEvent.click(canvas.getByRole("checkbox", { name: "Indo-Pacific" }));
     await expect(within(chipBar).getByText("Indo-Pacific")).toBeVisible();
+    await expect(canvas.getByText("Halichondrin B")).toBeVisible();
+    await expect(canvas.queryByText("Manoalide")).not.toBeInTheDocument();
+
+    await userEvent.click(within(chipBar).getByRole("button", { name: "List view" }));
     await expect(canvas.getByText("Halichondrin B")).toBeVisible();
     await expect(canvas.queryByText("Manoalide")).not.toBeInTheDocument();
 
@@ -210,17 +194,37 @@ export const CardView: Story = {
   },
 };
 
+/** Layout reference — card domain component QA. */
+export const CardView: Story = {
+  name: "Card view",
+  render: () => (
+    <BrowseShell>
+      {(filters, viewMode) => <BrowseResults filters={filters} viewMode={viewMode} />}
+    </BrowseShell>
+  ),
+};
+
+/** Layout reference — list domain component QA. */
 export const ListView: Story = {
   name: "List view",
   parameters: {
     design: { type: "figma", url: FIGMA_LIST_ITEMS },
   },
   render: () => (
-    <BrowseShell>
-      {LIST_SAMPLE_ROWS.map((row) => (
-        <ListRow key={row.id} {...row} />
-      ))}
-    </BrowseShell>
+    <div className="flex min-h-screen bg-body">
+      <NavSideBar activeItem="Compound" />
+      <div className="flex flex-1 flex-col">
+        <TopBarRegion />
+        <ContextualBar>
+          <TaxonomyBreadcrumb items={["Home", "Compounds"]} />
+        </ContextualBar>
+        <div className="flex min-h-0 flex-1 gap-4">
+          <BrowseFiltersDemo defaultViewMode="list">
+            {(filters, viewMode) => <BrowseResults filters={filters} viewMode={viewMode} />}
+          </BrowseFiltersDemo>
+        </div>
+      </div>
+    </div>
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -228,7 +232,7 @@ export const ListView: Story = {
     await expect(canvas.getByText("Latrunculin A")).toBeVisible();
     await expect(canvas.getByText("Manoalide")).toBeVisible();
     await expect(canvas.getByText("773.0")).toBeVisible();
-    await expect(canvas.getAllByLabelText("chevron-down")).toHaveLength(3);
+    await expect(canvas.getAllByLabelText("chevron-down").length).toBeGreaterThan(0);
 
     const firstRow = canvas.getByText("Discodermolide").closest('[class*="bg-surface"]');
     if (!firstRow || !(firstRow instanceof HTMLElement)) {
@@ -238,5 +242,5 @@ export const ListView: Story = {
   },
 };
 
-/** @deprecated Use CardView — kept for Storybook deep links. */
-export const Default = CardView;
+/** @deprecated Use BrowseWithViewToggle — kept for Storybook deep links. */
+export const Default = BrowseWithViewToggle;

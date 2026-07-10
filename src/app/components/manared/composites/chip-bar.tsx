@@ -8,6 +8,8 @@ import {
 import { SURFACE_CHIP_BAR } from "../primitives/surface-styles";
 import { ActiveChip } from "../primitives/active-chip";
 import { SortWrapper } from "./sort-wrapper";
+import type { ResultsViewMode } from "./results-view";
+import { ViewToggle } from "./view-toggle";
 
 export type ChipBarItem = {
   id: string;
@@ -23,6 +25,8 @@ export type ChipBarProps = {
   onMoreFilters?: () => void;
   onSort?: () => void;
   sortLabel?: string;
+  viewMode?: ResultsViewMode;
+  onViewModeChange?: (mode: ResultsViewMode) => void;
 };
 
 /** Active filter chip bar from Figma `chip-bar` (`349:3993`, gradient paint styles). */
@@ -34,6 +38,8 @@ export function ChipBar({
   onMoreFilters,
   onSort,
   sortLabel = "Sort by: Relevance",
+  viewMode = "card",
+  onViewModeChange,
 }: ChipBarProps) {
   return (
     <HStack gap={2} vAlign="center" className={SURFACE_CHIP_BAR}>
@@ -55,6 +61,7 @@ export function ChipBar({
         More Filters
       </button>
       <SortWrapper label={sortLabel} onClick={onSort} />
+      {onViewModeChange ? <ViewToggle value={viewMode} onChange={onViewModeChange} /> : null}
     </HStack>
   );
 }

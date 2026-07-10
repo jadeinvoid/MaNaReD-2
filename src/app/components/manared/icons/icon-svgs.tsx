@@ -463,3 +463,33 @@ export function IconStateFocusedBIcon(props: IconSvgProps) {
     </svg>
   );
 }
+
+/** Card/grid results view — UX §4.1 `icon/card-view` (16px tier). */
+export function CardViewIcon(props: IconSvgProps) {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden {...props}>
+      <path
+        d="M2.5 2.5H6.5V6.5H2.5V2.5ZM9.5 2.5H13.5V6.5H9.5V2.5ZM2.5 9.5H6.5V13.5H2.5V9.5ZM9.5 9.5H13.5V13.5H9.5V9.5Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  );
+}
+
+/** List results view — UX §4.1 `icon/list-view` (16px tier). */
+export function ListViewIcon(props: IconSvgProps) {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden {...props}>
+      <path
+        d="M2.5 4H13.5M2.5 8H13.5M2.5 12H13.5"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  );
+}

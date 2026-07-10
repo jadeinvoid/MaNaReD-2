@@ -23,6 +23,8 @@ import {
   ProfileIcon,
   RemoveIcon,
   SearchIcon,
+  CardViewIcon,
+  ListViewIcon,
   VerticalCollapseIcon,
   WorkspaceIcon,
 } from "./icon-svgs";
@@ -50,7 +52,9 @@ export type MaNaReDIconName =
   | "vertical-collapse"
   | "remove"
   | "logo"
-  | "no-filter";
+  | "no-filter"
+  | "card-view"
+  | "list-view";
 
 const ICON_MAP: Record<MaNaReDIconName, ComponentType<SVGProps<SVGSVGElement>>> = {
   search: SearchIcon,
@@ -75,6 +79,8 @@ const ICON_MAP: Record<MaNaReDIconName, ComponentType<SVGProps<SVGSVGElement>>> 
   remove: RemoveIcon,
   logo: LogoIcon,
   "no-filter": NoFilterIcon,
+  "card-view": CardViewIcon,
+  "list-view": ListViewIcon,
 };
 
 const SIZE_CLASS = {
@@ -126,6 +132,8 @@ export const MANARED_ICONS_16 = [
   "explore",
   "overview",
   "remove",
+  "card-view",
+  "list-view",
 ] as const satisfies readonly MaNaReDIconName[];
 
 export const MANARED_ICONS_8 = ["remove"] as const satisfies readonly MaNaReDIconName[];

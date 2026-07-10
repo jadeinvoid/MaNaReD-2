@@ -7,6 +7,7 @@ import { VStack } from "@astryxdesign/core/Layout";
 
 import { ChipBar } from "@/app/components/manared/composites/chip-bar";
 import { FilterSidebar } from "@/app/components/manared/composites/filter-sidebar";
+import type { ResultsViewMode } from "@/app/components/manared/composites/results-view";
 import {
   filtersToChipItems,
   removeFilter,
@@ -15,7 +16,8 @@ import {
 } from "@/app/components/manared/composites/filter-state";
 
 export type BrowseFiltersDemoProps = {
-  children: ReactNode | ((filters: FilterState) => ReactNode);
+  defaultViewMode?: ResultsViewMode;
+  children: ReactNode | ((filters: FilterState, viewMode: ResultsViewMode) => ReactNode);
 };
 
 function isTabletTier(): boolean {
@@ -26,8 +28,9 @@ function isTabletTier(): boolean {
 }
 
 /** Client wrapper wiring FilterSidebar selections to ChipBar in browse patterns. */
-export function BrowseFiltersDemo({ children }: BrowseFiltersDemoProps) {
+export function BrowseFiltersDemo({ defaultViewMode = "card", children }: BrowseFiltersDemoProps) {
   const [filters, setFilters] = useState<FilterState>({ active: [] });
+  const [viewMode, setViewMode] = useState<ResultsViewMode>(defaultViewMode);
   const [collapsed, setCollapsed] = useState(isTabletTier);
   const [expandRequest, setExpandRequest] = useState<FilterCategoryId | null>(null);
 
@@ -74,8 +77,10 @@ export function BrowseFiltersDemo({ children }: BrowseFiltersDemoProps) {
               setExpandRequest("targetAssay");
             }
           }}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
         />
-        {typeof children === "function" ? children(filters) : children}
+        {typeof children === "function" ? children(filters, viewMode) : children}
       </VStack>
     </>
   );
