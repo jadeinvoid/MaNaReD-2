@@ -31,10 +31,10 @@ export const Default: Story = {
 
     await expect(canvas.getByText("Phylum")).toBeVisible();
     const phylumLabel = canvas.getByText("Phylum");
-    await expect(phylumLabel.className).toContain("text-center");
+    await expect(phylumLabel.className).toContain("filter-taxonomy-rank-label");
     const porifera = canvas.getByRole("button", { name: "Porifera" });
-    await expect(porifera.className).toContain("justify-center");
-    await expect(porifera.className).toContain("text-center");
+    await expect(porifera.className).toContain("filter-taxonomy-leaf");
+    await expect(porifera.className).toContain("justify-start");
     await expect(canvas.getByRole("button", { name: "Porifera" })).toBeVisible();
 
     await userEvent.click(canvas.getByRole("button", { name: "Porifera" }));

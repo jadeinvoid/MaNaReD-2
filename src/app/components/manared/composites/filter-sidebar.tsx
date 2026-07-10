@@ -280,7 +280,7 @@ export function FilterSidebar({
                     id === "targetAssay"
                       ? "w-full pb-1"
                       : id === "molecularWeight"
-                        ? "w-full pb-2"
+                        ? "w-full pb-1"
                         : undefined
                   }
                   onToggle={() => {

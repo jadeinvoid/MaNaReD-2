@@ -207,14 +207,9 @@
     }
   }
 
-  /* MW range panel — content fits between category label start and chevron column */
+  /* MW range panel — content inset aligned with geographic region checkboxes */
   [data-astryx-theme="manared"] [data-filter-range-panel] {
-    --filter-mw-label-inset: calc(var(--spacing-2, 8px) * 2);
-    --filter-mw-chevron-inset: 24px;
     --filter-mw-thumb-radius: 10px;
-    box-sizing: border-box;
-    max-width: 100%;
-    padding-inline: var(--filter-mw-label-inset) var(--filter-mw-chevron-inset);
   }
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-slider {
@@ -222,7 +217,8 @@
     align-items: center;
     min-height: 2rem;
     padding-block: var(--spacing-1, 4px);
-    padding-inline: var(--filter-mw-thumb-radius);
+    padding-inline-start: 0;
+    padding-inline-end: var(--filter-mw-thumb-radius);
   }
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-slider > * {
@@ -231,7 +227,7 @@
 
   [data-astryx-theme="manared"] [data-filter-range-panel] .filter-mw-inputs {
     gap: var(--spacing-1, 4px);
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
     min-width: 0;
@@ -406,15 +402,19 @@
     min-width: 0;
   }
 
-  /* Compound class dropdown — lower-rank horizontal inset */
+  /* Lower-rank filter panels — shared inset aligned with geographic region checkboxes */
   [data-astryx-theme="manared"] [data-filter-dropdown-panel],
   [data-astryx-theme="manared"] [data-filter-region-panel],
-  [data-astryx-theme="manared"] [data-filter-tag-panel] {
+  [data-astryx-theme="manared"] [data-filter-tag-panel],
+  [data-astryx-theme="manared"] [data-filter-range-panel],
+  [data-astryx-theme="manared"] [data-filter-taxonomy-panel] {
     --filter-dropdown-label-inset: calc(var(--spacing-2, 8px) * 2);
     --filter-dropdown-chevron-inset: 24px;
     box-sizing: border-box;
     max-width: 100%;
-    padding-inline: var(--filter-dropdown-label-inset) var(--filter-dropdown-chevron-inset);
+    padding-block-start: 4px;
+    padding-inline-start: calc(var(--filter-dropdown-label-inset) + 4px);
+    padding-inline-end: var(--filter-dropdown-chevron-inset);
   }
 
   [data-astryx-theme="manared"] [data-filter-dropdown-panel] {
@@ -427,9 +427,6 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
-    padding-block-start: 4px;
-    padding-inline-start: calc(var(--filter-dropdown-label-inset) + 4px);
-    padding-inline-end: var(--filter-dropdown-chevron-inset);
   }
 
   [data-astryx-theme="manared"] [data-filter-region-panel] .filter-region-option {
@@ -452,14 +449,11 @@
     color: var(--color-text-primary);
   }
 
-  /* Bioactivity / target-assay tag panel — lower-rank inset aligned with geographic region */
+  /* Bioactivity / target-assay tag panel */
   [data-astryx-theme="manared"] [data-filter-tag-panel] {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-1, 4px);
-    padding-block-start: 4px;
-    padding-inline-start: calc(var(--filter-dropdown-label-inset) + 4px);
-    padding-inline-end: var(--filter-dropdown-chevron-inset);
   }
 
   [data-astryx-theme="manared"] [data-filter-tag-panel] .filter-tag-row {
@@ -473,6 +467,25 @@
   [data-astryx-theme="manared"] [data-filter-tag-panel] .filter-tag-search {
     width: 100%;
     padding-inline: 0;
+  }
+
+  [data-astryx-theme="manared"] [data-filter-taxonomy-panel] {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  [data-astryx-theme="manared"] [data-filter-taxonomy-panel] .filter-taxonomy-rank-label {
+    font-size: var(--font-size-3xs, 0.75rem);
+    line-height: 1.2;
+    color: var(--color-text-primary);
+    text-align: left;
+  }
+
+  [data-astryx-theme="manared"] [data-filter-taxonomy-panel] .filter-taxonomy-leaf {
+    font-size: var(--font-size-3xs, 0.75rem);
+    line-height: 1.2;
+    text-align: left;
   }
 
   /* Compound filter tag pills — mode-aware fills (avoid light cream in dark sidebar) */
