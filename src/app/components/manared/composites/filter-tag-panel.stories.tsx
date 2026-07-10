@@ -78,7 +78,7 @@ export const PartialSelection: Story = {
       throw new Error("Tag spans not found");
     }
     await expectUsesTokenClasses(selected.className, "bg-entity-compound-bg");
-    await expectUsesTokenClasses(unselected.className, "text-tertiary");
+    await expectUsesTokenClasses(unselected.className, "bg-dropdown-active", "text-tertiary");
   },
 };
 

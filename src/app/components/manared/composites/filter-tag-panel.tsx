@@ -4,7 +4,8 @@ import { useMemo, useState } from "react";
 
 import { TextInput } from "@astryxdesign/core/TextInput";
 
-import { ENTITY_TAG_BASE, entityClassNames } from "../primitives/entity-styles";
+import { FilterCompoundTag } from "../primitives/filter-compound-tag";
+import type { FilterCompoundTagState } from "../primitives/filter-compound-tag";
 
 export type FilterTagOption = {
   label: string;
@@ -18,11 +19,7 @@ export type FilterTagPanelProps = {
   searchPlaceholder?: string;
 };
 
-const COMPOUND = entityClassNames.compound;
 const SEARCH_THRESHOLD = 8;
-
-const UNSELECTED_TAG = `${ENTITY_TAG_BASE} rounded-lg border-entity-compound-bg bg-body text-tertiary`;
-const ZERO_COUNT_TAG = `${ENTITY_TAG_BASE} rounded-lg border-entity-compound-bg bg-body text-tertiary opacity-60`;
 
 function formatTagLabel(tag: FilterTagOption): string {
   if (tag.count == null) {
@@ -31,7 +28,14 @@ function formatTagLabel(tag: FilterTagOption): string {
   return `${tag.label} (${tag.count})`;
 }
 
-/** Bioactivity / target-assay tag multi-select — Figma `tag-dropdown` (166:998), compound entity styling. */
+function tagState(tag: FilterTagOption, selected: string[]): FilterCompoundTagState {
+  if (tag.count === 0) {
+    return "zero-count";
+  }
+  return selected.includes(tag.label) ? "selected" : "unselected";
+}
+
+/** Bioactivity / target-assay tag multi-select — Figma `tag-dropdown` (166:998). */
 export function FilterTagPanel({
   tags,
   selected,
@@ -65,36 +69,14 @@ export function FilterTagPanel({
         </div>
       ) : null}
       <div className="flex w-full flex-wrap justify-end gap-0 px-2 py-1">
-        {visibleTags.map((tag) => {
-          const isSelected = selected.includes(tag.label);
-          const isZeroCount = tag.count === 0;
-          const className = isZeroCount
-            ? ZERO_COUNT_TAG
-            : isSelected
-              ? `${ENTITY_TAG_BASE} rounded-lg ${COMPOUND.combined}`
-              : UNSELECTED_TAG;
-          const displayLabel = formatTagLabel(tag);
-
-          if (isZeroCount) {
-            return (
-              <span key={tag.label} className="p-1" aria-disabled="true">
-                <span className={className}>{displayLabel}</span>
-              </span>
-            );
-          }
-
-          return (
-            <button
-              key={tag.label}
-              type="button"
-              aria-pressed={isSelected}
-              onClick={() => onToggle(tag.label)}
-              className="p-1 hover:opacity-90 focus-visible:rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-entity-compound-border"
-            >
-              <span className={className}>{displayLabel}</span>
-            </button>
-          );
-        })}
+        {visibleTags.map((tag) => (
+          <FilterCompoundTag
+            key={tag.label}
+            label={formatTagLabel(tag)}
+            state={tagState(tag, selected)}
+            onToggle={() => onToggle(tag.label)}
+          />
+        ))}
       </div>
     </div>
   );
