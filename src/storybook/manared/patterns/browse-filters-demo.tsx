@@ -51,7 +51,7 @@ export function BrowseFiltersDemo({ defaultViewMode = "card", children }: Browse
         requestExpandCategory={expandRequest}
         onRequestExpandCategoryHandled={() => setExpandRequest(null)}
       />
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-4 overflow-hidden">
         <div className="shrink-0 px-4 pt-4">
           <ChipBar
             chips={filtersToChipItems(filters)}
