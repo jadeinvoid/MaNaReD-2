@@ -323,6 +323,20 @@ export const RangeSelection: Story = {
   },
 };
 
+export const ExpandGeographicRegion: Story = {
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByLabelText("Expand Geographic Region filter"));
+    await expect(canvas.getByText("All regions")).toBeVisible();
+    await userEvent.click(canvas.getByRole("checkbox", { name: "Indo-Pacific" }));
+    await expect(args.onFiltersChange).toHaveBeenCalled();
+    const lastCall = args.onFiltersChange?.mock.calls.at(-1)?.[0];
+    await expect(
+      lastCall?.active.some((filter: ActiveFilter) => filter.label === "Indo-Pacific"),
+    ).toBe(true);
+  },
+};
+
 export const ExpandCompoundClass: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

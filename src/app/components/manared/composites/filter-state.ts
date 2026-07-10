@@ -108,6 +108,16 @@ export const TAXONOMY_RANKS: readonly TaxonomyRank[] = [
   },
 ] as const;
 
+/** Flat biogeographic regions for the geographic region filter (UX §5 additive categorical). */
+export const MOCK_GEOGRAPHIC_REGIONS = [
+  "Indo-Pacific",
+  "Mediterranean",
+  "Arctic / Sub-Arctic",
+  "Pacific Northwest",
+  "Caribbean",
+  "Red Sea",
+] as const;
+
 export const MW_MIN = 0;
 export const MW_MAX = 2000;
 export const MW_DEFAULT_RANGE: [number, number] = [200, 400];
@@ -275,6 +285,48 @@ export function setTaxonomyRankFilter(
   };
 }
 
+export function selectedGeographicRegions(state: FilterState): string[] {
+  return state.active
+    .filter((filter) => filter.category === "geographicRegion")
+    .map((filter) => filter.label);
+}
+
+export function clearGeographicRegions(state: FilterState): FilterState {
+  return { active: withoutCategory(state, "geographicRegion") };
+}
+
+export function setGeographicRegions(state: FilterState, regions: readonly string[]): FilterState {
+  const withoutRegions = withoutCategory(state, "geographicRegion");
+
+  if (regions.length === 0) {
+    return { active: withoutRegions };
+  }
+
+  return {
+    active: [
+      ...withoutRegions,
+      ...regions.map((label) => ({
+        id: filterId("geographicRegion", label),
+        category: "geographicRegion" as const,
+        categoryLabel: categoryLabel("geographicRegion"),
+        label,
+      })),
+    ],
+  };
+}
+
+/** Returns true when no region filter is active or the card region matches any selection (OR). */
+export function matchesRegionFilter(region: string | undefined, state: FilterState): boolean {
+  const selected = selectedGeographicRegions(state);
+  if (selected.length === 0) {
+    return true;
+  }
+  if (!region) {
+    return false;
+  }
+  return selected.includes(region);
+}
+
 export function taxonomyChipItem(state: FilterState): ChipBarItem | null {
   const taxonomyFilters = state.active.filter((filter) => filter.category === "taxonomy");
   if (taxonomyFilters.length === 0) {
@@ -363,7 +415,7 @@ export function activeCountForCategory(state: FilterState, category: FilterCateg
 
 export function filtersToChipItems(state: FilterState): ChipBarItem[] {
   const taxonomy = taxonomyChipItem(state);
-  const nonTaxonomy = state.active
+  const otherFilters = state.active
     .filter((filter) => filter.category !== "taxonomy")
     .map((filter) => {
       if (filter.category === "molecularWeight") {
@@ -383,5 +435,5 @@ export function filtersToChipItems(state: FilterState): ChipBarItem[] {
       };
     });
 
-  return taxonomy ? [taxonomy, ...nonTaxonomy] : nonTaxonomy;
+  return [taxonomy, ...otherFilters].filter((item): item is ChipBarItem => item !== null);
 }

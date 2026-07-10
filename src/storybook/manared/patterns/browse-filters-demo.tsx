@@ -15,7 +15,7 @@ import {
 } from "@/app/components/manared/composites/filter-state";
 
 export type BrowseFiltersDemoProps = {
-  children: ReactNode;
+  children: ReactNode | ((filters: FilterState) => ReactNode);
 };
 
 function isTabletTier(): boolean {
@@ -58,9 +58,13 @@ export function BrowseFiltersDemo({ children }: BrowseFiltersDemoProps) {
               setCollapsed(false);
               setExpandRequest("molecularWeight");
             }
+            if (id.startsWith("geographicRegion:")) {
+              setCollapsed(false);
+              setExpandRequest("geographicRegion");
+            }
           }}
         />
-        {children}
+        {typeof children === "function" ? children(filters) : children}
       </VStack>
     </>
   );
