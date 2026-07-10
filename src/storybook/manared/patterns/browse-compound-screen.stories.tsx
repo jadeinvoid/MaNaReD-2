@@ -51,19 +51,21 @@ function BrowseResults({ filters, viewMode }: { filters: FilterState; viewMode: 
 
 function BrowseShell({
   children,
+  defaultViewMode = "card",
 }: {
   children: ReactNode | ((filters: FilterState, viewMode: ResultsViewMode) => ReactNode);
+  defaultViewMode?: ResultsViewMode;
 }) {
   return (
     <div className="flex min-h-screen bg-body">
       <NavSideBar activeItem="Compound" />
-      <div className="flex flex-1 flex-col">
+      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
         <TopBarRegion />
         <ContextualBar>
           <TaxonomyBreadcrumb items={["Home", "Compounds"]} />
         </ContextualBar>
-        <div className="flex min-h-0 flex-1 gap-4">
-          <BrowseFiltersDemo>{children}</BrowseFiltersDemo>
+        <div className="flex flex-1 items-stretch gap-4">
+          <BrowseFiltersDemo defaultViewMode={defaultViewMode}>{children}</BrowseFiltersDemo>
         </div>
       </div>
     </div>
@@ -211,20 +213,9 @@ export const ListView: Story = {
     design: { type: "figma", url: FIGMA_LIST_ITEMS },
   },
   render: () => (
-    <div className="flex min-h-screen bg-body">
-      <NavSideBar activeItem="Compound" />
-      <div className="flex flex-1 flex-col">
-        <TopBarRegion />
-        <ContextualBar>
-          <TaxonomyBreadcrumb items={["Home", "Compounds"]} />
-        </ContextualBar>
-        <div className="flex min-h-0 flex-1 gap-4">
-          <BrowseFiltersDemo defaultViewMode="list">
-            {(filters, viewMode) => <BrowseResults filters={filters} viewMode={viewMode} />}
-          </BrowseFiltersDemo>
-        </div>
-      </div>
-    </div>
+    <BrowseShell defaultViewMode="list">
+      {(filters, viewMode) => <BrowseResults filters={filters} viewMode={viewMode} />}
+    </BrowseShell>
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

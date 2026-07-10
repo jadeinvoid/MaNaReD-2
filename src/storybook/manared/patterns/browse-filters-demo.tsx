@@ -42,7 +42,7 @@ export function BrowseFiltersDemo({ defaultViewMode = "card", children }: Browse
   }, []);
 
   return (
-    <>
+    <div className="flex w-full flex-1 items-stretch gap-4">
       <FilterSidebar
         collapsed={collapsed}
         onCollapsedChange={setCollapsed}
@@ -82,6 +82,6 @@ export function BrowseFiltersDemo({ defaultViewMode = "card", children }: Browse
         />
         {typeof children === "function" ? children(filters, viewMode) : children}
       </VStack>
-    </>
+    </div>
   );
 }
