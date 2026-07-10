@@ -212,7 +212,7 @@ export function FilterSidebar({
   const shellClass = [
     FILTER_BAR_SURFACE,
     FILTER_SIDEBAR_SHELL,
-    "flex h-full min-h-0 flex-col gap-4 overflow-hidden rounded-tr-md rounded-br-md",
+    "flex h-full max-h-full min-h-0 self-stretch flex-col gap-4 overflow-hidden rounded-tr-md rounded-br-md",
   ].join(" ");
 
   const containerClass = "flex min-h-0 flex-1 flex-col gap-1 overflow-hidden rounded-md px-1 py-4";
@@ -304,10 +304,7 @@ export function FilterSidebar({
         )}
       </div>
 
-      <footer
-        className={`flex w-full shrink-0 items-start gap-2 ${collapsed ? "h-[33px]" : ""}`}
-        data-name="filter/footer"
-      >
+      <footer className="flex h-8 w-full shrink-0 items-center gap-2" data-name="filter/footer">
         <FilterSidebarReveal collapsed={collapsed}>
           <div className="flex w-full items-start gap-2">
             {showCollapseControl ? (

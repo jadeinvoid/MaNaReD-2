@@ -59,14 +59,14 @@ function BrowseShell({
   children: ReactNode | ((filters: FilterState) => ReactNode);
 }) {
   return (
-    <div className="flex min-h-screen bg-body">
+    <div className="flex h-dvh min-h-0 overflow-hidden bg-body">
       <NavSideBar activeItem="Compound" />
-      <div className="flex flex-1 flex-col">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         <TopBarRegion />
         <ContextualBar>
           <TaxonomyBreadcrumb items={["Home", "Compounds"]} />
         </ContextualBar>
-        <div className="flex min-h-0 flex-1 gap-4">
+        <div className="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)] overflow-hidden">
           <BrowseFiltersDemo>{children}</BrowseFiltersDemo>
         </div>
       </div>

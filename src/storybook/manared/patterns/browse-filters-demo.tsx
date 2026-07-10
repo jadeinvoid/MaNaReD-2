@@ -32,16 +32,18 @@ export function BrowseFiltersDemo({ children }: BrowseFiltersDemoProps) {
   }, []);
 
   return (
-    <>
-      <FilterSidebar
-        collapsed={collapsed}
-        onCollapsedChange={setCollapsed}
-        filters={filters}
-        onFiltersChange={setFilters}
-        requestExpandCategory={expandRequest}
-        onRequestExpandCategoryHandled={() => setExpandRequest(null)}
-      />
-      <VStack gap={4} className="flex-1 p-4">
+    <div className="grid h-full min-h-0 flex-1 grid-cols-[auto_minmax(0,1fr)] gap-4 overflow-hidden">
+      <div className="filter-sidebar-host h-full min-h-0">
+        <FilterSidebar
+          collapsed={collapsed}
+          onCollapsedChange={setCollapsed}
+          filters={filters}
+          onFiltersChange={setFilters}
+          requestExpandCategory={expandRequest}
+          onRequestExpandCategoryHandled={() => setExpandRequest(null)}
+        />
+      </div>
+      <VStack gap={4} className="min-h-0 overflow-y-auto p-4">
         <ChipBar
           chips={filtersToChipItems(filters)}
           onMoreFilters={() => setCollapsed(false)}
@@ -70,6 +72,6 @@ export function BrowseFiltersDemo({ children }: BrowseFiltersDemoProps) {
         />
         {typeof children === "function" ? children(filters) : children}
       </VStack>
-    </>
+    </div>
   );
 }

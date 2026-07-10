@@ -38,7 +38,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className="h-[480px]">
+      <div className="filter-sidebar-host h-[480px]">
         <Story />
       </div>
     ),
@@ -392,6 +392,23 @@ export const BioactivityWithCounts: Story = {
       canvas.queryByRole("button", { name: "Antibacterial (0)" }),
     ).not.toBeInTheDocument();
     await expect(canvas.getByText("Antibacterial (0)")).toBeVisible();
+  },
+};
+
+export const StableHeightOnExpand: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const shell = getFilterShell(canvasElement);
+
+    await userEvent.click(canvas.getByLabelText("Expand Taxonomy filter"));
+    const afterTaxonomy = shell.getBoundingClientRect().height;
+    await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
+    const afterBioactivity = shell.getBoundingClientRect().height;
+    await userEvent.click(canvas.getByLabelText("Expand Geographic Region filter"));
+    const afterRegion = shell.getBoundingClientRect().height;
+
+    await expect(Math.abs(afterBioactivity - afterTaxonomy)).toBeLessThanOrEqual(1);
+    await expect(Math.abs(afterRegion - afterBioactivity)).toBeLessThanOrEqual(1);
   },
 };
 

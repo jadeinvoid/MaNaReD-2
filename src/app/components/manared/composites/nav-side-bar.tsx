@@ -104,7 +104,7 @@ export function NavSideBar({
     GRADIENT_SIDEBAR,
     NAV_SIDEBAR_SHELL,
     "shadow-nav-sidebar",
-    "flex h-full min-h-screen flex-col gap-6 overflow-hidden rounded-tr-lg rounded-br-lg p-4",
+    "flex h-full max-h-full min-h-0 self-stretch flex-col gap-6 overflow-hidden rounded-tr-lg rounded-br-lg p-4",
   ].join(" ");
 
   return (
