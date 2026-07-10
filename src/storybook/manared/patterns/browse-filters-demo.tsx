@@ -18,17 +18,10 @@ export type BrowseFiltersDemoProps = {
   children: ReactNode | ((filters: FilterState) => ReactNode);
 };
 
-function isTabletTier(): boolean {
-  if (typeof window === "undefined") {
-    return false;
-  }
-  return window.matchMedia("(min-width: 768px) and (max-width: 1023px)").matches;
-}
-
 /** Client wrapper wiring FilterSidebar selections to ChipBar in browse patterns. */
 export function BrowseFiltersDemo({ children }: BrowseFiltersDemoProps) {
   const [filters, setFilters] = useState<FilterState>({ active: [] });
-  const [collapsed, setCollapsed] = useState(isTabletTier);
+  const [collapsed, setCollapsed] = useState(false);
   const [expandRequest, setExpandRequest] = useState<FilterCategoryId | null>(null);
 
   useEffect(() => {
