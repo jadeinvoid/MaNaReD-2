@@ -168,6 +168,48 @@ Mode is **derived**, not user-toggled:
 
 ---
 
+## 4.1 Results view (card / list)
+
+### Decision
+
+Users can switch compound **results presentation** between **card** and **list** via an icon-only segmented control in the chip bar — **trailing control after Sort**.
+
+| Setting          | Value                                                                                                                 |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Control          | Two-segment icon toggle (Card \| List) — Astryx `SegmentedControl` or equivalent, styled with chip-bar control tokens |
+| Placement        | Chip bar, far right after Sort — see Figma `chip-bar` (`349:3993`) + new `chip-bar/view-toggle` symbol (`TBD`)        |
+| Default          | **Card** (browse-friendly; aligns with §10 initial browse posture)                                                    |
+| Persistence      | User preference survives session; sync to URL (`?view=card` \| `?view=list`) when app ships (§10 URL principle)       |
+| Scope            | Compound results first; organism/region list layouts `TBD` per entity                                                 |
+| Browse vs search | **Independent** of browse/search derivation (§4) — user may use list in browse or card in search                      |
+| Loading (future) | Skeleton shape matches active view (cards vs rows)                                                                    |
+
+### Visual tokens (design system)
+
+Composed from existing MaNaReD tokens — not a new visual language:
+
+| Part             | Token / reference                                                                                                           |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Outer shell      | `chip-bar/more-filters` geometry — `h-7`, `shape.lg`, `border-border-secondary`, `bg-body` (`INTERACTIVE_CHIP_BAR_CONTROL`) |
+| Selected segment | `MaNaReD.colour.interactive.button.active` — `bg-button-active`, `text-primary`                                             |
+| Icons            | Figma Icons (`93:1469`) — 16px tier, `icon/card-view`, `icon/list-view`                                                     |
+| Container        | Inline in `SURFACE_CHIP_BAR` gradient band                                                                                  |
+
+Precedent: [`EntityNav`](src/app/components/manared/composites/entity-nav.tsx) — UX-only control built from Astryx + MaNaReD tokens.
+
+### Responsive
+
+Icon-only at all tiers. On mobile (`<768px`), may wrap to a second chip-bar row with More Filters and Sort — see [§11.1](#111-viewport-breakpoints).
+
+### Rejected
+
+- Auto-switching view when entering browse or search mode
+- View control placed outside the chip bar (e.g. floating toolbar)
+
+**Status:** `decided` · **Figma frame:** `TBD` (`chip-bar/view-toggle`) · **Visual tokens:** derived from chip-bar + interactive tokens
+
+---
+
 ## 5. Filter pattern assignment by data shape
 
 ### Decision
@@ -407,13 +449,14 @@ flowchart LR
   desktop --> pqrsRow[PQRS full horizontal band]
 ```
 
-| Component      | Mobile `<768px`                                                                     | Tablet `768–1023px`                                  | Desktop `≥1024px`                        |
-| -------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------- |
-| Filter sidebar | Drawer overlay; filter icon in header opens it                                      | Collapsed by default; expand via `vertical-collapse` | Persistent, open by default              |
-| Entity nav     | Segmented control, full width, below search bar                                     | Segmented control, inline below search bar           | Segmented control or inline with top bar |
-| PQRS           | Horizontal scroll — [§11.3](#113-pqrs-by-viewport)                                  | Horizontal scroll                                    | Full band; wrap to second row if needed  |
-| Search + chips | Stacked; chips wrap — [§11.4](#114-filter-chips-and-provenance-on-narrow-viewports) | Chips wrap                                           | Chips inline with search                 |
-| Home cards     | 1 column                                                                            | 2 columns                                            | 3 columns                                |
+| Component      | Mobile `<768px`                                                                     | Tablet `768–1023px`                                  | Desktop `≥1024px`                                                 |
+| -------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------- |
+| Filter sidebar | Drawer overlay; filter icon in header opens it                                      | Collapsed by default; expand via `vertical-collapse` | Persistent, open by default                                       |
+| Entity nav     | Segmented control, full width, below search bar                                     | Segmented control, inline below search bar           | Segmented control or inline with top bar                          |
+| PQRS           | Horizontal scroll — [§11.3](#113-pqrs-by-viewport)                                  | Horizontal scroll                                    | Full band; wrap to second row if needed                           |
+| Search + chips | Stacked; chips wrap — [§11.4](#114-filter-chips-and-provenance-on-narrow-viewports) | Chips wrap                                           | Chips inline with search                                          |
+| Results view   | Icon toggle in chip bar; may wrap with other controls                               | Same                                                 | Trailing control after Sort — [§4.1](#41-results-view-card--list) |
+| Home cards     | 1 column                                                                            | 2 columns                                            | 3 columns                                                         |
 
 ### 11.2 Entity nav on mobile
 

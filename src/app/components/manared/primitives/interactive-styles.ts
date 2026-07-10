@@ -30,6 +30,18 @@ export const INTERACTIVE_PROVENANCE_TEXT =
 export const INTERACTIVE_CHIP_BAR_CONTROL =
   "inline-flex h-7 shrink-0 items-center justify-center gap-1 rounded-lg border border-solid border-border-secondary bg-body px-[length:var(--spacing-2)] py-[length:var(--spacing-1)] text-3xs font-normal text-secondary hover:bg-button-hover focus-visible:bg-button-focus focus-visible:outline-none";
 
+/** Chip-bar view toggle shell — UX §4.1; matches `chip-bar/more-filters` outer geometry. */
+export const INTERACTIVE_CHIP_BAR_VIEW_TOGGLE =
+  "inline-flex h-7 shrink-0 items-center gap-0.5 rounded-lg border border-solid border-border-secondary bg-body p-0.5";
+
+/** Chip-bar view toggle segment — unselected. */
+export const INTERACTIVE_CHIP_BAR_VIEW_SEGMENT =
+  "inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-secondary hover:bg-button-hover focus-visible:bg-button-focus focus-visible:outline-none";
+
+/** Chip-bar view toggle segment — selected (`interactive.button.active`). */
+export const INTERACTIVE_CHIP_BAR_VIEW_SEGMENT_ACTIVE =
+  "inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-button-active text-primary focus-visible:outline-none";
+
 /** Shared filter sidebar action shell — Figma `interactive.button` active/hover/focus. */
 export const INTERACTIVE_FILTER_ACTION_BASE =
   "inline-flex shrink-0 items-center justify-center rounded-md border border-solid bg-button-active font-normal text-primary hover:bg-button-hover focus-visible:bg-button-focus focus-visible:outline-none";
