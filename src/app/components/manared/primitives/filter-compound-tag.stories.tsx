@@ -1,11 +1,23 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { ReactNode } from "react";
 import { expect, fn, userEvent, within } from "storybook/test";
 
 import { FilterCompoundTag } from "./filter-compound-tag";
-import { expectUsesTokenClasses } from "@/storybook/manared/shared/assert-token-colours";
+import {
+  expectedTokenColour,
+  withColourMode,
+} from "@/storybook/manared/shared/assert-token-colours";
 
 const FIGMA_COMPOUND_TAG =
   "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=166-925";
+
+function ColourModeFrame({ mode, children }: { mode: "light" | "dark"; children: ReactNode }) {
+  return (
+    <div style={{ colorScheme: mode }} className="bg-body p-4">
+      {children}
+    </div>
+  );
+}
 
 const meta = {
   title: "MaNaReD/Primitives/FilterCompoundTag",
@@ -26,18 +38,33 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Unselected: Story = {
+  render: (args) => (
+    <ColourModeFrame mode="light">
+      <FilterCompoundTag {...args} />
+    </ColourModeFrame>
+  ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const pill = canvas.getByRole("button", { name: "Cytotoxic (48)" }).querySelector("span");
-    if (!pill) {
+    if (!pill || !(pill instanceof HTMLElement)) {
       throw new Error("Tag pill not found");
     }
-    await expectUsesTokenClasses(pill.className, "bg-dropdown-active", "text-tertiary");
+    await expect(pill.className).toContain("filter-compound-tag-pill--unselected");
+    await withColourMode("light", async () => {
+      await expect(getComputedStyle(pill).backgroundColor).toBe(
+        expectedTokenColour("--color-interactive-dropdown-active", "light"),
+      );
+    });
   },
 };
 
 export const Selected: Story = {
   args: { state: "selected" },
+  render: (args) => (
+    <ColourModeFrame mode="dark">
+      <FilterCompoundTag {...args} />
+    </ColourModeFrame>
+  ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByRole("button", { name: "Cytotoxic (48)" })).toHaveAttribute(
@@ -45,10 +72,15 @@ export const Selected: Story = {
       "true",
     );
     const pill = canvas.getByRole("button", { name: "Cytotoxic (48)" }).querySelector("span");
-    if (!pill) {
+    if (!pill || !(pill instanceof HTMLElement)) {
       throw new Error("Tag pill not found");
     }
-    await expectUsesTokenClasses(pill.className, "bg-entity-compound-bg");
+    await expect(pill.className).toContain("filter-compound-tag-pill--selected");
+    await withColourMode("dark", async () => {
+      await expect(getComputedStyle(pill).backgroundColor).toBe(
+        expectedTokenColour("--color-background-cyan", "dark"),
+      );
+    });
   },
 };
 
@@ -71,9 +103,32 @@ export const Toggle: Story = {
   },
 };
 
+export const DarkModeUnselected: Story = {
+  render: (args) => (
+    <ColourModeFrame mode="dark">
+      <FilterCompoundTag {...args} />
+    </ColourModeFrame>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const pill = canvas.getByRole("button", { name: "Cytotoxic (48)" }).querySelector("span");
+    if (!pill || !(pill instanceof HTMLElement)) {
+      throw new Error("Tag pill not found");
+    }
+    await withColourMode("dark", async () => {
+      await expect(getComputedStyle(pill).backgroundColor).toBe(
+        expectedTokenColour("--color-background-sidebar-tertiary", "dark"),
+      );
+      await expect(getComputedStyle(pill).color).toBe(
+        expectedTokenColour("--color-text-primary", "dark"),
+      );
+    });
+  },
+};
+
 export const AllStates: Story = {
   render: () => (
-    <div className="flex flex-wrap justify-end gap-0">
+    <div className="flex flex-wrap justify-start gap-0">
       <FilterCompoundTag label="Antiviral (12)" state="unselected" />
       <FilterCompoundTag label="Cytotoxic (48)" state="selected" />
       <FilterCompoundTag label="Antibacterial (0)" state="zero-count" />

@@ -1,12 +1,24 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { ReactNode } from "react";
 import { expect, fn, userEvent, within } from "storybook/test";
 
 import { MOCK_BIOACTIVITY_TAGS, MOCK_BIOACTIVITY_TAGS_EXTENDED } from "./filter-state";
 import { FilterTagPanel } from "./filter-tag-panel";
-import { expectUsesTokenClasses } from "@/storybook/manared/shared/assert-token-colours";
+import {
+  expectedTokenColour,
+  withColourMode,
+} from "@/storybook/manared/shared/assert-token-colours";
 
 const FIGMA_TAG_DROPDOWN =
   "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=166-998";
+
+function ColourModeFrame({ mode, children }: { mode: "light" | "dark"; children: ReactNode }) {
+  return (
+    <div style={{ colorScheme: mode }} className="bg-body p-4">
+      {children}
+    </div>
+  );
+}
 
 const meta = {
   title: "MaNaReD/Composites/FilterTagPanel",
@@ -74,11 +86,41 @@ export const PartialSelection: Story = {
     const canvas = within(canvasElement);
     const selected = canvas.getByRole("button", { name: "Cytotoxic (48)" }).querySelector("span");
     const unselected = canvas.getByRole("button", { name: "Antifungal (7)" }).querySelector("span");
-    if (!selected || !unselected) {
+    if (
+      !selected ||
+      !unselected ||
+      !(selected instanceof HTMLElement) ||
+      !(unselected instanceof HTMLElement)
+    ) {
       throw new Error("Tag spans not found");
     }
-    await expectUsesTokenClasses(selected.className, "bg-entity-compound-bg");
-    await expectUsesTokenClasses(unselected.className, "bg-dropdown-active", "text-tertiary");
+    await expect(selected.className).toContain("filter-compound-tag-pill--selected");
+    await expect(unselected.className).toContain("filter-compound-tag-pill--unselected");
+  },
+};
+
+export const DarkMode: Story = {
+  render: (args) => (
+    <ColourModeFrame mode="dark">
+      <FilterTagPanel {...args} selected={["Cytotoxic"]} />
+    </ColourModeFrame>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const panel = canvasElement.querySelector("[data-filter-tag-panel]");
+    if (!panel || !(panel instanceof HTMLElement)) {
+      throw new Error("Filter tag panel not found");
+    }
+    await expect(panel.querySelector(".filter-tag-row")).toBeTruthy();
+    const unselected = canvas.getByRole("button", { name: "Antiviral (12)" }).querySelector("span");
+    if (!unselected || !(unselected instanceof HTMLElement)) {
+      throw new Error("Unselected tag not found");
+    }
+    await withColourMode("dark", async () => {
+      await expect(getComputedStyle(unselected).backgroundColor).toBe(
+        expectedTokenColour("--color-background-sidebar-tertiary", "dark"),
+      );
+    });
   },
 };
 

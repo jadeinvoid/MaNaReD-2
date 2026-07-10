@@ -54,9 +54,9 @@ export function FilterTagPanel({
   }, [query, tags]);
 
   return (
-    <div className="flex w-full flex-col items-end gap-1 rounded-md p-1">
+    <div className="w-full min-w-0" data-filter-tag-panel>
       {showSearch ? (
-        <div className="w-full px-1">
+        <div className="filter-tag-search">
           <TextInput
             label="Filter tags"
             isLabelHidden
@@ -68,7 +68,7 @@ export function FilterTagPanel({
           />
         </div>
       ) : null}
-      <div className="flex w-full flex-wrap justify-end gap-0 px-2 py-1">
+      <div className="filter-tag-row">
         {visibleTags.map((tag) => (
           <FilterCompoundTag
             key={tag.label}

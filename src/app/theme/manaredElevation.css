@@ -408,7 +408,8 @@
 
   /* Compound class dropdown — lower-rank horizontal inset */
   [data-astryx-theme="manared"] [data-filter-dropdown-panel],
-  [data-astryx-theme="manared"] [data-filter-region-panel] {
+  [data-astryx-theme="manared"] [data-filter-region-panel],
+  [data-astryx-theme="manared"] [data-filter-tag-panel] {
     --filter-dropdown-label-inset: calc(var(--spacing-2, 8px) * 2);
     --filter-dropdown-chevron-inset: 24px;
     box-sizing: border-box;
@@ -449,6 +450,45 @@
     font-size: var(--font-size-3xs, 0.75rem);
     line-height: 1.2;
     color: var(--color-text-primary);
+  }
+
+  /* Bioactivity / target-assay tag panel — lower-rank inset aligned with geographic region */
+  [data-astryx-theme="manared"] [data-filter-tag-panel] {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1, 4px);
+    padding-block-start: 4px;
+    padding-inline-start: calc(var(--filter-dropdown-label-inset) + 4px);
+    padding-inline-end: var(--filter-dropdown-chevron-inset);
+  }
+
+  [data-astryx-theme="manared"] [data-filter-tag-panel] .filter-tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0;
+    padding-block: var(--spacing-1, 4px);
+  }
+
+  [data-astryx-theme="manared"] [data-filter-tag-panel] .filter-tag-search {
+    width: 100%;
+    padding-inline: 0;
+  }
+
+  /* Compound filter tag pills — mode-aware fills (avoid light cream in dark sidebar) */
+  [data-astryx-theme="manared"] .filter-compound-tag-pill--selected {
+    background-color: var(--color-background-cyan);
+    border-color: var(--color-border-cyan);
+    color: var(--color-text-cyan);
+  }
+
+  [data-astryx-theme="manared"] .filter-compound-tag-pill--unselected {
+    background-color: light-dark(
+      var(--color-interactive-dropdown-active),
+      var(--color-background-sidebar-tertiary)
+    );
+    border-color: light-dark(var(--color-background-cyan), var(--color-border-cyan));
+    color: light-dark(var(--color-text-tertiary), var(--color-text-primary));
   }
 
   [data-astryx-theme="manared"] [data-filter-dropdown-panel] .filter-compound-class-clear {

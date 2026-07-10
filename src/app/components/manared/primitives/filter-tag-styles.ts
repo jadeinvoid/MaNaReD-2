@@ -1,21 +1,19 @@
-import { ENTITY_TAG_BASE, entityClassNames } from "./entity-styles";
-
-const COMPOUND = entityClassNames.compound;
+import { ENTITY_TAG_BASE } from "./entity-styles";
 
 /** Outer hit target — Figma compound-tag wrapper padding space.1. */
 export const FILTER_COMPOUND_TAG_HIT = "p-1";
 
-/** Selected filter tag — Figma compound-tag `state=default`. */
-export const FILTER_COMPOUND_TAG_SELECTED = `${ENTITY_TAG_BASE} rounded-lg ${COMPOUND.combined} text-primary`;
+/** Shared pill shell — colours resolved in manaredElevation.css for light/dark parity. */
+export const FILTER_COMPOUND_TAG_PILL = `${ENTITY_TAG_BASE} filter-compound-tag-pill rounded-lg border border-solid`;
 
-/**
- * Unselected filter tag — Figma compound-tag `state=disabled`.
- * Cream dropdown-active fill with light compound border and tertiary label.
- */
-export const FILTER_COMPOUND_TAG_UNSELECTED = `${ENTITY_TAG_BASE} rounded-lg border-entity-compound-bg bg-dropdown-active text-tertiary`;
+/** Selected filter tag — Figma compound-tag `state=default`. */
+export const FILTER_COMPOUND_TAG_SELECTED = `${FILTER_COMPOUND_TAG_PILL} filter-compound-tag-pill--selected`;
+
+/** Unselected filter tag — Figma compound-tag `state=disabled`. */
+export const FILTER_COMPOUND_TAG_UNSELECTED = `${FILTER_COMPOUND_TAG_PILL} filter-compound-tag-pill--unselected`;
 
 /** Zero-count facet — non-interactive unselected styling with reduced emphasis. */
-export const FILTER_COMPOUND_TAG_ZERO_COUNT = `${FILTER_COMPOUND_TAG_UNSELECTED} opacity-60`;
+export const FILTER_COMPOUND_TAG_ZERO_COUNT = `${FILTER_COMPOUND_TAG_UNSELECTED} filter-compound-tag-pill--zero-count opacity-60`;
 
 /** Interactive shell for selectable tags. */
 export const FILTER_COMPOUND_TAG_BUTTON =
