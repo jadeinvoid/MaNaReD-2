@@ -41,7 +41,7 @@ export type FilterSidebarProps = {
   onRequestExpandCategoryHandled?: () => void;
 };
 
-const PLACEHOLDER_CATEGORIES = new Set<FilterCategoryId>(["targetAssay"]);
+const PLACEHOLDER_CATEGORIES = new Set<FilterCategoryId>();
 
 function FilterSidebarReveal({ collapsed, children }: { collapsed: boolean; children: ReactNode }) {
   return (
