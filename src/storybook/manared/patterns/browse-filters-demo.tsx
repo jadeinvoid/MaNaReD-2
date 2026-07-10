@@ -51,37 +51,41 @@ export function BrowseFiltersDemo({ defaultViewMode = "card", children }: Browse
         requestExpandCategory={expandRequest}
         onRequestExpandCategoryHandled={() => setExpandRequest(null)}
       />
-      <VStack gap={4} className="min-h-0 min-w-0 flex-1 overflow-y-auto p-4">
-        <ChipBar
-          chips={filtersToChipItems(filters)}
-          onMoreFilters={() => setCollapsed(false)}
-          onRemoveChip={(id) => setFilters((current) => removeFilter(current, id))}
-          onChipClick={(id) => {
-            if (id.startsWith("molecularWeight")) {
-              setCollapsed(false);
-              setExpandRequest("molecularWeight");
-              return;
-            }
-            if (id.startsWith("geographicRegion:")) {
-              setCollapsed(false);
-              setExpandRequest("geographicRegion");
-              return;
-            }
-            if (id.startsWith("bioactivity:")) {
-              setCollapsed(false);
-              setExpandRequest("bioactivity");
-              return;
-            }
-            if (id.startsWith("targetAssay:")) {
-              setCollapsed(false);
-              setExpandRequest("targetAssay");
-            }
-          }}
-          viewMode={viewMode}
-          onViewModeChange={setViewMode}
-        />
-        {typeof children === "function" ? children(filters, viewMode) : children}
-      </VStack>
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+        <div className="shrink-0 px-4 pt-4">
+          <ChipBar
+            chips={filtersToChipItems(filters)}
+            onMoreFilters={() => setCollapsed(false)}
+            onRemoveChip={(id) => setFilters((current) => removeFilter(current, id))}
+            onChipClick={(id) => {
+              if (id.startsWith("molecularWeight")) {
+                setCollapsed(false);
+                setExpandRequest("molecularWeight");
+                return;
+              }
+              if (id.startsWith("geographicRegion:")) {
+                setCollapsed(false);
+                setExpandRequest("geographicRegion");
+                return;
+              }
+              if (id.startsWith("bioactivity:")) {
+                setCollapsed(false);
+                setExpandRequest("bioactivity");
+                return;
+              }
+              if (id.startsWith("targetAssay:")) {
+                setCollapsed(false);
+                setExpandRequest("targetAssay");
+              }
+            }}
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
+          />
+        </div>
+        <VStack gap={4} className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
+          {typeof children === "function" ? children(filters, viewMode) : children}
+        </VStack>
+      </div>
     </div>
   );
 }
