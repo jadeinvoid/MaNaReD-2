@@ -12,6 +12,8 @@ import { NavSideBar } from "@/app/components/manared/composites/nav-side-bar";
 import { TaxonomyBreadcrumb } from "@/app/components/manared/composites/taxonomy-breadcrumb";
 import { TopBarRegion } from "@/app/components/manared/composites/top-bar-region";
 import type { ResultsViewMode } from "@/app/components/manared/composites/results-view";
+import type { SortOptionId } from "@/app/components/manared/composites/sort-state";
+import { sortBrowseResults } from "@/app/components/manared/composites/sort-state";
 import { BrowseFiltersDemo } from "@/storybook/manared/patterns/browse-filters-demo";
 import {
   BROWSE_RESULTS_MOCK,
@@ -27,8 +29,20 @@ const FIGMA_LIST_ITEMS =
 
 const NAV_ANIMATION_MS = 175;
 
-function BrowseResults({ filters, viewMode }: { filters: FilterState; viewMode: ResultsViewMode }) {
-  const results = filterBrowseResults(BROWSE_RESULTS_MOCK, filters);
+function BrowseResults({
+  filters,
+  viewMode,
+  sortBy,
+}: {
+  filters: FilterState;
+  viewMode: ResultsViewMode;
+  sortBy: SortOptionId;
+}) {
+  const results = sortBrowseResults(
+    filterBrowseResults(BROWSE_RESULTS_MOCK, filters),
+    sortBy,
+    "compounds",
+  );
 
   if (viewMode === "list") {
     return (
@@ -52,7 +66,9 @@ function BrowseResults({ filters, viewMode }: { filters: FilterState; viewMode: 
 function BrowseShell({
   children,
 }: {
-  children: ReactNode | ((filters: FilterState, viewMode: ResultsViewMode) => ReactNode);
+  children:
+    | ReactNode
+    | ((filters: FilterState, viewMode: ResultsViewMode, sortBy: SortOptionId) => ReactNode);
 }) {
   return (
     <div className="flex min-h-screen bg-body">
@@ -92,7 +108,9 @@ export const BrowseWithViewToggle: Story = {
   name: "Browse with view toggle",
   render: () => (
     <BrowseShell>
-      {(filters, viewMode) => <BrowseResults filters={filters} viewMode={viewMode} />}
+      {(filters, viewMode, sortBy) => (
+        <BrowseResults filters={filters} viewMode={viewMode} sortBy={sortBy} />
+      )}
     </BrowseShell>
   ),
   play: async ({ canvasElement }) => {
@@ -191,6 +209,17 @@ export const BrowseWithViewToggle: Story = {
       },
       { timeout: NAV_ANIMATION_MS + 100 },
     );
+
+    await userEvent.click(within(chipBar).getByRole("button", { name: /Sort by/ }));
+    await userEvent.click(canvas.getByRole("option", { name: "Name (A-Z)" }));
+    await expect(
+      within(chipBar).getByRole("button", { name: /Sort by: Name \(A-Z\)/ }),
+    ).toBeVisible();
+    await expect(canvas.getByText("Discodermolide")).toBeVisible();
+    const firstCard = canvas.getByText("Discodermolide").closest('[class*="bg-surface"]');
+    if (!firstCard) {
+      throw new Error("Expected Discodermolide to be first result after name sort");
+    }
   },
 };
 
@@ -199,7 +228,9 @@ export const CardView: Story = {
   name: "Card view",
   render: () => (
     <BrowseShell>
-      {(filters, viewMode) => <BrowseResults filters={filters} viewMode={viewMode} />}
+      {(filters, viewMode, sortBy) => (
+        <BrowseResults filters={filters} viewMode={viewMode} sortBy={sortBy} />
+      )}
     </BrowseShell>
   ),
 };
@@ -220,7 +251,9 @@ export const ListView: Story = {
         </ContextualBar>
         <div className="flex min-h-0 flex-1 gap-4">
           <BrowseFiltersDemo defaultViewMode="list">
-            {(filters, viewMode) => <BrowseResults filters={filters} viewMode={viewMode} />}
+            {(filters, viewMode, sortBy) => (
+              <BrowseResults filters={filters} viewMode={viewMode} sortBy={sortBy} />
+            )}
           </BrowseFiltersDemo>
         </div>
       </div>

@@ -14,10 +14,16 @@ import {
   type FilterCategoryId,
   type FilterState,
 } from "@/app/components/manared/composites/filter-state";
+import {
+  DEFAULT_SORT_BY_ENTITY,
+  type SortOptionId,
+} from "@/app/components/manared/composites/sort-state";
 
 export type BrowseFiltersDemoProps = {
   defaultViewMode?: ResultsViewMode;
-  children: ReactNode | ((filters: FilterState, viewMode: ResultsViewMode) => ReactNode);
+  children:
+    | ReactNode
+    | ((filters: FilterState, viewMode: ResultsViewMode, sortBy: SortOptionId) => ReactNode);
 };
 
 function isTabletTier(): boolean {
@@ -31,6 +37,7 @@ function isTabletTier(): boolean {
 export function BrowseFiltersDemo({ defaultViewMode = "card", children }: BrowseFiltersDemoProps) {
   const [filters, setFilters] = useState<FilterState>({ active: [] });
   const [viewMode, setViewMode] = useState<ResultsViewMode>(defaultViewMode);
+  const [sortBy, setSortBy] = useState<SortOptionId>(DEFAULT_SORT_BY_ENTITY.compounds);
   const [collapsed, setCollapsed] = useState(isTabletTier);
   const [expandRequest, setExpandRequest] = useState<FilterCategoryId | null>(null);
 
@@ -56,6 +63,8 @@ export function BrowseFiltersDemo({ defaultViewMode = "card", children }: Browse
           chips={filtersToChipItems(filters)}
           onMoreFilters={() => setCollapsed(false)}
           onRemoveChip={(id) => setFilters((current) => removeFilter(current, id))}
+          sortValue={sortBy}
+          onSortChange={setSortBy}
           onChipClick={(id) => {
             if (id.startsWith("molecularWeight")) {
               setCollapsed(false);
@@ -80,7 +89,7 @@ export function BrowseFiltersDemo({ defaultViewMode = "card", children }: Browse
           viewMode={viewMode}
           onViewModeChange={setViewMode}
         />
-        {typeof children === "function" ? children(filters, viewMode) : children}
+        {typeof children === "function" ? children(filters, viewMode, sortBy) : children}
       </VStack>
     </>
   );

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { CSSProperties, ReactNode } from "react";
+import { useState } from "react";
 import { expect, fn, userEvent, within } from "storybook/test";
 
 import {
@@ -12,6 +13,7 @@ import { INTERACTIVE_CHIP_BAR_CONTROL } from "../primitives/interactive-styles";
 import { GRADIENT_CHIP_BAR } from "../primitives/gradient-styles";
 import { SURFACE_CHIP_BAR } from "../primitives/surface-styles";
 import { ChipBar } from "./chip-bar";
+import type { SortOptionId } from "./sort-state";
 
 const FIGMA_CHIP_BAR =
   "https://www.figma.com/design/y12p7ety9bAbG9Z7m5Bd6L/MaNaReD?node-id=349-3993";
@@ -57,7 +59,8 @@ const meta = {
     onRemoveChip: fn(),
     onChipClick: fn(),
     onMoreFilters: fn(),
-    onSort: fn(),
+    sortValue: "recentlyAdded" as SortOptionId,
+    onSortChange: fn(),
   },
 } satisfies Meta<typeof ChipBar>;
 
@@ -113,6 +116,19 @@ async function assertChipBarGradient(canvasElement: HTMLElement) {
 }
 
 export const Default: Story = {
+  render: function Render(args) {
+    const [sortValue, setSortValue] = useState<SortOptionId>(args.sortValue ?? "recentlyAdded");
+    return (
+      <ChipBar
+        {...args}
+        sortValue={sortValue}
+        onSortChange={(next) => {
+          setSortValue(next);
+          args.onSortChange?.(next);
+        }}
+      />
+    );
+  },
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Alkaloids")).toBeVisible();
@@ -127,7 +143,9 @@ export const Default: Story = {
     await userEvent.click(canvas.getByRole("button", { name: "More Filters" }));
     await expect(args.onMoreFilters).toHaveBeenCalledOnce();
     await userEvent.click(canvas.getByRole("button", { name: /Sort by/ }));
-    await expect(args.onSort).toHaveBeenCalledOnce();
+    await userEvent.click(canvas.getByRole("option", { name: "Name (A-Z)" }));
+    await expect(args.onSortChange).toHaveBeenCalledWith("nameAsc");
+    await expect(canvas.getByRole("button", { name: /Sort by: Name \(A-Z\)/ })).toBeVisible();
   },
 };
 
