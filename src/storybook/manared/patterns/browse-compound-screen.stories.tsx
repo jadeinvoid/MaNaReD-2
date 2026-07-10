@@ -150,8 +150,11 @@ export const CardView: Story = {
     await expect(canvas.getByText("Manoalide")).toBeVisible();
 
     await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
-    await userEvent.click(canvas.getByRole("button", { name: "Cytotoxic" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Cytotoxic (48)" }));
     await expect(within(chipBar).getByText("Cytotoxic")).toBeVisible();
+
+    await userEvent.click(within(chipBar).getByText("Cytotoxic"));
+    await expect(canvas.getByRole("button", { name: "Cytotoxic (48)" })).toBeVisible();
 
     await userEvent.click(canvas.getByLabelText("Expand Taxonomy filter"));
     await userEvent.click(canvas.getByRole("button", { name: "Porifera" }));

@@ -1,37 +1,83 @@
 "use client";
 
-import { ENTITY_TAG_BASE, entityClassNames } from "../primitives/entity-styles";
+import { useMemo, useState } from "react";
 
-export type FilterTagPanelProps = {
-  tags: readonly string[];
-  selected: string[];
-  onToggle: (tag: string) => void;
+import { TextInput } from "@astryxdesign/core/TextInput";
+
+import { FilterCompoundTag } from "../primitives/filter-compound-tag";
+import type { FilterCompoundTagState } from "../primitives/filter-compound-tag";
+
+export type FilterTagOption = {
+  label: string;
+  count?: number;
 };
 
-const COMPOUND = entityClassNames.compound;
+export type FilterTagPanelProps = {
+  tags: readonly FilterTagOption[];
+  selected: string[];
+  onToggle: (tag: string) => void;
+  searchPlaceholder?: string;
+};
 
-/** Bioactivity tag multi-select — Figma `tag-dropdown` (166:998), compound entity styling. */
-export function FilterTagPanel({ tags, selected, onToggle }: FilterTagPanelProps) {
+const SEARCH_THRESHOLD = 8;
+
+function formatTagLabel(tag: FilterTagOption): string {
+  if (tag.count == null) {
+    return tag.label;
+  }
+  return `${tag.label} (${tag.count})`;
+}
+
+function tagState(tag: FilterTagOption, selected: string[]): FilterCompoundTagState {
+  if (tag.count === 0) {
+    return "zero-count";
+  }
+  return selected.includes(tag.label) ? "selected" : "unselected";
+}
+
+/** Bioactivity / target-assay tag multi-select — Figma `tag-dropdown` (166:998). */
+export function FilterTagPanel({
+  tags,
+  selected,
+  onToggle,
+  searchPlaceholder = "Search tags…",
+}: FilterTagPanelProps) {
+  const [query, setQuery] = useState("");
+  const showSearch = tags.length > SEARCH_THRESHOLD;
+
+  const visibleTags = useMemo(() => {
+    const trimmed = query.trim().toLowerCase();
+    if (!trimmed) {
+      return tags;
+    }
+    return tags.filter((tag) => tag.label.toLowerCase().includes(trimmed));
+  }, [query, tags]);
+
   return (
-    <div className="flex flex-wrap justify-end gap-0 rounded-md p-1">
-      {tags.map((tag) => {
-        const isSelected = selected.includes(tag);
-        const className = isSelected
-          ? `${ENTITY_TAG_BASE} rounded-lg ${COMPOUND.combined}`
-          : `${ENTITY_TAG_BASE} rounded-lg border-border-secondary bg-body text-tertiary`;
-
-        return (
-          <button
-            key={tag}
-            type="button"
-            aria-pressed={isSelected}
-            onClick={() => onToggle(tag)}
-            className="p-1"
-          >
-            <span className={className}>{tag}</span>
-          </button>
-        );
-      })}
+    <div className="w-full min-w-0" data-filter-tag-panel>
+      {showSearch ? (
+        <div className="filter-tag-search">
+          <TextInput
+            label="Filter tags"
+            isLabelHidden
+            placeholder={searchPlaceholder}
+            value={query}
+            onChange={setQuery}
+            size="sm"
+            width="100%"
+          />
+        </div>
+      ) : null}
+      <div className="filter-tag-row">
+        {visibleTags.map((tag) => (
+          <FilterCompoundTag
+            key={tag.label}
+            label={formatTagLabel(tag)}
+            state={tagState(tag, selected)}
+            onToggle={() => onToggle(tag.label)}
+          />
+        ))}
+      </div>
     </div>
   );
 }

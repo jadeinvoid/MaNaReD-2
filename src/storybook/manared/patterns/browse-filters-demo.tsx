@@ -57,10 +57,21 @@ export function BrowseFiltersDemo({ children }: BrowseFiltersDemoProps) {
             if (id.startsWith("molecularWeight")) {
               setCollapsed(false);
               setExpandRequest("molecularWeight");
+              return;
             }
             if (id.startsWith("geographicRegion:")) {
               setCollapsed(false);
               setExpandRequest("geographicRegion");
+              return;
+            }
+            if (id.startsWith("bioactivity:")) {
+              setCollapsed(false);
+              setExpandRequest("bioactivity");
+              return;
+            }
+            if (id.startsWith("targetAssay:")) {
+              setCollapsed(false);
+              setExpandRequest("targetAssay");
             }
           }}
         />

@@ -243,12 +243,12 @@ export const ToggleAllCategories: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
-    await expect(canvas.getByRole("button", { name: "Cytotoxic" })).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Cytotoxic (48)" })).toBeVisible();
 
     await userEvent.click(canvas.getByRole("button", { name: "Collapse all filter categories" }));
-    await expect(canvas.queryByRole("button", { name: "Cytotoxic" })).not.toBeInTheDocument();
+    await expect(canvas.queryByRole("button", { name: "Cytotoxic (48)" })).not.toBeInTheDocument();
     await userEvent.click(canvas.getByRole("button", { name: "Collapse all filter categories" }));
-    await expect(canvas.queryByRole("button", { name: "Cytotoxic" })).not.toBeInTheDocument();
+    await expect(canvas.queryByRole("button", { name: "Cytotoxic (48)" })).not.toBeInTheDocument();
   },
 };
 
@@ -256,7 +256,7 @@ export const ClearAllFromContainer: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
-    await userEvent.click(canvas.getByRole("button", { name: "Cytotoxic" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Cytotoxic (48)" }));
     await userEvent.click(canvas.getByRole("button", { name: "Clear All" }));
     const lastCall = args.onFiltersChange?.mock.calls.at(-1)?.[0];
     await expect(lastCall?.active).toEqual([]);
@@ -289,8 +289,8 @@ export const ExpandBioactivity: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
-    await expect(canvas.getByRole("button", { name: "Cytotoxic" })).toBeVisible();
-    await userEvent.click(canvas.getByRole("button", { name: "Cytotoxic" }));
+    await expect(canvas.getByRole("button", { name: "Cytotoxic (48)" })).toBeVisible();
+    await userEvent.click(canvas.getByRole("button", { name: "Cytotoxic (48)" }));
     await expect(args.onFiltersChange).toHaveBeenCalled();
     const lastCall = args.onFiltersChange?.mock.calls.at(-1)?.[0];
     await expect(
@@ -361,11 +361,37 @@ export const ClearAll: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
-    await userEvent.click(canvas.getByRole("button", { name: "Cytotoxic" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Cytotoxic (48)" }));
     await userEvent.click(canvas.getByRole("button", { name: "Clear All" }));
     const lastCall = args.onFiltersChange?.mock.calls.at(-1)?.[0];
     await expect(lastCall?.active).toEqual([]);
-    await expect(canvas.getByRole("button", { name: "Cytotoxic" })).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Cytotoxic (48)" })).toBeVisible();
+  },
+};
+
+export const ExpandTargetAssay: Story = {
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByLabelText("Expand Target / assay filter"));
+    await expect(canvas.getByRole("button", { name: "MTT assay (31)" })).toBeVisible();
+    await userEvent.click(canvas.getByRole("button", { name: "MTT assay (31)" }));
+    await expect(args.onFiltersChange).toHaveBeenCalled();
+    const lastCall = args.onFiltersChange?.mock.calls.at(-1)?.[0];
+    await expect(
+      lastCall?.active.some((filter: ActiveFilter) => filter.label === "MTT assay"),
+    ).toBe(true);
+  },
+};
+
+export const BioactivityWithCounts: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByLabelText("Expand Bioactivity filter"));
+    await expect(canvas.getByRole("button", { name: "Cytotoxic (48)" })).toBeVisible();
+    await expect(
+      canvas.queryByRole("button", { name: "Antibacterial (0)" }),
+    ).not.toBeInTheDocument();
+    await expect(canvas.getByText("Antibacterial (0)")).toBeVisible();
   },
 };
 

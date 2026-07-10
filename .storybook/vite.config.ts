@@ -13,5 +13,9 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 6006,
     strictPort: true,
+    // Keep HMR websocket on the forwarded port when browsing via Cursor port proxy.
+    hmr: {
+      clientPort: 6006,
+    },
   },
 });

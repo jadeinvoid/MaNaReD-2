@@ -183,7 +183,35 @@ UI control follows **data shape**, not visual preference:
 
 ### Rationale
 
-Bioactivity is a **filter dimension** (tag multi-select), not a fourth browse entity. Figma token `MaNaReD.colour.entity.bioactivity` styles bioactivity badges — distinct from Compounds / Organisms / Regions nav.
+Bioactivity is a **filter dimension** (tag multi-select), not a fourth browse entity. Figma token `MaNaReD.colour.entity.bioactivity` styles bioactivity badges on result cards and list rows — distinct from Compounds / Organisms / Regions nav.
+
+**Colour split (sidebar vs results):**
+
+| Surface                  | Token                               | Use                                                      |
+| ------------------------ | ----------------------------------- | -------------------------------------------------------- |
+| Filter sidebar tag pills | `MaNaReD.colour.entity.compound`    | Selected/unselected states in `tag-dropdown` (`166:998`) |
+| Result badges / chips    | `MaNaReD.colour.entity.bioactivity` | Bioactivity labels on compound cards, list rows, PQRS    |
+
+Sidebar filter tags intentionally use compound styling so additive filters read as constraint controls, not entity navigation.
+
+**Bioactivity vs Target / assay:**
+
+Two separate accordion rows in the filter sidebar (Figma `filter/container` `349:4572`). Both use the `tag-dropdown` pattern but different vocabularies:
+
+| Category       | Example values                   | Semantics                          |
+| -------------- | -------------------------------- | ---------------------------------- |
+| Bioactivity    | Cytotoxic, Antiviral, Antifungal | Activity type — OR within category |
+| Target / assay | MTT assay, DPPH, AChE inhibition | Assay method — OR within category  |
+
+Categories are complementary: a user may select bioactivity constraints and assay constraints independently. Each category uses **OR** semantics (match any selected tag in that category).
+
+**Facet counts:**
+
+Tags show an inline count suffix when the current result set provides facet data (e.g. `Cytotoxic (48)`). Tags with count `0` are disabled and non-interactive. Counts refresh when the result set or other filters change.
+
+**Large vocabulary:**
+
+When a category has more than eight tags, show a compact search field above the tag row. Search filters the visible tag list client-side; it does not alter the text query.
 
 ### Interaction
 
@@ -191,8 +219,9 @@ Bioactivity is a **filter dimension** (tag multi-select), not a fourth browse en
 - Collapse: Figma `icon/vertical-collapse` (32px) at tablet tier ([§11.1](#111-viewport-breakpoints))
 - Clear-all: explicit; does not clear text query unless "clear everything"
 - **Active filter chips** (search bar + results header): see [§11.4](#114-filter-chips-and-provenance-on-narrow-viewports)
+- Chip click on a bioactivity or target/assay chip reopens the sidebar and expands that category for editing
 
-**Status:** `decided` · **Figma:** `TBD`
+**Status:** `decided` · **Figma:** `compound-tag` (`166:925`), `tag-dropdown` (`166:998`), variant frames on component library page (`tag-dropdown/*`, `target-assay/*`)
 
 ---
 
@@ -473,12 +502,12 @@ Cross-reference findings when this document was first created. Use as a checklis
 
 ### Discrepancies to watch
 
-| Topic               | Note                                                                                   |
-| ------------------- | -------------------------------------------------------------------------------------- |
-| **Bioactivity**     | Figma has `entity.bioactivity` colour token — use for tags, not as a fourth nav entity |
-| **Figma screens**   | UI Library (`31:80`) has tokens + icons only; screen layouts not yet designed          |
-| **README overlap**  | README lists the same eight decisions as bullets — this doc owns the full rationale    |
-| **DESIGN.md scope** | Tokens and implementation only; no interaction detail                                  |
+| Topic               | Note                                                                                                    |
+| ------------------- | ------------------------------------------------------------------------------------------------------- |
+| **Bioactivity**     | Sidebar filter tags use `entity.compound`; result badges use `entity.bioactivity` — see §5 colour split |
+| **Figma screens**   | UI Library (`31:80`) has tokens + icons only; screen layouts not yet designed                           |
+| **README overlap**  | README lists the same eight decisions as bullets — this doc owns the full rationale                     |
+| **DESIGN.md scope** | Tokens and implementation only; no interaction detail                                                   |
 
 ### Gaps filled in this document
 

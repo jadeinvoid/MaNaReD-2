@@ -16,6 +16,7 @@ import {
   FILTER_CATEGORIES,
   MOCK_BIOACTIVITY_TAGS,
   MOCK_COMPOUND_CLASSES,
+  MOCK_TARGET_ASSAY_TAGS,
   MW_FULL_RANGE,
   setDropdownFilter,
   setRangeFilter,
@@ -40,7 +41,7 @@ export type FilterSidebarProps = {
   onRequestExpandCategoryHandled?: () => void;
 };
 
-const PLACEHOLDER_CATEGORIES = new Set<FilterCategoryId>(["targetAssay"]);
+const PLACEHOLDER_CATEGORIES = new Set<FilterCategoryId>();
 
 function FilterSidebarReveal({ collapsed, children }: { collapsed: boolean; children: ReactNode }) {
   return (
@@ -174,6 +175,17 @@ export function FilterSidebar({
       );
     }
 
+    if (categoryId === "targetAssay") {
+      return (
+        <FilterTagPanel
+          tags={MOCK_TARGET_ASSAY_TAGS}
+          selected={selectedTags(filters, categoryId)}
+          onToggle={(tag) => updateFilters(toggleTagFilter(filters, categoryId, tag))}
+          searchPlaceholder="Search assays…"
+        />
+      );
+    }
+
     if (categoryId === "molecularWeight") {
       const value = expandedCategories.includes("molecularWeight")
         ? rangeDraft
@@ -261,7 +273,11 @@ export function FilterSidebar({
                   expanded={expandedCategories.includes(id)}
                   forceCollapsed={allCategoriesCollapsed}
                   panelClassName={
-                    id === "taxonomy" || id === "geographicRegion" || id === "compoundClass"
+                    id === "taxonomy" ||
+                    id === "geographicRegion" ||
+                    id === "compoundClass" ||
+                    id === "bioactivity" ||
+                    id === "targetAssay"
                       ? "w-full pb-1"
                       : id === "molecularWeight"
                         ? "w-full pb-2"
