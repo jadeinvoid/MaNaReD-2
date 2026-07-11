@@ -9,6 +9,10 @@ import {
   SURFACE_CARD_PANEL,
   SURFACE_LIST_ROW,
 } from "@/app/components/manared/primitives/surface-styles";
+import {
+  INTERACTIVE_CARD_SAVE,
+  INTERACTIVE_FILTER_CLEAR_ALL,
+} from "@/app/components/manared/primitives/interactive-styles";
 import { DocsPage } from "../../astryx/shared/docs-page";
 import { TokenGrid, type TokenEntry } from "../../astryx/shared/token-grid";
 
@@ -27,6 +31,11 @@ const elevationTokens: TokenEntry[] = [
     name: "--shadow-elevated",
     description: "Hover add-on — stacked on top of --shadow-card",
     previewStyle: { boxShadow: "var(--shadow-elevated)" },
+  },
+  {
+    name: "--shadow-filter-action",
+    description: "Rest shadow for filter Clear All / Apply",
+    previewStyle: { boxShadow: "var(--shadow-filter-action)" },
   },
 ];
 
@@ -96,6 +105,16 @@ function HoverDemoPanels() {
           Hover me
         </Text>
       </div>
+      <Text size="2xs" className="text-tertiary">
+        Interactive buttons bloom a blurred `--color-background-blue` underline outward below the
+        control, plus a slight lift on pointer hover.
+      </Text>
+      <button type="button" className={INTERACTIVE_FILTER_CLEAR_ALL}>
+        Clear All
+      </button>
+      <button type="button" className={INTERACTIVE_CARD_SAVE}>
+        Save
+      </button>
     </VStack>
   );
 }
@@ -108,7 +127,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Card and list-row elevation uses `--shadow-card` at rest. On hover, `--shadow-elevated` stacks on top (does not replace the rest layer). Shadow colour follows `--color-shadow`.",
+          "Card and list-row elevation uses `--shadow-card` at rest. On hover, `--shadow-elevated` stacks on top. Interactive buttons bloom a blurred `--color-background-blue` underline outward below the control, plus a 2px lift on pointer hover without fill or border change.",
       },
     },
   },

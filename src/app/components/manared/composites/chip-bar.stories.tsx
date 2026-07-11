@@ -8,7 +8,6 @@ import {
   expectUsesTokenClasses,
   withColourMode,
 } from "@/storybook/manared/shared/assert-token-colours";
-
 import { INTERACTIVE_CHIP_BAR_CONTROL } from "../primitives/interactive-styles";
 import { GRADIENT_CHIP_BAR } from "../primitives/gradient-styles";
 import { SURFACE_CHIP_BAR } from "../primitives/surface-styles";

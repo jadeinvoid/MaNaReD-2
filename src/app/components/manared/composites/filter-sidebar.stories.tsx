@@ -2,10 +2,17 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { CSSProperties, ReactNode } from "react";
 import { expect, fn, userEvent, within } from "storybook/test";
 
-import { withColourMode } from "@/storybook/manared/shared/assert-token-colours";
+import {
+  withColourMode,
+  expectUsesTokenClasses,
+} from "@/storybook/manared/shared/assert-token-colours";
 
 import { FILTER_BAR_SURFACE, FILTER_SIDEBAR_SHELL } from "../primitives/gradient-styles";
-import { INTERACTIVE_FILTER_CLEAR_ALL } from "../primitives/interactive-styles";
+import {
+  BUTTON_UNDERLINE_HOVER,
+  INTERACTIVE_FILTER_CLEAR_ALL,
+  INTERACTIVE_FILTER_SIDEBAR_ICON,
+} from "../primitives/interactive-styles";
 import { FilterSidebar } from "./filter-sidebar";
 import { FILTER_CATEGORIES, type ActiveFilter } from "./filter-state";
 
@@ -111,39 +118,27 @@ async function assertHeaderNoOverlap(canvasElement: HTMLElement) {
 async function assertChevronColumnAligned(canvasElement: HTMLElement) {
   const collapse = getCollapseButton(canvasElement);
   const chevron = getCategoryChevron(canvasElement, "Taxonomy");
-  const collapseRight = collapse.getBoundingClientRect().right;
+  const collapseIcon = collapse.querySelector("svg");
+  const collapseRight =
+    collapseIcon?.getBoundingClientRect().right ?? collapse.getBoundingClientRect().right;
   const chevronRight = chevron.getBoundingClientRect().right;
   if (Math.abs(collapseRight - chevronRight) > 1) {
     throw new Error(
-      `Chevron column misaligned: collapse right ${collapseRight}, chevron right ${chevronRight}`,
+      `Chevron column misaligned: collapse icon right ${collapseRight}, chevron right ${chevronRight}`,
     );
   }
 }
 
 async function assertCollapsedFitsRail(canvasElement: HTMLElement) {
-  const canvas = within(canvasElement);
   const shell = getFilterShell(canvasElement);
   const collapse = getCollapseButton(canvasElement);
 
-  await expect(canvas.getByRole("button", { name: "Expand filters" })).toBeVisible();
+  await expect(collapse).toBeVisible();
   await expect(shell.dataset.collapsed).toBe("true");
 
   const shellWidth = shell.getBoundingClientRect().width;
   if (shellWidth > 48) {
     throw new Error(`Expected collapsed shell width <= 48px, got ${shellWidth}`);
-  }
-
-  const icon = collapse.querySelector("svg");
-  if (!icon) {
-    throw new Error("Collapse control icon not found");
-  }
-  const iconRect = icon.getBoundingClientRect();
-  const shellRect = shell.getBoundingClientRect();
-  if (iconRect.width === 0 || iconRect.height === 0) {
-    throw new Error("Collapse control icon has no layout box");
-  }
-  if (iconRect.left < shellRect.left || iconRect.right > shellRect.right) {
-    throw new Error("Collapse control clips outside collapsed filter sidebar shell");
   }
 }
 
@@ -172,7 +167,14 @@ export const Default: Story = {
     await assertFilterContainer(canvasElement);
     await assertHeaderNoOverlap(canvasElement);
     await assertChevronColumnAligned(canvasElement);
-    await expect(canvas.getByText("Refine Results").className).toContain("text-xs");
+    await expect(canvas.getByText("Refine Results").className).toContain("text-2xs");
+
+    const collapseFilters = canvas.getByRole("button", { name: "Collapse filters" });
+    const collapseAll = canvas.getByRole("button", { name: "Collapse all filter categories" });
+    await expectUsesTokenClasses(collapseFilters.className, BUTTON_UNDERLINE_HOVER);
+    await expectUsesTokenClasses(collapseAll.className, BUTTON_UNDERLINE_HOVER);
+    await expectUsesTokenClasses(INTERACTIVE_FILTER_SIDEBAR_ICON, BUTTON_UNDERLINE_HOVER);
+
     await userEvent.click(canvas.getByRole("button", { name: "Clear All" }));
     await expect(args.onClear).toHaveBeenCalledOnce();
   },
@@ -200,6 +202,10 @@ export const Collapsed: Story = {
     const shell = getFilterShell(canvasElement);
 
     await expect(canvas.getByRole("button", { name: "Expand filters" })).toBeVisible();
+    await expectUsesTokenClasses(
+      canvas.getByRole("button", { name: "Expand filters" }).className,
+      BUTTON_UNDERLINE_HOVER,
+    );
     await expect(shell.dataset.collapsed).toBe("true");
     await expect(canvasElement.querySelector(".filter-sidebar-collapsed-rail")).toBeTruthy();
     await expect(canvas.queryByText("Taxonomy")).not.toBeInTheDocument();

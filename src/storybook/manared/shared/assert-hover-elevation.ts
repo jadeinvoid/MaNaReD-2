@@ -10,3 +10,18 @@ export async function expectHoverElevates(shell: HTMLElement) {
   const hoverShadow = getComputedStyle(shell).boxShadow;
   await expect(hoverShadow, "hover box-shadow differs from rest").not.toBe(restShadow);
 }
+
+/** Assert pointer hover shows a blurred `--color-background-blue` underline spread and slight lift. */
+export async function expectButtonHoverUnderline(button: HTMLElement) {
+  const restShadow = getComputedStyle(button).boxShadow;
+  const restTransform = getComputedStyle(button).transform;
+
+  await userEvent.hover(button);
+  const hoverShadow = getComputedStyle(button).boxShadow;
+  const hoverTransform = getComputedStyle(button).transform;
+
+  await expect(hoverShadow, "hover box-shadow").not.toBe("none");
+  await expect(hoverShadow, "hover underline differs from rest").not.toBe(restShadow);
+  await expect(hoverShadow, "hover underline spreads outward").not.toMatch(/inset/i);
+  await expect(hoverTransform, "hover lift differs from rest").not.toBe(restTransform);
+}

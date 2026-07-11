@@ -5,6 +5,7 @@ import { Text } from "@astryxdesign/core/Text";
 
 import { MaNaReDIcon, type MaNaReDIconName } from "../icons/manared-icon";
 import {
+  BUTTON_UNDERLINE_HOVER,
   INTERACTIVE_NAV_ITEM,
   INTERACTIVE_NAV_ITEM_ACTIVE,
 } from "../primitives/interactive-styles";
@@ -117,7 +118,7 @@ export function NavSideBar({
       >
         <button
           type="button"
-          className="flex size-6 items-center justify-center"
+          className={`flex size-6 items-center justify-center rounded-md ${BUTTON_UNDERLINE_HOVER} focus-visible:outline-none focus-visible:bg-nav-focus`}
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           aria-expanded={!collapsed}
           onClick={() => setCollapsed(!collapsed)}
@@ -140,7 +141,7 @@ export function NavSideBar({
       </div>
 
       <nav
-        className="flex min-h-0 flex-1 flex-col gap-6"
+        className="flex min-h-0 flex-1 flex-col gap-6 pb-2"
         aria-label="Primary"
         data-name="nav-side-bar/content"
       >

@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { MaNaReDIcon } from "../icons/manared-icon";
 import { FilterButton } from "../primitives/filter-button";
 import { FILTER_BAR_SURFACE, FILTER_SIDEBAR_SHELL } from "../primitives/gradient-styles";
+import { INTERACTIVE_FILTER_SIDEBAR_ICON } from "../primitives/interactive-styles";
 import { FilterDropdownPanel } from "./filter-dropdown-panel";
 import { FilterRangePanel } from "./filter-range-panel";
 import { FilterRegionPanel } from "./filter-region-panel";
@@ -230,7 +231,7 @@ export function FilterSidebar({
           showHeaderToggle ? (
             <button
               type="button"
-              className="flex size-6 shrink-0 items-center justify-center text-primary"
+              className={`${INTERACTIVE_FILTER_SIDEBAR_ICON} size-8`}
               aria-label="Expand filters"
               aria-expanded={false}
               onClick={() => setCollapsed(false)}
@@ -246,7 +247,7 @@ export function FilterSidebar({
             {showCollapseControl ? (
               <button
                 type="button"
-                className="flex size-6 shrink-0 items-center justify-center text-primary"
+                className={`${INTERACTIVE_FILTER_SIDEBAR_ICON} size-8`}
                 aria-label="Collapse filters"
                 aria-expanded
                 onClick={() => setCollapsed(true)}
@@ -263,7 +264,7 @@ export function FilterSidebar({
           <div className="filter-sidebar-collapsed-rail" aria-hidden />
         ) : (
           <>
-            <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto">
+            <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto pb-2">
               {FILTER_CATEGORIES.map(({ id, label }) => (
                 <FilterRow
                   key={id}
@@ -309,11 +310,11 @@ export function FilterSidebar({
         data-name="filter/footer"
       >
         <FilterSidebarReveal collapsed={collapsed}>
-          <div className="flex w-full items-start gap-2">
+          <div className="flex w-full items-center gap-2">
             {showCollapseControl ? (
               <button
                 type="button"
-                className="flex size-8 shrink-0 items-center justify-center text-primary"
+                className={`${INTERACTIVE_FILTER_SIDEBAR_ICON} size-10`}
                 aria-label="Collapse all filter categories"
                 onClick={collapseAllCategories}
                 data-name="icon/vertical-collapse"

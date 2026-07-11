@@ -5,8 +5,13 @@ import {
   expectResolvedToken,
   expectUsesTokenClasses,
 } from "@/storybook/manared/shared/assert-token-colours";
+import { expectButtonHoverUnderline } from "@/storybook/manared/shared/assert-hover-elevation";
 
-import { INTERACTIVE_CHIP_BAR_CONTROL } from "../primitives/interactive-styles";
+import {
+  BUTTON_UNDERLINE_HOVER,
+  INTERACTIVE_CHIP_BAR_CONTROL,
+  INTERACTIVE_SORT_DROPDOWN_ROW,
+} from "../primitives/interactive-styles";
 import { SortControl } from "./sort-control";
 
 const FIGMA_CHIP_BAR =
@@ -57,7 +62,11 @@ export const Default: Story = {
     await expect(canvas.getByRole("button", { name: /Sort by: Recently Added/ })).toBeVisible();
     await userEvent.click(canvas.getByRole("button", { name: /Sort by/ }));
     await expect(canvas.getByRole("listbox", { name: "Sort options" })).toBeVisible();
-    await userEvent.click(canvas.getByRole("option", { name: "Name (A-Z)" }));
+    const nameAsc = canvas.getByRole("option", { name: "Name (A-Z)" });
+    await expectUsesTokenClasses(nameAsc.className, BUTTON_UNDERLINE_HOVER);
+    await expectUsesTokenClasses(INTERACTIVE_SORT_DROPDOWN_ROW, BUTTON_UNDERLINE_HOVER);
+    await expectButtonHoverUnderline(nameAsc);
+    await userEvent.click(nameAsc);
     await expect(args.onChange).toHaveBeenCalledWith("nameAsc");
   },
 };

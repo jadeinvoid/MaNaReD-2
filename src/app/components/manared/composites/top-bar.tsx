@@ -27,12 +27,13 @@ function UtilityLinks() {
   return (
     <HStack vAlign="center" className="shrink-0 gap-12 px-6">
       {utilityLinks.map((link) => (
-        <span
+        <button
           key={link}
+          type="button"
           className={`text-[length:var(--font-size-xs)] font-semibold text-primary ${INTERACTIVE_TOPBAR_UTILITY_LINK}`}
         >
           {link}
-        </span>
+        </button>
       ))}
     </HStack>
   );

@@ -2,7 +2,13 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { CSSProperties, ReactNode } from "react";
 import { expect, fn, userEvent, waitFor, within } from "storybook/test";
 
-import { withColourMode } from "@/storybook/manared/shared/assert-token-colours";
+import {
+  withColourMode,
+  expectUsesTokenClasses,
+} from "@/storybook/manared/shared/assert-token-colours";
+import { expectButtonHoverUnderline } from "@/storybook/manared/shared/assert-hover-elevation";
+
+import { BUTTON_UNDERLINE_HOVER, INTERACTIVE_NAV_ITEM } from "../primitives/interactive-styles";
 
 import { GRADIENT_SIDEBAR } from "../primitives/gradient-styles";
 import { NavSideBar } from "./nav-side-bar";
@@ -159,6 +165,17 @@ export const Default: Story = {
     await assertNavSideBarWidth(canvasElement, 192);
     await assertNavSideBarLayout(canvasElement);
     await assertNavSideBarGradient(canvasElement);
+
+    const region = canvas.getByRole("button", { name: "Region" });
+    const exportItem = canvas.getByRole("button", { name: "Export" });
+    await expectUsesTokenClasses(region.className, INTERACTIVE_NAV_ITEM, BUTTON_UNDERLINE_HOVER);
+    await expectUsesTokenClasses(
+      exportItem.className,
+      INTERACTIVE_NAV_ITEM,
+      BUTTON_UNDERLINE_HOVER,
+    );
+    await expectButtonHoverUnderline(region);
+    await expectButtonHoverUnderline(exportItem);
   },
 };
 

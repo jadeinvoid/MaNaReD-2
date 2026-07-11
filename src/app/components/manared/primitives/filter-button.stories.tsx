@@ -7,9 +7,11 @@ import {
   expectUsesTokenClasses,
   withColourMode,
 } from "@/storybook/manared/shared/assert-token-colours";
+import { expectButtonHoverUnderline } from "@/storybook/manared/shared/assert-hover-elevation";
 
 import { SURFACE_CARD_PANEL } from "./surface-styles";
 import {
+  BUTTON_UNDERLINE_HOVER,
   INTERACTIVE_FILTER_ACTION_BASE,
   INTERACTIVE_FILTER_APPLY,
   INTERACTIVE_FILTER_CLEAR_ALL,
@@ -72,8 +74,8 @@ async function assertFilterButtonTokenColours(canvasElement: HTMLElement) {
   const clearAll = canvas.getByRole("button", { name: "Clear All" });
   const applyFilter = canvas.getByRole("button", { name: "Apply Filter" });
 
-  await expectUsesTokenClasses(refineLabel.className, "text-primary", "text-xs");
-  await expectUsesTokenClasses(INTERACTIVE_FILTER_REFINE_LABEL, "text-primary", "text-xs");
+  await expectUsesTokenClasses(refineLabel.className, "text-primary", "text-2xs");
+  await expectUsesTokenClasses(INTERACTIVE_FILTER_REFINE_LABEL, "text-primary", "text-2xs");
   await expectUsesTokenClasses(
     clearAll.className,
     "bg-button-active",
@@ -89,6 +91,16 @@ async function assertFilterButtonTokenColours(canvasElement: HTMLElement) {
   await expectUsesTokenClasses(INTERACTIVE_FILTER_ACTION_BASE, "bg-button-active", "text-primary");
   await expectUsesTokenClasses(INTERACTIVE_FILTER_CLEAR_ALL, "text-secondary", "text-3xs");
   await expectUsesTokenClasses(INTERACTIVE_FILTER_APPLY, "text-2xs", "text-secondary");
+  await expectUsesTokenClasses(clearAll.className, BUTTON_UNDERLINE_HOVER, "shadow-filter-action");
+  await expectUsesTokenClasses(
+    applyFilter.className,
+    BUTTON_UNDERLINE_HOVER,
+    "shadow-filter-action",
+  );
+  await expectUsesTokenClasses(INTERACTIVE_FILTER_ACTION_BASE, BUTTON_UNDERLINE_HOVER);
+
+  await expectButtonHoverUnderline(clearAll);
+  await expectButtonHoverUnderline(applyFilter);
 
   for (const mode of ["light", "dark"] as const) {
     await expectResolvedToken(mode, "--color-interactive-button-active", "backgroundColor");

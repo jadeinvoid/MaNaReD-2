@@ -89,11 +89,22 @@ describe("MaNaReD theme contract", () => {
     expect(elevationCss).toContain(".shadow-card-rest");
     expect(elevationCss).toContain(".elevation-hover");
     expect(elevationCss).toContain("var(--shadow-card), var(--shadow-elevated)");
+    expect(elevationCss).toContain(".button-underline-hover");
+    expect(elevationCss).toContain(".interactive-sort-dropdown-row:hover");
+    expect(elevationCss).toContain(".interactive-filter-category-row:hover");
+    expect(elevationCss).toContain(".interactive-filter-sidebar-icon:hover");
+    expect(elevationCss).toContain("z-index: 1");
+    expect(elevationCss).toContain("0 1px 0 var(--color-background-blue)");
+    expect(elevationCss).toContain("0 8px 16px");
+    expect(elevationCss).toContain("transform: translateY(-2px)");
+    expect(elevationCss).toContain(".shadow-filter-action.button-underline-hover:hover");
     expect(elevationCss).toContain(".shadow-nav-sidebar");
     expect(elevationCss).toContain(".nav-sidebar-shell");
     expect(elevationCss).toContain('data-collapsed="true"');
     expect(elevationCss).toContain("transition: width");
     expect(elevationCss).toContain(".nav-sidebar-reveal");
+    expect(elevationCss).toContain("overflow: visible");
+    expect(elevationCss).toContain("padding-bottom: var(--spacing-2, 8px)");
     expect(elevationCss).toContain("prefers-reduced-motion: reduce");
   });
 

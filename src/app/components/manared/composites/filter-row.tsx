@@ -3,9 +3,10 @@
 import type { ReactNode } from "react";
 
 import { MaNaReDIcon } from "../icons/manared-icon";
+import { INTERACTIVE_FILTER_CATEGORY_ROW } from "../primitives/interactive-styles";
 
 /** Category row layout — label left, chevron pinned to header collapse column. */
-export const FILTER_ROW_BUTTON = "flex w-full items-center justify-between pl-2 pr-0";
+export const FILTER_ROW_BUTTON = "flex w-full items-center justify-between pl-2 pr-1";
 
 export type FilterRowProps = {
   id: string;
@@ -40,7 +41,7 @@ export function FilterRow({
         aria-expanded={isExpanded}
         aria-controls={panelId}
         onClick={onToggle}
-        className="flex w-full items-center justify-between overflow-hidden pl-2 pr-0"
+        className={INTERACTIVE_FILTER_CATEGORY_ROW}
       >
         <span className="min-w-0 flex-1 truncate px-2 py-0.5 text-left text-3xs uppercase text-primary">
           {displayLabel}

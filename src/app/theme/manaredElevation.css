@@ -16,6 +16,66 @@
     box-shadow: var(--shadow-card), var(--shadow-elevated);
   }
 
+  /* Interactive button pointer hover — outward underline bloom below + slight lift */
+  [data-astryx-theme="manared"] .button-underline-hover {
+    transition:
+      box-shadow 150ms ease,
+      transform 150ms ease;
+  }
+
+  [data-astryx-theme="manared"] .button-underline-hover:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 1px 0 var(--color-background-blue),
+      0 2px 4px color-mix(in srgb, var(--color-background-blue) 55%, transparent),
+      0 4px 10px color-mix(in srgb, var(--color-background-blue) 30%, transparent),
+      0 8px 16px color-mix(in srgb, var(--color-background-blue) 12%, transparent);
+  }
+
+  /* Sort dropdown rows: raise hovered option above siblings so underline bloom isn't clipped */
+  [data-astryx-theme="manared"] .interactive-sort-dropdown-row {
+    position: relative;
+    z-index: 0;
+  }
+
+  [data-astryx-theme="manared"] .interactive-sort-dropdown-row:hover,
+  [data-astryx-theme="manared"] .interactive-sort-dropdown-row:focus-visible {
+    z-index: 1;
+  }
+
+  /* Filter category rows: raise hovered category above siblings so underline bloom isn't clipped */
+  [data-astryx-theme="manared"] .interactive-filter-category-row {
+    position: relative;
+    z-index: 0;
+  }
+
+  [data-astryx-theme="manared"] .interactive-filter-category-row:hover,
+  [data-astryx-theme="manared"] .interactive-filter-category-row:focus-visible {
+    z-index: 1;
+  }
+
+  /* Filter sidebar chrome icons: raise hovered control above adjacent footer/header items */
+  [data-astryx-theme="manared"] .interactive-filter-sidebar-icon {
+    position: relative;
+    z-index: 0;
+  }
+
+  [data-astryx-theme="manared"] .interactive-filter-sidebar-icon:hover,
+  [data-astryx-theme="manared"] .interactive-filter-sidebar-icon:focus-visible {
+    z-index: 1;
+  }
+
+  /* Filter actions: keep rest shadow on hover */
+  [data-astryx-theme="manared"] .shadow-filter-action.button-underline-hover:hover {
+    box-shadow:
+      var(--shadow-filter-action),
+      0 1px 0 var(--color-background-blue),
+      0 2px 4px color-mix(in srgb, var(--color-background-blue) 55%, transparent),
+      0 4px 10px color-mix(in srgb, var(--color-background-blue) 30%, transparent),
+      0 8px 16px color-mix(in srgb, var(--color-background-blue) 12%, transparent);
+    transform: translateY(-2px);
+  }
+
   [data-astryx-theme="manared"] .shadow-search-bar {
     box-shadow: var(--shadow-search-bar);
   }
@@ -94,8 +154,8 @@
 
   [data-astryx-theme="manared"] .filter-sidebar-shell[data-collapsed="true"] {
     width: var(--layout-filter-sidebar-width-collapsed, 45px);
-    /* Center the 24px expand control within the collapsed rail (Figma 351:1735). */
-    padding-inline: calc((var(--layout-filter-sidebar-width-collapsed, 45px) - 24px) / 2);
+    /* Center the 32px expand control (24px icon + 4px padding) within the collapsed rail. */
+    padding-inline: calc((var(--layout-filter-sidebar-width-collapsed, 45px) - 32px) / 2);
   }
 
   [data-astryx-theme="manared"]
@@ -105,7 +165,7 @@
     width: 100%;
     align-items: center;
     justify-content: space-between;
-    overflow: hidden;
+    overflow: visible;
     padding-left: var(--spacing-2, 8px);
     padding-right: 0;
   }
@@ -164,17 +224,27 @@
     overflow: hidden;
   }
 
+  [data-astryx-theme="manared"]
+    .filter-sidebar-reveal[data-collapsed="false"]
+    > .filter-sidebar-reveal-inner {
+    overflow: visible;
+    padding-bottom: var(--spacing-2, 8px);
+  }
+
   /* Header refine label must not flex-grow into the collapse control column */
   [data-astryx-theme="manared"] [data-name="filter/header"][data-collapsed-header="false"] {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: var(--spacing-2, 8px);
+    overflow: visible;
+  }
+
+  [data-astryx-theme="manared"] [data-name="filter/header"][data-collapsed-header="true"] {
+    overflow: visible;
   }
 
   [data-astryx-theme="manared"] [data-name="filter/header"] button[aria-label$="filters"] {
-    width: 24px;
-    height: 24px;
     flex-shrink: 0;
     display: inline-flex;
     align-items: center;
@@ -184,6 +254,8 @@
   [data-astryx-theme="manared"]
     [data-name="filter/header"]
     .filter-sidebar-reveal[data-collapsed="false"] {
+    display: flex;
+    align-items: center;
     min-width: 0;
     overflow: hidden;
   }
@@ -221,16 +293,31 @@
     opacity: 1;
   }
 
-  [data-astryx-theme="manared"] .nav-sidebar-reveal > .nav-sidebar-reveal-inner {
+  /* Collapsed: clip for grid 0fr animation. Expanded: allow button hover shadows to bleed. */
+  [data-astryx-theme="manared"]
+    .nav-sidebar-reveal[data-collapsed="true"]
+    > .nav-sidebar-reveal-inner {
     overflow: hidden;
+  }
+
+  [data-astryx-theme="manared"]
+    .nav-sidebar-reveal[data-collapsed="false"]
+    > .nav-sidebar-reveal-inner {
+    overflow: visible;
+    padding-bottom: var(--spacing-2, 8px);
   }
 
   @media (prefers-reduced-motion: reduce) {
     [data-astryx-theme="manared"] .nav-sidebar-shell,
     [data-astryx-theme="manared"] .nav-sidebar-reveal,
     [data-astryx-theme="manared"] .filter-sidebar-shell,
-    [data-astryx-theme="manared"] .filter-sidebar-reveal {
+    [data-astryx-theme="manared"] .filter-sidebar-reveal,
+    [data-astryx-theme="manared"] .button-underline-hover {
       transition: none;
+    }
+
+    [data-astryx-theme="manared"] .button-underline-hover:hover {
+      transform: none;
     }
   }
 
