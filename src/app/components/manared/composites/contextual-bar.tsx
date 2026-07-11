@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { ContextualBarShaderBg } from "./contextual-bar-shader-bg";
 import { GRADIENT_CONTEXT_BAR } from "../primitives/gradient-styles";
 
 export type ContextualBarProps = {
@@ -11,6 +12,7 @@ export type ContextualBarProps = {
 export function ContextualBar({ children, className = "" }: ContextualBarProps) {
   return (
     <section className={`${GRADIENT_CONTEXT_BAR} px-4 py-2 ${className}`.trim()}>
+      <ContextualBarShaderBg />
       {children}
     </section>
   );

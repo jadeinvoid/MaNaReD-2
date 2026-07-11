@@ -4,6 +4,15 @@
  * split light/dark rules via data-colour-mode (Storybook) and prefers-color-scheme (app).
  */
 @layer components {
+  .shader-surface-layer {
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
   @scope ([data-astryx-theme="manared"]) to ([data-astryx-theme]) {
     /* chip-bar — colour/gradient/light|dark/chip-bar (349:3993) */
     .surface-gradient-chip-bar {
@@ -268,7 +277,7 @@
     }
 
     .surface-gradient-context-bar::after {
-      z-index: 1;
+      z-index: 2;
       mix-blend-mode: color-burn;
       background-image: linear-gradient(
         159.05deg,
@@ -280,9 +289,9 @@
       );
     }
 
-    .surface-gradient-context-bar > * {
+    .surface-gradient-context-bar > *:not(.shader-surface-layer) {
       position: relative;
-      z-index: 2;
+      z-index: 3;
     }
 
     .surface-gradient-context-bar .astryx-text {
