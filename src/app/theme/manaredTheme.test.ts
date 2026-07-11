@@ -90,8 +90,8 @@ describe("MaNaReD theme contract", () => {
     expect(elevationCss).toContain(".elevation-hover");
     expect(elevationCss).toContain("var(--shadow-card), var(--shadow-elevated)");
     expect(elevationCss).toContain(".button-underline-hover");
-    expect(elevationCss).toContain("inset 0 -1px 0 var(--color-background-blue)");
-    expect(elevationCss).toContain("inset 0 -7px 12px");
+    expect(elevationCss).toContain("0 1px 0 var(--color-background-blue)");
+    expect(elevationCss).toContain("0 8px 16px");
     expect(elevationCss).toContain("transform: translateY(-2px)");
     expect(elevationCss).toContain(".shadow-filter-action.button-underline-hover:hover");
     expect(elevationCss).toContain(".shadow-nav-sidebar");

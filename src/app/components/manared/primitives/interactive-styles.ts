@@ -1,6 +1,6 @@
 /** MaNaReD interactive roles — Figma `MaNaReD.colour.interactive.*` and provenance text. */
 
-/** Pointer hover — blurred `--color-background-blue` underline spread + 2px lift (no fill/border change). */
+/** Pointer hover — outward blurred `--color-background-blue` underline bloom + 2px lift. */
 export const BUTTON_UNDERLINE_HOVER = "button-underline-hover";
 
 /** Top bar utility link — Figma `top-bar/utilities` (`340:3575`). */

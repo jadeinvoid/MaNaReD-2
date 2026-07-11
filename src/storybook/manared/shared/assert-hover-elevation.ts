@@ -22,6 +22,6 @@ export async function expectButtonHoverUnderline(button: HTMLElement) {
 
   await expect(hoverShadow, "hover box-shadow").not.toBe("none");
   await expect(hoverShadow, "hover underline differs from rest").not.toBe(restShadow);
-  await expect(hoverShadow, "hover underline is inset").toMatch(/inset/i);
+  await expect(hoverShadow, "hover underline spreads outward").not.toMatch(/inset/i);
   await expect(hoverTransform, "hover lift differs from rest").not.toBe(restTransform);
 }
