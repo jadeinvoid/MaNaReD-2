@@ -13,6 +13,8 @@ export type BrowseResult = {
   molecularWeight?: string;
   molecularWeightNumber?: string;
   molecularWeightUnit?: string;
+  recentRank?: number;
+  bioactivityStrength?: number;
   tags: { label: string; entity: EntityType }[];
   region?: string;
   organism?: string;
@@ -27,6 +29,8 @@ export const BROWSE_RESULTS_MOCK: BrowseResult[] = [
     molecularWeight: "1111.29 g/mol",
     molecularWeightNumber: "1111.29",
     molecularWeightUnit: "g/mol",
+    recentRank: 1,
+    bioactivityStrength: 95,
     tags: [
       { label: "Antitumor", entity: "compound" },
       { label: "Marine Origin", entity: "organism" },
@@ -42,6 +46,8 @@ export const BROWSE_RESULTS_MOCK: BrowseResult[] = [
     molecularWeight: "402.6 Da",
     molecularWeightNumber: "402.6",
     molecularWeightUnit: "Da",
+    recentRank: 4,
+    bioactivityStrength: 60,
     tags: [{ label: "Anti-inflammatory", entity: "bioactivity" }],
     region: "Mediterranean",
     organism: "Sponge",
@@ -53,6 +59,8 @@ export const BROWSE_RESULTS_MOCK: BrowseResult[] = [
     formula: "C₄₃H₆₆O₁₄",
     molecularWeightNumber: "773.0",
     molecularWeightUnit: "Da",
+    recentRank: 3,
+    bioactivityStrength: 90,
     tags: [
       { label: "Antitumor", entity: "compound" },
       { label: "Porifera", entity: "organism" },
@@ -66,6 +74,8 @@ export const BROWSE_RESULTS_MOCK: BrowseResult[] = [
     name: "Latrunculin A",
     molecularWeightNumber: "421.5",
     molecularWeightUnit: "Da",
+    recentRank: 2,
+    bioactivityStrength: 75,
     tags: [
       { label: "Cytotoxic", entity: "bioactivity" },
       { label: "Sponge", entity: "region" },

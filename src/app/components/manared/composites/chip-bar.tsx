@@ -7,8 +7,10 @@ import {
 } from "../primitives/interactive-styles";
 import { SURFACE_CHIP_BAR } from "../primitives/surface-styles";
 import { ActiveChip } from "../primitives/active-chip";
-import { SortWrapper } from "./sort-wrapper";
+import type { BrowseEntity } from "./entity-nav";
 import type { ResultsViewMode } from "./results-view";
+import { SortControl } from "./sort-control";
+import { DEFAULT_SORT_BY_ENTITY, type SortOptionId } from "./sort-state";
 import { ViewToggle } from "./view-toggle";
 
 export type ChipBarItem = {
@@ -23,8 +25,9 @@ export type ChipBarProps = {
   onRemoveChip?: (id: string) => void;
   onChipClick?: (id: string) => void;
   onMoreFilters?: () => void;
-  onSort?: () => void;
-  sortLabel?: string;
+  entity?: BrowseEntity;
+  sortValue?: SortOptionId;
+  onSortChange?: (value: SortOptionId) => void;
   viewMode?: ResultsViewMode;
   onViewModeChange?: (mode: ResultsViewMode) => void;
 };
@@ -36,8 +39,9 @@ export function ChipBar({
   onRemoveChip,
   onChipClick,
   onMoreFilters,
-  onSort,
-  sortLabel = "Sort by: Relevance",
+  entity = "compounds",
+  sortValue = DEFAULT_SORT_BY_ENTITY.compounds,
+  onSortChange,
   viewMode = "card",
   onViewModeChange,
 }: ChipBarProps) {
@@ -60,7 +64,7 @@ export function ChipBar({
         <MaNaReDIcon name="filter" size={16} />
         More Filters
       </button>
-      <SortWrapper label={sortLabel} onClick={onSort} />
+      <SortControl entity={entity} value={sortValue} onChange={onSortChange} />
       {onViewModeChange ? <ViewToggle value={viewMode} onChange={onViewModeChange} /> : null}
     </HStack>
   );
