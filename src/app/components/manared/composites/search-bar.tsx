@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { HStack } from "@astryxdesign/core/Layout";
-import { TextInput } from "@astryxdesign/core/TextInput";
 
 import { MaNaReDIcon } from "../icons/manared-icon";
 import { SURFACE_SEARCH_BAR, SURFACE_SEARCH_FIELD_INNER } from "../primitives/surface-styles";
+
+const SEARCH_FIELD_INPUT =
+  "h-full w-full min-w-0 border-0 bg-transparent px-2 text-2xs leading-4 tracking-[-0.12px] text-primary outline-none placeholder:text-secondary";
 
 export type SearchBarProps = {
   placeholder?: string;
@@ -33,15 +35,15 @@ export function SearchBar({
 
   return (
     <HStack gap={2} vAlign="center" className={`${SURFACE_SEARCH_BAR} ${className}`.trim()}>
-      <div className={`${SURFACE_SEARCH_FIELD_INNER} flex items-center`}>
-        <TextInput
-          label="Search"
-          isLabelHidden
+      <div className={`${SURFACE_SEARCH_FIELD_INNER} flex min-w-0 items-stretch`}>
+        <input
+          type="search"
+          aria-label="Search"
           placeholder={placeholder}
           value={value}
-          onChange={handleChange}
+          onChange={(event) => handleChange(event.target.value)}
           onFocus={onFocus}
-          className="h-full w-full border-0 bg-transparent px-2 shadow-none"
+          className={SEARCH_FIELD_INPUT}
         />
       </div>
       <div className="flex shrink-0 items-center pl-1">
