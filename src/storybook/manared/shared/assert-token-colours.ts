@@ -54,12 +54,19 @@ function themedRoot(): HTMLElement {
 
 export async function withColourMode<T>(mode: ColourMode, run: () => T | Promise<T>): Promise<T> {
   const root = themedRoot();
-  const previous = root.style.colorScheme;
+  const previousScheme = root.style.colorScheme;
+  const previousMode = root.getAttribute("data-colour-mode");
   root.style.colorScheme = mode;
+  root.setAttribute("data-colour-mode", mode);
   try {
     return await run();
   } finally {
-    root.style.colorScheme = previous;
+    root.style.colorScheme = previousScheme;
+    if (previousMode === null) {
+      root.removeAttribute("data-colour-mode");
+    } else {
+      root.setAttribute("data-colour-mode", previousMode);
+    }
   }
 }
 

@@ -68,6 +68,20 @@
       }
     }
 
+    [data-colour-mode="light"] .surface-gradient-sidebar::before {
+      background-color: var(--color-background-sidebar);
+    }
+
+    [data-colour-mode="light"] .surface-gradient-sidebar::after {
+      background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(234, 252, 255, 0.2) 24.521%,
+        rgba(174, 202, 255, 0.122) 76.446%,
+        rgba(255, 255, 255, 0.2) 100%
+      );
+    }
+
     :scope[data-colour-mode="dark"] .surface-gradient-sidebar::before,
     [data-colour-mode="dark"] .surface-gradient-sidebar::before {
       background-color: #0a171e;
@@ -113,19 +127,6 @@
       }
     }
 
-    [data-colour-mode="dark"] .surface-gradient-filter,
-    [data-colour-mode="dark"] .interactive-search-dropdown-row:hover,
-    [data-colour-mode="dark"] .interactive-search-dropdown-row:focus-visible {
-      background-color: #384050;
-      background-image: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(89, 81, 109, 0.2) 24.521%,
-        rgba(174, 202, 255, 0.122) 76.446%,
-        rgba(255, 255, 255, 0) 100%
-      );
-    }
-
     [data-colour-mode="light"] .surface-gradient-filter,
     [data-colour-mode="light"] .interactive-search-dropdown-row:hover,
     [data-colour-mode="light"] .interactive-search-dropdown-row:focus-visible {
@@ -136,6 +137,19 @@
         rgba(234, 252, 255, 0.2) 24.521%,
         rgba(174, 202, 255, 0.122) 76.446%,
         rgba(255, 255, 255, 0.2) 100%
+      );
+    }
+
+    [data-colour-mode="dark"] .surface-gradient-filter,
+    [data-colour-mode="dark"] .interactive-search-dropdown-row:hover,
+    [data-colour-mode="dark"] .interactive-search-dropdown-row:focus-visible {
+      background-color: #384050;
+      background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(89, 81, 109, 0.2) 24.521%,
+        rgba(174, 202, 255, 0.122) 76.446%,
+        rgba(255, 255, 255, 0) 100%
       );
     }
 
@@ -191,20 +205,6 @@
       }
     }
 
-    [data-colour-mode="dark"] .surface-gradient-filter-panel::before {
-      background-color: #384050;
-    }
-
-    [data-colour-mode="dark"] .surface-gradient-filter-panel::after {
-      background-image: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(89, 81, 109, 0.12) 24.521%,
-        rgba(174, 202, 255, 0.07) 76.446%,
-        rgba(255, 255, 255, 0) 100%
-      );
-    }
-
     [data-colour-mode="light"] .surface-gradient-filter-panel::before {
       background-color: var(--color-background-sidebar-secondary);
     }
@@ -216,6 +216,20 @@
         rgba(234, 252, 255, 0.12) 24.521%,
         rgba(174, 202, 255, 0.07) 76.446%,
         rgba(255, 255, 255, 0.12) 100%
+      );
+    }
+
+    [data-colour-mode="dark"] .surface-gradient-filter-panel::before {
+      background-color: #384050;
+    }
+
+    [data-colour-mode="dark"] .surface-gradient-filter-panel::after {
+      background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(89, 81, 109, 0.12) 24.521%,
+        rgba(174, 202, 255, 0.07) 76.446%,
+        rgba(255, 255, 255, 0) 100%
       );
     }
 
@@ -286,22 +300,6 @@
       }
     }
 
-    [data-colour-mode="dark"] .surface-gradient-context-bar {
-      color: #e8efff;
-    }
-
-    [data-colour-mode="dark"] .surface-gradient-context-bar::after {
-      mix-blend-mode: normal;
-      background-image: linear-gradient(
-        159.05deg,
-        rgba(186, 235, 230, 0.76) 30.762%,
-        rgba(27, 40, 110, 0.76) 51.68%,
-        rgba(30, 13, 84, 0.76) 76.282%,
-        rgba(114, 128, 163, 0.76) 107.27%,
-        rgba(90, 128, 144, 0.76) 123.79%
-      );
-    }
-
     [data-colour-mode="light"] .surface-gradient-context-bar {
       color: #1c1b18;
     }
@@ -315,6 +313,22 @@
         rgba(30, 13, 84, 0.59) 76.282%,
         rgba(114, 128, 163, 0.59) 107.27%,
         rgba(90, 128, 144, 0.59) 123.79%
+      );
+    }
+
+    [data-colour-mode="dark"] .surface-gradient-context-bar {
+      color: #e8efff;
+    }
+
+    [data-colour-mode="dark"] .surface-gradient-context-bar::after {
+      mix-blend-mode: normal;
+      background-image: linear-gradient(
+        159.05deg,
+        rgba(186, 235, 230, 0.76) 30.762%,
+        rgba(27, 40, 110, 0.76) 51.68%,
+        rgba(30, 13, 84, 0.76) 76.282%,
+        rgba(114, 128, 163, 0.76) 107.27%,
+        rgba(90, 128, 144, 0.76) 123.79%
       );
     }
   }

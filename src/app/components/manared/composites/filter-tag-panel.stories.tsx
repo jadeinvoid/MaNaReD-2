@@ -14,7 +14,7 @@ const FIGMA_TAG_DROPDOWN =
 
 function ColourModeFrame({ mode, children }: { mode: "light" | "dark"; children: ReactNode }) {
   return (
-    <div style={{ colorScheme: mode }} className="bg-body p-4">
+    <div style={{ colorScheme: mode }} data-colour-mode={mode} className="bg-body p-4">
       {children}
     </div>
   );

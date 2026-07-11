@@ -15,8 +15,10 @@ for (const href of [stylesUrl, docsStylesUrl]) {
   document.head.appendChild(link);
 }
 
-// Match the app Document: theme on <html>, body uses the dark page token.
+// Match the app Document: theme on <html>; force light mode for prototyping (OS preference ignored).
 document.documentElement.setAttribute("data-astryx-theme", "manared");
+document.documentElement.style.colorScheme = "light";
+document.documentElement.setAttribute("data-colour-mode", "light");
 document.documentElement.classList.add("bg-body");
 document.body.classList.add("min-h-screen", "bg-body", "text-primary");
 
