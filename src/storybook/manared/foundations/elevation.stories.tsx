@@ -106,8 +106,8 @@ function HoverDemoPanels() {
         </Text>
       </div>
       <Text size="2xs" className="text-tertiary">
-        Interactive buttons use a 4px `--color-background-blue` underline and a slight lift on
-        pointer hover.
+        Interactive buttons use a blurred `--color-background-blue` underline that spreads downward,
+        plus a slight lift on pointer hover.
       </Text>
       <button type="button" className={INTERACTIVE_FILTER_CLEAR_ALL}>
         Clear All
@@ -127,7 +127,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Card and list-row elevation uses `--shadow-card` at rest. On hover, `--shadow-elevated` stacks on top. Interactive buttons use a 4px `--color-background-blue` inset underline and a 2px lift on pointer hover without fill or border change.",
+          "Card and list-row elevation uses `--shadow-card` at rest. On hover, `--shadow-elevated` stacks on top. Interactive buttons use a blurred `--color-background-blue` underline that spreads downward, plus a 2px lift on pointer hover without fill or border change.",
       },
     },
   },

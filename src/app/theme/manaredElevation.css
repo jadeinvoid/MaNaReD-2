@@ -16,7 +16,7 @@
     box-shadow: var(--shadow-card), var(--shadow-elevated);
   }
 
-  /* Interactive button pointer hover — 4px underline + slight lift, no fill/border change */
+  /* Interactive button pointer hover — blurred underline spread + slight lift */
   [data-astryx-theme="manared"] .button-underline-hover {
     transition:
       box-shadow 150ms ease,
@@ -24,15 +24,22 @@
   }
 
   [data-astryx-theme="manared"] .button-underline-hover:hover {
-    box-shadow: inset 0 -4px 0 var(--color-background-blue);
     transform: translateY(-2px);
+    box-shadow:
+      inset 0 -1px 0 var(--color-background-blue),
+      inset 0 -2px 3px color-mix(in srgb, var(--color-background-blue) 60%, transparent),
+      inset 0 -4px 7px color-mix(in srgb, var(--color-background-blue) 35%, transparent),
+      inset 0 -7px 12px color-mix(in srgb, var(--color-background-blue) 15%, transparent);
   }
 
-  /* Filter actions: keep rest shadow; add underline on hover */
+  /* Filter actions: keep rest shadow on hover */
   [data-astryx-theme="manared"] .shadow-filter-action.button-underline-hover:hover {
     box-shadow:
       var(--shadow-filter-action),
-      inset 0 -4px 0 var(--color-background-blue);
+      inset 0 -1px 0 var(--color-background-blue),
+      inset 0 -2px 3px color-mix(in srgb, var(--color-background-blue) 60%, transparent),
+      inset 0 -4px 7px color-mix(in srgb, var(--color-background-blue) 35%, transparent),
+      inset 0 -7px 12px color-mix(in srgb, var(--color-background-blue) 15%, transparent);
     transform: translateY(-2px);
   }
 
