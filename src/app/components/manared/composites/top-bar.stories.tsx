@@ -5,10 +5,10 @@ import {
   expectResolvedToken,
   expectUsesTokenClasses,
 } from "@/storybook/manared/shared/assert-token-colours";
-import { expectButtonHoverElevates } from "@/storybook/manared/shared/assert-hover-elevation";
+import { expectButtonHoverUnderline } from "@/storybook/manared/shared/assert-hover-elevation";
 
 import {
-  BUTTON_ELEVATION_HOVER,
+  BUTTON_UNDERLINE_HOVER,
   INTERACTIVE_TOPBAR_UTILITY_LINK,
 } from "../primitives/interactive-styles";
 import { SURFACE_TOP_BAR } from "../primitives/surface-styles";
@@ -59,9 +59,9 @@ export const Collapsed: Story = {
     await expectUsesTokenClasses(
       tools.className,
       INTERACTIVE_TOPBAR_UTILITY_LINK,
-      BUTTON_ELEVATION_HOVER,
+      BUTTON_UNDERLINE_HOVER,
     );
-    await expectButtonHoverElevates(tools);
+    await expectButtonHoverUnderline(tools);
 
     const input = canvas.getByPlaceholderText("Search compounds, organisms, regions…");
     await userEvent.type(input, "sponge");

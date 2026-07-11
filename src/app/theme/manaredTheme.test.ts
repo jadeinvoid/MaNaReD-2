@@ -89,16 +89,16 @@ describe("MaNaReD theme contract", () => {
     expect(elevationCss).toContain(".shadow-card-rest");
     expect(elevationCss).toContain(".elevation-hover");
     expect(elevationCss).toContain("var(--shadow-card), var(--shadow-elevated)");
-    expect(elevationCss).toContain(".button-elevation-hover");
-    expect(elevationCss).toContain("var(--shadow-button-hover)");
-    expect(elevationCss).toContain(".shadow-filter-action.button-elevation-hover:hover");
+    expect(elevationCss).toContain(".button-underline-hover");
+    expect(elevationCss).toContain("inset 0 -4px 0 var(--color-background-blue)");
+    expect(elevationCss).toContain(".shadow-filter-action.button-underline-hover:hover");
     expect(elevationCss).toContain(".shadow-nav-sidebar");
     expect(elevationCss).toContain(".nav-sidebar-shell");
     expect(elevationCss).toContain('data-collapsed="true"');
     expect(elevationCss).toContain("transition: width");
     expect(elevationCss).toContain(".nav-sidebar-reveal");
-    expect(elevationCss).toContain('[data-collapsed="false"] > .nav-sidebar-reveal-inner');
     expect(elevationCss).toContain("overflow: visible");
+    expect(elevationCss).toContain("padding-bottom: var(--spacing-2, 8px)");
     expect(elevationCss).toContain("prefers-reduced-motion: reduce");
   });
 
@@ -119,13 +119,11 @@ describe("MaNaReD theme contract", () => {
     expect(manaredThemeSource).toContain('"--shadow-nav-sidebar"');
     expect(manaredThemeSource).toContain('"--shadow-filter-action"');
     expect(manaredThemeSource).toContain('"--shadow-filter-bar"');
-    expect(manaredThemeSource).toContain('"--shadow-button-hover"');
     expect(manaredCss).toContain("--shadow-card:");
     expect(manaredCss).toContain("--shadow-elevated:");
     expect(manaredCss).toContain("--layout-filter-sidebar-width:");
     expect(manaredCss).toContain("--shadow-filter-action:");
     expect(manaredCss).toContain("--shadow-filter-bar:");
-    expect(manaredCss).toContain("--shadow-button-hover:");
   });
 
   it("defines filter sidebar shell utilities in manaredElevation.css", () => {

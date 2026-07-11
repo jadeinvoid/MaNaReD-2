@@ -79,9 +79,6 @@ export const manaredTheme = defineTheme({
     // Filter action buttons — Figma filter/shadow-light (349:4627 clear-all)
     "--shadow-filter-action": "0 4px 4px color-mix(in srgb, #1e2441 25%, transparent)",
 
-    // Interactive button pointer hover — shadow hue from --color-shadow (subtler blur than --shadow-elevated)
-    "--shadow-button-hover": "0 4px 8px color-mix(in srgb, var(--color-shadow) 12%, transparent)",
-
     // Filter bar outer shell — Figma filter-bar (351:1736)
     "--shadow-filter-bar": "4px 0 12px color-mix(in srgb, #0f142e 14%, transparent)",
   } as NonNullable<DefineThemeInput["tokens"]>,

@@ -7,11 +7,11 @@ import {
   expectUsesTokenClasses,
   withColourMode,
 } from "@/storybook/manared/shared/assert-token-colours";
-import { expectButtonHoverElevates } from "@/storybook/manared/shared/assert-hover-elevation";
+import { expectButtonHoverUnderline } from "@/storybook/manared/shared/assert-hover-elevation";
 
 import { SURFACE_CARD_PANEL } from "./surface-styles";
 import {
-  BUTTON_ELEVATION_HOVER,
+  BUTTON_UNDERLINE_HOVER,
   INTERACTIVE_FILTER_ACTION_BASE,
   INTERACTIVE_FILTER_APPLY,
   INTERACTIVE_FILTER_CLEAR_ALL,
@@ -91,16 +91,16 @@ async function assertFilterButtonTokenColours(canvasElement: HTMLElement) {
   await expectUsesTokenClasses(INTERACTIVE_FILTER_ACTION_BASE, "bg-button-active", "text-primary");
   await expectUsesTokenClasses(INTERACTIVE_FILTER_CLEAR_ALL, "text-secondary", "text-3xs");
   await expectUsesTokenClasses(INTERACTIVE_FILTER_APPLY, "text-2xs", "text-secondary");
-  await expectUsesTokenClasses(clearAll.className, BUTTON_ELEVATION_HOVER, "shadow-filter-action");
+  await expectUsesTokenClasses(clearAll.className, BUTTON_UNDERLINE_HOVER, "shadow-filter-action");
   await expectUsesTokenClasses(
     applyFilter.className,
-    BUTTON_ELEVATION_HOVER,
+    BUTTON_UNDERLINE_HOVER,
     "shadow-filter-action",
   );
-  await expectUsesTokenClasses(INTERACTIVE_FILTER_ACTION_BASE, BUTTON_ELEVATION_HOVER);
+  await expectUsesTokenClasses(INTERACTIVE_FILTER_ACTION_BASE, BUTTON_UNDERLINE_HOVER);
 
-  await expectButtonHoverElevates(clearAll, { restShadowRequired: true });
-  await expectButtonHoverElevates(applyFilter, { restShadowRequired: true });
+  await expectButtonHoverUnderline(clearAll);
+  await expectButtonHoverUnderline(applyFilter);
 
   for (const mode of ["light", "dark"] as const) {
     await expectResolvedToken(mode, "--color-interactive-button-active", "backgroundColor");

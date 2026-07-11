@@ -6,9 +6,9 @@ import {
   withColourMode,
   expectUsesTokenClasses,
 } from "@/storybook/manared/shared/assert-token-colours";
-import { expectButtonHoverElevates } from "@/storybook/manared/shared/assert-hover-elevation";
+import { expectButtonHoverUnderline } from "@/storybook/manared/shared/assert-hover-elevation";
 
-import { BUTTON_ELEVATION_HOVER, INTERACTIVE_NAV_ITEM } from "../primitives/interactive-styles";
+import { BUTTON_UNDERLINE_HOVER, INTERACTIVE_NAV_ITEM } from "../primitives/interactive-styles";
 
 import { GRADIENT_SIDEBAR } from "../primitives/gradient-styles";
 import { NavSideBar } from "./nav-side-bar";
@@ -168,14 +168,14 @@ export const Default: Story = {
 
     const region = canvas.getByRole("button", { name: "Region" });
     const exportItem = canvas.getByRole("button", { name: "Export" });
-    await expectUsesTokenClasses(region.className, INTERACTIVE_NAV_ITEM, BUTTON_ELEVATION_HOVER);
+    await expectUsesTokenClasses(region.className, INTERACTIVE_NAV_ITEM, BUTTON_UNDERLINE_HOVER);
     await expectUsesTokenClasses(
       exportItem.className,
       INTERACTIVE_NAV_ITEM,
-      BUTTON_ELEVATION_HOVER,
+      BUTTON_UNDERLINE_HOVER,
     );
-    await expectButtonHoverElevates(region);
-    await expectButtonHoverElevates(exportItem);
+    await expectButtonHoverUnderline(region);
+    await expectButtonHoverUnderline(exportItem);
   },
 };
 

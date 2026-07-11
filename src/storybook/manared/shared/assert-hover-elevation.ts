@@ -11,19 +11,14 @@ export async function expectHoverElevates(shell: HTMLElement) {
   await expect(hoverShadow, "hover box-shadow differs from rest").not.toBe(restShadow);
 }
 
-/** Assert pointer hover adds or stacks `--shadow-button-hover` without fill change. */
-export async function expectButtonHoverElevates(
-  button: HTMLElement,
-  options?: { restShadowRequired?: boolean },
-) {
+/** Assert pointer hover shows a 4px `--color-background-blue` inset underline. */
+export async function expectButtonHoverUnderline(button: HTMLElement) {
   const restShadow = getComputedStyle(button).boxShadow;
-
-  if (options?.restShadowRequired) {
-    await expect(restShadow, "rest box-shadow").not.toBe("none");
-  }
 
   await userEvent.hover(button);
   const hoverShadow = getComputedStyle(button).boxShadow;
   await expect(hoverShadow, "hover box-shadow").not.toBe("none");
-  await expect(hoverShadow, "hover box-shadow differs from rest").not.toBe(restShadow);
+  await expect(hoverShadow, "hover underline differs from rest").not.toBe(restShadow);
+  await expect(hoverShadow, "hover underline is inset").toMatch(/inset/i);
+  await expect(hoverShadow, "hover underline has thickness").toMatch(/-?\d+(\.\d+)?px/);
 }

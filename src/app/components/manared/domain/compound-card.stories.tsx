@@ -3,7 +3,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { expect, fn, within } from "storybook/test";
 
 import {
-  expectButtonHoverElevates,
+  expectButtonHoverUnderline,
   expectHoverElevates,
 } from "@/storybook/manared/shared/assert-hover-elevation";
 import {
@@ -24,7 +24,7 @@ import {
   CARD_TITLE,
 } from "../primitives/card-text-styles";
 import {
-  BUTTON_ELEVATION_HOVER,
+  BUTTON_UNDERLINE_HOVER,
   INTERACTIVE_CARD_DETAIL,
   INTERACTIVE_CARD_EXPORT,
   INTERACTIVE_CARD_SAVE,
@@ -232,14 +232,14 @@ async function assertCompoundCardActions(canvasElement: HTMLElement) {
   await expect(INTERACTIVE_CARD_SAVE).toContain("rounded-[6px]");
   await expect(INTERACTIVE_CARD_EXPORT).toContain("bg-button-focus");
   await expect(INTERACTIVE_CARD_DETAIL).toContain("font-semibold");
-  await expect(INTERACTIVE_CARD_SAVE).toContain(BUTTON_ELEVATION_HOVER);
-  await expect(INTERACTIVE_CARD_EXPORT).toContain(BUTTON_ELEVATION_HOVER);
-  await expect(INTERACTIVE_CARD_DETAIL).toContain(BUTTON_ELEVATION_HOVER);
+  await expect(INTERACTIVE_CARD_SAVE).toContain(BUTTON_UNDERLINE_HOVER);
+  await expect(INTERACTIVE_CARD_EXPORT).toContain(BUTTON_UNDERLINE_HOVER);
+  await expect(INTERACTIVE_CARD_DETAIL).toContain(BUTTON_UNDERLINE_HOVER);
   await expect(detail.querySelector("svg")).toBeTruthy();
 
-  await expectButtonHoverElevates(save);
-  await expectButtonHoverElevates(exportBtn);
-  await expectButtonHoverElevates(detail);
+  await expectButtonHoverUnderline(save);
+  await expectButtonHoverUnderline(exportBtn);
+  await expectButtonHoverUnderline(detail);
 }
 
 async function assertCardHoverElevation(canvasElement: HTMLElement) {
