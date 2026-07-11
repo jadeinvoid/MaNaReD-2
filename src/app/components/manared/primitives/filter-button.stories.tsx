@@ -74,8 +74,8 @@ async function assertFilterButtonTokenColours(canvasElement: HTMLElement) {
   const clearAll = canvas.getByRole("button", { name: "Clear All" });
   const applyFilter = canvas.getByRole("button", { name: "Apply Filter" });
 
-  await expectUsesTokenClasses(refineLabel.className, "text-primary", "text-xs");
-  await expectUsesTokenClasses(INTERACTIVE_FILTER_REFINE_LABEL, "text-primary", "text-xs");
+  await expectUsesTokenClasses(refineLabel.className, "text-primary", "text-2xs");
+  await expectUsesTokenClasses(INTERACTIVE_FILTER_REFINE_LABEL, "text-primary", "text-2xs");
   await expectUsesTokenClasses(
     clearAll.className,
     "bg-button-active",

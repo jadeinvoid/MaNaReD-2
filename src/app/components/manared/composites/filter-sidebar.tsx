@@ -231,7 +231,7 @@ export function FilterSidebar({
           showHeaderToggle ? (
             <button
               type="button"
-              className={`${INTERACTIVE_FILTER_SIDEBAR_ICON} size-6`}
+              className={`${INTERACTIVE_FILTER_SIDEBAR_ICON} size-8`}
               aria-label="Expand filters"
               aria-expanded={false}
               onClick={() => setCollapsed(false)}
@@ -247,7 +247,7 @@ export function FilterSidebar({
             {showCollapseControl ? (
               <button
                 type="button"
-                className={`${INTERACTIVE_FILTER_SIDEBAR_ICON} size-6`}
+                className={`${INTERACTIVE_FILTER_SIDEBAR_ICON} size-8`}
                 aria-label="Collapse filters"
                 aria-expanded
                 onClick={() => setCollapsed(true)}
@@ -310,11 +310,11 @@ export function FilterSidebar({
         data-name="filter/footer"
       >
         <FilterSidebarReveal collapsed={collapsed}>
-          <div className="flex w-full items-start gap-2">
+          <div className="flex w-full items-center gap-2">
             {showCollapseControl ? (
               <button
                 type="button"
-                className={`${INTERACTIVE_FILTER_SIDEBAR_ICON} size-8`}
+                className={`${INTERACTIVE_FILTER_SIDEBAR_ICON} size-10`}
                 aria-label="Collapse all filter categories"
                 onClick={collapseAllCategories}
                 data-name="icon/vertical-collapse"

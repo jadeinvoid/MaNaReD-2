@@ -127,8 +127,8 @@
 
   [data-astryx-theme="manared"] .filter-sidebar-shell[data-collapsed="true"] {
     width: var(--layout-filter-sidebar-width-collapsed, 45px);
-    /* Center the 24px expand control within the collapsed rail (Figma 351:1735). */
-    padding-inline: calc((var(--layout-filter-sidebar-width-collapsed, 45px) - 24px) / 2);
+    /* Center the 32px expand control (24px icon + 4px padding) within the collapsed rail. */
+    padding-inline: calc((var(--layout-filter-sidebar-width-collapsed, 45px) - 32px) / 2);
   }
 
   [data-astryx-theme="manared"]
@@ -210,11 +210,14 @@
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: var(--spacing-2, 8px);
+    overflow: visible;
+  }
+
+  [data-astryx-theme="manared"] [data-name="filter/header"][data-collapsed-header="true"] {
+    overflow: visible;
   }
 
   [data-astryx-theme="manared"] [data-name="filter/header"] button[aria-label$="filters"] {
-    width: 24px;
-    height: 24px;
     flex-shrink: 0;
     display: inline-flex;
     align-items: center;
@@ -224,6 +227,8 @@
   [data-astryx-theme="manared"]
     [data-name="filter/header"]
     .filter-sidebar-reveal[data-collapsed="false"] {
+    display: flex;
+    align-items: center;
     min-width: 0;
     overflow: hidden;
   }

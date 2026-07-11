@@ -19,10 +19,10 @@ export const INTERACTIVE_SEARCH_DROPDOWN_ROW = "interactive-search-dropdown-row"
 export const INTERACTIVE_SORT_DROPDOWN_ROW = `interactive-sort-dropdown-row ${BUTTON_UNDERLINE_HOVER} focus-visible:bg-button-focus`;
 
 /** Filter sidebar category row — Figma `filter/category` (349:4572). */
-export const INTERACTIVE_FILTER_CATEGORY_ROW = `interactive-filter-category-row flex w-full items-center justify-between rounded-md pl-2 pr-0 ${BUTTON_UNDERLINE_HOVER} focus-visible:bg-button-focus focus-visible:outline-none`;
+export const INTERACTIVE_FILTER_CATEGORY_ROW = `interactive-filter-category-row flex w-full items-center justify-between rounded-md pl-2 pr-1 ${BUTTON_UNDERLINE_HOVER} focus-visible:bg-button-focus focus-visible:outline-none`;
 
 /** Filter sidebar chrome icon — collapse rail, collapse filters, collapse-all categories. */
-export const INTERACTIVE_FILTER_SIDEBAR_ICON = `interactive-filter-sidebar-icon flex shrink-0 items-center justify-center rounded-md text-primary ${BUTTON_UNDERLINE_HOVER} focus-visible:bg-button-focus focus-visible:outline-none`;
+export const INTERACTIVE_FILTER_SIDEBAR_ICON = `interactive-filter-sidebar-icon inline-flex shrink-0 items-center justify-center rounded-md p-[length:var(--spacing-1)] text-primary ${BUTTON_UNDERLINE_HOVER} focus-visible:bg-button-focus focus-visible:outline-none`;
 
 /** Active filter chip shell — Figma `active-chip` / `interactive/chip/active`. */
 export const INTERACTIVE_ACTIVE_CHIP =
@@ -55,7 +55,7 @@ export const INTERACTIVE_FILTER_ACTION_BASE = `inline-flex shrink-0 items-center
 
 /** Sidebar section title — Figma `filter/header` refine-result (351:1736 / 349:4569). */
 export const INTERACTIVE_FILTER_REFINE_LABEL =
-  "block min-w-0 truncate p-[length:var(--spacing-1)] text-xs font-semibold leading-5 text-primary";
+  "inline-flex min-w-0 items-center truncate p-[length:var(--spacing-1)] text-2xs font-semibold leading-4 text-primary";
 
 export const INTERACTIVE_FILTER_CLEAR_ALL = `${INTERACTIVE_FILTER_ACTION_BASE} border-0 px-[length:var(--spacing-4)] py-[length:var(--spacing-1)] text-3xs text-secondary shadow-filter-action`;
 

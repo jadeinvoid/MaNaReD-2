@@ -6,7 +6,7 @@ import { MaNaReDIcon } from "../icons/manared-icon";
 import { INTERACTIVE_FILTER_CATEGORY_ROW } from "../primitives/interactive-styles";
 
 /** Category row layout — label left, chevron pinned to header collapse column. */
-export const FILTER_ROW_BUTTON = "flex w-full items-center justify-between pl-2 pr-0";
+export const FILTER_ROW_BUTTON = "flex w-full items-center justify-between pl-2 pr-1";
 
 export type FilterRowProps = {
   id: string;
