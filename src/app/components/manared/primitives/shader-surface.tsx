@@ -74,10 +74,6 @@ export function ShaderSurface({
   }
 
   return (
-    <canvas
-      ref={canvasRef}
-      className={`${SHADER_SURFACE_LAYER} ${className}`.trim()}
-      aria-hidden
-    />
+    <canvas ref={canvasRef} className={`${SHADER_SURFACE_LAYER} ${className}`.trim()} aria-hidden />
   );
 }

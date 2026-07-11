@@ -13,6 +13,25 @@
     z-index: 1;
   }
 
+  .shader-surface-moire-fallback {
+    background-color: #f2faff;
+    background-image:
+      repeating-linear-gradient(
+        8deg,
+        transparent,
+        transparent 2px,
+        rgba(28, 27, 24, 0.04) 2px,
+        rgba(28, 27, 24, 0.04) 3px
+      ),
+      repeating-linear-gradient(
+        98deg,
+        transparent,
+        transparent 3px,
+        rgba(28, 27, 24, 0.03) 3px,
+        rgba(28, 27, 24, 0.03) 4px
+      );
+  }
+
   @scope ([data-astryx-theme="manared"]) to ([data-astryx-theme]) {
     /* chip-bar — colour/gradient/light|dark/chip-bar (349:3993) */
     .surface-gradient-chip-bar {

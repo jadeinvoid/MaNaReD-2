@@ -5,7 +5,7 @@ import { expect, within } from "storybook/test";
 import { withColourMode } from "@/storybook/manared/shared/assert-token-colours";
 
 import { GRADIENT_CONTEXT_BAR } from "../primitives/gradient-styles";
-import { SHADER_SURFACE_LAYER } from "../primitives/shader-styles";
+import { SHADER_MOIRE_FALLBACK, SHADER_SURFACE_LAYER } from "../primitives/shader-styles";
 import { TaxonomyBreadcrumb } from "./taxonomy-breadcrumb";
 import { ContextualBar } from "./contextual-bar";
 
@@ -64,10 +64,12 @@ async function assertContextualBarShader(canvasElement: HTMLElement) {
     throw new Error("ContextualBar gradient surface not found");
   }
 
-  const canvas = bar.querySelector(`canvas.${SHADER_SURFACE_LAYER}`);
-  if (canvas) {
-    const canvasStyle = getComputedStyle(canvas);
-    await expect(canvasStyle.position, "shader canvas should be absolutely positioned").toBe(
+  const layer = bar.querySelector(
+    `canvas.${SHADER_SURFACE_LAYER}, .${SHADER_SURFACE_LAYER}.${SHADER_MOIRE_FALLBACK}`,
+  );
+  if (layer) {
+    const layerStyle = getComputedStyle(layer);
+    await expect(layerStyle.position, "shader layer should be absolutely positioned").toBe(
       "absolute",
     );
     return;
@@ -123,6 +125,21 @@ export const Default: Story = {
     await assertContextualBarShader(canvasElement);
     await assertContextualBarGradient(canvasElement);
     await assertChevronMatchesLabelColour(canvasElement);
+  },
+};
+
+/** Full-width preview — easiest place to spot the moiré shader canvas. */
+export const ShaderPreview: Story = {
+  parameters: {
+    layout: "fullscreen",
+  },
+  render: (args) => (
+    <div className="min-h-[320px] w-full bg-body">
+      <ContextualBar {...args} className="w-full" />
+    </div>
+  ),
+  args: {
+    children: <TaxonomyBreadcrumb items={["Home", "Compound", "Halichondrin B"]} />,
   },
 };
 

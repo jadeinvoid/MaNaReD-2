@@ -182,6 +182,6 @@ export const moireContextBarParams = {
   baseColor: { r: 0.949, g: 0.98, b: 1.0 },
   frequency: 0.045,
   angle: 8,
-  contrast: 0.14,
-  lineSoftness: 0.22,
+  contrast: 0.22,
+  lineSoftness: 0.18,
 } as const;
