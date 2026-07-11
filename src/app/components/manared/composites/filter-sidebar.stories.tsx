@@ -2,10 +2,18 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { CSSProperties, ReactNode } from "react";
 import { expect, fn, userEvent, within } from "storybook/test";
 
-import { withColourMode } from "@/storybook/manared/shared/assert-token-colours";
+import {
+  withColourMode,
+  expectUsesTokenClasses,
+} from "@/storybook/manared/shared/assert-token-colours";
+import { expectButtonHoverUnderline } from "@/storybook/manared/shared/assert-hover-elevation";
 
 import { FILTER_BAR_SURFACE, FILTER_SIDEBAR_SHELL } from "../primitives/gradient-styles";
-import { INTERACTIVE_FILTER_CLEAR_ALL } from "../primitives/interactive-styles";
+import {
+  BUTTON_UNDERLINE_HOVER,
+  INTERACTIVE_FILTER_CLEAR_ALL,
+  INTERACTIVE_FILTER_SIDEBAR_ICON,
+} from "../primitives/interactive-styles";
 import { FilterSidebar } from "./filter-sidebar";
 import { FILTER_CATEGORIES, type ActiveFilter } from "./filter-state";
 
@@ -173,6 +181,14 @@ export const Default: Story = {
     await assertHeaderNoOverlap(canvasElement);
     await assertChevronColumnAligned(canvasElement);
     await expect(canvas.getByText("Refine Results").className).toContain("text-xs");
+
+    const collapseFilters = canvas.getByRole("button", { name: "Collapse filters" });
+    const collapseAll = canvas.getByRole("button", { name: "Collapse all filter categories" });
+    await expectUsesTokenClasses(collapseFilters.className, BUTTON_UNDERLINE_HOVER);
+    await expectUsesTokenClasses(collapseAll.className, BUTTON_UNDERLINE_HOVER);
+    await expectUsesTokenClasses(INTERACTIVE_FILTER_SIDEBAR_ICON, BUTTON_UNDERLINE_HOVER);
+    await expectButtonHoverUnderline(collapseFilters);
+
     await userEvent.click(canvas.getByRole("button", { name: "Clear All" }));
     await expect(args.onClear).toHaveBeenCalledOnce();
   },
@@ -200,6 +216,11 @@ export const Collapsed: Story = {
     const shell = getFilterShell(canvasElement);
 
     await expect(canvas.getByRole("button", { name: "Expand filters" })).toBeVisible();
+    await expectUsesTokenClasses(
+      canvas.getByRole("button", { name: "Expand filters" }).className,
+      BUTTON_UNDERLINE_HOVER,
+    );
+    await expectButtonHoverUnderline(canvas.getByRole("button", { name: "Expand filters" }));
     await expect(shell.dataset.collapsed).toBe("true");
     await expect(canvasElement.querySelector(".filter-sidebar-collapsed-rail")).toBeTruthy();
     await expect(canvas.queryByText("Taxonomy")).not.toBeInTheDocument();

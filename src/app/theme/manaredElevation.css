@@ -54,6 +54,17 @@
     z-index: 1;
   }
 
+  /* Filter sidebar chrome icons: raise hovered control above adjacent footer/header items */
+  [data-astryx-theme="manared"] .interactive-filter-sidebar-icon {
+    position: relative;
+    z-index: 0;
+  }
+
+  [data-astryx-theme="manared"] .interactive-filter-sidebar-icon:hover,
+  [data-astryx-theme="manared"] .interactive-filter-sidebar-icon:focus-visible {
+    z-index: 1;
+  }
+
   /* Filter actions: keep rest shadow on hover */
   [data-astryx-theme="manared"] .shadow-filter-action.button-underline-hover:hover {
     box-shadow:
@@ -184,6 +195,13 @@
     min-height: 0;
     flex-direction: column;
     overflow: hidden;
+  }
+
+  [data-astryx-theme="manared"]
+    .filter-sidebar-reveal[data-collapsed="false"]
+    > .filter-sidebar-reveal-inner {
+    overflow: visible;
+    padding-bottom: var(--spacing-2, 8px);
   }
 
   /* Header refine label must not flex-grow into the collapse control column */
