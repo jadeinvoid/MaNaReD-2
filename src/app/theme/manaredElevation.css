@@ -229,8 +229,19 @@
     .filter-sidebar-reveal[data-collapsed="false"] {
     display: flex;
     align-items: center;
+    justify-content: center;
+    width: 100%;
     min-width: 0;
     overflow: hidden;
+  }
+
+  [data-astryx-theme="manared"]
+    [data-name="filter/header"]
+    .filter-sidebar-reveal[data-collapsed="false"]
+    > .filter-sidebar-reveal-inner {
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
 
   /*
