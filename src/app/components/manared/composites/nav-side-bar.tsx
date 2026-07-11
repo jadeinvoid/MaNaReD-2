@@ -141,7 +141,7 @@ export function NavSideBar({
       </div>
 
       <nav
-        className="flex min-h-0 flex-1 flex-col gap-6"
+        className="flex min-h-0 flex-1 flex-col gap-6 pb-2"
         aria-label="Primary"
         data-name="nav-side-bar/content"
       >

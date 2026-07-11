@@ -97,6 +97,8 @@ describe("MaNaReD theme contract", () => {
     expect(elevationCss).toContain('data-collapsed="true"');
     expect(elevationCss).toContain("transition: width");
     expect(elevationCss).toContain(".nav-sidebar-reveal");
+    expect(elevationCss).toContain('[data-collapsed="false"] > .nav-sidebar-reveal-inner');
+    expect(elevationCss).toContain("overflow: visible");
     expect(elevationCss).toContain("prefers-reduced-motion: reduce");
   });
 

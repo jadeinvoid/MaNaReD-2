@@ -167,8 +167,15 @@ export const Default: Story = {
     await assertNavSideBarGradient(canvasElement);
 
     const region = canvas.getByRole("button", { name: "Region" });
+    const exportItem = canvas.getByRole("button", { name: "Export" });
     await expectUsesTokenClasses(region.className, INTERACTIVE_NAV_ITEM, BUTTON_ELEVATION_HOVER);
+    await expectUsesTokenClasses(
+      exportItem.className,
+      INTERACTIVE_NAV_ITEM,
+      BUTTON_ELEVATION_HOVER,
+    );
     await expectButtonHoverElevates(region);
+    await expectButtonHoverElevates(exportItem);
   },
 };
 

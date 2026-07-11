@@ -208,8 +208,18 @@
     opacity: 1;
   }
 
-  [data-astryx-theme="manared"] .nav-sidebar-reveal > .nav-sidebar-reveal-inner {
+  /* Collapsed: clip for grid 0fr animation. Expanded: allow button hover shadows to bleed. */
+  [data-astryx-theme="manared"]
+    .nav-sidebar-reveal[data-collapsed="true"]
+    > .nav-sidebar-reveal-inner {
     overflow: hidden;
+  }
+
+  [data-astryx-theme="manared"]
+    .nav-sidebar-reveal[data-collapsed="false"]
+    > .nav-sidebar-reveal-inner {
+    overflow: visible;
+    padding-bottom: var(--spacing-2, 8px);
   }
 
   @media (prefers-reduced-motion: reduce) {
