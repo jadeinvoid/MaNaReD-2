@@ -83,7 +83,7 @@ export function SortControl({ entity = "compounds", value, onChange }: SortContr
             })}
           </VStack>
         </div>,
-        { placement: "below", alignment: "end" },
+        { placement: "below", alignment: "start" },
       )}
     </>
   );
