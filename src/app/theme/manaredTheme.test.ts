@@ -130,6 +130,8 @@ describe("MaNaReD theme contract", () => {
     expect(elevationCss).toContain(".filter-sidebar-reveal");
     expect(elevationCss).toContain(".filter-sidebar-collapsed-rail");
     expect(elevationCss).toContain("--layout-filter-sidebar-width");
+    expect(elevationCss).toContain("[data-filter-dropdown-panel] [popover]");
+    expect(elevationCss).toContain('[data-filter-dropdown-panel] [role="option"]');
   });
 
   it("registers Geist Mono as the code/mono font family", () => {

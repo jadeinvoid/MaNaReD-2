@@ -555,4 +555,55 @@
     width: 100%;
     text-align: left;
   }
+
+  /*
+   * Filter sidebar dropdown menu — shared MaNaReD dropdown theme
+   * (panel + rows match SortControl / SearchDropdown: SURFACE_SEARCH_DROPDOWN + row hover).
+   */
+  [data-astryx-theme="manared"] [data-filter-dropdown-panel] [popover] {
+    border: 1px solid var(--color-border-secondary);
+    border-radius: var(--radius-container);
+    box-shadow: var(--shadow-dropdown);
+    background-color: var(--color-background-surface);
+  }
+
+  [data-astryx-theme="manared"] [data-filter-dropdown-panel] [popover] [role="dialog"] {
+    background-color: transparent;
+    border-radius: inherit;
+    box-shadow: none;
+  }
+
+  [data-astryx-theme="manared"] [data-filter-dropdown-panel] [role="listbox"] {
+    padding: var(--spacing-1, 4px);
+    font-size: var(--font-size-3xs, 0.75rem);
+    line-height: 1.2;
+  }
+
+  [data-astryx-theme="manared"] [data-filter-dropdown-panel] [role="option"] {
+    font-size: var(--font-size-3xs, 0.75rem);
+    line-height: 1.2;
+    color: var(--color-text-secondary);
+    padding-block: 6px;
+    padding-inline: var(--spacing-2, 8px);
+    border-radius: var(--radius-element, 8px);
+    background-color: transparent;
+  }
+
+  [data-astryx-theme="manared"] [data-filter-dropdown-panel] [role="option"] span {
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    font-weight: inherit;
+  }
+
+  [data-astryx-theme="manared"] [data-filter-dropdown-panel] [role="option"][aria-selected="true"] {
+    background-color: var(--color-interactive-button-active);
+    color: var(--color-text-primary);
+    font-weight: 400;
+  }
+
+  /* Sort/search menus use highlight fill only — hide Selector checkmark */
+  [data-astryx-theme="manared"] [data-filter-dropdown-panel] [role="option"] > :nth-child(2) {
+    display: none;
+  }
 }

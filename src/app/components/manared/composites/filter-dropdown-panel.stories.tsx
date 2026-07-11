@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect, fn, userEvent, within } from "storybook/test";
+import { expect, fn, userEvent, waitFor, within } from "storybook/test";
 
 import { expectedTokenColour } from "@/storybook/manared/shared/assert-token-colours";
 
@@ -97,5 +97,30 @@ export const WithSelection: Story = {
     await assertCompactPrimaryTrigger(canvasElement);
     await userEvent.click(clearButton);
     await expect(args.onChange).toHaveBeenCalledWith(null);
+  },
+};
+
+export const DropdownMenuTheme: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("combobox", { name: "Compound class" }));
+
+    const option = await waitFor(() => canvas.getByRole("option", { name: "Alkaloids" }));
+    await expect(option).toBeInTheDocument();
+
+    const panel = canvasElement.querySelector("[data-filter-dropdown-panel] [popover]");
+    if (!panel || !(panel instanceof HTMLElement)) {
+      throw new Error("Filter dropdown popover panel not found");
+    }
+
+    const panelStyle = getComputedStyle(panel);
+    await expect(panelStyle.borderRadius).toBe("12px");
+    await expect(panelStyle.backgroundColor).toBe(
+      expectedTokenColour("--color-background-surface", "light"),
+    );
+
+    const optionStyle = getComputedStyle(option);
+    await expect(optionStyle.fontSize).toBe(readTokenFontSize("--font-size-3xs"));
+    await expect(optionStyle.color).toBe(expectedTokenColour("--color-text-secondary", "light"));
   },
 };

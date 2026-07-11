@@ -11,7 +11,7 @@ export type FilterDropdownPanelProps = {
   placeholder?: string;
 };
 
-/** Bounded categorical filter — UX §5 dropdown control. */
+/** Bounded categorical filter — UX §5 dropdown control; menu theme in manaredElevation.css. */
 export function FilterDropdownPanel({
   options,
   value,
