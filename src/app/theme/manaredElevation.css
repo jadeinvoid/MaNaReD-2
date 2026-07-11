@@ -35,12 +35,12 @@
     }
   }
 
-  [data-colour-mode="dark"] .shadow-nav-sidebar {
-    box-shadow: var(--shadow-nav-sidebar-dark);
-  }
-
   [data-colour-mode="light"] .shadow-nav-sidebar {
     box-shadow: var(--shadow-nav-sidebar);
+  }
+
+  [data-colour-mode="dark"] .shadow-nav-sidebar {
+    box-shadow: var(--shadow-nav-sidebar-dark);
   }
 
   /* Filter sidebar action buttons — Figma filter/shadow-light (349:4627) */
