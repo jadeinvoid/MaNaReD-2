@@ -43,6 +43,17 @@
     z-index: 1;
   }
 
+  /* Filter category rows: raise hovered category above siblings so underline bloom isn't clipped */
+  [data-astryx-theme="manared"] .interactive-filter-category-row {
+    position: relative;
+    z-index: 0;
+  }
+
+  [data-astryx-theme="manared"] .interactive-filter-category-row:hover,
+  [data-astryx-theme="manared"] .interactive-filter-category-row:focus-visible {
+    z-index: 1;
+  }
+
   /* Filter actions: keep rest shadow on hover */
   [data-astryx-theme="manared"] .shadow-filter-action.button-underline-hover:hover {
     box-shadow:
@@ -116,7 +127,7 @@
     width: 100%;
     align-items: center;
     justify-content: space-between;
-    overflow: hidden;
+    overflow: visible;
     padding-left: var(--spacing-2, 8px);
     padding-right: 0;
   }

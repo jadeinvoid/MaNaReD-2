@@ -263,7 +263,7 @@ export function FilterSidebar({
           <div className="filter-sidebar-collapsed-rail" aria-hidden />
         ) : (
           <>
-            <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto">
+            <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto pb-2">
               {FILTER_CATEGORIES.map(({ id, label }) => (
                 <FilterRow
                   key={id}

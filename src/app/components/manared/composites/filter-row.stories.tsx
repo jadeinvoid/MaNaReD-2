@@ -1,6 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, within } from "storybook/test";
 
+import { expectButtonHoverUnderline } from "@/storybook/manared/shared/assert-hover-elevation";
+import { expectUsesTokenClasses } from "@/storybook/manared/shared/assert-token-colours";
+
+import {
+  BUTTON_UNDERLINE_HOVER,
+  INTERACTIVE_FILTER_CATEGORY_ROW,
+} from "../primitives/interactive-styles";
 import { FILTER_CATEGORIES } from "./filter-state";
 import { FILTER_ROW_BUTTON, FilterRow } from "./filter-row";
 
@@ -31,6 +38,11 @@ export const Default: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Taxonomy")).toBeVisible();
     await expect(canvas.getByLabelText("Expand Taxonomy filter")).toBeVisible();
+
+    const categoryButton = canvas.getByRole("button", { name: /Taxonomy/i });
+    await expectUsesTokenClasses(categoryButton.className, BUTTON_UNDERLINE_HOVER);
+    await expectUsesTokenClasses(INTERACTIVE_FILTER_CATEGORY_ROW, BUTTON_UNDERLINE_HOVER);
+    await expectButtonHoverUnderline(categoryButton);
   },
 };
 

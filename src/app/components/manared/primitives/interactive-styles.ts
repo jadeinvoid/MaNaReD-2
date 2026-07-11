@@ -18,6 +18,9 @@ export const INTERACTIVE_SEARCH_DROPDOWN_ROW = "interactive-search-dropdown-row"
 /** Sort dropdown option row — underline bloom + lift on pointer hover (chip-bar sort menu). */
 export const INTERACTIVE_SORT_DROPDOWN_ROW = `interactive-sort-dropdown-row ${BUTTON_UNDERLINE_HOVER} focus-visible:bg-button-focus`;
 
+/** Filter sidebar category row — Figma `filter/category` (349:4572). */
+export const INTERACTIVE_FILTER_CATEGORY_ROW = `interactive-filter-category-row flex w-full items-center justify-between rounded-md pl-2 pr-0 ${BUTTON_UNDERLINE_HOVER} focus-visible:bg-button-focus focus-visible:outline-none`;
+
 /** Active filter chip shell — Figma `active-chip` / `interactive/chip/active`. */
 export const INTERACTIVE_ACTIVE_CHIP =
   "inline-flex h-6 shrink-0 items-center gap-2 overflow-hidden rounded-lg border border-solid border-border-secondary bg-chip-active px-[length:var(--spacing-2)] py-[length:var(--spacing-1)] text-3xs font-normal leading-none tracking-[-0.12px] text-secondary hover:bg-chip-hover";
