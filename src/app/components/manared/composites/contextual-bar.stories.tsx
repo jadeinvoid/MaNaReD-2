@@ -5,6 +5,7 @@ import { expect, within } from "storybook/test";
 import { withColourMode } from "@/storybook/manared/shared/assert-token-colours";
 
 import { GRADIENT_CONTEXT_BAR } from "../primitives/gradient-styles";
+import { SHADER_MOIRE_FALLBACK, SHADER_SURFACE_LAYER } from "../primitives/shader-styles";
 import { TaxonomyBreadcrumb } from "./taxonomy-breadcrumb";
 import { ContextualBar } from "./contextual-bar";
 
@@ -57,6 +58,30 @@ async function assertContextualBarLayout(canvasElement: HTMLElement) {
   );
 }
 
+async function assertContextualBarShader(canvasElement: HTMLElement) {
+  const bar = canvasElement.querySelector(`.${GRADIENT_CONTEXT_BAR}`);
+  if (!bar) {
+    throw new Error("ContextualBar gradient surface not found");
+  }
+
+  const layer = bar.querySelector(
+    `canvas.${SHADER_SURFACE_LAYER}, .${SHADER_SURFACE_LAYER}.${SHADER_MOIRE_FALLBACK}`,
+  );
+  if (layer) {
+    const layerStyle = getComputedStyle(layer);
+    await expect(layerStyle.position, "shader layer should be absolutely positioned").toBe(
+      "absolute",
+    );
+    return;
+  }
+
+  // WebGPU unavailable — ::before base fill remains the fallback background.
+  const baseStyle = getComputedStyle(bar, "::before");
+  await expect(baseStyle.backgroundColor, "fallback base fill should remain visible").not.toBe(
+    "rgba(0, 0, 0, 0)",
+  );
+}
+
 async function assertContextualBarGradient(canvasElement: HTMLElement) {
   const bar = canvasElement.querySelector(`.${GRADIENT_CONTEXT_BAR}`);
   if (!bar) {
@@ -97,8 +122,24 @@ export const Default: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Halichondrin B")).toBeVisible();
     await assertContextualBarLayout(canvasElement);
+    await assertContextualBarShader(canvasElement);
     await assertContextualBarGradient(canvasElement);
     await assertChevronMatchesLabelColour(canvasElement);
+  },
+};
+
+/** Full-width preview — easiest place to spot the moiré shader canvas. */
+export const ShaderPreview: Story = {
+  parameters: {
+    layout: "fullscreen",
+  },
+  render: (args) => (
+    <div className="min-h-[320px] w-full bg-body">
+      <ContextualBar {...args} className="w-full" />
+    </div>
+  ),
+  args: {
+    children: <TaxonomyBreadcrumb items={["Home", "Compound", "Halichondrin B"]} />,
   },
 };
 
@@ -114,6 +155,7 @@ export const LightMode: Story = {
   play: async ({ canvasElement }) => {
     await withColourMode("light", async () => {
       await assertContextualBarLayout(canvasElement);
+      await assertContextualBarShader(canvasElement);
       await assertContextualBarGradient(canvasElement);
       await assertChevronMatchesLabelColour(canvasElement);
     });
@@ -132,6 +174,7 @@ export const DarkMode: Story = {
   play: async ({ canvasElement }) => {
     await withColourMode("dark", async () => {
       await assertContextualBarLayout(canvasElement);
+      await assertContextualBarShader(canvasElement);
       await assertContextualBarGradient(canvasElement);
       await assertChevronMatchesLabelColour(canvasElement);
     });
