@@ -52,11 +52,11 @@ export function SortControl({ entity = "compounds", value, onChange }: SortContr
       </button>
       {popover.render(
         <div
-          className={`min-w-48 p-1 ${SURFACE_SEARCH_DROPDOWN}`}
+          className={`min-w-48 overflow-visible p-1 ${SURFACE_SEARCH_DROPDOWN}`}
           role="listbox"
           aria-label="Sort options"
         >
-          <VStack gap={0}>
+          <VStack gap={0} className="overflow-visible">
             {options.map((option) => {
               const isSelected = resolvedValue === option.id;
               return (

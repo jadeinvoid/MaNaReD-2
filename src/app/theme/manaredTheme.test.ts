@@ -90,6 +90,8 @@ describe("MaNaReD theme contract", () => {
     expect(elevationCss).toContain(".elevation-hover");
     expect(elevationCss).toContain("var(--shadow-card), var(--shadow-elevated)");
     expect(elevationCss).toContain(".button-underline-hover");
+    expect(elevationCss).toContain(".interactive-sort-dropdown-row:hover");
+    expect(elevationCss).toContain("z-index: 1");
     expect(elevationCss).toContain("0 1px 0 var(--color-background-blue)");
     expect(elevationCss).toContain("0 8px 16px");
     expect(elevationCss).toContain("transform: translateY(-2px)");
