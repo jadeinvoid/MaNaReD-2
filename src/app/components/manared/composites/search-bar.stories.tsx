@@ -28,9 +28,24 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const input = canvas.getByPlaceholderText("Search compounds, organisms, regions…");
+    const input = canvas.getByRole("searchbox");
     await expect(input).toBeVisible();
+    await expect(input).toHaveAttribute("placeholder", "Search compounds, organisms, regions…");
     await userEvent.type(input, "alkaloid");
     await expect(input).toHaveValue("alkaloid");
+
+    const shell = canvasElement.querySelector(".search-bar-shell");
+    if (!shell) {
+      throw new Error("Search bar shell not found");
+    }
+    const field = shell.querySelector(".search-bar-field");
+    if (!field) {
+      throw new Error("Search field shell not found");
+    }
+    const shellWidth = shell.getBoundingClientRect().width;
+    const fieldWidth = field.getBoundingClientRect().width;
+    const inputWidth = input.getBoundingClientRect().width;
+    await expect(fieldWidth / shellWidth).toBeGreaterThan(0.85);
+    await expect(inputWidth / fieldWidth).toBeGreaterThan(0.98);
   },
 };

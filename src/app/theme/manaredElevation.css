@@ -20,6 +20,33 @@
     box-shadow: var(--shadow-search-bar);
   }
 
+  /* Search bar field must grow to the icon; layout lives in CSS so it survives Tailwind scans. */
+  [data-astryx-theme="manared"] .search-bar-shell {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2, 8px);
+    min-width: 0;
+  }
+
+  [data-astryx-theme="manared"] .search-bar-field {
+    min-width: 0;
+    flex: 1 1 0%;
+  }
+
+  [data-astryx-theme="manared"] .search-bar-field > input,
+  [data-astryx-theme="manared"] .search-bar-shell > input.search-bar-field {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    height: 2rem;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  [data-astryx-theme="manared"] .shadow-search-bar input[role="searchbox"] {
+    overflow: visible;
+  }
+
   [data-astryx-theme="manared"] .shadow-dropdown {
     box-shadow: var(--shadow-dropdown);
   }
