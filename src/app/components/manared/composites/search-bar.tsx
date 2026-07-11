@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { HStack } from "@astryxdesign/core/Layout";
 
 import { MaNaReDIcon } from "../icons/manared-icon";
 import { SURFACE_SEARCH_BAR, SURFACE_SEARCH_FIELD_INNER } from "../primitives/surface-styles";
 
 const SEARCH_FIELD_INPUT =
-  "h-full w-full min-w-0 border-0 bg-transparent px-2 text-2xs leading-4 tracking-[-0.12px] text-primary outline-none placeholder:text-secondary";
+  "border-0 bg-transparent px-2 text-2xs leading-4 tracking-[-0.12px] text-primary outline-none placeholder:text-secondary";
 
 export type SearchBarProps = {
   placeholder?: string;
@@ -34,10 +33,11 @@ export function SearchBar({
   };
 
   return (
-    <HStack gap={2} vAlign="center" className={`${SURFACE_SEARCH_BAR} ${className}`.trim()}>
-      <div className={`${SURFACE_SEARCH_FIELD_INNER} flex min-w-0 items-stretch`}>
+    <div className={`${SURFACE_SEARCH_BAR} ${className}`.trim()}>
+      <div className={SURFACE_SEARCH_FIELD_INNER}>
         <input
-          type="search"
+          type="text"
+          role="searchbox"
           aria-label="Search"
           placeholder={placeholder}
           value={value}
@@ -49,6 +49,6 @@ export function SearchBar({
       <div className="flex shrink-0 items-center pl-1">
         <MaNaReDIcon name="search" size={16} />
       </div>
-    </HStack>
+    </div>
   );
 }

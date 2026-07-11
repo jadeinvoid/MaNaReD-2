@@ -7,10 +7,10 @@ export const SURFACE_TOP_BAR = "border-b border-solid border-border bg-page-tert
 
 /** Search bar shell — Figma `search-bar` (`340:3569`). */
 export const SURFACE_SEARCH_BAR =
-  "h-10 flex-1 rounded-lg border border-solid border-border-secondary bg-sidebar-secondary px-4 py-1 shadow-search-bar";
+  "search-bar-shell h-10 min-w-0 flex-1 rounded-lg border border-solid border-border-secondary bg-sidebar-secondary px-4 py-1 shadow-search-bar";
 
 /** Inner search field — Figma `search-bar/field`. */
-export const SURFACE_SEARCH_FIELD_INNER = "h-8 flex-1 rounded-md bg-sidebar-tertiary";
+export const SURFACE_SEARCH_FIELD_INNER = "search-bar-field h-8 rounded-md bg-sidebar-tertiary";
 
 /** Search dropdown panel — Figma `drop-down` (`340:3669`). */
 export const SURFACE_SEARCH_DROPDOWN =
