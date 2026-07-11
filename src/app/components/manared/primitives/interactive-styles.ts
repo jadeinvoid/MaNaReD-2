@@ -4,15 +4,13 @@
 export const BUTTON_ELEVATION_HOVER = "button-elevation-hover";
 
 /** Top bar utility link — Figma `top-bar/utilities` (`340:3575`). */
-export const INTERACTIVE_TOPBAR_UTILITY_LINK = "cursor-pointer hover:opacity-80";
+export const INTERACTIVE_TOPBAR_UTILITY_LINK = `cursor-pointer rounded-md px-2 py-1 ${BUTTON_ELEVATION_HOVER} focus-visible:bg-button-focus focus-visible:outline-none`;
 
 /** Nav sidebar sub-item row — Figma `nav-side-bar/items` default/hover (339:3324 / 339:3325). */
-export const INTERACTIVE_NAV_ITEM =
-  "flex h-10 w-full items-center rounded-md py-2 pl-10 pr-2 text-left text-2xs font-semibold leading-6 tracking-[0.24px] text-primary hover:bg-nav-hover hover:text-secondary focus-visible:bg-nav-focus focus-visible:text-secondary focus-visible:outline-none";
+export const INTERACTIVE_NAV_ITEM = `flex h-10 w-full items-center rounded-md py-2 pl-10 pr-2 text-left text-2xs font-semibold leading-6 tracking-[0.24px] text-primary ${BUTTON_ELEVATION_HOVER} focus-visible:bg-nav-focus focus-visible:text-secondary focus-visible:outline-none`;
 
 /** Nav sidebar sub-item selected — Figma `nav-side-bar/items` active (339:3326). */
-export const INTERACTIVE_NAV_ITEM_ACTIVE =
-  "flex h-10 w-full items-center rounded-md py-2 pl-10 pr-2 text-left text-2xs font-semibold leading-6 tracking-[0.24px] text-tertiary hover:bg-nav-hover focus-visible:bg-nav-focus focus-visible:outline-none";
+export const INTERACTIVE_NAV_ITEM_ACTIVE = `flex h-10 w-full items-center rounded-md py-2 pl-10 pr-2 text-left text-2xs font-semibold leading-6 tracking-[0.24px] text-tertiary ${BUTTON_ELEVATION_HOVER} focus-visible:bg-nav-focus focus-visible:outline-none`;
 
 /** Search dropdown suggestion row — gradient on hover/focus; Figma `colour/gradient/light/dropdownSelect`. */
 export const INTERACTIVE_SEARCH_DROPDOWN_ROW = "interactive-search-dropdown-row";

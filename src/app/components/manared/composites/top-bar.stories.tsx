@@ -5,8 +5,12 @@ import {
   expectResolvedToken,
   expectUsesTokenClasses,
 } from "@/storybook/manared/shared/assert-token-colours";
+import { expectButtonHoverElevates } from "@/storybook/manared/shared/assert-hover-elevation";
 
-import { INTERACTIVE_TOPBAR_UTILITY_LINK } from "../primitives/interactive-styles";
+import {
+  BUTTON_ELEVATION_HOVER,
+  INTERACTIVE_TOPBAR_UTILITY_LINK,
+} from "../primitives/interactive-styles";
 import { SURFACE_TOP_BAR } from "../primitives/surface-styles";
 import { TopBar } from "./top-bar";
 
@@ -51,8 +55,13 @@ export const Collapsed: Story = {
     await expectUsesTokenClasses(header.className, SURFACE_TOP_BAR);
     await expectResolvedToken("light", "--color-background-page-tertiary", "backgroundColor");
 
-    const tools = canvas.getByText("Tools");
-    await expectUsesTokenClasses(tools.className, INTERACTIVE_TOPBAR_UTILITY_LINK);
+    const tools = canvas.getByRole("button", { name: "Tools" });
+    await expectUsesTokenClasses(
+      tools.className,
+      INTERACTIVE_TOPBAR_UTILITY_LINK,
+      BUTTON_ELEVATION_HOVER,
+    );
+    await expectButtonHoverElevates(tools);
 
     const input = canvas.getByPlaceholderText("Search compounds, organisms, regions…");
     await userEvent.type(input, "sponge");
@@ -90,7 +99,7 @@ export const ClosesOnOutsideClick: Story = {
     const input = canvas.getByPlaceholderText("Search compounds, organisms, regions…");
     await userEvent.click(input);
     await expect(canvas.getByText("Also Matches:")).toBeVisible();
-    await userEvent.click(canvas.getByText("Tools"));
+    await userEvent.click(canvas.getByRole("button", { name: "Tools" }));
     await expect(canvas.queryByText("Also Matches:")).not.toBeInTheDocument();
   },
 };

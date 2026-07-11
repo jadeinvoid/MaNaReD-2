@@ -34,7 +34,7 @@ const elevationTokens: TokenEntry[] = [
   },
   {
     name: "--shadow-button-hover",
-    description: "Pointer hover for interactive.button controls — no fill change",
+    description: "Pointer hover for interactive buttons — top bar, nav, filters, cards",
     previewStyle: { boxShadow: "var(--shadow-button-hover)" },
   },
   {
