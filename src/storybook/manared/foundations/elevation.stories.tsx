@@ -9,6 +9,10 @@ import {
   SURFACE_CARD_PANEL,
   SURFACE_LIST_ROW,
 } from "@/app/components/manared/primitives/surface-styles";
+import {
+  BUTTON_ELEVATION_HOVER,
+  INTERACTIVE_FILTER_CLEAR_ALL,
+} from "@/app/components/manared/primitives/interactive-styles";
 import { DocsPage } from "../../astryx/shared/docs-page";
 import { TokenGrid, type TokenEntry } from "../../astryx/shared/token-grid";
 
@@ -27,6 +31,16 @@ const elevationTokens: TokenEntry[] = [
     name: "--shadow-elevated",
     description: "Hover add-on — stacked on top of --shadow-card",
     previewStyle: { boxShadow: "var(--shadow-elevated)" },
+  },
+  {
+    name: "--shadow-button-hover",
+    description: "Pointer hover for interactive.button controls — no fill change",
+    previewStyle: { boxShadow: "var(--shadow-button-hover)" },
+  },
+  {
+    name: "--shadow-filter-action",
+    description: "Rest shadow for filter Clear All / Apply — stacks on hover",
+    previewStyle: { boxShadow: "var(--shadow-filter-action)" },
   },
 ];
 
@@ -96,6 +110,18 @@ function HoverDemoPanels() {
           Hover me
         </Text>
       </div>
+      <Text size="2xs" className="text-tertiary">
+        Interactive buttons use shadow-only pointer hover — fill and border stay unchanged.
+      </Text>
+      <button type="button" className={INTERACTIVE_FILTER_CLEAR_ALL}>
+        Clear All
+      </button>
+      <button
+        type="button"
+        className={`inline-flex shrink-0 items-center justify-center rounded-[6px] border border-solid border-[rgba(96,96,96,0.6)] bg-button-active px-3 py-1.5 text-3xs font-normal leading-normal text-primary ${BUTTON_ELEVATION_HOVER} focus-visible:bg-button-focus focus-visible:outline-none`}
+      >
+        Save
+      </button>
     </VStack>
   );
 }
@@ -108,7 +134,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Card and list-row elevation uses `--shadow-card` at rest. On hover, `--shadow-elevated` stacks on top (does not replace the rest layer). Shadow colour follows `--color-shadow`.",
+          "Card and list-row elevation uses `--shadow-card` at rest. On hover, `--shadow-elevated` stacks on top. Interactive buttons use `--shadow-button-hover` for pointer hover without fill or border change; filter actions stack on `--shadow-filter-action`. Shadow colour follows `--color-shadow`.",
       },
     },
   },
@@ -121,7 +147,7 @@ export const Tokens: Story = {
   render: () => (
     <DocsPage
       title="MaNaReD Elevation — Tokens"
-      description="Shadow tokens for card and list-row depth."
+      description="Shadow tokens for card, list-row, and interactive button depth."
     >
       <TokenGrid title="Shadow tokens" tokens={elevationTokens} columns={3} variant="box" />
     </DocsPage>

@@ -8,8 +8,13 @@ import {
   expectUsesTokenClasses,
   withColourMode,
 } from "@/storybook/manared/shared/assert-token-colours";
+import { expectButtonHoverElevates } from "@/storybook/manared/shared/assert-hover-elevation";
 
-import { INTERACTIVE_CHIP_BAR_CONTROL } from "../primitives/interactive-styles";
+import {
+  BUTTON_ELEVATION_HOVER,
+  INTERACTIVE_CHIP_BAR_CONTROL,
+  INTERACTIVE_CHIP_BAR_VIEW_SEGMENT,
+} from "../primitives/interactive-styles";
 import { GRADIENT_CHIP_BAR } from "../primitives/gradient-styles";
 import { SURFACE_CHIP_BAR } from "../primitives/surface-styles";
 import { ChipBar } from "./chip-bar";
@@ -104,7 +109,10 @@ async function assertChipBarGradient(canvasElement: HTMLElement) {
     "bg-body",
     "border-border-secondary",
     "text-secondary",
+    BUTTON_ELEVATION_HOVER,
   );
+
+  await expectButtonHoverElevates(moreFilters);
 
   for (const mode of ["light", "dark"] as const) {
     await expectResolvedToken(mode, "--color-interactive-chip-active", "backgroundColor");
@@ -163,6 +171,21 @@ export const WithViewToggle: Story = {
     );
     await userEvent.click(canvas.getByRole("button", { name: "List view" }));
     await expect(args.onViewModeChange).toHaveBeenCalledWith("list");
+  },
+};
+
+/** Isolated view-toggle segment hover — plain label avoids icon-only hit-target quirks in Playwright. */
+export const ViewToggleHoverElevation: Story = {
+  render: () => (
+    <button type="button" aria-label="Card view" className={INTERACTIVE_CHIP_BAR_VIEW_SEGMENT}>
+      Card
+    </button>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const cardView = canvas.getByRole("button", { name: "Card view" });
+    await expectUsesTokenClasses(cardView.className, BUTTON_ELEVATION_HOVER);
+    await expectButtonHoverElevates(cardView);
   },
 };
 

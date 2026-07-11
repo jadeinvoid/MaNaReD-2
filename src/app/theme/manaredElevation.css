@@ -16,6 +16,20 @@
     box-shadow: var(--shadow-card), var(--shadow-elevated);
   }
 
+  /* Interactive button pointer hover — shadow only (no fill/border change) */
+  [data-astryx-theme="manared"] .button-elevation-hover {
+    transition: box-shadow 150ms ease;
+  }
+
+  [data-astryx-theme="manared"] .button-elevation-hover:hover {
+    box-shadow: var(--shadow-button-hover);
+  }
+
+  /* Filter actions: stack hover shadow on existing rest shadow */
+  [data-astryx-theme="manared"] .shadow-filter-action.button-elevation-hover:hover {
+    box-shadow: var(--shadow-filter-action), var(--shadow-button-hover);
+  }
+
   [data-astryx-theme="manared"] .shadow-search-bar {
     box-shadow: var(--shadow-search-bar);
   }
@@ -202,7 +216,8 @@
     [data-astryx-theme="manared"] .nav-sidebar-shell,
     [data-astryx-theme="manared"] .nav-sidebar-reveal,
     [data-astryx-theme="manared"] .filter-sidebar-shell,
-    [data-astryx-theme="manared"] .filter-sidebar-reveal {
+    [data-astryx-theme="manared"] .filter-sidebar-reveal,
+    [data-astryx-theme="manared"] .button-elevation-hover {
       transition: none;
     }
   }
