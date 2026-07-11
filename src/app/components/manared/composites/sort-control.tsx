@@ -6,7 +6,7 @@ import { VStack } from "@astryxdesign/core/Layout";
 import { MaNaReDIcon } from "../icons/manared-icon";
 import {
   INTERACTIVE_CHIP_BAR_CONTROL,
-  INTERACTIVE_SEARCH_DROPDOWN_ROW,
+  INTERACTIVE_SORT_DROPDOWN_ROW,
 } from "../primitives/interactive-styles";
 import { SURFACE_SEARCH_DROPDOWN } from "../primitives/surface-styles";
 import type { BrowseEntity } from "./entity-nav";
@@ -23,7 +23,7 @@ export type SortControlProps = {
   onChange?: (value: SortOptionId) => void;
 };
 
-const SORT_ROW = `flex w-full items-center justify-between gap-2 rounded-md px-2 py-1.5 text-left text-3xs focus-visible:outline-none ${INTERACTIVE_SEARCH_DROPDOWN_ROW}`;
+const SORT_ROW = `flex w-full items-center justify-between gap-2 rounded-md px-2 py-1.5 text-left text-3xs focus-visible:outline-none ${INTERACTIVE_SORT_DROPDOWN_ROW}`;
 
 /** Chip-bar sort trigger + entity-aware option menu (UX browse mode). */
 export function SortControl({ entity = "compounds", value, onChange }: SortControlProps) {

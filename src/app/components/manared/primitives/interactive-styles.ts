@@ -15,6 +15,9 @@ export const INTERACTIVE_NAV_ITEM_ACTIVE = `flex h-10 w-full items-center rounde
 /** Search dropdown suggestion row — gradient on hover/focus; Figma `colour/gradient/light/dropdownSelect`. */
 export const INTERACTIVE_SEARCH_DROPDOWN_ROW = "interactive-search-dropdown-row";
 
+/** Sort dropdown option row — underline bloom + lift on pointer hover (chip-bar sort menu). */
+export const INTERACTIVE_SORT_DROPDOWN_ROW = `interactive-sort-dropdown-row ${BUTTON_UNDERLINE_HOVER} focus-visible:bg-button-focus`;
+
 /** Active filter chip shell — Figma `active-chip` / `interactive/chip/active`. */
 export const INTERACTIVE_ACTIVE_CHIP =
   "inline-flex h-6 shrink-0 items-center gap-2 overflow-hidden rounded-lg border border-solid border-border-secondary bg-chip-active px-[length:var(--spacing-2)] py-[length:var(--spacing-1)] text-3xs font-normal leading-none tracking-[-0.12px] text-secondary hover:bg-chip-hover";
@@ -28,14 +31,14 @@ export const INTERACTIVE_PROVENANCE_TEXT =
   "ml-2 text-3xs font-normal italic leading-4 tracking-[-0.12px] text-tertiary";
 
 /** Chip-bar pill control — Figma `chip-bar/more-filters` & sort trigger: page primary fill. */
-export const INTERACTIVE_CHIP_BAR_CONTROL = `inline-flex h-7 shrink-0 items-center justify-center gap-1 rounded-lg border border-solid border-border-secondary bg-body px-[length:var(--spacing-2)] py-[length:var(--spacing-1)] text-3xs font-normal text-secondary ${BUTTON_UNDERLINE_HOVER} focus-visible:bg-button-focus focus-visible:outline-none`;
+export const INTERACTIVE_CHIP_BAR_CONTROL = `inline-flex h-7 shrink-0 items-center justify-center gap-1 rounded-lg border border-solid border-border-secondary bg-body px-[length:var(--spacing-2)] py-[length:var(--spacing-1)] text-3xs font-normal text-secondary focus-visible:bg-button-focus focus-visible:outline-none`;
 
 /** Chip-bar view toggle shell — UX §4.1; matches `chip-bar/more-filters` outer geometry. */
 export const INTERACTIVE_CHIP_BAR_VIEW_TOGGLE =
   "inline-flex h-7 shrink-0 items-center gap-0.5 rounded-lg border border-solid border-border-secondary bg-body p-0.5";
 
 /** Chip-bar view toggle segment — unselected. */
-export const INTERACTIVE_CHIP_BAR_VIEW_SEGMENT = `inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-secondary ${BUTTON_UNDERLINE_HOVER} focus-visible:bg-button-focus focus-visible:outline-none`;
+export const INTERACTIVE_CHIP_BAR_VIEW_SEGMENT = `inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-secondary focus-visible:bg-button-focus focus-visible:outline-none`;
 
 /** Chip-bar view toggle segment — selected (`interactive.button.active`). */
 export const INTERACTIVE_CHIP_BAR_VIEW_SEGMENT_ACTIVE =
