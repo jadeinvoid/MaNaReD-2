@@ -91,6 +91,7 @@ describe("MaNaReD theme contract", () => {
     expect(elevationCss).toContain("var(--shadow-card), var(--shadow-elevated)");
     expect(elevationCss).toContain(".button-underline-hover");
     expect(elevationCss).toContain("inset 0 -4px 0 var(--color-background-blue)");
+    expect(elevationCss).toContain("transform: translateY(-2px)");
     expect(elevationCss).toContain(".shadow-filter-action.button-underline-hover:hover");
     expect(elevationCss).toContain(".shadow-nav-sidebar");
     expect(elevationCss).toContain(".nav-sidebar-shell");
