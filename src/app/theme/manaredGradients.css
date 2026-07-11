@@ -68,10 +68,12 @@
       }
     }
 
+    :scope[data-colour-mode="light"] .surface-gradient-sidebar::before,
     [data-colour-mode="light"] .surface-gradient-sidebar::before {
       background-color: var(--color-background-sidebar);
     }
 
+    :scope[data-colour-mode="light"] .surface-gradient-sidebar::after,
     [data-colour-mode="light"] .surface-gradient-sidebar::after {
       background-image: linear-gradient(
         180deg,
@@ -127,6 +129,9 @@
       }
     }
 
+    :scope[data-colour-mode="light"] .surface-gradient-filter,
+    :scope[data-colour-mode="light"] .interactive-search-dropdown-row:hover,
+    :scope[data-colour-mode="light"] .interactive-search-dropdown-row:focus-visible,
     [data-colour-mode="light"] .surface-gradient-filter,
     [data-colour-mode="light"] .interactive-search-dropdown-row:hover,
     [data-colour-mode="light"] .interactive-search-dropdown-row:focus-visible {
@@ -205,10 +210,12 @@
       }
     }
 
+    :scope[data-colour-mode="light"] .surface-gradient-filter-panel::before,
     [data-colour-mode="light"] .surface-gradient-filter-panel::before {
       background-color: var(--color-background-sidebar-secondary);
     }
 
+    :scope[data-colour-mode="light"] .surface-gradient-filter-panel::after,
     [data-colour-mode="light"] .surface-gradient-filter-panel::after {
       background-image: linear-gradient(
         180deg,
@@ -300,10 +307,12 @@
       }
     }
 
+    :scope[data-colour-mode="light"] .surface-gradient-context-bar,
     [data-colour-mode="light"] .surface-gradient-context-bar {
       color: #1c1b18;
     }
 
+    :scope[data-colour-mode="light"] .surface-gradient-context-bar::after,
     [data-colour-mode="light"] .surface-gradient-context-bar::after {
       mix-blend-mode: color-burn;
       background-image: linear-gradient(

@@ -12,3 +12,80 @@
 .sbdocs-content {
   background-color: var(--color-background-body);
 }
+
+/*
+ * Storybook prototyping: neutralize @media (prefers-color-scheme: dark) gradient
+ * overrides when html is light. Skip when a story contains an explicit dark frame.
+ */
+@media (prefers-color-scheme: dark) {
+  html[data-astryx-theme="manared"][data-colour-mode="light"]:not(:has([data-colour-mode="dark"]))
+    .surface-gradient-sidebar::before {
+    background-color: var(--color-background-sidebar) !important;
+  }
+
+  html[data-astryx-theme="manared"][data-colour-mode="light"]:not(:has([data-colour-mode="dark"]))
+    .surface-gradient-sidebar::after {
+    background-image: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(234, 252, 255, 0.2) 24.521%,
+      rgba(174, 202, 255, 0.122) 76.446%,
+      rgba(255, 255, 255, 0.2) 100%
+    ) !important;
+  }
+
+  html[data-astryx-theme="manared"][data-colour-mode="light"]:not(:has([data-colour-mode="dark"]))
+    .surface-gradient-filter,
+  html[data-astryx-theme="manared"][data-colour-mode="light"]:not(:has([data-colour-mode="dark"]))
+    .interactive-search-dropdown-row:hover,
+  html[data-astryx-theme="manared"][data-colour-mode="light"]:not(:has([data-colour-mode="dark"]))
+    .interactive-search-dropdown-row:focus-visible {
+    background-color: var(--color-background-sidebar-secondary) !important;
+    background-image: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(234, 252, 255, 0.2) 24.521%,
+      rgba(174, 202, 255, 0.122) 76.446%,
+      rgba(255, 255, 255, 0.2) 100%
+    ) !important;
+  }
+
+  html[data-astryx-theme="manared"][data-colour-mode="light"]:not(:has([data-colour-mode="dark"]))
+    .surface-gradient-filter-panel::before {
+    background-color: var(--color-background-sidebar-secondary) !important;
+  }
+
+  html[data-astryx-theme="manared"][data-colour-mode="light"]:not(:has([data-colour-mode="dark"]))
+    .surface-gradient-filter-panel::after {
+    background-image: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(234, 252, 255, 0.12) 24.521%,
+      rgba(174, 202, 255, 0.07) 76.446%,
+      rgba(255, 255, 255, 0.12) 100%
+    ) !important;
+  }
+
+  html[data-astryx-theme="manared"][data-colour-mode="light"]:not(:has([data-colour-mode="dark"]))
+    .surface-gradient-context-bar {
+    color: #1c1b18 !important;
+  }
+
+  html[data-astryx-theme="manared"][data-colour-mode="light"]:not(:has([data-colour-mode="dark"]))
+    .surface-gradient-context-bar::after {
+    mix-blend-mode: color-burn !important;
+    background-image: linear-gradient(
+      159.05deg,
+      rgba(186, 235, 230, 0.59) 30.762%,
+      rgba(27, 40, 110, 0.59) 51.68%,
+      rgba(30, 13, 84, 0.59) 76.282%,
+      rgba(114, 128, 163, 0.59) 107.27%,
+      rgba(90, 128, 144, 0.59) 123.79%
+    ) !important;
+  }
+
+  html[data-astryx-theme="manared"][data-colour-mode="light"]:not(:has([data-colour-mode="dark"]))
+    .shadow-nav-sidebar {
+    box-shadow: var(--shadow-nav-sidebar) !important;
+  }
+}
