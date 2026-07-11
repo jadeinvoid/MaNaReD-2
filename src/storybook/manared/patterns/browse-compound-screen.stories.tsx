@@ -71,14 +71,14 @@ function BrowseShell({
     | ((filters: FilterState, viewMode: ResultsViewMode, sortBy: SortOptionId) => ReactNode);
 }) {
   return (
-    <div className="flex min-h-screen bg-body">
+    <div className="flex min-h-screen items-stretch bg-body">
       <NavSideBar activeItem="Compound" />
-      <div className="flex flex-1 flex-col">
+      <div className="flex min-h-0 flex-1 flex-col">
         <TopBarRegion />
         <ContextualBar>
           <TaxonomyBreadcrumb items={["Home", "Compounds"]} />
         </ContextualBar>
-        <div className="flex min-h-0 flex-1 gap-4">
+        <div className="flex min-h-0 flex-1 items-stretch gap-4">
           <BrowseFiltersDemo>{children}</BrowseFiltersDemo>
         </div>
       </div>
@@ -242,14 +242,14 @@ export const ListView: Story = {
     design: { type: "figma", url: FIGMA_LIST_ITEMS },
   },
   render: () => (
-    <div className="flex min-h-screen bg-body">
+    <div className="flex min-h-screen items-stretch bg-body">
       <NavSideBar activeItem="Compound" />
-      <div className="flex flex-1 flex-col">
+      <div className="flex min-h-0 flex-1 flex-col">
         <TopBarRegion />
         <ContextualBar>
           <TaxonomyBreadcrumb items={["Home", "Compounds"]} />
         </ContextualBar>
-        <div className="flex min-h-0 flex-1 gap-4">
+        <div className="flex min-h-0 flex-1 items-stretch gap-4">
           <BrowseFiltersDemo defaultViewMode="list">
             {(filters, viewMode, sortBy) => (
               <BrowseResults filters={filters} viewMode={viewMode} sortBy={sortBy} />
